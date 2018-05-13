@@ -1,12 +1,10 @@
 <template>
-  <div>
+  <div id='timerContainer'>
     <p>
-      <span v-if="Math.floor(timeLeft / 60)<10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span><span v-if="timeLeft % 60 <10">0</span><span class="seconds">{{timeLeft % 60}}</span></p>
+      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span><span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span></p>
     </p>
-    <p><span>Minutes</span> <span>Seconds</span></p>
+   
 
-
-  <audio v-if="timeLeft == 0" src="/music/good_enough.mp3" autoplay></audio>
   </div>
 
 </template>
@@ -37,7 +35,21 @@ export default {
 
 
 <style scoped>
-.minutes{
+p {
+  color: white;
+}
+#timerContainer {
+  text-align: center;
+  font-size: 48px;
+  border: 1px solid black;
+  background-color: #001f3f;
+  border-radius: 20px;
+  margin: 0 auto;
+  width: 60%;
+  margin-top: 20px;
+
+
+
 
 }
 

@@ -1,7 +1,7 @@
-const timeLeft = 1500;
+const time = [5, false]
 
 export default {
     getTimeLeft(cb){
-        cb(timeLeft);
+        cb(time);
     }
 }
