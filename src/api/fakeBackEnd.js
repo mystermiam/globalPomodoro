@@ -1,4 +1,4 @@
-const time = [5, false]
+const time = [3, false]
 
 export default {
     getTimeLeft(cb){

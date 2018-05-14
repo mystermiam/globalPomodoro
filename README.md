@@ -1,3 +1,23 @@
+Done:
+
+5) Blinking button: check!
+
+
+
+Next steps:
+
+1) link pomodoro timer up to the hour?
+2) Learn vuetify
+3) vote on length of break?
+4) let's go button - joining in 
+
+
+
+
+
+
+
+
 # pomodoro-vue
 
 > pomodoro timer with a chat
