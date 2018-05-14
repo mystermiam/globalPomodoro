@@ -1,8 +1,7 @@
-const timeLeft = 1500,
-       pause = true;
+const time = [5, false]
 
 export default {
     getTimeLeft(cb){
-        cb(timeLeft,pause);
+        cb(time);
     }
 }

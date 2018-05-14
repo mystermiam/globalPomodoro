@@ -4,34 +4,38 @@ export default {
     namespaced : true,
     state : {
         timeLeft: 0,
-        break: false
+        pause: false,
+        bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3")
     },
     actions : {
         setTimeLeft(context,timeLeft){
             context.commit('setTimeLeft',timeLeft);
         },
         updateTimeLeft(context){
-            if(state.timeLeft > 0){
-                context.commit('updateTimeLeft')
-            }
-            if(state.timeLeft === 0 && !state.break){
-                //play sound
-                context.commit()
-            }
+
+           
             
         },
         fetchTimeLeft({commit}){
             return new Promise((resolve,reject)=>{
-                fakeBackEnd.getTimeLeft((timeLeft,pause)=>{
-                    console.log('ti '+timeLeft,'pause ' + pause);
-                    commit('setTimeLeft',timeLeft);
+                fakeBackEnd.getTimeLeft((time)=>{
+                    commit('setTimeLeft',time);
                     resolve();
                 });
             });
         },
-        countdown(context,timeLeft){
-            setInterval(function(){
-                context.commit('updateTimeLeft');
+        countdown({commit, state},timeLeft){
+
+            setInterval(() => {
+                  if(state.timeLeft > 0){
+                    commit('updateTimeLeft')
+                } else if (state.timeLeft <= 0 && !state.pause){
+                    commit('switchTopause')
+                    state.bell.play()
+                } else if (state.timeLeft <= 0 && state.pause) {
+                    commit('switchToWork')
+                    state.bell.play()
+                }
             },1000);
         }
     },
@@ -42,8 +46,18 @@ export default {
        updateTimeLeft(state){
             state.timeLeft--;
        },
-       setTimeLeft(state,timeLeft){
-            state.timeLeft = timeLeft;
-       }
+       setTimeLeft(state,time){
+            state.timeLeft = time[0];
+            state.pause = time[1];
+       },
+       switchTopause(state,timeLeft){
+            state.timeLeft = 300;
+            state.pause = true;
+      },
+       switchToWork(state,timeLeft){
+            state.timeLeft = 1500;
+            state.pause = false;
+       },
+
     }
 }
