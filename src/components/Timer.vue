@@ -39,6 +39,7 @@ p {
   color: white;
 }
 #timerContainer {
+  height: 25%;
   text-align: center;
   font-size: 48px;
   border: 1px solid black;
