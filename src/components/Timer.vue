@@ -1,10 +1,11 @@
 <template>
   <div id='timerContainer'>
+   <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
       <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span><span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span></p>
     </p>
    
-
+   </div>
   </div>
 
 </template>
@@ -16,7 +17,8 @@ export default {
   name: 'Timer',
   computed : {
     ...mapState('timer',{
-      timeLeft:'timeLeft'
+      timeLeft:'timeLeft',
+      timerBlinkAnimation: 'timerBlinkAnimation'
     })
   },
   methods : {
@@ -48,10 +50,18 @@ p {
   margin: 0 auto;
   width: 60%;
   margin-top: 20px;
+}
 
+@keyframes timerBlink {
+   0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
 
-
-
+.timerBlinkAnimation {
+  opacity:1;  
+  animation: timerBlink 1s;
+  animation-iteration-count: 3;
 }
 
 </style>
