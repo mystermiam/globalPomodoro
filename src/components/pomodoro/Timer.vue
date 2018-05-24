@@ -1,5 +1,8 @@
 <template>
   <div id='timerContainer'>
+   <!-- on click the field transforms into a field with the already given number of pomodoroGoal and you can enter a new number (only 1-20) -->
+   <p>{{pomodorosDone}} / <!--<input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @keyup='changePomodoroGoal'>--> {{pomodoroGoal}}</p>
+   
    <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
       <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span><span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span></p>
@@ -18,20 +21,24 @@ export default {
   computed : {
     ...mapState('timer',{
       timeLeft:'timeLeft',
-      timerBlinkAnimation: 'timerBlinkAnimation'
+      timerBlinkAnimation: 'timerBlinkAnimation',
+      pomodorosDone: 'pomodorosDone',
+      pomodoroGoal: 'pomodoroGoal',
     })
   },
   methods : {
     ...mapActions('timer',{
       countdown : 'countdown',
-      fetchTimeLeft : 'fetchTimeLeft'
+      fetchTimeLeft : 'fetchTimeLeft',
+      changePomodoroGoal: 'changePomodoroGoal',
     })
 
     },
-  created(){
+  mounted(){
     this.fetchTimeLeft().then(() =>{ 
       this.countdown()});
-  }
+  },
+  
 };
 </script>
 

@@ -10,6 +10,7 @@ Next steps:
 2) Learn vuetify
 3) vote on length of break?
 4) let's go button - joining in 
+5) On created the timer starts again, even if it is already running - maybe create condition beforehand or call with .once
 
 
 
