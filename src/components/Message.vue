@@ -29,6 +29,7 @@
 .content p{
     display: inline;
     white-space: pre-line;
+    text-overflow: clip;
 }
 .message{
     background: #ddd;
