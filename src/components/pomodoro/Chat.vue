@@ -13,19 +13,21 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
-import Message from '@/components/Message'
+import Message from '@/components/pomodoro/Message'
 
 export default {
-  name: 'App',
+  name: 'Chat',
   components : {
     'message' : Message
   },
+
   data(){
     return {
         nickmame : '',
         content : ''
     };
   },
+
   computed : {
     ...mapState('chat',{
       messages:'messages'

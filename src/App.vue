@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <router-view/>
-    <chat></chat>
+    <router-view>
+    </router-view>
   </div>
 </template>
 
 <script>
-import Chat from '@/components/Chat'
+
+
+import Pomodoro from '@/components/pomodoro/Pomodoro'
 
 export default {
   name: 'App',
   components : {
-    'chat' : Chat
+    'Pomodoro' : Pomodoro,
   }
 };
 </script>
