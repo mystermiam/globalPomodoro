@@ -3,12 +3,12 @@ export default {
     state : {
         messages : [{
             nickname : 'bobo',
-            content : 'Hello!',
+            textMessage : 'Hello!',
             time : new Date()
         },
         {
             nickname : 'baba',
-            content : 'Hi',
+            textMessage : 'Hi',
             time : new Date()
         }]
     },
