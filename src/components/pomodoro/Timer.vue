@@ -7,6 +7,8 @@
     <p>
       <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span><span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span></p>
     </p>
+
+    <ReadyButton></ReadyButton>
    
    </div>
   </div>
@@ -14,10 +16,16 @@
 </template>
 
 <script>
+import ReadyButton from '@/components/pomodoro/ReadyButton'
+
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'Timer',
+   components : {
+        'ReadyButton' : ReadyButton,
+      },
+
   computed : {
     ...mapState('timer',{
       timeLeft:'timeLeft',
@@ -31,12 +39,16 @@ export default {
       countdown : 'countdown',
       fetchTimeLeft : 'fetchTimeLeft',
       changePomodoroGoal: 'changePomodoroGoal',
+      clearTimer: 'clearTimer'
     })
 
     },
   mounted(){
-    this.fetchTimeLeft().then(() =>{ 
-      this.countdown()});
+    this.fetchTimeLeft()
+  },
+
+  beforeDestroy(){
+    this.clearTimer();
   },
   
 };

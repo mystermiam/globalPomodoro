@@ -1,5 +1,9 @@
 import fakeBackEnd from '@/api/fakeBackEnd'
 
+
+// Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer --> switch pause --> click start to go into pause --> repeat!
+
+
 export default {
     namespaced : true,
     state : {
@@ -12,14 +16,6 @@ export default {
         pomodoroGoal: 9
     },
     actions : {
-        setTimeLeft(context,timeLeft){
-            context.commit('setTimeLeft',timeLeft);
-        },
-        updateTimeLeft(context){
-
-           
-            
-        },
         fetchTimeLeft({commit}){
             return new Promise((resolve,reject)=>{
                 fakeBackEnd.getTimeLeft((time)=>{
@@ -28,29 +24,20 @@ export default {
                 });
             });
         },
+
         countdown({commit, state, dispatch},timeLeft){
 
             // INSERT CONDITION HERE SO THAT THE COUNTDOWN CAN ONLY BE CALLED ONCE!
             return state.timerInterval = setInterval(() => {
                   if(state.timeLeft > 0){
-                    commit('updateTimeLeft')
-                } else if (state.timeLeft === 0 && !state.pause){
-                    // let timer blink for three times - pause timer for 3 seconds
-                    clearInterval(state.timerInterval);
-                    commit('switchTopause')
-                    state.bell.play()
-                    setTimeout(function() { 
-                        dispatch('countdown');     
-                    }, 3000)
-
+                    commit('updateTimeLeft');
                 } else if (state.timeLeft === 0 && state.pause) {
-                    clearInterval(state.timerInterval);
-                    commit('switchToWork')
-                    state.bell.play()
-                    setTimeout(function() { 
-                        dispatch('countdown');     
-                    }, 3000)
-                }
+                    commit('switchToWork');
+                    dispatch('clearTimer');
+                } else if (state.timeLeft === 0 && !state.pause) {
+                    commit('switchToPause');
+                    dispatch('clearTimer');
+                };
             },1000);
         },
 
@@ -62,6 +49,10 @@ export default {
             } else {
                 document.getElementById("pomodoroGoal").innerHTML = ''+ state.pomodoroGoal +'';
             }
+        },
+
+        clearTimer({state}){
+            clearInterval(state.timerInterval);
         },
 
 
@@ -77,22 +68,22 @@ export default {
             state.timeLeft = time[0];
             state.pause = time[1];
        },
-       switchTopause(state,timeLeft){
+       switchToPause(state,timeLeft){
             state.timerBlinkAnimation = true;
             state.pomodorosDone++;
            
             //start new timer after 3 seconds 
             setTimeout(function() {
                 state.pause = true;
-                state.timeLeft = 300; 
+                state.timeLeft = 4; 
                 state.timerBlinkAnimation = false;     
             }, 3000)            
       },
-       switchToWork(state,timeLeft){
+      switchToWork(state,timeLeft){
             state.timerBlinkAnimation = true;
 
             setTimeout(function() { 
-                state.timeLeft = 1500;
+                state.timeLeft = 5;
                 state.pause = false;     
                 state.timerBlinkAnimation = false; 
             }, 3000)   
@@ -102,3 +93,25 @@ export default {
        }
     }
 }
+
+
+
+
+
+/* && !state.pause){
+                    // let timer blink for three times - pause timer for 3 seconds
+                    clearInterval(state.timerInterval);
+                    commit('switchTopause')
+                    state.bell.play()
+                    setTimeout(function() { 
+                        dispatch('countdown');     
+                    }, 3000)
+
+                } else if (state.timeLeft === 0 && state.pause) {
+                    clearInterval(state.timerInterval);
+                    commit('switchToWork')
+                    state.bell.play()
+                    setTimeout(function() { 
+                        dispatch('countdown');     
+                    }, 3000)
+                } */
