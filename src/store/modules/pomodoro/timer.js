@@ -11,9 +11,9 @@ export default {
         pause: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
-        timerInverval: 0,
+        timerInverval: false,
         pomodorosDone: 0,
-        pomodoroGoal: 9
+        pomodoroGoal: 10
     },
     actions : {
         fetchTimeLeft({commit}){
@@ -27,18 +27,24 @@ export default {
 
         countdown({commit, state, dispatch},timeLeft){
 
+            if(!state.timerInterval){
             // INSERT CONDITION HERE SO THAT THE COUNTDOWN CAN ONLY BE CALLED ONCE!
             return state.timerInterval = setInterval(() => {
                   if(state.timeLeft > 0){
                     commit('updateTimeLeft');
                 } else if (state.timeLeft === 0 && state.pause) {
+                    state.bell.play();
                     commit('switchToWork');
-                    dispatch('clearTimer');
+                    clearInterval(state.timerInterval);
+                    state.timerInterval = false
                 } else if (state.timeLeft === 0 && !state.pause) {
+                    state.bell.play();
                     commit('switchToPause');
-                    dispatch('clearTimer');
+                    clearInterval(state.timerInterval);
+                    state.timerInterval = false
                 };
             },1000);
+        }
         },
 
         changePomodoroGoal({commit, state}){
@@ -51,9 +57,7 @@ export default {
             }
         },
 
-        clearTimer({state}){
-            clearInterval(state.timerInterval);
-        },
+       
 
 
     },
@@ -71,11 +75,11 @@ export default {
        switchToPause(state,timeLeft){
             state.timerBlinkAnimation = true;
             state.pomodorosDone++;
-           
+            
             //start new timer after 3 seconds 
             setTimeout(function() {
                 state.pause = true;
-                state.timeLeft = 4; 
+                state.timeLeft = 300; 
                 state.timerBlinkAnimation = false;     
             }, 3000)            
       },
@@ -83,7 +87,7 @@ export default {
             state.timerBlinkAnimation = true;
 
             setTimeout(function() { 
-                state.timeLeft = 5;
+                state.timeLeft = 1500;
                 state.pause = false;     
                 state.timerBlinkAnimation = false; 
             }, 3000)   
@@ -95,23 +99,3 @@ export default {
 }
 
 
-
-
-
-/* && !state.pause){
-                    // let timer blink for three times - pause timer for 3 seconds
-                    clearInterval(state.timerInterval);
-                    commit('switchTopause')
-                    state.bell.play()
-                    setTimeout(function() { 
-                        dispatch('countdown');     
-                    }, 3000)
-
-                } else if (state.timeLeft === 0 && state.pause) {
-                    clearInterval(state.timerInterval);
-                    commit('switchToWork')
-                    state.bell.play()
-                    setTimeout(function() { 
-                        dispatch('countdown');     
-                    }, 3000)
-                } */

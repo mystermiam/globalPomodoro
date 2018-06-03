@@ -39,7 +39,6 @@ export default {
       countdown : 'countdown',
       fetchTimeLeft : 'fetchTimeLeft',
       changePomodoroGoal: 'changePomodoroGoal',
-      clearTimer: 'clearTimer'
     })
 
     },
