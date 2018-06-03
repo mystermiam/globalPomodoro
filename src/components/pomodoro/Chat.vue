@@ -54,6 +54,8 @@ export default {
     }),
     handleKey(e){
 
+      let textField = this.$el.querySelector('#textField');
+
       if(e.shiftKey && e.keyCode == 13){
         if(this.$el.querySelector('#textField').rows < 13) 
           this.$el.querySelector('#textField').rows++;
@@ -71,9 +73,14 @@ export default {
               time : new Date(),
               textMessage : this.textMessage 
           }]);
-        console.log('tm '+ this.textMessage);
         this.textMessage='';
         this.$el.querySelector('#textField').rows = 1;
+      }
+      else{
+        if(textField.clientHeight < textField.scrollHeight){
+          if(textField.rows < 13) textField.rows++;
+        }
+        
       }
     }
   },

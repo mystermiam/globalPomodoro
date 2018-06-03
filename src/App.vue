@@ -58,6 +58,7 @@ html,body,#app{ height: 100%; margin: 0; }
 
 textarea{
   resize:none;
+  overflow: hidden;
   max-height: 40%
 }
 
