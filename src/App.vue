@@ -7,18 +7,14 @@
 
 <script>
 
-
-import Pomodoro from '@/components/pomodoro/Pomodoro'
-
 export default {
   name: 'App',
-  components : {
-    'Pomodoro' : Pomodoro,
-  }
 };
+
 </script>
 
 <style>
+
 html,body,#app{ height: 100%; margin: 0; }
 
 

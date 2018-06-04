@@ -1,17 +1,15 @@
 <template>
   <div>
- 
+    Hello
   </div>
 
 </template>
 
 <script>
-import Template from '@/components/Template'
-
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
-  name: 'Template',
+  name: 'Session',
    components : {
       },
       

@@ -1,14 +1,16 @@
 <template>
   <div id='timerContainer'>
    <!-- on click the field transforms into a field with the already given number of pomodoroGoal and you can enter a new number (only 1-20) -->
-   <p>{{pomodorosDone}} / <!--<input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @keyup='changePomodoroGoal'>--> {{pomodoroGoal}}</p>
+   <p id='pomodoroGoalPosition'>{{pomodorosDone}} / <input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @blur='changePomodoroGoal'></p>
    
    <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
-      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span><span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span></p>
+      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
+      <span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
     </p>
 
-    <ReadyButton></ReadyButton>
+    <button @click='countdown'>Go!</button>
+
    
    </div>
   </div>
@@ -16,15 +18,11 @@
 </template>
 
 <script>
-import ReadyButton from '@/components/pomodoro/ReadyButton'
 
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'Timer',
-   components : {
-        'ReadyButton' : ReadyButton,
-      },
 
   computed : {
     ...mapState('timer',{
@@ -58,6 +56,11 @@ export default {
 p {
   color: white;
 }
+
+#pomodoroGoalPosition {
+margin-left: 20px;
+}
+
 #timerContainer {
   height: 25%;
   text-align: center;
@@ -81,5 +84,17 @@ p {
   animation: timerBlink 1s;
   animation-iteration-count: 3;
 }
+
+#pomodoroGoal {
+  border: none;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  padding: none;
+  width: 65px;
+  background: transparent;
+  color: white;
+  }
+
 
 </style>

@@ -15,7 +15,7 @@
             <ul class="Menu">
                 <li class="home"><router-link :to="{ name: 'Main' }"> Game </router-link></li>
 				<li class="blog"><router-link :to="{ name: 'story' }"> Story </router-link></li>
-				<li class="about_us"><router-link :to="{ name: 'Pomodoro' }"> Pomodoro </router-link></li>
+				<li class="about_us"><router-link :to="{ name: 'Session' }"> Pomodoro </router-link></li>
 				<li class="request_demo" @click="showsocialmodal"> Social Media</li>
 				<li id="login_signup">
 					<div class="login-signup">

@@ -1,21 +1,27 @@
 import fakeBackEnd from '@/api/fakeBackEnd'
 
 
-// Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer --> switch pause --> click start to go into pause --> repeat!
-
+// Done // Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer + beep + blink --> switch pause --> click start to go into pause --> increment pomodoro sessions done by one --> timer == 0 --> Go to work --> repeat until pomodoroDone == pomodoroGoal
+// Done // PomodoroGoal: Default 10 --> click pomodoro goal --> change number --> save to state
+// Multi user: 
+// Statistics: see how long a user needs to press button to continue --> calculate an average --> implement that as new timer length
 
 export default {
     namespaced : true,
+    
     state : {
         timeLeft: 0,
         pause: false,
+        timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
-        timerInverval: false,
         pomodorosDone: 0,
         pomodoroGoal: 10
     },
+
     actions : {
+
+        // TIMER 
         fetchTimeLeft({commit}){
             return new Promise((resolve,reject)=>{
                 fakeBackEnd.getTimeLeft((time)=>{
@@ -47,13 +53,15 @@ export default {
         }
         },
 
+
+        // POMODORO GOAL
         changePomodoroGoal({commit, state}){
             // get text --> replace with form field (text inside) --> get only numbers from 0 - 1 and only 2 --> retrieve and update pomodoroGoal
-            
-            if( document.getElementById("pomodoroGoal").textContent > 0 && document.getElementById("pomodoroGoal").textContent < 16){
+
+            if( document.getElementById("pomodoroGoal").value > 0 && document.getElementById("pomodoroGoal").value <= 16){
                 commit('updatePomodoroGoal')
             } else {
-                document.getElementById("pomodoroGoal").innerHTML = ''+ state.pomodoroGoal +'';
+                document.getElementById("pomodoroGoal").value = ''+ state.pomodoroGoal +'';
             }
         },
 
@@ -93,7 +101,8 @@ export default {
             }, 3000)   
        },
        updatePomodoroGoal(state){
-            state.pomodoroGoal = document.getElementById("pomodoroGoal").textContent;
+            state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
+
        }
     }
 }
