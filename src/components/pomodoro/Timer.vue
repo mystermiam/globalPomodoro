@@ -1,6 +1,6 @@
 <template>
   <div id='timerContainer'>
-   <!-- on click the field transforms into a field with the already given number of pomodoroGoal and you can enter a new number (only 1-20) -->
+   
    <p id='pomodoroGoalPosition'>{{pomodorosDone}} / <input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @blur='changePomodoroGoal'></p>
    
    <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
