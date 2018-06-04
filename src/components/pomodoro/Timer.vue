@@ -30,6 +30,7 @@ export default {
       timerBlinkAnimation: 'timerBlinkAnimation',
       pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
+      timerInterval: 'timerInterval'
     })
   },
   methods : {
@@ -41,11 +42,8 @@ export default {
 
     },
   mounted(){
-    this.fetchTimeLeft()
-  },
-
-  beforeDestroy(){
-    this.clearTimer();
+    // fetch time from room!
+    //this.fetchTimeLeft(cb)
   },
   
 };

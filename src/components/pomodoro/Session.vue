@@ -4,22 +4,30 @@
 
     <div class='sessionContainer'><h1><router-link :to="{ name: 'Lounge' }"> Infinite Pomodoro Timer</router-link></h1></div>
 
-    <div class='sessionContainer'><h1><router-link :to="{ name: 'Pomodoro' }"> 25 / 5 </router-link></h1></div>
+    <div class='sessionContainer'><h1 @click='setTimer(room1)'><router-link :to="{ name: 'Pomodoro' }" > 25 / 5 </router-link></h1></div>
+
+    <div class='sessionContainer'><h1 @click='setTimer(room3)'><router-link :to="{ name: 'Pomodoro' }" > 40 / 7 </router-link></h1></div>
+
+    <div class='sessionContainer'>
+
+      <!-- Blur functions don't work! -->
+      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @blur='changePauseTime'></span>
+      <span>Break: <input type="number" name="quantity" min="1" max="300" id='changePauseTime' :value='Math.floor(timePause / 60)' @blur='changePauseTime'></span>
+      <span @click='setTimer(ownRoom)'><router-link :to="{ name: 'Pomodoro' }"> Enter Room </router-link></span>
+    </div>
 
     <div class="hover panel">
       <div class="front">
         <div class="box1">
-          <p>Front Side</p>
+          <p>Timer + How much time left + Amount of people</p>
         </div>
       </div>
       <div class="back">
         <div class="box2">
-          <p>Back Side</p>
+          <p>List of People</p>
         </div>
       </div>
     </div>
-
-
 
 
   </div>
@@ -27,23 +35,34 @@
 </template>
 
 <script>
+
+// Create new Room with own timer
+
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'Session',
-   components : {
-      },
       
   computed : {
-    ...mapState('template',{
-     
+    ...mapState('session',{
+     room1: 'room1',
+     room2: 'room2',
+     room3: 'room3'
+    }),
+
+    ...mapState('timer',{
+     timeWork: 'timeWork',
+     timePause: 'timePause',
+     changePauseTime: 'changePauseTime',
+     changeWorkTime: 'changeWorkTime',
+     ownRoom: 'ownRoom'
     })
   },
 
   methods: {
-    ...mapActions('template',{
-   
-    })
+    ...mapActions('timer',{
+      setTimer: 'setTimer',
+    }),
 
     },
 
@@ -52,11 +71,12 @@ export default {
    function flipCard(){
         this.classList.toggle('flip');
     }
-    
+
     document.querySelector('.hover').addEventListener('mouseenter', flipCard )
     document.querySelector('.hover').addEventListener('mouseleave', flipCard )
     }
 };
+
 </script>
 
 
@@ -73,6 +93,7 @@ export default {
     margin: 20px auto;
     text-align: center;
     border: 2px solid black;
+
   }
 
 

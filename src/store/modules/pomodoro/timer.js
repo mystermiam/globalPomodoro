@@ -10,18 +10,21 @@ export default {
     namespaced : true,
     
     state : {
+        timeWork: 100,
+        timePause: 200,
         timeLeft: 0,
         pause: false,
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
         pomodorosDone: 0,
-        pomodoroGoal: 10
+        pomodoroGoal: 10,
+        ownRoom: [0,0,false]
     },
 
     actions : {
 
-        // TIMER 
+        // Fetch time from server
         fetchTimeLeft({commit}){
             return new Promise((resolve,reject)=>{
                 fakeBackEnd.getTimeLeft((time)=>{
@@ -30,6 +33,45 @@ export default {
                 });
             });
         },
+
+
+        // Change work and break time in the entry screen
+        changeWorkTime({commit, state}){
+            alert( "!")
+           
+            if( document.getElementById("changeWorkTime").value > 0 && document.getElementById("changeWorkTime").value <= 300){
+                 commit('changeWorkTime');
+                alert("!")
+                
+
+            } else {
+                document.getElementById("changeWorkTime").value = ''+ state.timeWork +'';
+            }
+        },
+
+        changePauseTime({commit, state}){
+             if( document.getElementById("changePauseTime").value > 0 && document.getElementById("changePauseTime").value <= 300){
+                commit('changePauseTime');
+            } else {
+                document.getElementById("changePauseTime").value = ''+ state.timePause +'';
+            }
+        },
+
+
+        // Set timer in the entry screen
+        setTimer({commit}, payload){
+            alert(payload[0])
+            commit({
+              type: 'setTimer',
+              timeWork: payload[0],
+              timePause: payload[1],
+              pause: payload[2]
+            })
+           
+        },
+
+
+
 
         countdown({commit, state, dispatch},timeLeft){
 
@@ -53,17 +95,16 @@ export default {
         }
         },
 
-
-        // POMODORO GOAL
+        // Set new pomodoro goal
         changePomodoroGoal({commit, state}){
-            // get text --> replace with form field (text inside) --> get only numbers from 0 - 1 and only 2 --> retrieve and update pomodoroGoal
-
             if( document.getElementById("pomodoroGoal").value > 0 && document.getElementById("pomodoroGoal").value <= 16){
                 commit('updatePomodoroGoal')
             } else {
                 document.getElementById("pomodoroGoal").value = ''+ state.pomodoroGoal +'';
             }
         },
+
+
 
        
 
@@ -76,9 +117,22 @@ export default {
        updateTimeLeft(state){
             state.timeLeft--;
        },
-       setTimeLeft(state,time){
+       //From server
+       setTimeLeft(state,payload){
             state.timeLeft = time[0];
             state.pause = time[1];
+       },
+       //From session
+       setTimer(state, payload){
+            state.timeWork = payload.timeWork,
+            state.timePause = payload.timePause,
+            state.pause = payload.pause;
+            
+            if(state.pause){
+                state.timeLeft = state.timePause
+            } else if (!state.pause) {
+                state.timeLeft = state.timeWork
+            }
        },
        switchToPause(state,timeLeft){
             state.timerBlinkAnimation = true;
@@ -87,7 +141,7 @@ export default {
             //start new timer after 3 seconds 
             setTimeout(function() {
                 state.pause = true;
-                state.timeLeft = 300; 
+                state.timeLeft = state.timePause; 
                 state.timerBlinkAnimation = false;     
             }, 3000)            
       },
@@ -95,15 +149,25 @@ export default {
             state.timerBlinkAnimation = true;
 
             setTimeout(function() { 
-                state.timeLeft = 1500;
+                state.timeLeft = state.timeWork;
                 state.pause = false;     
                 state.timerBlinkAnimation = false; 
             }, 3000)   
        },
        updatePomodoroGoal(state){
             state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
+       },
 
-       }
+       changeWorkTime(state){
+            alert("!")
+            state.timeWork = document.getElementById("changeWorkTime").value * 60;
+            state.ownRoom[0] = state.timeWork;
+
+        },
+        changePauseTime(state){
+            state.timePause =  document.getElementById("changePauseTime").value * 60;
+            state.ownRoom[1] = state.timePause;
+        }
     }
 }
 
