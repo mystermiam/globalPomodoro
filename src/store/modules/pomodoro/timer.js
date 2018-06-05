@@ -19,7 +19,7 @@ export default {
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
         pomodorosDone: 0,
         pomodoroGoal: 10,
-        ownRoom: [0,0,false]
+        ownRoom: [25,5,false]
     },
 
     actions : {
@@ -54,14 +54,19 @@ export default {
 
 
         // Set timer in the entry screen
-        setTimer({commit}, payload){
-            alert(payload[0])
+        setTimer({commit, state}, payload){
+            if(state.timerInterval){
+            commit('clearTimer');
+            }
+
             commit({
               type: 'setTimer',
               timeWork: payload[0],
               timePause: payload[1],
               pause: payload[2]
-            })
+            });
+           
+           
            
         },
 
@@ -78,12 +83,12 @@ export default {
                 } else if (state.timeLeft === 0 && state.pause) {
                     state.bell.play();
                     commit('switchToWork');
-                    clearInterval(state.timerInterval);
+                    commit('clearTimer');
                     state.timerInterval = false
                 } else if (state.timeLeft === 0 && !state.pause) {
                     state.bell.play();
                     commit('switchToPause');
-                    clearInterval(state.timerInterval);
+                    commit('clearTimer');
                     state.timerInterval = false
                 };
             },1000);
@@ -161,6 +166,9 @@ export default {
         changePauseTime(state){
             state.timePause =  document.getElementById("changePauseTime").value * 60;
             state.ownRoom[1] = state.timePause;
+        },
+        clearTimer(state){
+            clearInterval(state.timerInterval);
         }
     }
 }
