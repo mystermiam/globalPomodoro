@@ -37,13 +37,8 @@ export default {
 
         // Change work and break time in the entry screen
         changeWorkTime({commit, state}){
-            alert( "!")
-           
             if( document.getElementById("changeWorkTime").value > 0 && document.getElementById("changeWorkTime").value <= 300){
                  commit('changeWorkTime');
-                alert("!")
-                
-
             } else {
                 document.getElementById("changeWorkTime").value = ''+ state.timeWork +'';
             }
@@ -159,7 +154,6 @@ export default {
        },
 
        changeWorkTime(state){
-            alert("!")
             state.timeWork = document.getElementById("changeWorkTime").value * 60;
             state.ownRoom[0] = state.timeWork;
 

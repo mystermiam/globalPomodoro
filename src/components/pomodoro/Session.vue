@@ -11,7 +11,7 @@
     <div class='sessionContainer'>
 
       <!-- Blur functions don't work! -->
-      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @blur='changePauseTime'></span>
+      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @blur='changeWorkTime'></span>
       <span>Break: <input type="number" name="quantity" min="1" max="300" id='changePauseTime' :value='Math.floor(timePause / 60)' @blur='changePauseTime'></span>
       <span @click='setTimer(ownRoom)'><router-link :to="{ name: 'Pomodoro' }"> Enter Room </router-link></span>
     </div>
@@ -53,8 +53,6 @@ export default {
     ...mapState('timer',{
      timeWork: 'timeWork',
      timePause: 'timePause',
-     changePauseTime: 'changePauseTime',
-     changeWorkTime: 'changeWorkTime',
      ownRoom: 'ownRoom'
     })
   },
@@ -62,6 +60,8 @@ export default {
   methods: {
     ...mapActions('timer',{
       setTimer: 'setTimer',
+      changePauseTime: 'changePauseTime',
+      changeWorkTime: 'changeWorkTime',
     }),
 
     },
