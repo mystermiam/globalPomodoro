@@ -104,6 +104,7 @@ export default {
 
 body {
   margin:0;
+  height: 100%;
 }
 
 
@@ -121,9 +122,11 @@ body {
 }
 
 .scrollDown {
-	position: absolute;
-    top: 80%;
-    left: 44.5%;
+  position: absolute;
+  top: 80%;
+  left: 42%;
+  width: 16%;
+  height: 25%;
 }
 
 /*--------------------------------------- Second section --------------------------------------------------------*/
@@ -162,8 +165,8 @@ body {
 .Menu{
   position: relative;
   list-style: none;
-  width: 967px;
-  height: 127px;  
+  width: 60em;
+  height: 12em;
   background: url('../../../static/images/menu-background.png');
   margin: 0 auto;
   color: white;

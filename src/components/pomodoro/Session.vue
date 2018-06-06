@@ -6,13 +6,14 @@
 
     <div class='sessionContainer'><h1 @click='setTimer(room1)'><router-link :to="{ name: 'Pomodoro' }" > 25 / 5 </router-link></h1></div>
 
-    <div class='sessionContainer'><h1 @click='setTimer(room3)'><router-link :to="{ name: 'Pomodoro' }" > 40 / 7 </router-link></h1></div>
+    <div class='sessionContainer'><router-link :to="{ name: 'Pomodoro' }" ><h1 @click='setTimer(room3)'> 40 / 7 </h1></router-link></div>
 
     <div class='sessionContainer'>
 
       <!-- Blur functions don't work! -->
-      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @blur='changeWorkTime'></span>
-      <span>Break: <input type="number" name="quantity" min="1" max="300" id='changePauseTime' :value='Math.floor(timePause / 60)' @blur='changePauseTime'></span>
+
+      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @input='changeWorkTime'></span>
+      <span>Break: <input type="number" name="quantity" min="1" max="300" id='changePauseTime' :value='Math.floor(timePause / 60)' @input='changePauseTime'></span>
       <span @click='setTimer(ownRoom)'><router-link :to="{ name: 'Pomodoro' }"> Enter Room </router-link></span>
     </div>
 
