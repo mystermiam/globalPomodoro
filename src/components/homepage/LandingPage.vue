@@ -2,14 +2,18 @@
    <div>
 	<div id='first-sec'>
 		
-		<a href="#second-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
-
+		<!-- <a href="#second-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a> -->
+    <div class="entry-footer">
+      <p class="sorry">Sorry, we're doing some work on the site.</p>
+      <p class="thanks">Thank you for being patient. Visit our networks to keep updated.</p>
+      <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.svg"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.svg"></a></span></div></div>
+    </div>
 	</div>
 
 ----------------------------------------- second section ---------------------------------------------------------------------
 
   <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css -->
-	<div id='second-sec'>
+<!-- 	<div id='second-sec'>
 
 		<nav class="topMenu">
             <ul class="Menu">
@@ -29,7 +33,7 @@
     <h1 v-if='showLogin'>Hello</h1>
 
 		<a href="#third-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
-	</div>
+	</div> -->
 
 ------------------------------------------- third section ----------------------------------------------------------------------
 
@@ -56,6 +60,48 @@ export default {
 
 <style scoped>
 
+.network{
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: space-between;
+}
+
+.fb-network{
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  margin:0 0.3em;
+}
+
+.gmail-network{
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  margin:0 0.3em;
+}
+
+.entry-footer{
+  font-family : "Courier New", Courier, monospace;
+  text-align: center;
+  position:fixed;
+  top:75%;
+  width:100%;
+  border:solid 0.1em black;
+  background: #fff;
+  height: 25%;
+}
+
+.sorry{
+  font-size: 2em;
+  margin: 0.3em auto;
+}
+
+.thanks{
+  font-size:0.8em;
+  margin:0.3em auto 0.8em auto;
+}
+
 body {
   margin:0;
 }
@@ -69,9 +115,9 @@ body {
   background-image: url('../../../static/images/home-01.jpg'); 
   background-size: cover;
   background-attachment: fixed;
-  background-position: center;
+  background-position: -15% 100%;
   width : 100%;
-  height : 100%;
+  height : 75%;
 }
 
 .scrollDown {
@@ -85,6 +131,7 @@ body {
 #second-sec{
   position: absolute;
   overflow: hidden;
+  background-repeat: repeat-y;
   background-image: url('../../../static/images/home-02.jpg'); 
   background-size: cover;
   background-attachment: fixed;

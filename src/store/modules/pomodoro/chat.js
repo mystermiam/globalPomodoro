@@ -13,6 +13,14 @@ export default {
         }]
     },
     actions : {
+        fetchMessages({commit},messages){
+            axios.get('/fetchMessages',function(response){
+                commit('concatMessages',messages);
+            });
+        },
+        postMessages(context,messages){
+
+        },
         concatMessages(context,messages){
             context.commit('concatMessages',messages);
         }

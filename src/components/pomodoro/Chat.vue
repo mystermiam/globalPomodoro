@@ -35,7 +35,11 @@ export default {
   components : {
     'message' : Message
   },
-
+  sockets : {
+    connected : function(){
+      console.log('connected from vue');
+    }
+  },
   data(){
     return {
         nickname : '',

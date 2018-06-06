@@ -4,7 +4,7 @@
 
 const path = require('path')
 
-module.exports = {
+module.exports = {  
   dev: {
 
     // Paths

@@ -13,6 +13,11 @@
 
 	export default{
         name:'Pomodoro',
+        sockets : {
+            connect : function(){
+                console.log('connected from vue');
+            }
+        },
         components : {
         'Timer' : Timer,
         'Chat' : Chat

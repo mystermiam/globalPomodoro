@@ -4,8 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import socketio from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io';
 
-Vue.config.productionTip = false
+export const SocketInstance = socketio('http://localhost:3801');
+
+Vue.use(VueSocketIO, SocketInstance, store);
+
+Vue.config.productionTip = false;
+
+
 
 /* eslint-disable no-new */
 new Vue({
