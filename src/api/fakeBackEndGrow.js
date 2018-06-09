@@ -252,9 +252,15 @@ var body = [
   };
 
 
+//cb(avatar, body, ...) --> specify in avatar.js as well
+
 export default {
-    fetchAvatar(cb){
-        cb(avatar);
+    fetchState(cb){
+        cb({
+          avatar: avatar,
+          body: body,
+        });
+
     },
 
 }

@@ -12,22 +12,22 @@
     </div>
 	</div>
 
-<!-- ----------------------------------------- second section --------------------------------------------------------------------- -->
+<!------------------------------------------- second section ----------------------------------------------------------------------->
 
-  <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css -->
-<!-- 	<div id='second-sec'>
+  <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css / the router links don't yet exist / -->
+ 	<div id='second-sec'>
 
 		<nav class="topMenu">
             <ul class="Menu">
                 <li class="home"><router-link :to="{ name: 'Main' }"> Game </router-link></li>
 				<li class="blog"><router-link :to="{ name: 'story' }"> Story </router-link></li>
 				<li class="about_us"><router-link :to="{ name: 'Session' }"> Pomodoro </router-link></li>
-				<li class="request_demo" @click="showsocialmodal"> Social Media</li>
+				<li class="request_demo" @click="showsocialmodal = true"> Social Media</li>
 				<li id="login_signup">
 					<div class="login-signup">
     					<span class="login" @click="showLogin = true"> Login </span>
     					<span> / </span>
-    					<span class="signup" @click="showsignup"> SignUp </span>
+    					<span class="signup" @click="showsignup = true"> SignUp </span>
     				</div>	
 				</li>
 			</ul>
@@ -35,7 +35,7 @@
     <h1 v-if='showLogin'>Hello</h1>
 
 		<a href="#third-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
-	</div> -->
+	</div> 
 
 <!-- ------------------------------------------- third section ---------------------------------------------------------------------- -->
 
@@ -48,13 +48,29 @@
 
 
 <script>
-	
-import {mapState} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
-   ...mapState('sectionTwo',{
-      showLogin:'showLogin'
+
+  computed: {
+   ...mapState('landingPage',{
+      showLogin:'showLogin',
+      showSignUp: 'showSignUp',
+      showSocialModal: 'showSocialModal',
+
+      someOtherState: 'someOtherState'
     }),
+
+  },
+
+  methods: {
+  ...mapActions('landingPage',{
+       someAction: 'someAction',
+
+  }),
+  }
+
+
 };
 
 </script>
@@ -109,7 +125,7 @@ export default {
 .entry-footer{
   font-family : "Courier New", Courier, monospace;
   text-align: center;
-  position:fixed;
+  position: absolute;
   top:75%;
   width:100%;
   border-top:solid 0.1em black;
@@ -162,10 +178,8 @@ body {
 #second-sec{
   position: absolute;
   overflow: hidden;
-  background-repeat: repeat-y;
   background-image: url('../../../static/images/home-02.jpg'); 
   background-size: cover;
-  background-attachment: fixed;
   top:100%;
   width : 100%;
   height : 100%;

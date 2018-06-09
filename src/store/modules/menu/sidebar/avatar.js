@@ -21,10 +21,10 @@ getters: {
 
 actions: {
 
-fetchAvatar({commit}){
+fetchState({commit}){
 	return new Promise((resolve,reject)=>{
-		fakeBackEndGrow.fetchAvatar((avatar)=>{
-			commit('setAvatar', avatar);
+		fakeBackEndGrow.fetchState((payload)=>{
+			commit('setState', payload);
 			resolve();
 		});
 	});
@@ -34,36 +34,33 @@ fetchAvatar({commit}){
 
 /****************************************************** BODY FUNCTIONS ***************************************************/
 
-avatarBodyLoad({state,commit}){
+avatarBodyLoad({state, commit}){
 // skin selected is avatar.body[0], replace all the variables  
 // creating character out of several pieces 
 let bodyPartCategory = ["skin", "hair", "beard", "shirt"];
 
-for (let i=0; i< avatar.body.length; i++){
- if (avatar.body[i] !== 0) {
+for (let i=0; i< state.avatar.body.length; i++){
+ if (state.avatar.body[i] !== 0) {
+   let bodyPartImage = document.createElement('IMG');
+   
 
- document.getElementById("avatarContainer").appendChild(
-      "<img src='" + body[avatar.body[0]].source +
-        "' alt='" + body[avatar.body[i]].name + 
-        "' value='" + bodyPartCategory[i] + "Equipped" +  "' style=' width:" + body[avatar.body[i]].size[0]  + "px; height:" + body[avatar.body[i]].size[1] +  
-        "px; position:absolute;top:" + (body[avatar.body[i]].coordinates[1] + this.avatarCoordinateY) + "px;left:" + (body[avatar.body[i]].coordinates[0] + this.avatarCoordinateX) + "px; z-index:"+ body[avatar.body[i]].layer + "'>");
-} else {
-	alert('0')
+   bodyPartImage.innerHTML = `src="${state.body[state.avatar.body[0]].source}" alt="${state.body[state.avatar.body[i]].name}" value="${bodyPartCategory[i]}Equipped" style='width:"${state.body[state.avatar.body[i]].size[0]}px;" height:"${state.body[state.avatar.body[i]].size[1]}px;" position:"absolute"; top:"${(state.body[state.avatar.body[i]].coordinates[1] + state.avatarCoordinateY)}px;" left:"${(state.body[state.avatar.body[i]].coordinates[0] + state.avatarCoordinateX)}px;" z-index:"${state.body[state.avatar.body[i]].layer};"'`
+
+  // bodyPartImage.innerHTML = 'src=' + state.body[state.avatar.body[0]].source + "' alt='" + state.body[state.avatar.body[i]].name + "' value='" + bodyPartCategory[i] + "Equipped" +  "' style=' width:" + state.body[state.avatar.body[i]].size[0]  + "px; height:" + state.body[state.avatar.body[i]].size[1] +  "px; position:absolute;top:" + (state.body[state.avatar.body[i]].coordinates[1] + state.avatarCoordinateY) + "px;left:" + (state.body[state.avatar.body[i]].coordinates[0] + state.avatarCoordinateX) + "px; z-index:"+ state.body[state.avatar.body[i]].layer + "'
+   document.getElementById("avatarContainer").appendChild(bodyPartImage);
+      };
 }
 
-};
 },
-
 },
 
 
 mutations: {
-
-setAvatar(state,payload){
-	state.avatar = payload;
+setState(state, payload){
+	state.avatar = payload.avatar;
+	state.body = payload.body;
+},
 },
 
 
 }
-
-};

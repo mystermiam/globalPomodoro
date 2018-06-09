@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="avatarContainer">
-    </div>                             
+    </div>                          
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   methods: {
 
    ...mapActions('avatar',{
-        fetchAvatar: 'fetchAvatar',
+        fetchState: 'fetchState',
         avatarBodyLoad: 'avatarBodyLoad',
 
   })
@@ -23,13 +23,14 @@ export default {
 
 
   created () {
-  // Fetch variables from fake server (ERROR!)
-  /*
-  this.fetchAvatar()
-    .then(() => this.avatarBodyLoad()
-
+  // Fetch variables from fake server
+  this.fetchState()
   // load avatar, items and pet on start 
-*/
+      .then(() => this.avatarBodyLoad());
+
+
+
+
   },
 
   
@@ -69,7 +70,7 @@ body {
   height: 192px;
   width: 255px;
   background-color: #A3320B;
-  background-image: url("../../../../static/raw_sprites/spritesmith/backgrounds/background_autumn_forest.png");
+  
   background-size:cover;
   -webkit-transition: background-image 0.5s;
   -moz-transition: background-image 0.5s;
@@ -78,7 +79,7 @@ body {
   transition: background-image 0.5s;
   border-bottom: 1px solid gray;
   /* Keeps Avatar Image in the foreground */
-  z-index: 9;
+  /*z-index: 0;*/
 }
 
 

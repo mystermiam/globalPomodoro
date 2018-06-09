@@ -7,6 +7,7 @@ import timer from './modules/pomodoro/timer'
 import chat from './modules/pomodoro/chat'
 import session from './modules/pomodoro/session'
 import avatar from './modules/menu/sidebar/avatar'
+import landingPage from './modules/homepage/landingPage'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)

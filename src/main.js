@@ -7,9 +7,9 @@ import store from './store'
 import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 
-export const SocketInstance = socketio('http://localhost:3801');
+// export const SocketInstance = socketio('http://localhost:3801');
 
-Vue.use(VueSocketIO, SocketInstance, store);
+// Vue.use(VueSocketIO, SocketInstance, store);
 
 Vue.config.productionTip = false;
 
