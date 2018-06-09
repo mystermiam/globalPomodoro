@@ -34,7 +34,7 @@
 		</nav>
     <h1 v-if='showLogin'>Hello</h1>
 
-		<a href="#third-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
+		<a href="#third-sec"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
 	</div> 
 
 <!-- ------------------------------------------- third section ---------------------------------------------------------------------- -->

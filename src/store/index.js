@@ -19,7 +19,8 @@ export default new Vuex.Store({
         timer,
         chat,
         session,
-        avatar
+        avatar,
+        landingPage
     },
     state : {
         

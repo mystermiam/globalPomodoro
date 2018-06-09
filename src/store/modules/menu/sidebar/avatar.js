@@ -44,7 +44,8 @@ for (let i=0; i< state.avatar.body.length; i++){
    let bodyPartImage = document.createElement('IMG');
    
 
-   bodyPartImage.innerHTML = `src="${state.body[state.avatar.body[0]].source}" alt="${state.body[state.avatar.body[i]].name}" value="${bodyPartCategory[i]}Equipped" style='width:"${state.body[state.avatar.body[i]].size[0]}px;" height:"${state.body[state.avatar.body[i]].size[1]}px;" position:"absolute"; top:"${(state.body[state.avatar.body[i]].coordinates[1] + state.avatarCoordinateY)}px;" left:"${(state.body[state.avatar.body[i]].coordinates[0] + state.avatarCoordinateX)}px;" z-index:"${state.body[state.avatar.body[i]].layer};"'`
+   bodyPartImage.innerHTML = `src="${state.body[state.avatar.body[0]].source}" alt="${state.body[state.avatar.body[i]].name}" value="${bodyPartCategory[i]}Equipped"`
+   // style='width:"${state.body[state.avatar.body[i]].size[0]}px;" height:"${state.body[state.avatar.body[i]].size[1]}px;" position:"absolute"; top:"${(state.body[state.avatar.body[i]].coordinates[1] + state.avatarCoordinateY)}px;" left:"${(state.body[state.avatar.body[i]].coordinates[0] + state.avatarCoordinateX)}px;" z-index:"${state.body[state.avatar.body[i]].layer};"'`
 
   // bodyPartImage.innerHTML = 'src=' + state.body[state.avatar.body[0]].source + "' alt='" + state.body[state.avatar.body[i]].name + "' value='" + bodyPartCategory[i] + "Equipped" +  "' style=' width:" + state.body[state.avatar.body[i]].size[0]  + "px; height:" + state.body[state.avatar.body[i]].size[1] +  "px; position:absolute;top:" + (state.body[state.avatar.body[i]].coordinates[1] + state.avatarCoordinateY) + "px;left:" + (state.body[state.avatar.body[i]].coordinates[0] + state.avatarCoordinateX) + "px; z-index:"+ state.body[state.avatar.body[i]].layer + "'
    document.getElementById("avatarContainer").appendChild(bodyPartImage);
