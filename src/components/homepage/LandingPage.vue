@@ -1,16 +1,18 @@
 <template>
    <div>
 	<div id='first-sec'>
-		
+		<div id="container-img"><span id="grow-img"></span></div>
 		<!-- <a href="#second-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a> -->
     <div class="entry-footer">
-      <p class="sorry">Sorry, we're doing some work on the site.</p>
-      <p class="thanks">Thank you for being patient. Visit our networks to keep updated.</p>
-      <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.svg"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.svg"></a></span></div></div>
+      <div class="content-footer">
+        <p class="sorry">Sorry, we're doing some work on the site.</p>
+        <p class="thanks">Thank you for being patient. Visit our networks to keep updated.</p>
+        <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.png"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.png"></a></span></div></div>
+      </div>
     </div>
 	</div>
 
------------------------------------------ second section ---------------------------------------------------------------------
+<!-- ----------------------------------------- second section --------------------------------------------------------------------- -->
 
   <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css -->
 <!-- 	<div id='second-sec'>
@@ -35,7 +37,7 @@
 		<a href="#third-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
 	</div> -->
 
-------------------------------------------- third section ----------------------------------------------------------------------
+<!-- ------------------------------------------- third section ---------------------------------------------------------------------- -->
 
    </div>
 
@@ -59,6 +61,29 @@ export default {
 
 
 <style scoped>
+#container-img{
+  content: "";
+  height: 75%;
+}
+
+#grow-img{
+  position: absolute;
+  background-image: url('../../../static/images/home-01.jpg'); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 100%;
+  background-attachment: fixed;
+  width : 100%;
+  height : 75%;
+}
+
+.content-footer{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
 
 .network{
   display: flex;
@@ -69,15 +94,15 @@ export default {
 
 .fb-network{
   align-self: center;
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  max-height: 40px;
   margin:0 0.3em;
 }
 
 .gmail-network{
   align-self: center;
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  max-height: 40px;
   margin:0 0.3em;
 }
 
@@ -87,19 +112,19 @@ export default {
   position:fixed;
   top:75%;
   width:100%;
-  border:solid 0.1em black;
+  border-top:solid 0.1em black;
   background: #fff;
   height: 25%;
 }
 
 .sorry{
-  font-size: 2em;
-  margin: 0.3em auto;
+  font-size: 3.5vw;
+  margin: 0.3vw auto;
 }
 
 .thanks{
-  font-size:0.8em;
-  margin:0.3em auto 0.8em auto;
+  font-size:1.8vw;
+  margin:0.3vw auto 1vw auto;
 }
 
 body {
@@ -111,14 +136,17 @@ body {
 /*--------------------------------------- First section --------------------------------------------------------*/
 
 #first-sec {
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+ /* position: absolute;
   overflow: hidden;
   background-image: url('../../../static/images/home-01.jpg'); 
   background-size: cover;
   background-attachment: fixed;
   background-position: -15% 100%;
   width : 100%;
-  height : 75%;
+  height : 75%;*/
 }
 
 .scrollDown {

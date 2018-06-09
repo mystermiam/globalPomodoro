@@ -1,7 +1,7 @@
 <template>
     <div class="message" v-bind:class="{ another : !!sameSender}">
         <div v-if="sameSender" class="head">
-            <span class="nickname">{{message.nickname}}</span> - <span class="timestamp">{{displayTime}}</span>
+            <span class="author">{{message.author}}</span> - <span class="timestamp">{{displayTime}}</span>
         </div>
         <div class="content">
             <p>{{message.textMessage}}</p>
@@ -19,7 +19,7 @@
                 return moment().calendar(this.message.time);
             },
             sameSender(){
-                return this.previous.nickname !== this.message.nickname;
+                return this.previous.author !== this.message.author;
             }
         }
     };

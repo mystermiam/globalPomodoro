@@ -37,7 +37,7 @@ export default {
     ...mapActions('timer',{
       countdown : 'countdown',
       fetchTimeLeft : 'fetchTimeLeft',
-      changePomodoroGoal: 'changePomodoroGoal',
+      changePomodoroGoal: 'changePomodoroGoal'
     })
 
     },
