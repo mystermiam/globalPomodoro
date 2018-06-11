@@ -4,6 +4,7 @@ import Session from '@/components/pomodoro/Session'
 import Lounge from '@/components/pomodoro/Lounge'
 import Pomodoro from '@/components/pomodoro/Pomodoro'
 import LandingPage from '@/components/homepage/LandingPage'
+import Menu from '@/components/menu/Menu'
 
 
 Vue.use(Router)
@@ -28,6 +29,11 @@ export default new Router({
       path: '/Lounge',
       name: 'Lounge',
       component: Lounge
+    },
+    {
+      path: '/Menu',
+      name: 'Menu',
+      component: Menu
     },
   ]
 })
