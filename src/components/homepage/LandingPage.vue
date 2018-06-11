@@ -6,7 +6,7 @@
     <div class="entry-footer">
       <p class="sorry">Sorry, we're doing some work on the site.</p>
       <p class="thanks">Thank you for being patient. Visit our networks to keep updated.</p>
-      <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.svg"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.svg"></a></span></div></div>
+      <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.png"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.png"></a></span></div></div>
     </div>
 	</div>
 
@@ -60,28 +60,22 @@ export default {
 
 <style scoped>
 
-.network{
-  display: flex;
-  flex-direction: row;
-  align-items:center;
-  justify-content: space-between;
-}
 
 .fb-network{
-  align-self: center;
   width: 40px;
   height: 40px;
   margin:0 0.3em;
 }
 
 .gmail-network{
-  align-self: center;
   width: 40px;
   height: 40px;
   margin:0 0.3em;
 }
 
 .entry-footer{
+  display: flex;
+  flex-direction: column;
   font-family : "Courier New", Courier, monospace;
   text-align: center;
   position:fixed;
@@ -94,12 +88,12 @@ export default {
 
 .sorry{
   font-size: 2em;
-  margin: 0.3em auto;
+  margin: 0.6em auto 0.3em auto;
 }
 
 .thanks{
   font-size:0.8em;
-  margin:0.3em auto 0.8em auto;
+  margin:0.3em auto 1.2em auto;
 }
 
 body {
