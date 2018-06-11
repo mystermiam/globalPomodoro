@@ -4,7 +4,7 @@
             <span class="author">{{message.author}}</span> - <span class="timestamp">{{displayTime}}</span>
         </div>
         <div class="content">
-            <p>{{message.textMessage}}</p>
+            <p>{{message ? message.textMessage : ''}}</p>
         </div>
     </div>
 </template>
@@ -16,10 +16,13 @@
         props : ['message','previous'],
         computed:{
             displayTime(){
-                return moment().calendar(this.message.time);
+                if(this.message){
+                    return moment(this.message.time).calendar();
+                }
             },
             sameSender(){
-                return this.previous.author !== this.message.author;
+                if(this.message)
+                    return this.previous.author !== this.message.author;
             }
         }
     };

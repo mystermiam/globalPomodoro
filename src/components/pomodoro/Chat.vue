@@ -7,7 +7,7 @@
     <div>
       <div class="inputContainer">
         
-          <input type="text" name="username" placeholder="Who are you ?" v-model="nickname">
+          <input type="text" name="username" placeholder="Who are you ?" v-model="author">
           <textarea id="textField" v-model="textMessage" @keydown="handleKey" placeholder="Say whatever..." rows=1></textarea>
         
      </div>
@@ -42,7 +42,7 @@ export default {
   },
   data(){
     return {
-        nickname : '',
+        author : '',
         textMessage : ''
     };
   },
@@ -76,14 +76,12 @@ export default {
         
       } else if(e.keyCode == 13){
         e.preventDefault();
-        if(this.nickname && this.textMessage)
-          this.saveMessages([{
-              author:this.nickname,
-              authorId:-1,
-              chatId:-1,
+        if(this.author && this.textMessage)
+          this.saveMessages({
+              author:this.author,
               textMessage:this.textMessage,
               time:new Date()
-          }]).then(function(response){
+          }).then(function(response){
             console.log(response);
           });
         this.textMessage='';
