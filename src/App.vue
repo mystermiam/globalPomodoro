@@ -8,13 +8,13 @@
 <script>
 
 export default {
-  name: 'App',
+  name: 'App'
 };
 
 </script>
 
 <style>
-
+  @import '../node_modules/bulma/css/bulma.css';
 html,body,#app{ height: 100%; margin: 0; }
 
 

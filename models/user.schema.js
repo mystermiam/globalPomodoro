@@ -2,6 +2,10 @@ const mongoose=require('mongoose'),
     Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+	userId : {
+		type: Schema.Types.ObjectId,
+		required:true
+	},
 	username : {
 		type : 'String',
 		lowercase : true,
@@ -11,7 +15,6 @@ const userSchema = new Schema({
 	email : {
 		type : 'String',
 		unique: true,
-		required: true,
 		lowercase : true
 	},
 	password : {
