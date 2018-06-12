@@ -2,8 +2,9 @@
  	<div>
         <PeopleInRoom></PeopleInRoom>
 		<Timer></Timer>
-        <ToDoList></ToDoList>
+        <SessionTitleList></SessionTitleList>
 		<Chat></Chat>
+        <DistractionList></DistractionList>
 	</div>
 </template>
 
@@ -12,8 +13,9 @@
 <script>
     import PeopleInRoom from '@/components/pomodoro/PeopleInRoom'
 	import Timer from '@/components/pomodoro/Timer'
-    import ToDoList from '@/components/pomodoro/ToDoList'
+    import DistractionList from '@/components/pomodoro/DistractionList'
 	import Chat from '@/components/pomodoro/Chat'
+    import SessionTitleList from '@/components/pomodoro/SessionTitleList'
 
 
 	export default{
@@ -27,7 +29,8 @@
         'PeopleInRoom': PeopleInRoom,
         'Timer' : Timer,
         'Chat' : Chat,
-        'ToDoList': ToDoList,
+        'DistractionList': DistractionList,
+        'SessionTitleList': SessionTitleList,
         },
     };
 </script>

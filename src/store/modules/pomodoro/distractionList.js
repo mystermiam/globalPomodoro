@@ -1,5 +1,5 @@
 // add todo --> v-for coupled with array / on click push to array /  :check
-// edit todo --> add input field --> enter input field --> action: update sessionTitles --> component updates itself   :check
+// edit todo --> add input field --> enter input field --> action: update distractions --> component updates itself   :check
 //delete todo's --> css on hover add symbol --> on click of symbol --> remove from list --> reduce sessionsPlanned by one --> update all the other ones (think of {{}} structure)
 // each session it produces a session name, you can name it afterwards as well
 
@@ -18,14 +18,14 @@
 export default {
 	namespaced: true,
 	state : {
-		sessionTitles: [{
+		distractions: [{
 			name: 'You go!',
 			number: 1,
 			edit: false
 		}],
 		sessionsPlanned: 2, // change to 1 when removing sessiontitle example
 		editTrue: false,
-		sessionTitleEdited: 0,
+		distractionEdited: 0,
 	},
 	getters: {
 
@@ -86,7 +86,7 @@ export default {
 	},
 	mutations: {
 		addItem(state, e){
-			state.sessionTitles.push(
+			state.distractions.push(
 				{name: e.name,
 				 number: e.number,
 				 edit: false,
@@ -102,18 +102,18 @@ export default {
 		},
 
 		editTrueFunction(state, number){
-			state.sessionTitles[number-1].edit = true;
-			state.sessionTitleEdited = number;
+			state.distractions[number-1].edit = true;
+			state.distractionEdited = number;
 		},
 
 		editItem(state, item){
-			state.sessionTitles[state.sessionTitleEdited - 1].name = item.name;
-			state.sessionTitles[state.sessionTitleEdited -1].edit = false;
+			state.distractions[state.distractionEdited - 1].name = item.name;
+			state.distractions[state.distractionEdited -1].edit = false;
 		},
 
 		deleteToDo(state, item){
 			//remove sessionTitle from array
-			state.sessionTitles.splice(item.number, 1);
+			state.distractions.splice(item.number, 1);
 		}
 	}
 }

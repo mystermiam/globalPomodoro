@@ -20,7 +20,7 @@ export default {
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
-        pomodorosDone: 0,
+        pomodorosDone: 1,
         pomodoroGoal: 4,
         ownRoom: [25,5,false]
     },
@@ -57,7 +57,7 @@ export default {
 
 
         // Set timer in the entry screen
-        setTimer({commit, state}, payload){
+        setTimer({commit, state, rootState}, payload){
             if(state.timerInterval){
             commit('clearTimer');
             }
@@ -68,10 +68,15 @@ export default {
               timePause: payload[1],
               pause: payload[2]
             });    
+
+            commit({
+              type: 'highlightNextSessionTitle',
+              sessionTitleNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone - 1]
+            });    
         },
 
 
-        countdown({commit, state, dispatch},timeLeft){
+        countdown({commit, state, dispatch, rootState},timeLeft){
 
             if(!state.timerInterval){
             // INSERT CONDITION HERE SO THAT THE COUNTDOWN CAN ONLY BE CALLED ONCE!
@@ -81,6 +86,19 @@ export default {
                 } else if (state.timeLeft === 0 && state.pause) {
                     state.bell.play();
                     commit('switchToWork');
+
+                    //highlight current session title
+                    commit({
+                      type: 'toneDownLastSessionTitle',
+                      previousSessionNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone] 
+                    });   
+                    commit({
+                      type: 'highlightNextSessionTitle',
+                      sessionTitleNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone + 1]
+                    });   
+
+
+                       
                     commit('clearTimer');
                     state.timerInterval = false
                 } else if (state.timeLeft === 0 && !state.pause) {
@@ -96,7 +114,7 @@ export default {
         }
         },
 
-        // Set new pomodoro goal
+        // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly --> if length is different from before in/decrease length of array 
         changePomodoroGoal({commit, state}){
             if( document.getElementById("pomodoroGoal").value > 0 && document.getElementById("pomodoroGoal").value <= 16){
                 commit('updatePomodoroGoal')
@@ -155,6 +173,15 @@ export default {
                 state.timerBlinkAnimation = false; 
             }, 3000)   
        },
+
+       highlightNextSessionTitle(state, session){
+           session.sessionTitleNumber.active = true;
+       },
+
+       toneDownLastSessionTitle(state, session){
+            session.previousSessionNumber.active = false;
+       },
+
        updatePomodoroGoal(state){
             state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
        },

@@ -1,19 +1,19 @@
 <template>
   <div>
     <div id='toDoListContainer'>
-      <span class='title'> -  Add Session titles - </span>
+      <span class='title'> -  Add Your Distractions here - </span>
       
       <input id='addToDoTitle' v-on:keyup.enter="addItem">
 
         <ul id='toDoList'>
           
-          <li class='toDoListItem' @dblclick='editTrueFunction(sessionTitle.number)' v:bind='sessionTitle' v-for='sessionTitle in sessionTitles'>
+          <li class='toDoListItem' @dblclick='editTrueFunction(distraction.number)' v:bind='distraction' v-for='distraction in distractions'>
            
-            {{sessionTitle.number}} - 
+            {{distraction.number}} - 
 
-               <input class='toDoListEdit' v-if='sessionTitle.edit' v-on:keyup.enter="editItem"> 
+               <input class='toDoListEdit' v-if='distraction.edit' v-on:keyup.enter="editItem"> 
           
-            {{sessionTitle.name}}
+            {{distraction.name}}
 
             <span class='deleteToDoButton' @click='deleteToDo'> - D</span>
          
@@ -33,18 +33,18 @@
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
-  name: 'ToDoList',
+  name: 'DistractionList',
       
   computed : {
-     ...mapState('toDoList',{
-      sessionTitles: 'sessionTitles',
+     ...mapState('distractionList',{
+      distractions: 'distractions',
     }),
 
 
   },
 
   methods: {
-    ...mapActions('toDoList', {
+    ...mapActions('distractionList', {
        addItem: 'addItem',
        editTrueFunction: 'editTrueFunction',
        editItem: 'editItem',
@@ -78,8 +78,8 @@ export default {
 .toDoListItem {
   display: inline-block;
   width: 80%;
-  height: 20px;
-  font-size: 0.5em;
+  height: 2em;
+  font-size: 0.28em;
   padding: 5px;
   margin: 0;
   border-bottom: 1px solid black;

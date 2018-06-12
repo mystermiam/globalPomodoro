@@ -7,7 +7,9 @@ import VueRouter from 'vue-router'
 import timer from './modules/pomodoro/timer'
 import chat from './modules/pomodoro/chat'
 import session from './modules/pomodoro/session'
-import toDoList from './modules/pomodoro/toDoList'
+import distractionList from './modules/pomodoro/distractionList'
+import sessionTitleList from './modules/pomodoro/sessionTitleList'
+
 
 //Sidebar Modules
 import avatar from './modules/menu/sidebar/avatar'
@@ -25,7 +27,8 @@ export default new Vuex.Store({
     modules : {
         timer,
         chat,
-        toDoList,
+        distractionList,
+        sessionTitleList,
         session,
         avatar,
         landingPage,
