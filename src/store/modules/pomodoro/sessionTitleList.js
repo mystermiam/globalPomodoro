@@ -13,9 +13,11 @@ export default {
 
 			//If list is empty populate it with default working sessions
 			if(state.sessionTitles.length === 0){
-				for(var i=0;i<numberOfSessions;i++){
+				for(var i=1;i<numberOfSessions+1 ;i++){
 					state.sessionTitles.push({
-						number: i+1,
+						number: i,
+						id: 'sessionTitle' + i,
+						inputId: 'inputSession' + i,
 						name: 'Working Session',
 						edit: false,
 						active: false,
@@ -27,7 +29,15 @@ export default {
 		},
 
 		editTrueFunction({commit, state}, number){
-			// change placeholder to variable
+			// focus textfield 
+
+
+			//alert(document.getElementById('sessionTitleList').childNodes[0].childNodes[number-1].childNodes[0].tagName)
+			//document.getElementById('sessionTitleList').childNodes[number-1].focus();
+
+
+			// change text inside to variable
+
 
 			// if previous edit is closed open new one, else close it and then open new one
 			if(!state.sessionTitles[state.sessionTitleEdited].edit){
@@ -55,6 +65,7 @@ export default {
 		editTrueFunction(state, number){
 			state.sessionTitles[number-1].edit = true;
 			state.sessionTitleEdited = number - 1;
+			
 		},
 
 		editTitle(state, item){

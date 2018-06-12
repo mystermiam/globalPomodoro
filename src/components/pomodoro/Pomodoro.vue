@@ -4,7 +4,6 @@
 		<Timer></Timer>
         <SessionTitleList></SessionTitleList>
 		<Chat></Chat>
-        <DistractionList></DistractionList>
 	</div>
 </template>
 
