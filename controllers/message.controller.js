@@ -2,31 +2,35 @@ const Message = require('../models/message.schema')
 module.exports = {
 	fetchMessages : function(req,res){
 
-		var fetchedMessages = {};
+		
 
 		Message.find({},(err,messages)=>{
 			if(err){
 				res.send('Shit happens');
 			}
-
-			console.log('messages' + messages)
-
-			fetchedMessages = messages;
+			//var sMessages = messages;
+			console.log('messages',messages);
+			res.send({messages:messages});	
 		});
 
-		res.json(fetchedMessages);
+		
 	},
 	saveMessages : function(req,res){
-		var messages = req.body.messages;
-
-		console.log('from model '+ messages)
-
-		for(var message in messages){
+		console.log(req.body)
+		var message = req.body.newMessage;
+		
+		
 			var newMessage = new Message(message);
-			console.log('a message from model ' + message)
-			message.save();
-		}
+			
+			newMessage.save().then(function(response){
+				console.log('save res')
+				console.log(response)
+				res.send({savedMessage : response});
+			}).catch(function(err){
+				console.log(err)
+			});
+		
 
-		res.json(messages);
+		
 	}
 }
