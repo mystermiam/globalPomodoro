@@ -1,12 +1,28 @@
 const mongoose=require('mongoose'),
     Schema = mongoose.Schema;
 
-const conversationSchema = new Schema({
-
+const messageSchema = new Schema({
+	author: 'String',
+	authorId: {
+		type: Schema.Types.ObjectId, ref: 'User'
+	},
+	chatId:{
+		type: Schema.Types.ObjectId,
+		ref:'Chat'
+	},
+	textMessage : 'String',
+	time : 'Date'
+},{
+	timestamps:true
 });
 
+const messageModel = mongoose.model('Message', messageSchema);
+
+module.exports = messageModel;
+
 /*//for example but not know if the room id is gonna be in there probably actually
-conversationSchema.pre('save', function(next) {
+pre before model method call
+messageSchema.pre('save', function(next) {
   this.slug = slugify(this.room);
   next();
 });
@@ -21,7 +37,3 @@ function slugify(text) {
     .replace(/^-+/, '')             // Trim - from start of text
     .replace(/-+$/, '');            // Trim - from end of text
 }*/
-
-const conversationModel = mongoose.model('Conversation', conversationSchema);
-
-module.exports = conversationModel;

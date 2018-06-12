@@ -1,41 +1,43 @@
 <template>
    <div>
 	<div id='first-sec'>
-		
+		<div id="container-img"><span id="grow-img"></span></div>
 		<!-- <a href="#second-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a> -->
     <div class="entry-footer">
-      <p class="sorry">Sorry, we're doing some work on the site.</p>
-      <p class="thanks">Thank you for being patient. Visit our networks to keep updated.</p>
-      <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.png"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.png"></a></span></div></div>
+      <div class="content-footer">
+        <p class="sorry">Sorry, we're doing some work on the site.</p>
+        <p class="thanks">Thank you for being patient. Visit our networks to keep updated.</p>
+        <div><div class="networks"><span><a href="https://www.facebook.com/GrowPlayground/"><img class="fb-network" src="../../../static/images/fb.png"></a></span><span><a href="mailto:grow.playground@gmail.com"><img class="gmail-network" src="../../../static/images/gmail.png"></a></span></div></div>
+      </div>
     </div>
 	</div>
 
------------------------------------------ second section ---------------------------------------------------------------------
+<!------------------------------------------- second section ----------------------------------------------------------------------->
 
-  <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css -->
-<!-- 	<div id='second-sec'>
+  <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css / the router links don't yet exist / -->
+ 	<div id='second-sec'>
 
 		<nav class="topMenu">
             <ul class="Menu">
                 <li class="home"><router-link :to="{ name: 'Main' }"> Game </router-link></li>
 				<li class="blog"><router-link :to="{ name: 'story' }"> Story </router-link></li>
 				<li class="about_us"><router-link :to="{ name: 'Session' }"> Pomodoro </router-link></li>
-				<li class="request_demo" @click="showsocialmodal"> Social Media</li>
+				<li class="request_demo" @click="showsocialmodal = true"> Social Media</li>
 				<li id="login_signup">
 					<div class="login-signup">
     					<span class="login" @click="showLogin = true"> Login </span>
     					<span> / </span>
-    					<span class="signup" @click="showsignup"> SignUp </span>
+    					<span class="signup" @click="showsignup = true"> SignUp </span>
     				</div>	
 				</li>
 			</ul>
 		</nav>
     <h1 v-if='showLogin'>Hello</h1>
 
-		<a href="#third-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
-	</div> -->
+		<a href="#third-sec"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
+	</div> 
 
-------------------------------------------- third section ----------------------------------------------------------------------
+<!-- ------------------------------------------- third section ---------------------------------------------------------------------- -->
 
    </div>
 
@@ -46,30 +48,71 @@
 
 
 <script>
-	
-import {mapState} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
-   ...mapState('sectionTwo',{
-      showLogin:'showLogin'
+
+  computed: {
+   ...mapState('landingPage',{
+      showLogin:'showLogin',
+      showSignUp: 'showSignUp',
+      showSocialModal: 'showSocialModal',
+
+      someOtherState: 'someOtherState'
     }),
+
+  },
+
+  methods: {
+  ...mapActions('landingPage',{
+       someAction: 'someAction',
+
+  }),
+  }
+
+
 };
 
 </script>
 
 
 <style scoped>
+#container-img{
+  content: "";
+  height: 75%;
+}
+
+#grow-img{
+  position: absolute;
+  background-image: url('../../../static/images/home-01.jpg'); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 100%;
+  background-attachment: fixed;
+  width : 100%;
+  height : 75%;
+}
+
+.content-footer{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
 
 
 .fb-network{
-  width: 40px;
-  height: 40px;
+  align-self: center;
+  max-width: 40px;
+  max-height: 40px;
   margin:0 0.3em;
 }
 
 .gmail-network{
-  width: 40px;
-  height: 40px;
+  align-self: center;
+  max-width: 40px;
+  max-height: 40px;
   margin:0 0.3em;
 }
 
@@ -78,22 +121,22 @@ export default {
   flex-direction: column;
   font-family : "Courier New", Courier, monospace;
   text-align: center;
-  position:fixed;
+  position: absolute;
   top:75%;
   width:100%;
-  border:solid 0.1em black;
+  border-top:solid 0.1em black;
   background: #fff;
   height: 25%;
 }
 
 .sorry{
-  font-size: 2em;
-  margin: 0.6em auto 0.3em auto;
+  font-size: 3.5vw;
+  margin: 0.3vw auto;
 }
 
 .thanks{
-  font-size:0.8em;
-  margin:0.3em auto 1.2em auto;
+  font-size:1.8vw;
+  margin:0.3vw auto 1vw auto;
 }
 
 body {
@@ -105,14 +148,17 @@ body {
 /*--------------------------------------- First section --------------------------------------------------------*/
 
 #first-sec {
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+ /* position: absolute;
   overflow: hidden;
   background-image: url('../../../static/images/home-01.jpg'); 
   background-size: cover;
   background-attachment: fixed;
   background-position: -15% 100%;
   width : 100%;
-  height : 75%;
+  height : 75%;*/
 }
 
 .scrollDown {
@@ -128,10 +174,8 @@ body {
 #second-sec{
   position: absolute;
   overflow: hidden;
-  background-repeat: repeat-y;
   background-image: url('../../../static/images/home-02.jpg'); 
   background-size: cover;
-  background-attachment: fixed;
   top:100%;
   width : 100%;
   height : 100%;

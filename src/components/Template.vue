@@ -6,31 +6,24 @@
 </template>
 
 <script>
-import Template from '@/components/Template'
-
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'Template',
-   components : {
-      },
+  
+  components : {
+  
+  },
       
   computed : {
-    ...mapState('template',{
-     
-    })
+  
   },
 
   methods: {
-    ...mapActions('template',{
-   
-    })
-
-    },
-
-  mounted(){
-   
+  
   },
+
+
   
 };
 </script>

@@ -3,6 +3,9 @@ import fakeBackEnd from '@/api/fakeBackEnd'
 
 // Done // Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer + beep + blink --> switch pause --> click start to go into pause --> increment pomodoro sessions done by one --> timer == 0 --> Go to work --> repeat until pomodoroDone == pomodoroGoal
 // Done // PomodoroGoal: Default 10 --> click pomodoro goal --> change number --> save to state
+
+// Improvements: 
+// Show timer in tab (on hover)
 // Multi user: 
 // Statistics: see how long a user needs to press button to continue --> calculate an average --> implement that as new timer length
 

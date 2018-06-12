@@ -52,9 +52,14 @@ export default {
       messages:'messages'
     })
   },
+  created (){
+    this.fetchMessages();
+  },
   methods : {
     ...mapActions('chat',{
-      concatMessages:'concatMessages'
+      concatMessages:'concatMessages',
+      fetchMessages:'fetchMessages',
+      saveMessages:'saveMessages'
     }),
     handleKey(e){
 
@@ -72,11 +77,15 @@ export default {
       } else if(e.keyCode == 13){
         e.preventDefault();
         if(this.nickname && this.textMessage)
-          this.concatMessages([{
-              nickname: this.nickname,
-              time : new Date(),
-              textMessage : this.textMessage 
-          }]);
+          this.saveMessages([{
+              author:this.nickname,
+              authorId:-1,
+              chatId:-1,
+              textMessage:this.textMessage,
+              time:new Date()
+          }]).then(function(response){
+            console.log(response);
+          });
         this.textMessage='';
         this.$el.querySelector('#textField').rows = 1;
       }
