@@ -13,15 +13,15 @@ export default {
     namespaced : true,
     
     state : {
-        timeWork: 100,
-        timePause: 200,
+        timeWork: 1500,
+        timePause: 300,
         timeLeft: 0,
         pause: false,
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
         pomodorosDone: 0,
-        pomodoroGoal: 10,
+        pomodoroGoal: 4,
         ownRoom: [25,5,false]
     },
 
@@ -67,13 +67,8 @@ export default {
               timeWork: payload[0],
               timePause: payload[1],
               pause: payload[2]
-            });
-           
-           
-           
+            });    
         },
-
-
 
 
         countdown({commit, state, dispatch},timeLeft){
@@ -93,6 +88,9 @@ export default {
                     commit('switchToPause');
                     commit('clearTimer');
                     state.timerInterval = false
+                    setTimeout(function() {
+                    dispatch('countdown');
+                    }, 3000)         
                 };
             },1000);
         }

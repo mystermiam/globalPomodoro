@@ -8,15 +8,21 @@
 
     <div class='sessionContainer'><router-link :to="{ name: 'Pomodoro' }" ><h1 @click='setTimer(room3)'> 40 / 7 </h1></router-link></div>
 
+
+
+
     <div class='sessionContainer'>
 
-      <!-- Blur functions don't work! -->
-
       <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @input='changeWorkTime'></span>
+
       <span>Break: <input type="number" name="quantity" min="1" max="300" id='changePauseTime' :value='Math.floor(timePause / 60)' @input='changePauseTime'></span>
+
       <span @click='setTimer(ownRoom)'><router-link :to="{ name: 'Pomodoro' }"> Enter Room </router-link></span>
+    
     </div>
 
+
+<!--
     <div class="hover panel">
       <div class="front">
         <div class="box1">
@@ -29,7 +35,7 @@
         </div>
       </div>
     </div>
-
+-->
 
   </div>
 
@@ -68,14 +74,16 @@ export default {
     },
 
   mounted(){
-
+/*
    function flipCard(){
         this.classList.toggle('flip');
     }
 
     document.querySelector('.hover').addEventListener('mouseenter', flipCard )
     document.querySelector('.hover').addEventListener('mouseleave', flipCard )
+*/
     }
+
 };
 
 </script>
@@ -94,6 +102,7 @@ export default {
     margin: 20px auto;
     text-align: center;
     border: 2px solid black;
+    background-color: white;
 
   }
 

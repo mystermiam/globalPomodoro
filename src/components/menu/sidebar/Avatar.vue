@@ -70,7 +70,7 @@ body {
   height: 192px;
   width: 255px;
   background-color: #A3320B;
-  
+  background-image: url("../../../../static/raw_sprites/spritesmith/backgrounds/background_beehive.png");
   background-size:cover;
   -webkit-transition: background-image 0.5s;
   -moz-transition: background-image 0.5s;

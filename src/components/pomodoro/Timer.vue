@@ -65,10 +65,10 @@ margin-left: 20px;
   font-size: 48px;
   border: 1px solid black;
   background-color: #001f3f;
-  border-radius: 20px;
-  margin: 0 auto;
-  width: 60%;
+  width: 50%;
   margin-top: 20px;
+  float: left;
+  box-sizing: border-box;
 }
 
 @keyframes timerBlink {

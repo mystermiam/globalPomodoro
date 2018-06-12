@@ -10,8 +10,8 @@ state : {
   hairSelected: 0,
   beardSelected: 0,
   shirtSelected: 0,
-  avatarCoordinateX: 68, 
-  avatarCoordinateY: 35,
+  avatarCoordinateX: 55, 
+  avatarCoordinateY: 80,
 },
 
 getters: {
