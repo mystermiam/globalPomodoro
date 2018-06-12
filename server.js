@@ -12,8 +12,11 @@ var express = require('express'),
     io = socket(server);
 
 /** MIDDLEWARES **/
+mongoose.Promise = global.Promise;
+
 
 //get content of incoming request under req.body
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended:true}));
 
 //allow CORS
@@ -24,23 +27,23 @@ app.use(function(req, res, next) {
 });
 
 //serve site
-//app.use(express.static(DIST_DIR));
+app.use(express.static(DIST_DIR));
 
-console.log(process.env.DB_URI);
 //routes
 app.use(require('./routes'));
 /****************/
 
 mongoose.connect(process.env.DB_URI).then(function(response){
-    
-    for(var connection in response.connections){
-        console.log(connection.base,connection.config,connection.collections);
-    }
-
     console.log('i am in !');
 }).catch(error=>{
-    console.log('tutorial is lying ' + error);
+    console.log(error);
 });
+
+mongoose.connection.once('open',function(){
+    console.log('connected');
+}).on('error',function(error){
+    console.log(error)
+})
 
 io.sockets.on('connection', newConnection);
 

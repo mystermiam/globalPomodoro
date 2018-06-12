@@ -1,4 +1,5 @@
-const axios = require('axios');
+const axios = require('axios'),
+        $ = require('jquery');
 
 export default {
     namespaced : true,
@@ -6,42 +7,33 @@ export default {
         chatId: -1,
         roomId: -1,
         participants: [0,1],
-        messages : [{ 
-            authorId: 0,
-            chatId: -1,
-            author : 'bobo',
-            textMessage : 'Hello!',
-            time : new Date()
-        },
-        {
-            authorId:1,
-            chatId: -1,
-            author : 'baba',
-            textMessage : 'Hi',
-            time : new Date()
-        }]
+        messages : []
     },
     actions : {
-        fetchMessages({commit},messages){
+        fetchMessages({commit}){
             axios.get('http://localhost:3801/fetchMessages').then(function(response){
-                commit('concatMessages',messages);
+                console.log('response fetchMessages')
+                console.log(response.data.messages)
+                commit('setMessages',response.data.messages);
             });
 
 
         },
-        saveMessages(context,messages){
+        saveMessages(context,message){
+            console.log('in store')
+            console.log(message)
 
-            console.log(messages);
+                     
 
-            context.commit('concatMessages',messages);
+           axios.post('http://localhost:3801/saveMessages',{newMessage:message
+           }).then(function(response){
+            console.log('bitch');
+            console.log(response);
+            //find a better solution because it's not optimal i believe, even tough client looked saved
+            context.commit('concatMessages',[response.data.savedMessage]); 
+           });
 
-            axios.post('http://localhost:3801/saveMessages',{
-                messages : context.state.messages
-            }).then(function(response){
-                console.log('saveMessages response ' + response);
-                for(var k in response)console.log(k,response[k]);
-                
-            });
+          
         },
         concatMessages(context,messages){
             context.commit('concatMessages',messages);
@@ -51,7 +43,13 @@ export default {
 
     },
     mutations : {
+        setMessages(state,messages){
+            state.messages = messages;
+        },
         concatMessages(state,messages){
+            console.log('in mutations');
+            console.log('messages')
+            console.log(messages)
             state.messages = state.messages.concat(messages);
         }
     }

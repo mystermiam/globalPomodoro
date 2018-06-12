@@ -1,7 +1,49 @@
 <template>
    <div>
 	<div id='first-sec'>
-		<div id="container-img"><span id="grow-img"></span></div>
+		<div id="container-img">
+      <span id="grow-img"></span>
+      <div id="authentification" @click="fireModal"></div>
+    </div>
+    <div class="modal" v-bind:class="{ 'is-active': showModal }">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Who are you ?" v-model="username">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="password" placeholder="Prove who you are" v-model="password">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" @click="checkCredentials">Submit</button>
+          </div>
+          <div class="control">
+            <button class="button is-text">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
 		<!-- <a href="#second-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a> -->
     <div class="entry-footer">
       <div class="content-footer">
@@ -11,11 +53,11 @@
       </div>
     </div>
 	</div>
-
+</div>
 <!------------------------------------------- second section ----------------------------------------------------------------------->
 
   <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css / the router links don't yet exist / -->
- 	<div id='second-sec'>
+ 	<!-- <div id='second-sec'>
 
 		<nav class="topMenu">
             <ul class="Menu">
@@ -35,11 +77,11 @@
     <h1 v-if='showLogin'>Hello</h1>
 
 		<a href="#third-sec"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
-	</div> 
+	</div>  -->
 
 <!-- ------------------------------------------- third section ---------------------------------------------------------------------- -->
 
-   </div>
+   
 
 </template>
 
@@ -49,9 +91,16 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
+import axios from 'axios'
 
 export default {
-
+  data(){
+    return {
+      showModal : false,
+      username : '',
+      password : ''
+    };
+  },
   computed: {
    ...mapState('landingPage',{
       showLogin:'showLogin',
@@ -64,10 +113,26 @@ export default {
   },
 
   methods: {
-  ...mapActions('landingPage',{
-       someAction: 'someAction',
+    ...mapActions('landingPage',{
+         someAction: 'someAction',
 
-  }),
+    }),
+    fireModal(e){
+      this.showModal = !this.showModal;   
+    },
+    checkCredentials(e){
+      axios.post('http://localhost:3801/connection',{
+        user : { username : this.username,
+                 password : this.password }
+      }).then(function(response){
+        if(response.data.error){
+          console.log('not granted')
+        }
+        else if(response.data.success){
+          console.log('granted');
+        }
+      });
+    }
   }
 
 
@@ -77,10 +142,35 @@ export default {
 
 
 <style scoped>
+.modal{
+  z-index: 99;
+}
 #container-img{
-  content: "";
   height: 75%;
 }
+
+
+#authentification{
+  position: sticky;
+  z-index: 10;
+  left: 34vw;
+  height: 75vh;
+  width: 32vw;
+  cursor:pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #authentification {
+      position: sticky;
+      z-index: 9999;
+      left: 20vw;
+      height: 75vh;
+      width: 60vw;
+    }
+}
+
+
 
 #grow-img{
   position: absolute;
