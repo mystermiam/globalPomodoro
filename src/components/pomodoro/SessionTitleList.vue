@@ -1,11 +1,11 @@
 <template>
   <div>
-  <span id='pomodoroGoalPosition'>{{pomodorosDone}} / <input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @blur='changePomodoroGoal'></span>
+  <span id='pomodoroGoalPosition'>{{pomodorosDone}} / <input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @input='changePomodoroGoal'></span>
   
 	<ul id='sessionTitleList'>
 		<li v-for='sessionTitle in sessionTitles' @dblclick='editTrueFunction(sessionTitle.number)' v-bind:id="sessionTitle.id" v-bind:class="{ active: sessionTitle.active }">
 			{{sessionTitle.number}} - 
-			<input class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' v-bind:id="sessionTitle.inputId" v-on:keyup.enter='editTitle'> 
+			<input class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' @blur='editTitle' v-bind:id="sessionTitle.inputId" v-on:keyup.enter='editTitle'> 
 			{{sessionTitle.name}}
 		</li>
 	</ul>
@@ -26,27 +26,22 @@ export default {
   computed : {
    ...mapState('sessionTitleList',{
       sessionTitles: 'sessionTitles',
-    }),
-
-   ...mapState('timer',{
-   	  pomodorosDone: 'pomodorosDone',
+      pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
-   })
+    }),
   },
 
   methods: {
   ...mapActions('sessionTitleList',{
       createSessionList: 'createSessionList',
+      changePomodoroGoal: 'changePomodoroGoal',
       editTrueFunction: 'editTrueFunction',
-      editTitle: 'editTitle',
+      editTitle: 'editTitle',    
     }),
 
-  ...mapActions('timer',{
-      changePomodoroGoal: 'changePomodoroGoal',
-    })
   },
 
-  created(){
+  mounted(){
   	this.createSessionList();
   },
 

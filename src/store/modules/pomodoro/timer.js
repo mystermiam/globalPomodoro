@@ -4,7 +4,10 @@ import fakeBackEnd from '@/api/fakeBackEnd'
 // Done // Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer + beep + blink --> switch pause --> click start to go into pause --> increment pomodoro sessions done by one --> timer == 0 --> Go to work --> repeat until pomodoroDone == pomodoroGoal
 // Done // PomodoroGoal: Default 10 --> click pomodoro goal --> change number --> save to state
 
+
 // Improvements: 
+
+// first time you load the timer it doesn't highlight the session --> var is not yet loaded (on reload it works)
 // Show timer in tab (on hover)
 // Multi user: 
 // Statistics: see how long a user needs to press button to continue --> calculate an average --> implement that as new timer length
@@ -20,8 +23,6 @@ export default {
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
-        pomodorosDone: 1,
-        pomodoroGoal: 4,
         ownRoom: [25,5,false]
     },
 
@@ -71,7 +72,8 @@ export default {
 
             commit({
               type: 'highlightNextSessionTitle',
-              sessionTitleNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone - 1]
+              sessionTitleNumber: rootState.sessionTitleList.sessionTitles[rootState.pomodorosDone - 1],
+              root: true
             });    
         },
 
@@ -89,11 +91,11 @@ export default {
 
                     //highlight current session title
                     commit({
-                      type: 'toneDownLastSessionTitle',
+                      type: 'sessionTitleList/toneDownLastSessionTitle',
                       previousSessionNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone] 
                     });   
                     commit({
-                      type: 'highlightNextSessionTitle',
+                      type: 'sessionTitleList/highlightNextSessionTitle',
                       sessionTitleNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone + 1]
                     });   
 
@@ -112,20 +114,7 @@ export default {
                 };
             },1000);
         }
-        },
-
-        // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly --> if length is different from before in/decrease length of array 
-        changePomodoroGoal({commit, state}){
-            if( document.getElementById("pomodoroGoal").value > 0 && document.getElementById("pomodoroGoal").value <= 16){
-                commit('updatePomodoroGoal')
-            } else {
-                document.getElementById("pomodoroGoal").value = ''+ state.pomodoroGoal +'';
-            }
-        },
-
-
-
-       
+        },   
 
 
     },
@@ -172,18 +161,6 @@ export default {
                 state.pause = false;     
                 state.timerBlinkAnimation = false; 
             }, 3000)   
-       },
-
-       highlightNextSessionTitle(state, session){
-           session.sessionTitleNumber.active = true;
-       },
-
-       toneDownLastSessionTitle(state, session){
-            session.previousSessionNumber.active = false;
-       },
-
-       updatePomodoroGoal(state){
-            state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
        },
 
        changeWorkTime(state){

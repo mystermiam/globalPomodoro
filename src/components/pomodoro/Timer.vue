@@ -26,8 +26,6 @@ export default {
     ...mapState('timer',{
       timeLeft:'timeLeft',
       timerBlinkAnimation: 'timerBlinkAnimation',
-      pomodorosDone: 'pomodorosDone',
-      pomodoroGoal: 'pomodoroGoal',
       timerInterval: 'timerInterval'
     })
   },
@@ -35,7 +33,6 @@ export default {
     ...mapActions('timer',{
       countdown : 'countdown',
       fetchTimeLeft : 'fetchTimeLeft',
-      changePomodoroGoal: 'changePomodoroGoal'
     })
 
     },
