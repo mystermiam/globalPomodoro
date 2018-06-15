@@ -16,11 +16,15 @@ export default {
   },
       
   computed : {
-  
+   ...mapState('template',{
+      template:'template',    
+    })
   },
 
   methods: {
-  
+  ...mapActions('template',{
+      template: 'template',
+    })
   },
 
 

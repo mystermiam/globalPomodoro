@@ -1,6 +1,8 @@
 <template>
  	<div>
+        <PeopleInRoom></PeopleInRoom>
 		<Timer></Timer>
+        <SessionTitleList></SessionTitleList>
 		<Chat></Chat>
 	</div>
 </template>
@@ -8,8 +10,12 @@
 
 
 <script>
+    import PeopleInRoom from '@/components/pomodoro/PeopleInRoom'
 	import Timer from '@/components/pomodoro/Timer'
+    import DistractionList from '@/components/pomodoro/DistractionList'
 	import Chat from '@/components/pomodoro/Chat'
+    import SessionTitleList from '@/components/pomodoro/SessionTitleList'
+
 
 	export default{
         name:'Pomodoro',
@@ -19,8 +25,11 @@
             }
         },
         components : {
+        'PeopleInRoom': PeopleInRoom,
         'Timer' : Timer,
-        'Chat' : Chat
+        'Chat' : Chat,
+        'DistractionList': DistractionList,
+        'SessionTitleList': SessionTitleList,
         },
     };
 </script>

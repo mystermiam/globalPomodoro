@@ -29,6 +29,7 @@ html,body,#app{ height: 100%; margin: 0; }
     border: solid black 1px;
     box-sizing: border-box;
     margin: 0.5% 0.5% 0 0.5%;
+    clear: both;
 }
 
 

@@ -4,7 +4,10 @@ import fakeBackEnd from '@/api/fakeBackEnd'
 // Done // Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer + beep + blink --> switch pause --> click start to go into pause --> increment pomodoro sessions done by one --> timer == 0 --> Go to work --> repeat until pomodoroDone == pomodoroGoal
 // Done // PomodoroGoal: Default 10 --> click pomodoro goal --> change number --> save to state
 
+
 // Improvements: 
+
+// first time you load the timer it doesn't highlight the session --> var is not yet loaded (on reload it works)
 // Show timer in tab (on hover)
 // Multi user: 
 // Statistics: see how long a user needs to press button to continue --> calculate an average --> implement that as new timer length
@@ -13,15 +16,13 @@ export default {
     namespaced : true,
     
     state : {
-        timeWork: 100,
-        timePause: 200,
+        timeWork: 1500,
+        timePause: 300,
         timeLeft: 0,
         pause: false,
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
-        pomodorosDone: 0,
-        pomodoroGoal: 10,
         ownRoom: [25,5,false]
     },
 
@@ -57,7 +58,7 @@ export default {
 
 
         // Set timer in the entry screen
-        setTimer({commit, state}, payload){
+        setTimer({commit, state, rootState}, payload){
             if(state.timerInterval){
             commit('clearTimer');
             }
@@ -67,16 +68,13 @@ export default {
               timeWork: payload[0],
               timePause: payload[1],
               pause: payload[2]
-            });
-           
-           
-           
+            });  
+
+            commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })   
         },
 
 
-
-
-        countdown({commit, state, dispatch},timeLeft){
+        countdown({commit, state, dispatch, rootState},timeLeft){
 
             if(!state.timerInterval){
             // INSERT CONDITION HERE SO THAT THE COUNTDOWN CAN ONLY BE CALLED ONCE!
@@ -86,6 +84,19 @@ export default {
                 } else if (state.timeLeft === 0 && state.pause) {
                     state.bell.play();
                     commit('switchToWork');
+
+                    //highlight current session title
+                    commit({
+                      type: 'sessionTitleList/toneDownLastSessionTitle',
+                      previousSessionNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone] 
+                    });   
+                    commit({
+                      type: 'sessionTitleList/highlightNextSessionTitle',
+                      sessionTitleNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone + 1]
+                    });   
+
+
+                       
                     commit('clearTimer');
                     state.timerInterval = false
                 } else if (state.timeLeft === 0 && !state.pause) {
@@ -93,23 +104,13 @@ export default {
                     commit('switchToPause');
                     commit('clearTimer');
                     state.timerInterval = false
+                    setTimeout(function() {
+                    dispatch('countdown');
+                    }, 3000)         
                 };
             },1000);
         }
-        },
-
-        // Set new pomodoro goal
-        changePomodoroGoal({commit, state}){
-            if( document.getElementById("pomodoroGoal").value > 0 && document.getElementById("pomodoroGoal").value <= 16){
-                commit('updatePomodoroGoal')
-            } else {
-                document.getElementById("pomodoroGoal").value = ''+ state.pomodoroGoal +'';
-            }
-        },
-
-
-
-       
+        },   
 
 
     },
@@ -156,9 +157,6 @@ export default {
                 state.pause = false;     
                 state.timerBlinkAnimation = false; 
             }, 3000)   
-       },
-       updatePomodoroGoal(state){
-            state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
        },
 
        changeWorkTime(state){
