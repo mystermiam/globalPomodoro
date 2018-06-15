@@ -16,18 +16,14 @@ export default {
 			//If list is empty populate it with default working sessions
 			if(state.sessionTitles.length === 0){
 				for(var i=1;i<numberOfSessions+1 ;i++){
-					state.sessionTitles.push({
-						number: i,
-						id: 'sessionTitle' + i,
-						inputId: 'inputSession' + i,
-						name: 'Working Session',
-						edit: false,
-						active: false,
-					})
+						commit('createSession', i);
 				}
 		    } else {
 		    	// Load existing list
 		    };
+
+		    commit('highlightNextSessionTitle');
+
 		},
 
 		editTrueFunction({commit, state}, number){
@@ -59,7 +55,6 @@ export default {
 			}
 		},
 
-
 		      // SHOULD BE DONE WITH COMMIT! (work on this)
 
         // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly 
@@ -72,7 +67,7 @@ export default {
 
                 if(newNumber > state.pomodoroGoal){ 
                 	for(let i = pomodoroGoalPlus; i < newNumberPlus; i++){
-                   	commit('addSession', i);
+                   	commit('createSession', i);
                     }
                 } else {
                 // remove sessions from array with splice
@@ -91,6 +86,17 @@ export default {
 
 	},
 	mutations: {
+		createSession(state, number){
+			state.sessionTitles.push({
+						number: number,
+						id: 'sessionTitle' + number,
+						inputId: 'inputSession' + number,
+						name: 'Working Session',
+						edit: false,
+						active: false,
+					})
+		},
+
 		editTrueFunction(state, number){
 			state.sessionTitles[number-1].edit = true;
 			state.sessionTitleEdited = number - 1;
@@ -109,31 +115,20 @@ export default {
 			state.sessionTitles[state.sessionTitleEdited].edit = false;
 		},
 
-		addSession(state, number){
-			 state.sessionTitles.push({
-                      number: number,
-                      id: 'sessionTitle' + number,
-                      inputId: 'inputSession' + number,
-                      name: 'Working Session',
-                      edit: false,
-                      active: false,
-                    });
-		},
-
 		removeSession(state, newNumber){
 			state.sessionTitles.splice(newNumber);
 		},
 
-		 updatePomodoroGoal(state){
+		updatePomodoroGoal(state){
             state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
        },
 
-         highlightNextSessionTitle(state, session){
-           session.sessionTitleNumber.active = true;
+        highlightNextSessionTitle(state){
+           state.sessionTitles[state.pomodorosDone - 1].active = true;
        },
 
-      	 toneDownLastSessionTitle(state, session){
-            session.previousSessionNumber.active = false;
+      	toneDownLastSessionTitle(state){
+            state.previousSessionTitles[state.pomodorosDone -1].active = false;
        },
 	}
 }

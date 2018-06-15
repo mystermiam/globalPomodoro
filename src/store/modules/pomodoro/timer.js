@@ -68,13 +68,9 @@ export default {
               timeWork: payload[0],
               timePause: payload[1],
               pause: payload[2]
-            });    
+            });  
 
-            commit({
-              type: 'highlightNextSessionTitle',
-              sessionTitleNumber: rootState.sessionTitleList.sessionTitles[rootState.pomodorosDone - 1],
-              root: true
-            });    
+            commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })   
         },
 
 
