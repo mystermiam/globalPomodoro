@@ -16,7 +16,6 @@
 	import Chat from '@/components/pomodoro/Chat'
     import SessionTitleList from '@/components/pomodoro/SessionTitleList'
 
-
 	export default{
         name:'Pomodoro',
         sockets : {

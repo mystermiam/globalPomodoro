@@ -70,7 +70,7 @@ export default {
               pause: payload[2]
             });  
 
-            commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })   
+            setTimeout(commit('sessionTitleList/highlightNextSessionTitle', null, { root: true }),0);   
         },
 
 

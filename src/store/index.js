@@ -39,7 +39,7 @@ export default new Vuex.Store({
       
     },
     state : {
-        userIsLoggedIn : false
+        userIsLoggedIn : true
     },
     actions : {
         checkCredentials(context,user){
@@ -50,7 +50,7 @@ export default new Vuex.Store({
                 else if(response.data.success){
                   context.state.userIsLoggedIn = true;
                   console.log('granted');
-                  router.push({name:'Menu'});
+                  router.push({name:'Session'});
                 }
             });
         },

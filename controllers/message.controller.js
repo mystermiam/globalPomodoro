@@ -9,7 +9,6 @@ module.exports = {
 				res.send('Shit happens');
 			}
 			//var sMessages = messages;
-			console.log('messages',messages);
 			res.send({messages:messages});	
 		});
 

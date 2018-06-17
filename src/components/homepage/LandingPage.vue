@@ -24,7 +24,7 @@
         <div class="field">
           <label class="label">Password</label>
           <div class="control has-icons-left has-icons-right">
-            <input class="input" type="password" placeholder="Prove who you are" v-model="password">
+            <input class="input" type="password" @keyup.enter="checkCredentials" placeholder="Prove who you are" v-model="password">
             <span class="icon is-small is-left">
               <i class="fas fa-envelope"></i>
             </span>

@@ -22,12 +22,13 @@ const grantedUser = (to,from,next)=>{
 }*/
 
 const notGrantedUser = (to,from,next)=>{
-  
+ 
   if(!store.state.userIsLoggedIn){
-    next(); 
+
+    next('/'); 
     return;
   } 
-  next('/')
+  next();
 }
 
 
@@ -36,8 +37,7 @@ const router =  new Router({
   	{
       path: '/',
       name: 'LandingPage',
-      component: LandingPage,
-      beforeEnter : notGrantedUser
+      component: LandingPage
     },
     {
       path: '/Pomodoro',
@@ -48,7 +48,8 @@ const router =  new Router({
     {
       path: '/Session',
       name: 'Session',
-      component: notGrantedUser
+      component : Session,
+      beforeEnter: notGrantedUser
     },
     {
       path: '/Lounge',

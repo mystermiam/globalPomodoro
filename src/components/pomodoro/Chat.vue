@@ -38,6 +38,11 @@ export default {
   sockets : {
     connected : function(){
       console.log('connected from vue');
+    },
+    readMsg : function(msg){
+      console.log('receive')
+      console.log(msg)
+      this.$store.commit('chat/concatMessages',msg)
     }
   },
   data(){
@@ -46,7 +51,6 @@ export default {
         textMessage : ''
     };
   },
-
   computed : {
     ...mapState('chat',{
       messages:'messages'
@@ -77,13 +81,19 @@ export default {
       } else if(e.keyCode == 13){
         e.preventDefault();
         if(this.author && this.textMessage)
-          this.saveMessages({
+          this.$socket.emit('sendMessage',{
+            author:this.author,
+            textMessage:this.textMessage,
+            time:new Date()
+          });
+
+          /*this.saveMessages({
               author:this.author,
               textMessage:this.textMessage,
               time:new Date()
           }).then(function(response){
             console.log(response);
-          });
+          });*/
         this.textMessage='';
         this.$el.querySelector('#textField').rows = 1;
       }
