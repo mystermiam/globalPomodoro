@@ -15,7 +15,6 @@
     import DistractionList from '@/components/pomodoro/DistractionList'
 	import Chat from '@/components/pomodoro/Chat'
 
-
 	export default{
         name:'Pomodoro',
         sockets : {

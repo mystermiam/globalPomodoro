@@ -1,6 +1,6 @@
 
 require('dotenv').config();
-
+const Message = require('./models/message.schema')
 var express = require('express'),
     path = require("path"),
     app = express(),
@@ -45,15 +45,35 @@ mongoose.connection.once('open',function(){
     console.log(error)
 })
 
-io.sockets.on('connection', newConnection);
+io.sockets.on('connection', function(socket){
+    console.log('socket : new connection');
+    console.log(socket.id); 
+    
+    socket.on('sendMessage',function(data){
+        var newMessage = new Message(data);
+            
+            newMessage.save().then(function(response){
+                console.log('save res')
+                console.log(response)
+                io.emit('readMsg',response)
+                //res.send({savedMessage : response});
+            }).catch(function(err){
+                console.log(err)
+            });
 
-io.sockets.on('disconnect', disconnect);
+        
+    });
+
+    socket.on('disconnect', disconnect);
+});
+
+
 
 function disconnect(socket){
+    console.log(socket)
     console.log(socket.id + ' disconnect');
 }
 
 function newConnection(socket) {
-    console.log('socket : new connection');
-    console.log(socket.id);    
+       
 }

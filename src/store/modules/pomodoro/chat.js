@@ -15,8 +15,6 @@ export default {
     actions : {
         fetchMessages({commit}){
             axios.get('http://localhost:3801/fetchMessages').then(function(response){
-                console.log('response fetchMessages')
-                console.log(response.data.messages)
                 commit('setMessages',response.data.messages);
             });
         },
@@ -32,11 +30,7 @@ export default {
 
 
         saveMessages(context,message){
-            console.log('in store')
-            console.log(message)
-
-                     
-
+            
            axios.post('http://localhost:3801/saveMessages',{newMessage:message
            }).then(function(response){
             console.log('bitch');
@@ -64,9 +58,7 @@ export default {
         },
 
         concatMessages(state,messages){
-            console.log('in mutations');
-            console.log('messages')
-            console.log(messages)
+            
             state.messages = state.messages.concat(messages);
         }
     }

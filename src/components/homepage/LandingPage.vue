@@ -24,7 +24,7 @@
         <div class="field">
           <label class="label">Password</label>
           <div class="control has-icons-left has-icons-right">
-            <input class="input" type="password" placeholder="Prove who you are" v-model="password">
+            <input class="input" type="password" @keyup.enter="checkCredentials" placeholder="Prove who you are" v-model="password">
             <span class="icon is-small is-left">
               <i class="fas fa-envelope"></i>
             </span>
@@ -38,11 +38,11 @@
             <button class="button is-link" @click="checkCredentials">Submit</button>
           </div>
           <div class="control">
-            <button class="button is-text">Cancel</button>
+            <button @click="fireModal" class="button is-text">Cancel</button>
           </div>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="close"></button>
+      <button class="modal-close is-large"  @click="fireModal" aria-label="close"></button>
     </div>
 		<!-- <a href="#second-sec" @click="enterWebsite"><img src="../../../static/images/scroll.gif" class="scrollDown"></a> -->
     <div class="entry-footer">
@@ -91,7 +91,6 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
-import axios from 'axios'
 
 export default {
   data(){
@@ -121,15 +120,10 @@ export default {
       this.showModal = !this.showModal;   
     },
     checkCredentials(e){
-      axios.post('http://localhost:3801/connection',{
-        user : { username : this.username,
-                 password : this.password }
-      }).then(function(response){
-        if(response.data.error){
-          console.log('not granted')
-        }
-        else if(response.data.success){
-          console.log('granted');
+      this.$store.dispatch('checkCredentials',{
+        user : {
+          username : this.username,
+          password : this.password
         }
       });
     }
@@ -185,18 +179,12 @@ export default {
 
 .content-footer{
   display: flex;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
   flex-direction: column;
   justify-content: center;
   height: 100%;
 }
 
-.network{
-  display: flex;
-  flex-direction: row;
-  align-items:center;
-  justify-content: space-between;
-}
 
 .fb-network{
   align-self: center;
@@ -213,6 +201,8 @@ export default {
 }
 
 .entry-footer{
+  display: flex;
+  flex-direction: column;
   font-family : "Courier New", Courier, monospace;
   text-align: center;
   position: absolute;
@@ -224,13 +214,13 @@ export default {
 }
 
 .sorry{
-  font-size: 3.5vw;
-  margin: 0.3vw auto;
+  font-size: 3vw;
+  margin: 0.1vw auto;
 }
 
 .thanks{
-  font-size:1.8vw;
-  margin:0.3vw auto 1vw auto;
+  font-size:1.5vw;
+  margin:0.1vw auto 1vw auto;
 }
 
 body {
