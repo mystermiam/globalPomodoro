@@ -3,14 +3,19 @@ import fakeBackEnd from '@/api/fakeBackEnd'
 
 // Done // Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer + beep + blink --> switch pause --> click start to go into pause --> increment pomodoro sessions done by one --> timer == 0 --> Go to work --> repeat until pomodoroDone == pomodoroGoal
 // Done // PomodoroGoal: Default 10 --> click pomodoro goal --> change number --> save to state
-
+// Done // first time you load the timer it doesn't highlight the session 
 
 // Improvements: 
 
-// first time you load the timer it doesn't highlight the session --> var is not yet loaded (on reload it works)
+
 // Show timer in tab (on hover)
 // Multi user: 
 // Statistics: see how long a user needs to press button to continue --> calculate an average --> implement that as new timer length
+
+
+// Battle plan: Check off todo
+
+
 
 export default {
     namespaced : true,
@@ -23,15 +28,15 @@ export default {
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
-        ownRoom: [25,5,false]
+        ownRoom: [25,5,false],
     },
 
     actions : {
 
-        // Fetch time from server
+        //Example for how to fetch things from the server 
         fetchTimeLeft({commit}){
             return new Promise((resolve,reject)=>{
-                fakeBackEnd.getTimeLeft((time)=>{
+                fakeBackEnd.getTimeLeft(()=>{
                     commit('setTimeLeft',time);
                     resolve();
                 });
@@ -69,48 +74,54 @@ export default {
               timePause: payload[1],
               pause: payload[2]
             });  
-
-            commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })   
+             setTimeout(function(){
+             commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
+        },0)
+             
         },
 
 
         countdown({commit, state, dispatch, rootState},timeLeft){
 
             if(!state.timerInterval){
-            // INSERT CONDITION HERE SO THAT THE COUNTDOWN CAN ONLY BE CALLED ONCE!
+                
             return state.timerInterval = setInterval(() => {
-                  if(state.timeLeft > 0){
+                if(state.timeLeft > 0){
+                    //Counts down the seconds
                     commit('updateTimeLeft');
+
+                } else if(rootState.sessionTitleList.pomodorosDone == rootState.sessionTitleList.pomodoroGoal){
+                    //PomodorosDone have reached pomodorogoal
+                    commit('clearTimer')
+                    alert('You have reached your daily Goal! If you want to continue increase your Pomodoro Goal ;)')
+
                 } else if (state.timeLeft === 0 && state.pause) {
+                    // Timer is on 0 and it's pause
+                    alert("!")
                     state.bell.play();
-                    commit('switchToWork');
-
-                    //highlight current session title
-                    commit({
-                      type: 'sessionTitleList/toneDownLastSessionTitle',
-                      previousSessionNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone] 
-                    });   
-                    commit({
-                      type: 'sessionTitleList/highlightNextSessionTitle',
-                      sessionTitleNumber: rootState.sessionTitleList.sessionTitles[state.pomodorosDone + 1]
-                    });   
-
-
-                       
+                    commit('switchToWork');  
                     commit('clearTimer');
                     state.timerInterval = false
                 } else if (state.timeLeft === 0 && !state.pause) {
                     state.bell.play();
-                    commit('switchToPause');
-                    commit('clearTimer');
+                    commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
+                     //highlight current session title 
+                    commit('sessionTitleList/toneDownLastSessionTitle', null, { root: true })
+                    commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
+                    commit('switchToPause')
+                    commit('clearTimer')
                     state.timerInterval = false
                     setTimeout(function() {
-                    dispatch('countdown');
+                    dispatch('countdown')
                     }, 3000)         
                 };
             },1000);
         }
-        },   
+        },  
+
+    boxChecked({commit}){
+        
+    },
 
 
     },
@@ -121,10 +132,12 @@ export default {
        updateTimeLeft(state){
             state.timeLeft--;
        },
-       //From server
+       //Example for how to fetch things from the server 
        setTimeLeft(state,payload){
-            state.timeLeft = time[0];
-            state.pause = time[1];
+            state.timeWork = time[0];
+            state.timePause = time[1];
+            state.pause = time[2];
+
        },
        //From session
        setTimer(state, payload){
@@ -140,8 +153,7 @@ export default {
        },
        switchToPause(state,timeLeft){
             state.timerBlinkAnimation = true;
-            state.pomodorosDone++;
-            
+
             //start new timer after 3 seconds 
             setTimeout(function() {
                 state.pause = true;
@@ -169,8 +181,8 @@ export default {
             state.ownRoom[1] = state.timePause;
         },
         clearTimer(state){
-            clearInterval(state.timerInterval);
-        }
+            clearInterval(state.timerInterval)
+        },
     }
 }
 

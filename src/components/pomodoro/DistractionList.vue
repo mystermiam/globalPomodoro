@@ -60,7 +60,7 @@ export default {
 
 <style scoped>
 .title {
-  font-size: 0.7em;
+  font-size: 0.4em;
 }
 
 

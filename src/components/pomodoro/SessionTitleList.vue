@@ -3,9 +3,17 @@
   <span id='pomodoroGoalPosition'>{{pomodorosDone}} / <input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @input='changePomodoroGoal'></span>
   
 	<ul id='sessionTitleList'>
+
 		<li v-for='sessionTitle in sessionTitles' @dblclick='editTrueFunction(sessionTitle.number)' v-bind:id="sessionTitle.id" v-bind:class="{ active: sessionTitle.active }">
+
 			{{sessionTitle.number}} - 
-			<input class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' @blur='editTitle' v-bind:id="sessionTitle.inputId" v-on:keyup.enter='editTitle'> 
+
+			<input list='toDoListIntegration' class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' v-bind:id="sessionTitle.inputId" @blur='editTitle' v-on:keyup.enter='editTitle'> 
+        <datalist id="toDoListIntegration">
+          <option v-for='toDo in toDoListExamples' :value='toDo'></option>
+        </datalist>
+
+
 			{{sessionTitle.name}}
 		</li>
 	</ul>
@@ -28,6 +36,7 @@ export default {
       sessionTitles: 'sessionTitles',
       pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
+      toDoListExamples: 'toDoListExamples',
     }),
   },
 

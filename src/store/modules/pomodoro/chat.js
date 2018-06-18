@@ -1,13 +1,16 @@
 const axios = require('axios'),
         $ = require('jquery');
 
+
+import fakeBackEnd from '@/api/fakeBackEnd';
 export default {
     namespaced : true,
     state : {
         chatId: -1,
         roomId: -1,
         participants: [0,1],
-        messages : []
+        messages : [],
+        users : [],
     },
     actions : {
         fetchMessages({commit}){
@@ -16,9 +19,18 @@ export default {
                 console.log(response.data.messages)
                 commit('setMessages',response.data.messages);
             });
-
-
         },
+
+        fetchUsers({commit}){
+             return new Promise((resolve,reject)=>{
+                fakeBackEnd.getUsers((users)=>{
+                    commit('fetchUsers',users);
+                    resolve();
+                });
+            });
+        },
+
+
         saveMessages(context,message){
             console.log('in store')
             console.log(message)
@@ -43,9 +55,14 @@ export default {
 
     },
     mutations : {
+        fetchUsers(state, users){
+            state.users = users;
+        },
+
         setMessages(state,messages){
             state.messages = messages;
         },
+
         concatMessages(state,messages){
             console.log('in mutations');
             console.log('messages')

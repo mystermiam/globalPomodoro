@@ -3,8 +3,11 @@ export default {
 	state : {
 		sessionTitles: [],
 		sessionTitleEdited: 0, 
-		pomodorosDone: 1,
+		pomodorosDone: 2,
         pomodoroGoal: 4,
+        toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
+        editListHappened: false,
+        CanBeEdited: true,
 	},
 	getters: {
 
@@ -43,20 +46,19 @@ export default {
 			
 		},
 
-		editTitle({commit}, item){
-			if(item.target.value.length > 3){
+		editTitle({commit, state}, item){
+			// edit if item.target
+			if(item.target.value.length > 3 && state.CanBeEdited){
+				state.CanBeEdited = false;
 				commit({
 	              type: 'editTitle',
 	              name: item.target.value,
 	 			});
 			} else {
 			 	commit('editFalseFunction');
-				alert("The title that you entered is too short!")
 			}
 		},
-
-		      // SHOULD BE DONE WITH COMMIT! (work on this)
-
+        
         // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly 
         changePomodoroGoal({commit, state}){
           let newNumber = document.getElementById("pomodoroGoal").value;
@@ -109,6 +111,7 @@ export default {
 		editTitle(state, item){
 			state.sessionTitles[state.sessionTitleEdited].name = item.name;
 			state.sessionTitles[state.sessionTitleEdited].edit = false;
+			state.CanBeEdited = true;
 		},
 
 		closeEdit(state){
@@ -128,7 +131,11 @@ export default {
        },
 
       	toneDownLastSessionTitle(state){
-            state.previousSessionTitles[state.pomodorosDone -1].active = false;
+            state.sessionTitles[state.pomodorosDone - 2].active = false;
        },
+
+       incrementPomodorosDone(state){
+       		state.pomodorosDone++;
+       }
 	}
 }

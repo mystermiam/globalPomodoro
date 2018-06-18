@@ -1,6 +1,6 @@
 // add todo --> v-for coupled with array / on click push to array /  :check
 // edit todo --> add input field --> enter input field --> action: update distractions --> component updates itself   :check
-//delete todo's --> css on hover add symbol --> on click of symbol --> remove from list --> reduce sessionsPlanned by one --> update all the other ones (think of {{}} structure)
+//delete todo's --> css on hover add symbol --> on click of symbol --> remove from list --> reduce ToDos by one --> update all the other ones (think of {{}} structure)
 // each session it produces a session name, you can name it afterwards as well
 
 
@@ -23,7 +23,7 @@ export default {
 			number: 1,
 			edit: false
 		}],
-		sessionsPlanned: 2, // change to 1 when removing sessiontitle example
+		toDos: 2, // change to 1 when removing sessiontitle example
 		editTrue: false,
 		distractionEdited: 0,
 	},
@@ -34,22 +34,17 @@ export default {
 
 		addItem({state, rootState, commit}, e){
 		
-		//If there is no text add session called working session	
-		if(e.target.value.length == 0){
-
-		}
 		if(e.target.value.length > 3){
 
-			let currentSessionNumber = (rootState.timer.pomodorosDone + state.sessionsPlanned)
 
 			commit({
               type: 'addItem',
               name: e.target.value,
-   			  number: currentSessionNumber,
+   			  number: state.toDos,
    			  edit: false,
             });
 
-			commit('incrementSessionsPlanned');
+			commit('incrementToDos');
 
 			document.getElementById('addToDoTitle').value = '';
 
@@ -73,12 +68,26 @@ export default {
 		deleteToDo({commit}, item){
 			// Get value from parent (li)
 			let number = item.target.parentElement.value;
+
+
 			commit({
               type: 'deleteToDo',
    			  number: number,
             });
 
-            commit('decrementSessionsPlanned');
+            commit('decrementToDos');
+     
+			for(let i=0;i<number;i++){
+				
+				commit({
+					type: 'updateToDoNumbers',
+					number: i,
+					});
+
+			}
+
+
+
 		},
 
 
@@ -93,12 +102,12 @@ export default {
 				});
 		},
 
-		incrementSessionsPlanned(state){
-			state.sessionsPlanned++;
+		incrementToDos(state){
+			state.toDos++;
 		},
 
-		decrementSessionsPlanned(state){
-			state.sessionsPlanned--;
+		decrementToDos(state){
+			state.toDos--;
 		},
 
 		editTrueFunction(state, number){
@@ -114,6 +123,11 @@ export default {
 		deleteToDo(state, item){
 			//remove sessionTitle from array
 			state.distractions.splice(item.number, 1);
-		}
+		},
+
+		updateToDoNumbers(state, i){
+			//update all numbers that are lower than the one deleted;
+			alert(i)
+		},
 	}
 }

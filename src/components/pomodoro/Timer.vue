@@ -6,6 +6,9 @@
       <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
       <span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
     </p>
+    <p>
+      <span id='sessionTitle'>{{sessionTitles[pomodorosDone - 1].name}}</span><!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
+    </p>
 
     <button @click='countdown'>Go!</button>
 
@@ -26,19 +29,29 @@ export default {
     ...mapState('timer',{
       timeLeft:'timeLeft',
       timerBlinkAnimation: 'timerBlinkAnimation',
-      timerInterval: 'timerInterval'
-    })
+      timerInterval: 'timerInterval',
+    }),
+
+    ...mapState('sessionTitleList',{
+      sessionTitles:'sessionTitles',
+      pomodorosDone:'pomodorosDone',
+    }),
+
   },
   methods : {
     ...mapActions('timer',{
       countdown : 'countdown',
       fetchTimeLeft : 'fetchTimeLeft',
+      setTimer: 'setTimer',
+      completeSession: 'completeSession',
+      boxChecked: 'boxChecked',
     })
 
     },
   mounted(){
-    // fetch time from room!
-    //this.fetchTimeLeft(cb)
+    //Example for how to get things from the server --> this.fetchTimeLeft(cb);
+    this.setTimer([1500,300,false]);
+   
   },
   
 };
@@ -74,5 +87,17 @@ p {
   animation-iteration-count: 3;
 }
 
+#sessionTitle {
+  font-size: 0.3em;
+}
+
+#completeSessionBox {
+  display: inline-block;
+  width: 0.3em;
+  height: 0.3em;
+  border: 1px solid black;
+  background-color: white;
+  z-index: 1;
+}
 
 </style>

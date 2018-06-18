@@ -54,12 +54,15 @@ export default {
   },
   created (){
     this.fetchMessages();
+    this.fetchUsers();
   },
   methods : {
     ...mapActions('chat',{
       concatMessages:'concatMessages',
       fetchMessages:'fetchMessages',
-      saveMessages:'saveMessages'
+      fetchUsers: 'fetchUsers',
+      saveMessages:'saveMessages',
+
     }),
     handleKey(e){
 
