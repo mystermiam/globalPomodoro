@@ -1,24 +1,32 @@
 export default {
 	namespaced: true,
 	state : {
+		toggleLists: true,
 		sessionTitles: [],
 		sessionTitleEdited: 0, 
-		pomodorosDone: 2,
+		pomodorosDone: 1	,
         pomodoroGoal: 4,
         toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
-        editListHappened: false,
-        CanBeEdited: true,
+        canBeEdited: true,
 	},
 	getters: {
+		sessionTitleDisplay(state){
+			// Still brings up two errors in the beginning? how to load later on--> maybe fetch? 
 
+			//	return state.sessionTitles[state.pomodorosDone - 1].name;
+		},
 	},
 	actions: {
+		toggleList({commit}){
+			commit('toggleList')
+		},
+
 		createSessionList({state, commit}){
-			let numberOfSessions = state.pomodoroGoal;
-			
+			let numberOfSessions = state.pomodoroGoal + 1;
+
 			//If list is empty populate it with default working sessions
 			if(state.sessionTitles.length === 0){
-				for(var i=1;i<numberOfSessions+1 ;i++){
+				for(var i=1; i<numberOfSessions; i++){
 						commit('createSession', i);
 				}
 		    } else {
@@ -48,28 +56,28 @@ export default {
 
 		editTitle({commit, state}, item){
 			// edit if item.target
-			if(item.target.value.length > 3 && state.CanBeEdited){
-				state.CanBeEdited = false;
+			if(item.target.value.length > 3 && state.canBeEdited){
+				state.canBeEdited = false;
 				commit({
 	              type: 'editTitle',
 	              name: item.target.value,
 	 			});
-			} else {
-			 	commit('editFalseFunction');
+			} else if(state.canBeEdited){
+			 	commit('closeEdit');
 			}
 		},
         
         // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly 
         changePomodoroGoal({commit, state}){
-          let newNumber = document.getElementById("pomodoroGoal").value;
+          let newNumber = eval(document.getElementById("pomodoroGoal").value);
             if( newNumber >= state.pomodorosDone && newNumber <= 16 && newNumber !== state.pomodoroGoal){
                 // if more add new working sessions with push
-                let pomodoroGoalPlus = eval(state.pomodoroGoal) + 1,
-                	newNumberPlus = eval(newNumber) + 1;
+                let pomodoroGoalPlus = state.pomodoroGoal + 1,
+                	newNumberPlus = newNumber + 1;
 
                 if(newNumber > state.pomodoroGoal){ 
                 	for(let i = pomodoroGoalPlus; i < newNumberPlus; i++){
-                   	commit('createSession', i);
+                   	commit('createSession', i)
                     }
                 } else {
                 // remove sessions from array with splice
@@ -88,6 +96,10 @@ export default {
 
 	},
 	mutations: {
+		toggleList(state){
+			state.toggleLists = !state.toggleLists
+		},
+
 		createSession(state, number){
 			state.sessionTitles.push({
 						number: number,
@@ -104,18 +116,19 @@ export default {
 			state.sessionTitleEdited = number - 1;
 		},
 
-		editFalseFunction(state){
-			state.sessionTitles[state.sessionTitleEdited].edit = false;
-		},
-
 		editTitle(state, item){
 			state.sessionTitles[state.sessionTitleEdited].name = item.name;
 			state.sessionTitles[state.sessionTitleEdited].edit = false;
-			state.CanBeEdited = true;
+			setTimeout(function(){
+				state.canBeEdited = true;
+			},0);
 		},
 
 		closeEdit(state){
 			state.sessionTitles[state.sessionTitleEdited].edit = false;
+			setTimeout(function(){
+				state.canBeEdited = true;
+			},0);
 		},
 
 		removeSession(state, newNumber){
@@ -123,7 +136,7 @@ export default {
 		},
 
 		updatePomodoroGoal(state){
-            state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
+            state.pomodoroGoal = eval(document.getElementById("pomodoroGoal").value);
        },
 
         highlightNextSessionTitle(state){

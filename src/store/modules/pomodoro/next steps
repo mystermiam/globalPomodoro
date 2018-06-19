@@ -2,11 +2,23 @@ sessionTitleList
 
 populate new rows  :check
 Remove rows        :check
+Focus textfield    :check
+Change session input to field :check
+if unfocus remove field :check
+Integrate with ToDoList (split into subtasks) :check
+----------- 
+Add task from Distraction list 
 
-1) Focus textfield
-2) Change session input to field
-3) if unfocus remove field
 
-4) Integrate with ToDoList (split into subtasks)
 
-lalala
+
+Distraction List 
+
+Edit todos :check
+change todos to index! :check
+delete todos :check
+
+
+
+
+

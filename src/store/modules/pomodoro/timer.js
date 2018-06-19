@@ -31,6 +31,10 @@ export default {
         ownRoom: [25,5,false],
     },
 
+    getters : {
+
+    },
+
     actions : {
 
         //Example for how to fetch things from the server 
@@ -74,16 +78,13 @@ export default {
               timePause: payload[1],
               pause: payload[2]
             });  
-<<<<<<< HEAD
+
              setTimeout(function(){
              commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
         },0)
              
-=======
-
-            setTimeout(commit('sessionTitleList/highlightNextSessionTitle', null, { root: true }),0);   
->>>>>>> 4cad5d6f3e969dfdda08ae802de038c0464f0e55
         },
+
 
 
         countdown({commit, state, dispatch, rootState},timeLeft){
@@ -106,7 +107,7 @@ export default {
                     state.bell.play();
                     commit('switchToWork');  
                     commit('clearTimer');
-                    state.timerInterval = false
+                    state.timerInterval = false // do I still need it?
                 } else if (state.timeLeft === 0 && !state.pause) {
                     state.bell.play();
                     commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
@@ -130,9 +131,7 @@ export default {
 
 
     },
-    getters : {
-
-    },
+  
     mutations : {
        updateTimeLeft(state){
             state.timeLeft--;

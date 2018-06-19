@@ -20,13 +20,14 @@ export default {
       template:'template',    
     })
   },
-
-  methods: {
+  
+ methods: {
   ...mapActions('template',{
       template: 'template',
     })
   },
 
+ 
 
   
 };

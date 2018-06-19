@@ -10,11 +10,14 @@
 
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' v-bind:id="sessionTitle.inputId" @blur='editTitle' v-on:keyup.enter='editTitle'> 
         <datalist id="toDoListIntegration">
+          <option value='To-Dos'/></option>
           <option v-for='toDo in toDoListExamples' :value='toDo'></option>
+          <option value='Distractions'></option>   <!-- How to make the option disabled? -->
+          <option v-for='distraction in distractions' :value='distraction.name'></option>
         </datalist>
 
-
 			{{sessionTitle.name}}
+      
 		</li>
 	</ul>
 
@@ -37,6 +40,10 @@ export default {
       pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
       toDoListExamples: 'toDoListExamples',
+    }),
+
+    ...mapState('distractionList',{
+      distractions: 'distractions',
     }),
   },
 
@@ -85,6 +92,10 @@ font-size: 1.4em;
 
 .active {
 	color: red;
+}
+
+.optionHorizontalLine {
+  border-top: 1px solid black;
 }
 
 
