@@ -4,9 +4,9 @@
   
 	<ul id='sessionTitleList'>
 
-		<li v-for='sessionTitle in sessionTitles' @dblclick='editTrueFunction(sessionTitle.number)' v-bind:id="sessionTitle.id" v-bind:class="{ active: sessionTitle.active }">
+		<li v-for='sessionTitle in sessions' @dblclick='editTrueFunction(sessionTitle.number)' v-bind:id="sessionTitle.id">
 
-			{{sessionTitle.number}} - 
+			<span v-bind:class="{ active: sessionTitle.active }">{{sessionTitle.number}} - </span>
 
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' v-bind:id="sessionTitle.inputId" @blur='editTitle' v-on:keyup.enter='editTitle'> 
         <datalist id="toDoListIntegration">
@@ -16,7 +16,7 @@
           <option v-for='distraction in distractions' :value='distraction.name'></option>
         </datalist>
 
-			{{sessionTitle.name}}
+			<span v-bind:class="{ active: sessionTitle.active }">{{sessionTitle.name}}</span> 
       
 		</li>
 	</ul>
@@ -36,7 +36,7 @@ export default {
   
   computed : {
    ...mapState('sessionTitleList',{
-      sessionTitles: 'sessionTitles',
+      sessions: 'sessions',
       pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
       toDoListExamples: 'toDoListExamples',

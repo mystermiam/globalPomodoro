@@ -10,7 +10,7 @@
       <span id='sessionTitle'>{{sessionTitleDisplay}} <!-- Reason for the two errors in the beginning --> </span><!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
     </p>
 
-    <button @click='countdown'>Go!</button>
+    <button @click='countdown' v-show='showGoButton'>Go!</button>
 
    
    </div>
@@ -30,11 +30,7 @@ export default {
       timeLeft:'timeLeft',
       timerBlinkAnimation: 'timerBlinkAnimation',
       timerInterval: 'timerInterval',
-    }),
-
-    ...mapState('sessionTitleList',{
-      sessionTitles:'sessionTitles',
-      pomodorosDone:'pomodorosDone',
+      showGoButton: 'showGoButton'
     }),
 
     ...mapGetters('sessionTitleList',{
@@ -54,7 +50,7 @@ export default {
     },
   mounted(){
     //Example for how to get things from the server --> this.fetchTimeLeft(cb);
-    this.setTimer([1500,300,false]);
+    this.setTimer([3,5,false]);
    
   },
   

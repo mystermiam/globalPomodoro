@@ -1,25 +1,39 @@
 <template>
   <div id='toDoListContainer'>
+
       <p class='title'> -  Add Your Distractions here - </p>
       
       <input id='addToDoTitle' v-on:keyup.enter='addItem'>
 
         <ul id='toDoList'>
-          
-          <li class='toDoListItem' v-for='(distraction, index) in distractions' v:bind='distraction' @dblclick='editTrueFunction(index)'>
+
+          <li v-for='(distraction, index) in distractions' v:bind='distraction' @dblclick='editTrueFunction(index)' class='toDoListItem' >
            
             {{index + 1}} - 
 
-               <input  v-if='distraction.edit' class='toDoListEdit' v-on:keyup.enter='editItem'  @blur='editItem'> 
+               <input  v-if='distraction.edit' v-on:keyup.enter='editItem'  @blur='editItem' class='toDoListEdit'> 
           
             {{distraction.name}}
 
-            <span class='deleteToDoButton' @click='deleteToDo'> - D</span>
+            <span @click='deleteToDo' class='deleteToDoButton'> - D</span>
          
           </li>
         
         </ul>
 
+
+
+  
+
+    <draggable v-model="myArray">
+      <transition-group>  
+       
+          <div v-for="element in myArray" :key="element.id">
+            {{element}}
+          </div>
+    
+      </transition-group>
+    </draggable>
 
      
    
@@ -29,15 +43,20 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'DistractionList',
+
+  components: {
+    draggable,
+  },
       
   computed : {
      ...mapState('distractionList',{
       distractions: 'distractions',
+      myArray: 'myArray',
     }),
-
   },
 
   methods: {

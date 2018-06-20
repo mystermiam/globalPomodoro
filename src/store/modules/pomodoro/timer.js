@@ -21,7 +21,8 @@ export default {
     namespaced : true,
     
     state : {
-        timeWork: 1500,
+        showGoButton: false,
+        timeWork: 0,
         timePause: 300,
         timeLeft: 0,
         pause: false,
@@ -77,18 +78,23 @@ export default {
               timeWork: payload[0],
               timePause: payload[1],
               pause: payload[2]
-            });  
+            })
 
              setTimeout(function(){
              commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
         },0)
+
+             commit('showGoButton')
              
         },
 
 
 
         countdown({commit, state, dispatch, rootState},timeLeft){
-
+            if(!state.showGoButton){
+                    commit('hideGoButton')
+            };
+            
             if(!state.timerInterval){
                 
             return state.timerInterval = setInterval(() => {
@@ -103,7 +109,6 @@ export default {
 
                 } else if (state.timeLeft === 0 && state.pause) {
                     // Timer is on 0 and it's pause
-                    alert("!")
                     state.bell.play();
                     commit('switchToWork');  
                     commit('clearTimer');
@@ -155,6 +160,15 @@ export default {
                 state.timeLeft = state.timeWork
             }
        },
+
+       showGoButton(state){
+            state.showGoButton = true
+       },
+
+        hideGoButton(state){
+            state.showGoButton = false
+       },
+
        switchToPause(state,timeLeft){
             state.timerBlinkAnimation = true;
 

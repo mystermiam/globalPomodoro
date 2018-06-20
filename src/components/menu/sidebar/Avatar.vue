@@ -15,8 +15,13 @@ export default {
 
    ...mapActions('avatar',{
         fetchState: 'fetchState',
-        avatarBodyLoad: 'avatarBodyLoad',
+        loadAvatarFunctions: 'loadAvatarFunctions',
 
+  }),
+
+  ...mapActions('pets', {
+      fetchPet: 'fetchPet',
+      loadPetFunctions: 'loadPetFunctions',
   })
 
   },
@@ -26,10 +31,10 @@ export default {
   // Fetch variables from fake server
   this.fetchState()
   // load avatar, items and pet on start 
-      .then(() => this.avatarBodyLoad());
+      .then(() => this.loadAvatarFunctions());
 
-
-
+  this.fetchPet()
+      .then(() => this.loadPetFunctions());
 
   },
 
@@ -40,7 +45,7 @@ export default {
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 
 body {
   height: 768px;

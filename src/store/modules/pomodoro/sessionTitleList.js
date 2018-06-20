@@ -2,9 +2,10 @@ export default {
 	namespaced: true,
 	state : {
 		toggleLists: true,
-		sessionTitles: [],
+		sessions: [],
 		sessionTitleEdited: 0, 
-		pomodorosDone: 1	,
+		pomodorosDoneSinceBreak: 0, // used to count until 4 then big break
+		pomodorosDone: 1,
         pomodoroGoal: 4,
         toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
         canBeEdited: true,
@@ -12,8 +13,7 @@ export default {
 	getters: {
 		sessionTitleDisplay(state){
 			// Still brings up two errors in the beginning? how to load later on--> maybe fetch? 
-
-			//	return state.sessionTitles[state.pomodorosDone - 1].name;
+			//return state.sessions[state.pomodorosDone - 1].name;	
 		},
 	},
 	actions: {
@@ -25,7 +25,7 @@ export default {
 			let numberOfSessions = state.pomodoroGoal + 1;
 
 			//If list is empty populate it with default working sessions
-			if(state.sessionTitles.length === 0){
+			if(state.sessions.length === 0){
 				for(var i=1; i<numberOfSessions; i++){
 						commit('createSession', i);
 				}
@@ -41,13 +41,13 @@ export default {
 			// focus textfield (setTimeOut used to not block the user interface, to give it enough time to load into the dom)
 			setTimeout(function(){
 				document.querySelectorAll(".sessionListEdit")[0].focus();
-				document.querySelectorAll(".sessionListEdit")[0].placeholder = state.sessionTitles[number-1].name;
+				document.querySelectorAll(".sessionListEdit")[0].placeholder = state.sessions[number-1].name;
 			},0);
 
 			// if previous edit is closed open new one, else close it and then open new one
-			if(!state.sessionTitles[state.sessionTitleEdited].edit){
+			if(!state.sessions[state.sessionTitleEdited].edit){
 				commit('editTrueFunction', number);
-			} else if (state.sessionTitles[state.sessionTitleEdited].edit){
+			} else if (state.sessions[state.sessionTitleEdited].edit){
 				commit('closeEdit');
 				commit('editTrueFunction', number);
 			}
@@ -101,7 +101,7 @@ export default {
 		},
 
 		createSession(state, number){
-			state.sessionTitles.push({
+			state.sessions.push({
 						number: number,
 						id: 'sessionTitle' + number,
 						inputId: 'inputSession' + number,
@@ -112,27 +112,27 @@ export default {
 		},
 
 		editTrueFunction(state, number){
-			state.sessionTitles[number-1].edit = true;
+			state.sessions[number-1].edit = true;
 			state.sessionTitleEdited = number - 1;
 		},
 
 		editTitle(state, item){
-			state.sessionTitles[state.sessionTitleEdited].name = item.name;
-			state.sessionTitles[state.sessionTitleEdited].edit = false;
+			state.sessions[state.sessionTitleEdited].name = item.name;
+			state.sessions[state.sessionTitleEdited].edit = false;
 			setTimeout(function(){
 				state.canBeEdited = true;
 			},0);
 		},
 
 		closeEdit(state){
-			state.sessionTitles[state.sessionTitleEdited].edit = false;
+			state.sessions[state.sessionTitleEdited].edit = false;
 			setTimeout(function(){
 				state.canBeEdited = true;
 			},0);
 		},
 
 		removeSession(state, newNumber){
-			state.sessionTitles.splice(newNumber);
+			state.sessions.splice(newNumber);
 		},
 
 		updatePomodoroGoal(state){
@@ -140,11 +140,11 @@ export default {
        },
 
         highlightNextSessionTitle(state){
-           state.sessionTitles[state.pomodorosDone - 1].active = true;
+           state.sessions[state.pomodorosDone - 1].active = true;
        },
 
       	toneDownLastSessionTitle(state){
-            state.sessionTitles[state.pomodorosDone - 2].active = false;
+            state.sessions[state.pomodorosDone - 2].active = false;
        },
 
        incrementPomodorosDone(state){

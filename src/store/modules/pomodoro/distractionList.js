@@ -23,11 +23,9 @@ export default {
 		distractions: [],
 		canBeEdited: true,
 		distractionEdited: 0,
-
+		myArray: ['1','2','3','4'],
 	},
-	getters: {
-	},
-
+	
 	actions: {
 
 		addItem({state, rootState, commit}, e){
@@ -99,6 +97,9 @@ export default {
 
 	},
 	mutations: {
+		updateList(state, value){
+			state.myList
+		},
 		addItem(state, e){
 			state.distractions.push(
 				{name: e.name,
