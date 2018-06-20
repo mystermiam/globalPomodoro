@@ -22,10 +22,7 @@ export default {
     
     state : {
         showGoButton: false,
-<<<<<<< HEAD
-=======
         sessionNumber: 0, // includes breaks
->>>>>>> f859d0b... commit mine, ignore Jabol
         timeWork: 0,
         timePause: 300,
         timeLeft: 0,
@@ -85,11 +82,7 @@ export default {
             })
 
              setTimeout(function(){
-<<<<<<< HEAD
-             commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
-=======
              commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })  
->>>>>>> f859d0b... commit mine, ignore Jabol
         },0)
 
              commit('showGoButton')
@@ -99,13 +92,8 @@ export default {
 
 
         countdown({commit, state, dispatch, rootState},timeLeft){
-<<<<<<< HEAD
-            if(!state.showGoButton){
-                    commit('hideGoButton')
-=======
             if(state.showGoButton){
                 commit('hideGoButton')
->>>>>>> f859d0b... commit mine, ignore Jabol
             };
             
             if(!state.timerInterval){
@@ -123,18 +111,6 @@ export default {
                 } else if (state.timeLeft === 0 && state.pause) {
                     // Timer is on 0 and it's pause
                     state.bell.play();
-<<<<<<< HEAD
-                    commit('switchToWork');  
-                    commit('clearTimer');
-                    state.timerInterval = false // do I still need it?
-                } else if (state.timeLeft === 0 && !state.pause) {
-                    state.bell.play();
-                    commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
-                     //highlight current session title 
-                    commit('sessionTitleList/toneDownLastSessionTitle', null, { root: true })
-                    commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
-                    commit('switchToPause')
-=======
                     commit('switchToWork') 
                     commit('clearTimer')
                     state.timerInterval = false
@@ -148,16 +124,13 @@ export default {
                     state.bell.play();
                      //highlight current session title 
                     commit('switchToPause')  
->>>>>>> f859d0b... commit mine, ignore Jabol
+
                     commit('clearTimer')
                     state.timerInterval = false
                     setTimeout(function() {
                     dispatch('countdown')
-<<<<<<< HEAD
-=======
                     commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
                     commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
->>>>>>> f859d0b... commit mine, ignore Jabol
                     }, 3000)         
                 };
             },1000);
@@ -210,12 +183,8 @@ export default {
             setTimeout(function() {
                 state.pause = true;
                 state.timeLeft = state.timePause; 
-<<<<<<< HEAD
-                state.timerBlinkAnimation = false;     
-=======
                 state.timerBlinkAnimation = false;   
-                state.sessionNumber++  
->>>>>>> f859d0b... commit mine, ignore Jabol
+                state.sessionNumber++
             }, 3000)            
       },
       switchToWork(state,timeLeft){
@@ -225,10 +194,7 @@ export default {
                 state.timeLeft = state.timeWork;
                 state.pause = false;     
                 state.timerBlinkAnimation = false; 
-<<<<<<< HEAD
-=======
                 state.sessionNumber++
->>>>>>> f859d0b... commit mine, ignore Jabol
             }, 3000)   
        },
 
