@@ -4,11 +4,21 @@
   
 	<ul id='sessionTitleList'>
 
+<<<<<<< HEAD
 		<li v-for='sessionTitle in sessions' @dblclick='editTrueFunction(sessionTitle.number)' v-bind:id="sessionTitle.id">
 
 			<span v-bind:class="{ active: sessionTitle.active }">{{sessionTitle.number}} - </span>
 
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' v-bind:id="sessionTitle.inputId" @blur='editTitle' v-on:keyup.enter='editTitle'> 
+=======
+    <div v-for='(session, index) in sessions'>
+		<li v-if='session.category === "Work"' @dblclick='editTrueFunction(index)'>
+
+			<span v-bind:class="{ active: session.active }">{{index / 2 + 1}} - </span>
+
+
+			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
+>>>>>>> f859d0b... commit mine, ignore Jabol
         <datalist id="toDoListIntegration">
           <option value='To-Dos'/></option>
           <option v-for='toDo in toDoListExamples' :value='toDo'></option>
@@ -16,9 +26,18 @@
           <option v-for='distraction in distractions' :value='distraction.name'></option>
         </datalist>
 
+<<<<<<< HEAD
 			<span v-bind:class="{ active: sessionTitle.active }">{{sessionTitle.name}}</span> 
       
 		</li>
+=======
+			<span v-bind:class="{ active: session.active }">{{session.name}}</span> 
+      
+		</li>
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Break"'>---------------</li>
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Long Break"'>-------------------------</li>
+    </div>
+>>>>>>> f859d0b... commit mine, ignore Jabol
 	</ul>
 
   </div>

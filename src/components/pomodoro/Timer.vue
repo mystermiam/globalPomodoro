@@ -7,7 +7,16 @@
       <span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
     </p>
     <p>
+<<<<<<< HEAD
       <span id='sessionTitle'>{{sessionTitleDisplay}} <!-- Reason for the two errors in the beginning --> </span><!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
+=======
+      <span v-if='sessions[sessionNumber].category === "Work"' id='sessionTitle'>{{sessions[sessionNumber].name}} 
+      <!-- Reason for the two errors in the beginning --> </span>
+
+      <!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
+
+      <span id='sessionTitle' v-if='sessions[sessionNumber].category === "Break" || sessions[sessionNumber].category === "Long Break"'>{{sessions[sessionNumber].category}}</span>
+>>>>>>> f859d0b... commit mine, ignore Jabol
     </p>
 
     <button @click='countdown' v-show='showGoButton'>Go!</button>
@@ -30,11 +39,20 @@ export default {
       timeLeft:'timeLeft',
       timerBlinkAnimation: 'timerBlinkAnimation',
       timerInterval: 'timerInterval',
+<<<<<<< HEAD
       showGoButton: 'showGoButton'
     }),
 
     ...mapGetters('sessionTitleList',{
       sessionTitleDisplay: 'sessionTitleDisplay',
+=======
+      showGoButton: 'showGoButton',
+      sessionNumber: 'sessionNumber',
+    }),
+
+    ...mapState('sessionTitleList',{
+      sessions: 'sessions'
+>>>>>>> f859d0b... commit mine, ignore Jabol
     }),
 
   },

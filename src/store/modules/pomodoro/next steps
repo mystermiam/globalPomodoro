@@ -8,11 +8,19 @@ if unfocus remove field :check
 Integrate with ToDoList (split into subtasks) :check
 Add task from Distraction list  :check
 -----------
+<<<<<<< HEAD
 Create breaks in array
 Create a break strip in between the working sessions 
 highlight break strip during break
 
 short break + long breaks
+=======
+Create breaks in array :check
+Create a break strip in between the working sessions :check
+highlight break strip during break :check
+
+short break + long breaks 
+>>>>>>> f859d0b... commit mine, ignore Jabol
 
 
 
