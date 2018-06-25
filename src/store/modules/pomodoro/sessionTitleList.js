@@ -91,10 +91,8 @@ export default {
                    		commit('createWorkSession')
 						if(state.numberOfPauses === 3){
 						commit('createLongPause')
-						state.numberOfPauses = 0;
 					    } else {
 					    commit('createShortPause')
-					    state.numberOfPauses++
 					    }
                     }
                 } else {
@@ -116,10 +114,8 @@ export default {
 
 	},
 	mutations: {
-		toggleList(state){
-			state.toggleLists = !state.toggleLists
-		},
 
+		/********************** Add/ Remove Session functions *********************/
 		createWorkSession(state){
 			state.sessions.push({
 						name: 'Working Session',
@@ -135,6 +131,8 @@ export default {
 						category: 'Break',
 						active: false,
 					})
+
+			state.numberOfPauses++
 		},
 
 		createLongPause(state){
@@ -147,8 +145,12 @@ export default {
 			state.numberOfPauses = 0
 		},
 
+		removeSession(state, newNumber){
+			state.sessions.splice(newNumber * 2);
+		},
 
 
+		/********************** Edit functions *********************/
 		editTrueFunction(state, index){
 			state.sessions[index].edit = true;
 			state.sessionTitleEdited = index;
@@ -169,13 +171,8 @@ export default {
 			},0);
 		},
 
-		removeSession(state, newNumber){
-			state.sessions.splice(newNumber * 2);
-		},
 
-		updatePomodoroGoal(state){
-            state.pomodoroGoal = eval(document.getElementById("pomodoroGoal").value);
-       },
+		/**********************  highlight functions *********************/
 
         highlightNextSession(state, sessionNumber){
            state.sessions[sessionNumber].active = true;
@@ -183,11 +180,23 @@ export default {
 
       	toneDownLastSession(state, sessionNumber){
             state.sessions[sessionNumber - 1].active = false;
-
        },
+
+
+       /*********************  other functions *********************/
+
 
        incrementPomodorosDone(state){
        		state.pomodorosDone++;
-       }
+       },
+
+		updatePomodoroGoal(state){
+            state.pomodoroGoal = eval(document.getElementById("pomodoroGoal").value);
+       },
+
+       toggleList(state){
+			state.toggleLists = !state.toggleLists
+		},
+
 	}
 }

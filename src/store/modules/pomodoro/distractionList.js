@@ -28,10 +28,10 @@ export default {
 	
 	actions: {
 
+		 /**********************  add & delete functions *********************/
 		addItem({state, rootState, commit}, e){
 		
-		if(e.target.value.length > 3){
-
+		if(e.target.value.length > 0){
 			commit({
               type: 'addItem',
               name: e.target.value,
@@ -41,10 +41,26 @@ export default {
 			document.getElementById('addToDoTitle').value = '';
 
 		} else {
-			alert('The text you entered is too short to be a title :)')
+			commit({
+              type: 'addItem',
+              name: 'No Description',
+   			  edit: false,
+            });
+
+			document.getElementById('addToDoTitle').value = '';
 		}
 		},
 
+
+		deleteItem({commit}, index){
+			commit({
+              type: 'deleteItem',
+   			  index: index,
+            });
+		},
+
+
+		/********************** edit functions *********************/
 		editTrueFunction({commit, state}, index){
 			// if previous edit is closed open new one, else close it and then open new one
 			if(!state.distractions[state.distractionEdited].edit){
@@ -72,41 +88,25 @@ export default {
 			}
 		},
 
-		deleteToDo({commit}, index){
-			// Get value from parent (li)
-
-			commit({
-              type: 'deleteToDo',
-   			  index: index,
-            });
-     
-			for(let i=0;i<index;i++){
-				
-				commit({
-					type: 'updateToDoNumbers',
-					number: index,
-					});
-
-			}
-
-
-
-		},
-
 
 
 	},
 	mutations: {
-		updateList(state, value){
-			state.myList
-		},
+		 /**********************  add & delete functions *********************/
 		addItem(state, e){
 			state.distractions.push(
-				{name: e.name,
+				{
+				 name: e.name,
 				 edit: false,
 				});
 		},
 
+		deleteItem(state, index){	
+		//remove sessionTitle from array
+			state.distractions.splice(index, 1)
+		},
+
+		/********************** edit functions *********************/
 		editTrueFunction(state, index){
 			state.distractions[index].edit = true;
 			state.distractionEdited = index;
@@ -128,9 +128,6 @@ export default {
 			
 		},
 
-		deleteToDo(state, item){
-			//remove sessionTitle from array
-			state.distractions.splice(item.number, 1);
-		},
+		
 	}
 }

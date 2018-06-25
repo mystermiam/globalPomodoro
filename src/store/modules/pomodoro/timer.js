@@ -1,22 +1,5 @@
 import fakeBackEnd from '@/api/fakeBackEnd'
 
-
-// Done // Timer: fetch time --> click start --> start countdown (through button click) --> timer == 0 --> Stop timer + beep + blink --> switch pause --> click start to go into pause --> increment pomodoro sessions done by one --> timer == 0 --> Go to work --> repeat until pomodoroDone == pomodoroGoal
-// Done // PomodoroGoal: Default 10 --> click pomodoro goal --> change number --> save to state
-// Done // first time you load the timer it doesn't highlight the session 
-
-// Improvements: 
-
-
-// Show timer in tab (on hover)
-// Multi user: 
-// Statistics: see how long a user needs to press button to continue --> calculate an average --> implement that as new timer length
-
-
-// Battle plan: Check off todo
-
-
-
 export default {
     namespaced : true,
     
@@ -165,18 +148,10 @@ export default {
 
     },
   
-    mutations : {
-       updateTimeLeft(state){
-            state.timeLeft--;
-       },
-       //Example for how to fetch things from the server 
-       setTimeLeft(state,time){
-            state.timeWork = time[0];
-            state.timePause = time[1];
-            state.pause = time[2];
-       },
 
-       //From session
+    mutations : {
+
+       /**********************  countdown functions (in chronological order, badumm tss) *********************/
        setTimer(state, time){
 
             state.timeWork = time.work,
@@ -190,9 +165,17 @@ export default {
             state.showGoButton = true
        },
 
-        hideGoButton(state){
+       hideGoButton(state){
             state.showGoButton = false
        },
+
+       updateTimeLeft(state){
+            state.timeLeft--;
+       },
+       
+       clearTimer(state){
+            clearInterval(state.timerInterval)
+        },
 
        switchToShortBreak(state){
             state.timerBlinkAnimation = true;
@@ -206,6 +189,17 @@ export default {
             }, 3000)            
       },
 
+       switchToWork(state){
+            state.timerBlinkAnimation = true;
+
+            setTimeout(function() { 
+                state.timeLeft = state.timeWork;
+                state.pause = false;     
+                state.timerBlinkAnimation = false; 
+                state.sessionNumber++
+            }, 3000)   
+       },
+
       switchToLongBreak(state){
             state.timerBlinkAnimation = true;
 
@@ -218,20 +212,17 @@ export default {
             }, 3000)            
       },
 
-      switchToWork(state){
-            state.timerBlinkAnimation = true;
+     
 
-            setTimeout(function() { 
-                state.timeLeft = state.timeWork;
-                state.pause = false;     
-                state.timerBlinkAnimation = false; 
-                state.sessionNumber++
-            }, 3000)   
+        /**********************  other functions *********************/
+
+
+        //Example for how to fetch things from the server 
+       setTimeLeft(state,time){
+            state.timeWork = time[0];
+            state.timePause = time[1];
+            state.pause = time[2];
        },
-
-        clearTimer(state){
-            clearInterval(state.timerInterval)
-        },
     }
 }
 

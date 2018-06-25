@@ -15,7 +15,7 @@
           
             {{distraction.name}}
 
-            <span @click='deleteToDo' class='deleteToDoButton'> - D</span>
+            <span @click='deleteItem(index)' class='deleteToDoButton'> - D</span>
          
           </li>
         
@@ -64,7 +64,7 @@ export default {
        addItem: 'addItem',
        editTrueFunction: 'editTrueFunction',
        editItem: 'editItem',
-       deleteToDo: 'deleteToDo',
+       deleteItem: 'deleteItem',
     })
   },
 
