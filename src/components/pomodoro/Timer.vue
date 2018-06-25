@@ -3,8 +3,8 @@
    
    <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
-      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
-      <span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
+      <span v-if="timeInMinutes < 10">0</span><span class="minutes">{{timeInMinutes}} : </span>
+      <span v-if="(timeLeft % 60) < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
     </p>
     <p>
 
@@ -46,6 +46,10 @@ export default {
       sessions: 'sessions'
     }),
 
+    ...mapGetters('timer',{
+      timeInMinutes:'timeInMinutes',
+    }),
+
   },
   methods : {
     ...mapActions('timer',{
@@ -59,7 +63,7 @@ export default {
     },
   mounted(){
     //Example for how to get things from the server --> this.fetchTimeLeft(cb);
-    this.setTimer([3,5,false]);
+    this.setTimer([3,5,10]);
    
   },
   

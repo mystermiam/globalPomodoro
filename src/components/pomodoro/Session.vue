@@ -13,11 +13,13 @@
 
     <div class='sessionContainer'>
 
-      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' :value='Math.floor(timeWork / 60)'  @input='changeWorkTime'></span>
+      <span>Work: <input type="number" name="quantity" min="1" max="300" id='changeWorkTime' value='25'></span>
 
-      <span>Break: <input type="number" name="quantity" min="1" max="300" id='changePauseTime' :value='Math.floor(timePause / 60)' @input='changePauseTime'></span>
+      <span>Short Break: <input type="number" name="quantity" min="1" max="300" id='changeShortPauseTime' value='5'></span>
 
-      <span @click='setTimer(ownRoom)'><router-link :to="{ name: 'Pomodoro' }"> Enter Room </router-link></span>
+      <span>Long Break: <input type="number" name="quantity" min="1" max="300" id='changeLongPauseTime' value='15'></span>
+
+      <span @click='setTimer'><router-link :to="{ name: 'Pomodoro' }"> Enter Room </router-link></span>
     
     </div>
 
@@ -56,19 +58,11 @@ export default {
      room2: 'room2',
      room3: 'room3'
     }),
-
-    ...mapState('timer',{
-     timeWork: 'timeWork',
-     timePause: 'timePause',
-     ownRoom: 'ownRoom'
-    })
   },
 
   methods: {
     ...mapActions('timer',{
       setTimer: 'setTimer',
-      changePauseTime: 'changePauseTime',
-      changeWorkTime: 'changeWorkTime'
     }),
 
     },

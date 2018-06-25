@@ -20,8 +20,9 @@
 			<span v-bind:class="{ active: session.active }">{{session.name}}</span> 
       
 		</li>
-    <li v-bind:class='{ active: session.active }' v-if='session.category === "Break"'>---------------</li>
-    <li v-bind:class='{ active: session.active }' v-if='session.category === "Long Break"'>-------------------------</li>
+    <!--If break is the last one in the row don't display it / if index of this is smaller than pomodorogoal -->
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Break" && index < sessions.length - 1'>---------------</li>
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Long Break" && index < sessions.length - 1'>-------------------------</li>
     </div>
 	</ul>
 
@@ -49,6 +50,11 @@ export default {
     ...mapState('distractionList',{
       distractions: 'distractions',
     }),
+
+    ...mapGetters('sessionTitleList',{
+      hideLastBreak: 'hideLastBreak',
+    }),
+
   },
 
   methods: {
@@ -77,7 +83,7 @@ export default {
   font-family: inherit;
   font-size: inherit;
   padding: none;
-  width: 1.5em;
+  width: 1.72em;
   background: transparent;
   color: inherit;
   }

@@ -8,8 +8,8 @@ export default {
         pomodoroGoal: 4,
         toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
         canBeEdited: true,
+        numberOfPauses: 0,
 	},
-
 
 	actions: {
 		toggleList({commit}){
@@ -17,22 +17,19 @@ export default {
 		},
 
 		createSessionList({state, rootState, commit}){
-
 			let numberOfSessions = state.pomodoroGoal + 1;
 
 			//If list is empty populate it with default working sessions
 			if(state.sessions.length === 0){
 
-				let numberOfPauses = 0;
 				for(var i=1; i< numberOfSessions; i++){
 
-						commit('createWorkSession')
-						if(numberOfPauses == 3){
-						commit('createLongPause')
-						numberOfPauses = 0;
+						commit('createWorkSession', rootState.timer.timeWork)
+						if(state.numberOfPauses === 3){
+						commit('createLongPause', rootState.timer.timeLongPause)
 					    } else {
-					    commit('createShortPause')
-					    numberOfPauses++
+					    commit('createShortPause', rootState.timer.timeShortPause)
+					    state.numberOfPauses++
 					    }
 
 				}
@@ -80,9 +77,11 @@ export default {
         // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly 
         changePomodoroGoal({commit, state}){
           let newNumber = eval(document.getElementById("pomodoroGoal").value);
+
             if( newNumber >= state.pomodorosDone && newNumber <= 16 && newNumber !== state.pomodoroGoal){
                 // if more add new working sessions with push
-                let pomodoroGoalPlus = state.pomodoroGoal + 1,
+          
+              	let pomodoroGoalPlus = state.pomodoroGoal + 1,
                 	newNumberPlus = newNumber + 1;
 
                 if(newNumber > state.pomodoroGoal){ 
@@ -90,18 +89,20 @@ export default {
                 	// CHANGE EVERYTHING!!!
                 	for(let i = pomodoroGoalPlus; i < newNumberPlus; i++){
                    		commit('createWorkSession')
-						if(numberOfPauses == 3){
+						if(state.numberOfPauses === 3){
 						commit('createLongPause')
-						numberOfPauses = 0;
+						state.numberOfPauses = 0;
 					    } else {
 					    commit('createShortPause')
-					    numberOfPauses++
+					    state.numberOfPauses++
 					    }
                     }
                 } else {
                 // remove sessions from array with splice
                   	commit('removeSession', newNumber);
                 }
+
+
                    commit('updatePomodoroGoal')
           
             } else {
@@ -123,7 +124,6 @@ export default {
 			state.sessions.push({
 						name: 'Working Session',
 						category: 'Work',
-
 						edit: false,
 						active: false,
 					})
@@ -143,6 +143,8 @@ export default {
 						category: 'Long Break',
 						active: false,
 					})
+
+			state.numberOfPauses = 0
 		},
 
 
@@ -168,7 +170,7 @@ export default {
 		},
 
 		removeSession(state, newNumber){
-			state.sessions.splice(newNumber);
+			state.sessions.splice(newNumber * 2);
 		},
 
 		updatePomodoroGoal(state){
