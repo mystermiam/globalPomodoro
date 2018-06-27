@@ -3,6 +3,7 @@
 		<Timer></Timer>
         <SessionTitleList></SessionTitleList>
         <DistractionList></DistractionList>
+        <Chat></Chat>
 	</div>
 </template>
 

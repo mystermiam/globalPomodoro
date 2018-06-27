@@ -21,12 +21,11 @@ html,body,#app{ height: 100%; margin: 0; }
 
 
 .chatContainer{
-    max-height: 73%;
-    min-height: 73%;
+    max-height: 97%;
+    min-height: 97%;
     display: flex;
     flex-direction: column;    
-    /*padding: 1% 2%;*/
-    border: solid black 1px;
+    padding: 1% 2%;
     box-sizing: border-box;
     margin: 0.5% 0.5% 0 0.5%;
     clear: both;
@@ -34,14 +33,19 @@ html,body,#app{ height: 100%; margin: 0; }
 
 
 .chatBox{
-    background: #eee;
+    overflow-y: scroll;
+    background: #003C7A;
+    max-height: 73%;
+    min-height: 73%;
     flex:1;
     padding : 0.3em 0.8em 0 0.8em;
-    border:solid 1px black;
-    overflow-y: scroll;
+    box-sizing: border-box;
+    border:solid 1px blue;
 }
 
 .inputContainer{  
+  max-height: 26.5%;
+  min-height: 26.5%;
   display: flex;
   flex-wrap: wrap;
   margin:0.2em 0;
