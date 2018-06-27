@@ -16,6 +16,7 @@ import sessionTitleList from './modules/pomodoro/sessionTitleList'
 
 //Sidebar Modules
 import avatar from './modules/menu/sidebar/avatar'
+import pets from './modules/menu/sidebar/pets'
 
 //Landing Page Modules
 import landingPage from './modules/homepage/landingPage'
@@ -35,8 +36,8 @@ export default new Vuex.Store({
         sessionTitleList,
         session,
         avatar,
+        pets,
         landingPage,
-      
     },
     state : {
         userIsLoggedIn : true
@@ -50,7 +51,7 @@ export default new Vuex.Store({
                 else if(response.data.success){
                   context.state.userIsLoggedIn = true;
                   console.log('granted');
-                  router.push({name:'Session'});
+                  router.push({name:'Pomodoro'});
                 }
             });
         },

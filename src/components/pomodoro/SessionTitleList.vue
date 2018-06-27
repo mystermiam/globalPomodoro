@@ -3,19 +3,27 @@
   <span id='pomodoroGoalPosition'>{{pomodorosDone}} / <input type="number" name="quantity" min="1" max="16" id='pomodoroGoal' :value='pomodoroGoal' @input='changePomodoroGoal'></span>
   
 	<ul id='sessionTitleList'>
+    <div v-for='(session, index) in sessions'>
+		<li v-if='session.category === "Work"' @dblclick='editTrueFunction(index)'>
 
-		<li v-for='sessionTitle in sessionTitles' @dblclick='editTrueFunction(sessionTitle.number)' v-bind:id="sessionTitle.id" v-bind:class="{ active: sessionTitle.active }">
+			<span v-bind:class="{ active: session.active }">{{index / 2 + 1}} - </span>
 
-			{{sessionTitle.number}} - 
 
-			<input list='toDoListIntegration' class='sessionListEdit' v-if='sessionTitle.edit' :bind='sessionTitle.name' v-bind:id="sessionTitle.inputId" @blur='editTitle' v-on:keyup.enter='editTitle'> 
+			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
         <datalist id="toDoListIntegration">
+          <option value='To-Dos'/></option>
           <option v-for='toDo in toDoListExamples' :value='toDo'></option>
+          <option value='Distractions'></option>   <!-- How to make the option disabled? -->
+          <option v-for='distraction in distractions' :value='distraction.name'></option>
         </datalist>
 
-
-			{{sessionTitle.name}}
+			<span v-bind:class="{ active: session.active }">{{session.name}}</span> 
+      
 		</li>
+    <!--If break is the last one in the row don't display it / if index of this is smaller than pomodorogoal -->
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Break" && index < sessions.length - 1'>---------------</li>
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Long Break" && index < sessions.length - 1'>-------------------------</li>
+    </div>
 	</ul>
 
   </div>
@@ -33,11 +41,20 @@ export default {
   
   computed : {
    ...mapState('sessionTitleList',{
-      sessionTitles: 'sessionTitles',
+      sessions: 'sessions',
       pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
       toDoListExamples: 'toDoListExamples',
     }),
+
+    ...mapState('distractionList',{
+      distractions: 'distractions',
+    }),
+
+    ...mapGetters('sessionTitleList',{
+      hideLastBreak: 'hideLastBreak',
+    }),
+
   },
 
   methods: {
@@ -66,7 +83,7 @@ export default {
   font-family: inherit;
   font-size: inherit;
   padding: none;
-  width: 1.5em;
+  width: 1.72em;
   background: transparent;
   color: inherit;
   }
@@ -85,6 +102,10 @@ font-size: 1.4em;
 
 .active {
 	color: red;
+}
+
+.optionHorizontalLine {
+  border-top: 1px solid black;
 }
 
 

@@ -3,14 +3,21 @@
    
    <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
-      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
-      <span v-if="timeLeft % 60 < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
+      <span v-if="timeInMinutes < 10">0</span><span class="minutes">{{timeInMinutes}} : </span>
+      <span v-if="(timeLeft % 60) < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
     </p>
     <p>
-      <span id='sessionTitle'>{{sessionTitles[pomodorosDone - 1].name}}</span><!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
+
+      <span v-if='sessions[sessionNumber].category === "Work"' id='sessionTitle'>{{sessions[sessionNumber].name}} 
+      <!-- Reason for the two errors in the beginning --> </span>
+
+      <!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
+
+      <span id='sessionTitle' v-if='sessions[sessionNumber].category === "Break" || sessions[sessionNumber].category === "Long Break"'>{{sessions[sessionNumber].category}}</span>
+
     </p>
 
-    <button @click='countdown'>Go!</button>
+    <button @click='countdown' v-show='showGoButton'>Go!</button>
 
    
    </div>
@@ -30,11 +37,17 @@ export default {
       timeLeft:'timeLeft',
       timerBlinkAnimation: 'timerBlinkAnimation',
       timerInterval: 'timerInterval',
+
+      showGoButton: 'showGoButton',
+      sessionNumber: 'sessionNumber',
     }),
 
     ...mapState('sessionTitleList',{
-      sessionTitles:'sessionTitles',
-      pomodorosDone:'pomodorosDone',
+      sessions: 'sessions'
+    }),
+
+    ...mapGetters('timer',{
+      timeInMinutes:'timeInMinutes',
     }),
 
   },
@@ -50,7 +63,7 @@ export default {
     },
   mounted(){
     //Example for how to get things from the server --> this.fetchTimeLeft(cb);
-    this.setTimer([1500,300,false]);
+    this.setTimer([3,5,10]);
    
   },
   
@@ -70,8 +83,8 @@ p {
   border: 1px solid black;
   background-color: #001f3f;
   width: 50%;
+  margin: 0 auto;
   margin-top: 20px;
-  float: left;
   box-sizing: border-box;
 }
 

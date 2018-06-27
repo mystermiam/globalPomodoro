@@ -1,28 +1,40 @@
 <template>
-  <div>
-    <div id='toDoListContainer'>
-      <span class='title'> -  Add Your Distractions here - </span>
+  <div id='toDoListContainer'>
+
+      <p class='title'> -  Add Your Distractions here - </p>
       
-      <input id='addToDoTitle' v-on:keyup.enter="addItem">
+      <input id='addToDoTitle' v-on:keyup.enter='addItem'>
 
         <ul id='toDoList'>
-          
-          <li class='toDoListItem' @dblclick='editTrueFunction(distraction.number)' v:bind='distraction' v-for='distraction in distractions'>
-           
-            {{distraction.number}} - 
 
-               <input class='toDoListEdit' v-if='distraction.edit' v-on:keyup.enter="editItem"> 
+          <li v-for='(distraction, index) in distractions' v:bind='distraction' @dblclick='editTrueFunction(index)' class='toDoListItem' >
+           
+            {{index + 1}} - 
+
+               <input  v-if='distraction.edit' v-on:keyup.enter='editItem'  @blur='editItem' class='toDoListEdit'> 
           
             {{distraction.name}}
 
-            <span class='deleteToDoButton' @click='deleteToDo'> - D</span>
+            <span @click='deleteItem(index)' class='deleteToDoButton'> - D</span>
          
           </li>
         
         </ul>
 
 
-    </div>
+
+  
+
+    <draggable v-model="myArray">
+      <transition-group>  
+       
+          <div v-for="element in myArray" :key="element.id">
+            {{element}}
+          </div>
+    
+      </transition-group>
+    </draggable>
+
      
    
   </div>
@@ -31,16 +43,20 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'DistractionList',
+
+  components: {
+    draggable,
+  },
       
   computed : {
      ...mapState('distractionList',{
       distractions: 'distractions',
+      myArray: 'myArray',
     }),
-
-
   },
 
   methods: {
@@ -48,7 +64,7 @@ export default {
        addItem: 'addItem',
        editTrueFunction: 'editTrueFunction',
        editItem: 'editItem',
-       deleteToDo: 'deleteToDo',
+       deleteItem: 'deleteItem',
     })
   },
 
@@ -59,31 +75,17 @@ export default {
 
 
 <style scoped>
-.title {
-  font-size: 0.4em;
-}
-
-
 #toDoListContainer {
-	display: inline-block;
-	width: 25%;
-	height: 25%;
-	font-size: 48px;
-  border: 1px solid black;
+  display: inline-block;
   margin-top: 20px;
-	float: left;
   box-sizing: border-box;
+  font-size: 40px;
+}
+.title {
+  font-size: 0.35em;
+  margin: 0;
 }
 
-.toDoListItem {
-  display: inline-block;
-  width: 80%;
-  height: 2em;
-  font-size: 0.28em;
-  padding: 5px;
-  margin: 0;
-  border-bottom: 1px solid black;
-}
 
 .toDoListEdit {
   border: none;
@@ -96,6 +98,12 @@ export default {
   position: absolute;
 }
 
+.toDoListItem {
+  font-size: 0.3em;
+  padding: 5px;
+}
+
+
 .deleteToDoButton {
   color: red;
   opacity: 0;
@@ -103,6 +111,10 @@ export default {
 
 .toDoListItem:hover .deleteToDoButton {
   opacity: 1;
+}
+
+#addToDoTitle {
+  
 }
 
 </style>

@@ -6,12 +6,9 @@ export default {
 state : {
   avatar: [],
   body: [],
-  skinSelected: 0,
-  hairSelected: 0,
-  beardSelected: 0,
-  shirtSelected: 0,
-  avatarCoordinateX: 55, 
-  avatarCoordinateY: 80,
+  items: [],
+  avatarCoordinates: [55,110],
+  sizeMultiplier: 0.8
 },
 
 getters: {
@@ -30,26 +27,80 @@ fetchState({commit}){
 	});
 },
 
-
+loadAvatarFunctions({dispatch}){
+	dispatch('avatarBodyLoad')
+	dispatch('avatarEquipmentLoad')
+},
 
 /****************************************************** BODY FUNCTIONS ***************************************************/
 
 avatarBodyLoad({state, commit}){
 // skin selected is avatar.body[0], replace all the variables  
 // creating character out of several pieces 
-let bodyPartCategory = ["skin", "hair", "beard", "shirt"];
-
-for (let i=0; i< state.avatar.body.length; i++){
- if (state.avatar.body[i] !== 0) {
+let bodyPartCategory = ["hair","beard","shirt","skin"],
+	bodyPartCurrent = state.avatar.body;
 
 
- $('#avatarContainer').append(`<img src="${state.body[state.avatar.body[i]].source}" alt="${state.body[state.avatar.body[i]].name}" value="${bodyPartCategory[i]}Equipped" style='width:${state.body[state.avatar.body[i]].size[0]}px; height:${state.body[state.avatar.body[i]].size[1]}px; position:absolute; top:${(state.body[state.avatar.body[i]].coordinates[1] + state.avatarCoordinateY)}px; left:${(state.body[state.avatar.body[i]].coordinates[0] + state.avatarCoordinateX)}px; z-index:${state.body[state.avatar.body[i]].layer};'>`);
 
+for (let i=0; i< 4; i++){
+ if (bodyPartCurrent[i] !== 0) {
+ 	let bodyPart = state.body[bodyPartCategory[i]][bodyPartCurrent[i]];
+
+
+ $('#avatarContainer').append(
+ 	`<img 
+ 		src="${bodyPart.source}" 
+ 		alt="${bodyPart.name}" 
+ 		value="${bodyPartCategory[i]}Equipped" 
+ 	    style='
+ 	    width:${150 * state.sizeMultiplier}px;  
+		height:${150 * state.sizeMultiplier}px; 
+ 		position:absolute; 
+ 		top:${(state.avatarCoordinates[1])}px; 
+ 		left:${(state.avatarCoordinates[0])}px; 
+ 		z-index:${bodyPart.layer}
+ 	;'>`
+ );
 
  };
 }
-
 },
+
+
+
+/*********************************************************** EQUIPMENT FUNCTION *************************************************/
+
+
+
+avatarEquipmentLoad({state}){
+
+let itemCategory = ['helmet','armor','weapon','shield','shoes'],
+	equipped = state.avatar.equipped;
+	
+
+for(let i=0; i<5; i++){
+	if(equipped[i] !== 0){
+
+		let item = state.items[itemCategory[i]][equipped[i]];
+		$("#avatarContainer").append(
+			`<img 
+				src='${item.source}' 
+				alt='${item.name}' 
+				style=' 
+				position:absolute;
+				width:${150 * state.sizeMultiplier}px;  
+				height:${150 * state.sizeMultiplier}px; 
+				top:${  state.avatarCoordinates[1]}px; 
+				left:${ state.avatarCoordinates[0]}px;
+				z-index:${item.layer};
+			'>`
+		);
+
+		
+  	}
+}
+},
+
 },
 
 
@@ -57,7 +108,15 @@ mutations: {
 setState(state, payload){
 	state.avatar = payload.avatar;
 	state.body = payload.body;
+	state.items = payload.items
 },
 },
 
 }
+
+
+
+
+
+
+// not needed for now? width:${item[equipped[i]].size[0]}px;  height:${item[equipped[i]].size[1]}px;   		width:${bodyParts[bodyPartCurrent[i]].size[0]}px;   height:${bodyParts[bodyPartCurrent[i]].size[1]}px; 

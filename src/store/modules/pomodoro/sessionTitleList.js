@@ -1,80 +1,106 @@
 export default {
 	namespaced: true,
 	state : {
-		sessionTitles: [],
+		toggleLists: true,
+		sessions: [],
 		sessionTitleEdited: 0, 
-		pomodorosDone: 2,
+		pomodorosDone: 1,
         pomodoroGoal: 4,
         toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
-        editListHappened: false,
-        CanBeEdited: true,
+        canBeEdited: true,
+        numberOfPauses: 0,
 	},
-	getters: {
 
-	},
 	actions: {
-		createSessionList({state, commit}){
-			let numberOfSessions = state.pomodoroGoal;
-			
+		toggleList({commit}){
+			commit('toggleList')
+		},
+
+		createSessionList({state, rootState, commit}){
+			let numberOfSessions = state.pomodoroGoal + 1;
+
 			//If list is empty populate it with default working sessions
-			if(state.sessionTitles.length === 0){
-				for(var i=1;i<numberOfSessions+1 ;i++){
-						commit('createSession', i);
+			if(state.sessions.length === 0){
+
+				for(var i=1; i< numberOfSessions; i++){
+
+						commit('createWorkSession', rootState.timer.timeWork)
+						if(state.numberOfPauses === 3){
+						commit('createLongPause', rootState.timer.timeLongPause)
+					    } else {
+					    commit('createShortPause', rootState.timer.timeShortPause)
+					    state.numberOfPauses++
+					    }
+
 				}
 		    } else {
 		    	// Load existing list
 		    };
 
-		    commit('highlightNextSessionTitle');
+
+		    commit('highlightNextSession', rootState.timer.sessionNumber);
 
 		},
 
-		editTrueFunction({commit, state}, number){
+		editTrueFunction({commit, state}, index){
 			// focus textfield (setTimeOut used to not block the user interface, to give it enough time to load into the dom)
 			setTimeout(function(){
 				document.querySelectorAll(".sessionListEdit")[0].focus();
-				document.querySelectorAll(".sessionListEdit")[0].placeholder = state.sessionTitles[number-1].name;
+				document.querySelectorAll(".sessionListEdit")[0].placeholder = state.sessions[index].name;
 			},0);
 
 			// if previous edit is closed open new one, else close it and then open new one
-			if(!state.sessionTitles[state.sessionTitleEdited].edit){
-				commit('editTrueFunction', number);
-			} else if (state.sessionTitles[state.sessionTitleEdited].edit){
+			if(!state.sessions[state.sessionTitleEdited].edit){
+
+				commit('editTrueFunction', index);
+			} else if (state.sessions[state.sessionTitleEdited].edit){
 				commit('closeEdit');
-				commit('editTrueFunction', number);
+				commit('editTrueFunction', index);
+
 			}
 			
 		},
 
 		editTitle({commit, state}, item){
 			// edit if item.target
-			if(item.target.value.length > 3 && state.CanBeEdited){
-				state.CanBeEdited = false;
+			if(item.target.value.length > 3 && state.canBeEdited){
+				state.canBeEdited = false;
 				commit({
 	              type: 'editTitle',
 	              name: item.target.value,
 	 			});
-			} else {
-			 	commit('editFalseFunction');
+			} else if(state.canBeEdited){
+			 	commit('closeEdit');
 			}
 		},
         
         // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly 
         changePomodoroGoal({commit, state}){
-          let newNumber = document.getElementById("pomodoroGoal").value;
+          let newNumber = eval(document.getElementById("pomodoroGoal").value);
+
             if( newNumber >= state.pomodorosDone && newNumber <= 16 && newNumber !== state.pomodoroGoal){
                 // if more add new working sessions with push
-                let pomodoroGoalPlus = eval(state.pomodoroGoal) + 1,
-                	newNumberPlus = eval(newNumber) + 1;
+          
+              	let pomodoroGoalPlus = state.pomodoroGoal + 1,
+                	newNumberPlus = newNumber + 1;
 
                 if(newNumber > state.pomodoroGoal){ 
+
+                	// CHANGE EVERYTHING!!!
                 	for(let i = pomodoroGoalPlus; i < newNumberPlus; i++){
-                   	commit('createSession', i);
+                   		commit('createWorkSession')
+						if(state.numberOfPauses === 3){
+						commit('createLongPause')
+					    } else {
+					    commit('createShortPause')
+					    }
                     }
                 } else {
                 // remove sessions from array with splice
                   	commit('removeSession', newNumber);
                 }
+
+
                    commit('updatePomodoroGoal')
           
             } else {
@@ -88,54 +114,89 @@ export default {
 
 	},
 	mutations: {
-		createSession(state, number){
-			state.sessionTitles.push({
-						number: number,
-						id: 'sessionTitle' + number,
-						inputId: 'inputSession' + number,
+
+		/********************** Add/ Remove Session functions *********************/
+		createWorkSession(state){
+			state.sessions.push({
 						name: 'Working Session',
+						category: 'Work',
 						edit: false,
 						active: false,
 					})
 		},
 
-		editTrueFunction(state, number){
-			state.sessionTitles[number-1].edit = true;
-			state.sessionTitleEdited = number - 1;
+		createShortPause(state){
+			state.sessions.push({
+						name: '-----------',
+						category: 'Break',
+						active: false,
+					})
+
+			state.numberOfPauses++
 		},
 
-		editFalseFunction(state){
-			state.sessionTitles[state.sessionTitleEdited].edit = false;
-		},
+		createLongPause(state){
+			state.sessions.push({
+						name: '----------------',
+						category: 'Long Break',
+						active: false,
+					})
 
-		editTitle(state, item){
-			state.sessionTitles[state.sessionTitleEdited].name = item.name;
-			state.sessionTitles[state.sessionTitleEdited].edit = false;
-			state.CanBeEdited = true;
-		},
-
-		closeEdit(state){
-			state.sessionTitles[state.sessionTitleEdited].edit = false;
+			state.numberOfPauses = 0
 		},
 
 		removeSession(state, newNumber){
-			state.sessionTitles.splice(newNumber);
+			state.sessions.splice(newNumber * 2);
 		},
 
-		updatePomodoroGoal(state){
-            state.pomodoroGoal = document.getElementById("pomodoroGoal").value;
+
+		/********************** Edit functions *********************/
+		editTrueFunction(state, index){
+			state.sessions[index].edit = true;
+			state.sessionTitleEdited = index;
+		},
+
+		editTitle(state, item){
+			state.sessions[state.sessionTitleEdited].name = item.name;
+			state.sessions[state.sessionTitleEdited].edit = false;
+			setTimeout(function(){
+				state.canBeEdited = true;
+			},0);
+		},
+
+		closeEdit(state){
+			state.sessions[state.sessionTitleEdited].edit = false;
+			setTimeout(function(){
+				state.canBeEdited = true;
+			},0);
+		},
+
+
+		/**********************  highlight functions *********************/
+
+        highlightNextSession(state, sessionNumber){
+           state.sessions[sessionNumber].active = true;
        },
 
-        highlightNextSessionTitle(state){
-           state.sessionTitles[state.pomodorosDone - 1].active = true;
+      	toneDownLastSession(state, sessionNumber){
+            state.sessions[sessionNumber - 1].active = false;
        },
 
-      	toneDownLastSessionTitle(state){
-            state.sessionTitles[state.pomodorosDone - 2].active = false;
-       },
+
+       /*********************  other functions *********************/
+
 
        incrementPomodorosDone(state){
        		state.pomodorosDone++;
-       }
+       },
+
+		updatePomodoroGoal(state){
+            state.pomodoroGoal = eval(document.getElementById("pomodoroGoal").value);
+       },
+
+       toggleList(state){
+			state.toggleLists = !state.toggleLists
+		},
+
 	}
 }

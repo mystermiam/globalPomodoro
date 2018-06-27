@@ -1,0 +1,45 @@
+sessionTitleList 
+
+populate new rows  :check
+Remove rows        :check
+Focus textfield    :check
+Change session input to field :check
+if unfocus remove field :check
+Integrate with ToDoList (split into subtasks) :check
+Add task from Distraction list  :check
+Create breaks in array :check
+Create a break strip in between the working sessions :check
+highlight break strip during break :check
+short break + long breaks :check
+remove and add: 
+
+
+
+
+
+Distraction List 
+
+Edit todos :check
+change todos to index! :check
+delete todos :check
+
+move todos around - vue draggable - ask Jabol
+
+
+
+
+Avatar (import functions from hello-vue components)
+
+load equipment :check
+avatarSize: fit items to avatar size :check
+create new items :check
+fit avatar body :check
+load pet  :check
+
+
+
+
+
+
+
+
