@@ -17,8 +17,13 @@
           <option v-for='distraction in distractions' :value='distraction.name'></option>
         </datalist>
 
-			<span v-bind:class="{ active: session.active }">{{session.name}}</span> 
-      
+			<span v-bind:class="{ active: session.active }">{{session.name}} 
+     
+      <!--<span v-if="currentTime[0] < 10">0</span><span class="hours">{{session.time[0]}}:</span>
+      <span v-if="currentTime[1] < 10">0</span><span class="minutes">{{session.time[1]}}</span>-->
+      </span> 
+
+
 		</li>
     <!--If break is the last one in the row don't display it / if index of this is smaller than pomodorogoal -->
     <li v-bind:class='{ active: session.active }' v-if='session.category === "Break" && index < sessions.length - 1'>---------------</li>
@@ -26,6 +31,9 @@
     </div>
 	</ul>
 
+  <br>
+  <p class='textCenter'>Daily Winstate:</p>
+  <input id='winStateInput' :placeholder='winState' @blur='winStateInput'>
   </div>
 
 </template>
@@ -45,6 +53,8 @@ export default {
       pomodorosDone: 'pomodorosDone',
       pomodoroGoal: 'pomodoroGoal',
       toDoListExamples: 'toDoListExamples',
+      winState: 'winState',
+      currentTime: 'currentTime',
     }),
 
     ...mapState('distractionList',{
@@ -63,12 +73,17 @@ export default {
       changePomodoroGoal: 'changePomodoroGoal',
       editTrueFunction: 'editTrueFunction',
       editTitle: 'editTitle',    
+      winStateInput: 'winStateInput',
+      updateTime: 'updateTime',
+      sessionTime: 'sessionTime'
     }),
 
   },
 
   mounted(){
   	this.createSessionList();
+    //this.updateTime();
+    this.sessionTime();
   },
 
   
@@ -77,16 +92,29 @@ export default {
 
 
 <style scoped>
-#pomodoroGoal {
+#pomodoroGoal, #winStateInput {
   border: none;
   display: inline;
   font-family: inherit;
   font-size: inherit;
   padding: none;
-  width: 1.72em;
   background: transparent;
   color: inherit;
   }
+
+#pomodoroGoal {
+  width: 1.72em;
+}
+
+#winStateInput {
+  width: 20em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.textCenter {
+  text-align: center;
+}
 
 #pomodoroGoalPosition {
 margin-left: 2.3em;

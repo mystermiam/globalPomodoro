@@ -23,7 +23,7 @@
 
 
 
-  
+  <!--
 
     <draggable v-model="myArray">
       <transition-group>  
@@ -35,7 +35,7 @@
       </transition-group>
     </draggable>
 
-     
+  -->   
    
   </div>
 

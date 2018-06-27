@@ -1,3 +1,27 @@
+
+--- 1. priority: Enjoy the time you spend working --- 
+
+
+First testable version: 
+
+get initial time when page loads --> then update value + 1 every second
+
+
+
+If sessiongoal is finished copy next session goal :unfinished
+
+add times next to the sessions
+
+
+Optional:
+add reward feedback
+
+
+
+
+
+
+
 sessionTitleList 
 
 populate new rows  :check
@@ -11,7 +35,9 @@ Create breaks in array :check
 Create a break strip in between the working sessions :check
 highlight break strip during break :check
 short break + long breaks :check
-remove and add: 
+remove and add :check
+fix long break :check
+Add winstate of the day :check
 
 
 

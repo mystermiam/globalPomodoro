@@ -1,5 +1,6 @@
 <template>
  	<div id='pomodoroContainer'>
+        <PeopleInRoom/>
 		<Timer/>
 
         <div id='sideContainer'>
@@ -11,7 +12,7 @@
             <div v-show='!toggleLists'><DistractionList/></div>
 
         </div>
-        
+        <Chat/>
 
 	</div>
 </template>
@@ -63,8 +64,8 @@
 
 <style scoped>
 #sideContainer {
-    width: 50%;
-    border: 1px solid black;
+    width: 25%;
+    float: left;
     box-sizing: border-box;
     margin: 0 auto;
     text-align: center;
