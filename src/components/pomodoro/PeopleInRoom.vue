@@ -2,7 +2,7 @@
   <div id='peopleContainer'>
    
     <ul id='listOfUsers'>
-      <li v-for='user in users'>- {{user.name}}</li>
+      <li v-for='user in users'>{{user.name}}</li>
     </ul>
 
   </div>
@@ -33,7 +33,7 @@ export default {
 <style scoped>
 	#peopleContainer {
 	display: block;
-	width: 25%;
+	width: 10%;
 	min-height: 25%;
 	font-size: 48px;
   margin-top: 20px;

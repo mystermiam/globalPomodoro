@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export default {
 	namespaced: true,
 	state : {
@@ -9,9 +11,90 @@ export default {
         toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
         canBeEdited: true,
         numberOfPauses: 0,
+        winState: 'Enter your goal for today here',
+        currentTimeInterval: false,
+        currentTime : [12,0]
+        },
+
+
+	getters: {
+		sessionCategory(state,getter,rootState){
+			if(rootState.timer.sessionNumber === 0){
+				return 'Work'
+			} else {
+				return state.sessions[rootState.timer.sessionNumber].category
+			}
+		},
+
+		sessionName(state,getter,rootState){
+			if(rootState.timer.sessionNumber === 0){
+				return 'Working Session'
+			} else {
+				return state.sessions[rootState.timer.sessionNumber].name
+			}
+		},
 	},
 
-	actions: {
+	actions:{
+
+		sessionTime({state, rootState}){
+		
+		let timeWork = rootState.timer.timeWork,
+			timeShort = rootState.timer.timeShortBreak,
+			timeLong = rootState.timer.timeLongBreak,
+			sessionNumber = rootState.timer.sessionNumber,
+			sessionMax = (state.pomodoroGoal *2) - 1; //?
+				
+
+			for(let i=sessionNumber;i<sessionMax;i++){
+				if (i===sessionNumber){
+					//add time according to category
+					switch(state.sessions[i].category) {
+					    case 'Work':
+					        state.sessions[i].time[0] = state.currentTime[0] + Math.floor(timeWork / 60 )
+					        break;
+					    case 'Break':
+					        state.sessions[i].time[0] = state.currentTime[0] + timeShort
+					        break;
+					    case 'Long Break':
+					        state.sessions[i].time[0] = state.currentTime[0] + timeLong
+					        break; 
+					}
+				} else {
+					//state.sessions[i].time[0] = state.sessions[i-1].time[0] 
+				}
+				
+
+			}
+
+			// add current time + number of long, short and work breaks in between
+
+		},
+
+		updateTime({commit, state}){
+			//Get current time --> get current session --> add times of next sessions onto the timer (for --> if next timer is break add timeBreak, etc.)--> put timestamp on session once it is finished
+			
+
+
+			    let date = moment(new Date()),
+				    currentTime = {
+					hour: date.hour(),
+					minute: date.minute(),
+				};
+
+
+			if(!state.currentTimeInterval || state.currentTime[0] !== currentTime.hour || state.currentTime[1] !== currentTime.minute){
+				//Initial commit
+				commit('updateTime', currentTime)
+
+				//commit every minute new time
+				return state.currentTimeInterval = setInterval(() => {
+					commit('updateTime', currentTime)
+				}, 60000);
+			}	
+		},
+
+
 		toggleList({commit}){
 			commit('toggleList')
 		},
@@ -24,14 +107,12 @@ export default {
 
 				for(var i=1; i< numberOfSessions; i++){
 
-						commit('createWorkSession', rootState.timer.timeWork)
+						commit('createWorkSession')
 						if(state.numberOfPauses === 3){
-						commit('createLongPause', rootState.timer.timeLongPause)
+						commit('createLongPause')
 					    } else {
-					    commit('createShortPause', rootState.timer.timeShortPause)
-					    state.numberOfPauses++
+					    commit('createShortPause')
 					    }
-
 				}
 		    } else {
 		    	// Load existing list
@@ -109,6 +190,14 @@ export default {
 
         },
 
+        winStateInput({commit, state}){
+        	let input = document.getElementById("winStateInput").value;
+
+        	if (input !== state.winState && input.length > 0){		
+        		commit('winStateInput', input)	
+        	}
+        },
+
 
 
 
@@ -122,6 +211,7 @@ export default {
 						category: 'Work',
 						edit: false,
 						active: false,
+						time: [0,0,0]
 					})
 		},
 
@@ -130,6 +220,7 @@ export default {
 						name: '-----------',
 						category: 'Break',
 						active: false,
+						time: [0,0,0]
 					})
 
 			state.numberOfPauses++
@@ -140,34 +231,35 @@ export default {
 						name: '----------------',
 						category: 'Long Break',
 						active: false,
+						time: [0,0,0]
 					})
 
 			state.numberOfPauses = 0
 		},
 
 		removeSession(state, newNumber){
-			state.sessions.splice(newNumber * 2);
+			state.sessions.splice(newNumber * 2)
 		},
 
 
 		/********************** Edit functions *********************/
 		editTrueFunction(state, index){
 			state.sessions[index].edit = true;
-			state.sessionTitleEdited = index;
+			state.sessionTitleEdited = index
 		},
 
 		editTitle(state, item){
 			state.sessions[state.sessionTitleEdited].name = item.name;
 			state.sessions[state.sessionTitleEdited].edit = false;
 			setTimeout(function(){
-				state.canBeEdited = true;
+				state.canBeEdited = true
 			},0);
 		},
 
 		closeEdit(state){
 			state.sessions[state.sessionTitleEdited].edit = false;
 			setTimeout(function(){
-				state.canBeEdited = true;
+				state.canBeEdited = true
 			},0);
 		},
 
@@ -175,11 +267,11 @@ export default {
 		/**********************  highlight functions *********************/
 
         highlightNextSession(state, sessionNumber){
-           state.sessions[sessionNumber].active = true;
+           state.sessions[sessionNumber].active = true
        },
 
       	toneDownLastSession(state, sessionNumber){
-            state.sessions[sessionNumber - 1].active = false;
+            state.sessions[sessionNumber - 1].active = false
        },
 
 
@@ -187,7 +279,7 @@ export default {
 
 
        incrementPomodorosDone(state){
-       		state.pomodorosDone++;
+       		state.pomodorosDone++
        },
 
 		updatePomodoroGoal(state){
@@ -197,6 +289,16 @@ export default {
        toggleList(state){
 			state.toggleLists = !state.toggleLists
 		},
+
+		winStateInput(state, input){
+			state.winState = input
+		},
+
+		updateTime(state, currentTime){
+			state.currentTime[0] = currentTime.hour
+			state.currentTime[1] = currentTime.minute
+		},
+
 
 	}
 }

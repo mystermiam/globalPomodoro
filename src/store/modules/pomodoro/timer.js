@@ -19,13 +19,13 @@ export default {
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
     },
 
-    getters : {
-        timeInMinutes(state){
-            return Math.floor(state.timeLeft / 60)
-        }
-    },
-
     actions : {
+        sessionCompleted({rootState, state}){
+            // Doesn't work yet
+            alert(document.getElementById('sessionTitle').textContent)
+            document.getElementById('sessionTitle').innerHTML = rootState.sessionTitleList.sessions[state.sessionNumber + 2].name
+        },
+
 
         //Example for how to fetch things from the server 
         fetchTimeLeft({commit}){
@@ -152,7 +152,6 @@ export default {
 
        /**********************  countdown functions (in chronological order, badumm tss) *********************/
        setTimer(state, time){
-
             state.timeWork = time.work,
             state.timeLeft = time.work,
 
@@ -214,7 +213,6 @@ export default {
      
 
         /**********************  other functions *********************/
-
 
         //Example for how to fetch things from the server 
        setTimeLeft(state,time){

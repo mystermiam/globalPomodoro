@@ -3,22 +3,20 @@
    
    <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
-      <span v-if="timeInMinutes < 10">0</span><span class="minutes">{{timeInMinutes}} : </span>
+      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
       <span v-if="(timeLeft % 60) < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
     </p>
     <p>
 
-      <span v-if='sessions[sessionNumber].category === "Work"' id='sessionTitle'>{{sessions[sessionNumber].name}} 
-      <!-- Reason for the two errors in the beginning --> </span>
+      <span v-if='sessionCategory === "Work"' id='sessionTitle'>{{sessionName}}</span>
 
-      <!-- <input id="checkBox" @input='boxChecked' type="checkbox">-->
+      <!--<input id="checkBox" @input='sessionCompleted' type="checkbox">-->
 
-      <span id='sessionTitle' v-if='sessions[sessionNumber].category === "Break" || sessions[sessionNumber].category === "Long Break"'>{{sessions[sessionNumber].category}}</span>
+      <span id='sessionTitle' v-if='sessionCategory === "Break" || sessionCategory === "Long Break"'>{{sessionCategory}}</span>
 
     </p>
 
-    <button @click='countdown' v-show='showGoButton'>Go!</button>
-
+    <button id='goButton' @click='countdown' v-show='showGoButton'>Go!</button>
    
    </div>
   </div>
@@ -36,34 +34,33 @@ export default {
     ...mapState('timer',{
       timeLeft:'timeLeft',
       timerBlinkAnimation: 'timerBlinkAnimation',
-      timerInterval: 'timerInterval',
-
-      showGoButton: 'showGoButton',
       sessionNumber: 'sessionNumber',
+      showGoButton: 'showGoButton',
+      
     }),
 
     ...mapState('sessionTitleList',{
       sessions: 'sessions'
     }),
 
-    ...mapGetters('timer',{
-      timeInMinutes:'timeInMinutes',
+    ...mapGetters('sessionTitleList',{
+      sessionCategory: 'sessionCategory',
+      sessionName: 'sessionName'
     }),
 
   },
   methods : {
     ...mapActions('timer',{
       countdown : 'countdown',
-      fetchTimeLeft : 'fetchTimeLeft',
-      setTimer: 'setTimer',
-      completeSession: 'completeSession',
-      boxChecked: 'boxChecked',
+      //fetchTimeLeft : 'fetchTimeLeft',
+      setTimer: 'setTimer',    
+      sessionCompleted: 'sessionCompleted',
     })
 
     },
   mounted(){
     //Example for how to get things from the server --> this.fetchTimeLeft(cb);
-    this.setTimer([3,5,10]);
+    this.setTimer([1500,300,900]);
    
   },
   
@@ -111,6 +108,21 @@ p {
   border: 1px solid black;
   background-color: white;
   z-index: 1;
+}
+
+#goButton {
+  width: 10em;
+  height: 4em;
+  border-radius: 20%;
+  margin-bottom: 2em;
+}
+
+#checkBox {
+  opacity: 0;
+}
+
+#timerContainer:hover #checkBox {
+  opacity: 1;
 }
 
 </style>
