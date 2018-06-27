@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '*':{
-            target: 'http://localhost:3801',
+            target: 'http://grow.cri-paris.org/',
             changeOrigin: true,
             secure : false
         }
