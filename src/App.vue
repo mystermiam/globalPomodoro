@@ -63,9 +63,4 @@ textarea{
   max-height: 40%
 }
 
-p {
-  color: white;
-}
-
-
 </style>
