@@ -21,11 +21,11 @@ html,body,#app{ height: 100%; margin: 0; }
 
 
 .chatContainer{
-    max-height: 97%;
-    min-height: 97%;
+    max-height: 400px;
+    min-height: 400px;
     display: flex;
     flex-direction: column;    
-    padding: 1% 2%;
+    /*padding: 1% 2%;*/
     box-sizing: border-box;
     margin: 0.5% 0.5% 0 0.5%;
     clear: both;
@@ -62,5 +62,10 @@ textarea{
   overflow: hidden;
   max-height: 40%
 }
+
+p {
+  color: white;
+}
+
 
 </style>

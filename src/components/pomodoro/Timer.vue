@@ -74,14 +74,12 @@ p {
 }
 
 #timerContainer {
-  height: 25%;
+  display: flex;
   text-align: center;
+  flex-direction: column;
   font-size: 48px;
   border: 1px solid black;
   background-color: #001f3f;
-  width: 50%;
-  margin: 0 auto;
-  margin-top: 20px;
   box-sizing: border-box;
 }
 
