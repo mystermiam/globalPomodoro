@@ -11,7 +11,7 @@
 
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
         <datalist id="toDoListIntegration">
-          <option value='To-Dos'/></option>
+          <option value='To-Dos'></option>
           <option v-for='toDo in toDoListExamples' :value='toDo'></option>
           <option value='Distractions'></option>   <!-- How to make the option disabled? -->
           <option v-for='distraction in distractions' :value='distraction.name'></option>

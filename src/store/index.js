@@ -18,6 +18,9 @@ import sessionTitleList from './modules/pomodoro/sessionTitleList'
 import avatar from './modules/menu/sidebar/avatar'
 import pets from './modules/menu/sidebar/pets'
 
+//Toolbox Modules
+import dailies from './modules/menu/toolbox/dailies'
+
 //Landing Page Modules
 import landingPage from './modules/homepage/landingPage'
 import axios from 'axios'
@@ -38,6 +41,7 @@ export default new Vuex.Store({
         avatar,
         pets,
         landingPage,
+        dailies,
     },
     state : {
         userIsLoggedIn : true
