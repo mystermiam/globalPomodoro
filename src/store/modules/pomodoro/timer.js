@@ -64,7 +64,6 @@ export default {
                 })
             }
 
-
              setTimeout(function(){
              commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })  
             },0)

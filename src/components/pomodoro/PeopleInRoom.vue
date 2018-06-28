@@ -33,16 +33,13 @@ export default {
 <style scoped>
 	#peopleContainer {
 	display: block;
-	width: 10%;
-	min-height: 25%;
 	font-size: 48px;
   margin-top: 20px;
-	float: left;
 	box-sizing: border-box;
 
 	}
 
   #listOfUsers {
-    font-size: 0.3em;
+   /*font-size: 0.3em;*/
   }
 </style>

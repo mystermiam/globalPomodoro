@@ -1,7 +1,8 @@
 <template>
  	<div id='pomodoroContainer'>
-        <PeopleInRoom/>
-		<Timer/>
+        <PeopleInRoom id="peopleInRoom"/>
+		<div id="timer"><Timer/></div>
+
 
         <div id='sideContainer'>
             <span class='toggleLists' v-show='toggleLists' @click='toggleList'>Session Titles (Click to toggle lists) </span><span class='toggleLists' v-show='!toggleLists' @click='toggleList'>Distractions (Click to toggle lists)</span>
@@ -12,8 +13,7 @@
             <div v-show='!toggleLists'><DistractionList/></div>
 
         </div>
-        <Chat/>
-
+        <Chat id="chat"/>
 	</div>
 </template>
 
@@ -63,12 +63,38 @@
 
 
 <style scoped>
+#pomodoroContainer{
+    display: grid;
+    grid-template-columns: repeat(8,1fr);
+    align-items: center;
+}
+
+#peopleInRoom{
+    padding: 1% 2%;
+    grid-row: 1/2;
+    grid-column: 1/3;
+
+}
+
+#chat{
+    grid-row: 2/2;
+    grid-column: 1/9;
+}
+
+#timer{
+    grid-row:1/2;
+    grid-column: 3/7;
+    display: block;
+}
+
 #sideContainer {
-    width: 25%;
-    float: left;
+    grid-row: 1/2;
+    padding: 1% 2%;
+    grid-column: 7/9;
+    border: 1px solid black;
     box-sizing: border-box;
-    margin: 0 auto;
     text-align: center;
+
 }
 
 .toggleLists {

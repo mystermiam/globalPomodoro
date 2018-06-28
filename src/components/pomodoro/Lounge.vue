@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lounge">
     <Chat></Chat>
   </div>
 
@@ -21,5 +21,10 @@ export default {
 
 
 <style scoped>
+	.lounge{
+		height: 100%;
+		width:50%;
+		margin: 0 auto;
+	}
 
 </style>

@@ -14,7 +14,7 @@ export default {
     },
     actions : {
         fetchMessages({commit}){
-            axios.get('http://localhost:3801/fetchMessages').then(function(response){
+            axios.get('http://grow.cri-paris.org/fetchMessages').then(function(response){
                 commit('setMessages',response.data.messages);
             });
         },
@@ -31,7 +31,7 @@ export default {
 
         saveMessages(context,message){
             
-           axios.post('http://localhost:3801/saveMessages',{newMessage:message
+           axios.post('http://grow.cri-paris.org/saveMessages',{newMessage:message
            }).then(function(response){
             console.log('bitch');
             console.log(response);

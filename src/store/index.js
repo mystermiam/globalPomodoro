@@ -55,7 +55,7 @@ export default new Vuex.Store({
                 else if(response.data.success){
                   context.state.userIsLoggedIn = true;
                   console.log('granted');
-                  router.push({name:'Session'});
+                  router.push({name:'Pomodoro'});
                 }
             });
         },

@@ -7,8 +7,8 @@
     <div>
       <div class="inputContainer">
         
-          <input type="text" name="username" placeholder="Who are you ?" v-model="author">
-          <textarea id="textField" v-model="textMessage" @keydown="handleKey" placeholder="Say whatever..." rows=1></textarea>
+          <input class="input" type="text" name="username" placeholder="Who are you ?" v-model="author">
+          <textarea class="textarea" id="textField" v-model="textMessage" @keydown="handleKey" placeholder="Say whatever..." rows=1></textarea>
         
      </div>
     </div>
