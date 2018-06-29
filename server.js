@@ -45,7 +45,7 @@ mongoose.connection.once('open',function(){
     console.log(error)
 })
 
-io.configure('production', function(){
+io.configure(server, function(){
     console.log("Running Socket.io in production mode");
     io.enable('browser client minification');  // send minified client
     io.enable('browser client etag');          // apply etag caching logic based on version number
