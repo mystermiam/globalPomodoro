@@ -42,23 +42,10 @@ mongoose.connect(process.env.DB_URI).then(function(response){
 mongoose.connection.once('open',function(){
     console.log('connected');
 }).on('error',function(error){
-    console.log(error)
-})
-
-io.configure(server, function(){
-    console.log("Running Socket.io in production mode");
-    io.enable('browser client minification');  // send minified client
-    io.enable('browser client etag');          // apply etag caching logic based on version number
-    io.enable('browser client gzip');          // gzip the file
-    io.set('log level', 1);                    // reduce logging
-    io.set('transports', [                     // enable all transports (optional if you want flashsocket)
-        'websocket'
-        , 'flashsocket'
-        , 'htmlfile'
-        , 'xhr-polling'
-        , 'jsonp-polling'
-    ]);
+    console.log(error);
 });
+
+
 
 io.sockets.on('connection', function(socket){
     console.log('socket : new connection');
