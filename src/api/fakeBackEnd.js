@@ -8,7 +8,7 @@ const time = [3, 3, false],
 	  		name: 'Youcef',
 	  	}, {
 	  		userID: '01234',
-	  		name: 'Gionisos',
+	  		name: 'Pascal',
 	  	}, {
 	  		userID: '3456',
 	  		name: 'Aurelie'

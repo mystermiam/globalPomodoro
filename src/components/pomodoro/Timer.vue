@@ -1,7 +1,7 @@
 <template>
-  <div id='timerContainer'>
-   
-   <div v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
+  <div>
+
+   <div id='timerContainer' v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
     <p>
       <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
       <span v-if="(timeLeft % 60) < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
@@ -74,13 +74,7 @@ p {
 }
 
 #timerContainer {
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  font-size: 48px;
-  border: 1px solid black;
-  background-color: #001f3f;
-  box-sizing: border-box;
+  margin-top: 1.5em;
 }
 
 @keyframes timerBlink {
