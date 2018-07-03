@@ -48,7 +48,7 @@ export default new Vuex.Store({
     },
     actions : {
         checkCredentials(context,user){
-            axios.post('http://localhost:3801/connection',user).then(function(response){
+            axios.post('http://localhost:3801/api/connection',user).then(function(response){
                 if(response.data.error){
                   console.log('not granted')
                 }
