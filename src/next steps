@@ -4,18 +4,21 @@
 
 First testable version: 
 
-get initial time when page loads --> then update value + 1 every second
-
-
 
 If sessiongoal is finished copy next session goal :unfinished
+If sessiongoal is not finished move all sessiongoals one further - if it's completed move the other direction
+
+Create feedbacks with different text and color
+Give feedback through the chat?
+
+
+
+add trashbin instead of   - D
+
+
+optional:
 
 add times next to the sessions
-
-
-Optional:
-add reward feedback
-
 
 
 
@@ -38,6 +41,8 @@ short break + long breaks :check
 remove and add :check
 fix long break :check
 Add winstate of the day :check
+Create sessiontitle and distraction list buttons :check
+
 
 
 

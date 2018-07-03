@@ -1,20 +1,25 @@
 <template>
  	<div id='pomodoroContainer'>
+
+
         <PeopleInRoom id="peopleInRoom"/>
 		
-        <div id="timer"><Timer/></div>
+        <Timer id="timer"/>
 
 
         <div id='sideContainer'>
-            <span class='toggleLists' v-show='toggleLists' @click='toggleList'>Session Titles (Click to toggle lists) </span><span class='toggleLists' v-show='!toggleLists' @click='toggleList'>Distractions (Click to toggle lists)</span>
-            <br><br>
+
+            <div class='toggleLists' id='sessionTitleToggle' v-bind:class="{ toggleActive: !toggleLists }" @click='showDistractionList'>Pomodoros</div><div class='toggleLists' id='Toggle'  @click='showSessionList' v-bind:class="{ toggleActive: toggleLists }">Distractions</div>
             
-            <div v-show='toggleLists'><SessionTitleList/></div>
+            <br> 
+            <br>
+            <div v-show='!toggleLists'><SessionTitleList/></div>
             
-            <div v-show='!toggleLists'><DistractionList/></div>
+            <div v-show='toggleLists'><DistractionList/></div>
 
         </div>
-        <Chat id="chat"/>
+
+        <Chat id='chat'/>
 	</div>
 </template>
 
@@ -26,6 +31,7 @@
     import SessionTitleList from '@/components/pomodoro/SessionTitleList'
     import DistractionList from '@/components/pomodoro/DistractionList'
 	import Chat from '@/components/pomodoro/Chat'
+    import FeedbackContainer from '@/components/pomodoro/FeedbackContainer'
     import {mapState, mapGetters, mapActions} from 'vuex'
 
 	export default{
@@ -44,7 +50,8 @@
 
         methods : {
             ...mapActions('sessionTitleList',{
-              toggleList: 'toggleList',
+              showSessionList: 'showSessionList',
+              showDistractionList: 'showDistractionList'
             }),
         },
 
@@ -53,9 +60,10 @@
         components : {
         'PeopleInRoom': PeopleInRoom,
         'Timer' : Timer,
-        'Chat' : Chat,
         'DistractionList': DistractionList,
         'SessionTitleList': SessionTitleList,
+        'FeedbackContainer': FeedbackContainer,
+        'Chat' : Chat,
         },
     };
 </script>
@@ -107,11 +115,24 @@
     box-sizing: border-box;
     text-align: center;
     height: 100%;
-
 }
 
 .toggleLists {
+    display: inline-block;
+    float: left;
+    height: 2em;
+    line-height: 2em;
+    width: 50%;
+    background-color: lightgray;
+    color: darkgray;
     text-align: center;
+    cursor: pointer;
 }
+
+.toggleActive {
+    background-color: darkgray;
+    color: lightgray;
+}
+
 
 </style>

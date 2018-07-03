@@ -62,4 +62,13 @@ textarea{
   max-height: 40%
 }
 
+#theModal {
+    display: block;
+    width: 10em;
+    margin-bottom: 2em;
+    background-color: green;
+    border: 1px solid black;
+    color: black;
+}
+
 </style>

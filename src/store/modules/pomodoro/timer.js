@@ -21,9 +21,10 @@ export default {
 
     actions : {
         sessionCompleted({rootState, state}){
-            // Doesn't work yet
-            alert(document.getElementById('sessionTitle').textContent)
-            document.getElementById('sessionTitle').innerHTML = rootState.sessionTitleList.sessions[state.sessionNumber + 2].name
+            // for completed tasks move things up one level
+            
+            //document.getElementById('sessionTitle').innerHTML = rootState.sessionTitleList.sessions[state.sessionNumber + 2].name
+
         },
 
 

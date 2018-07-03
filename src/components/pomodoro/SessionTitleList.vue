@@ -124,7 +124,8 @@ export default {
 }
 
 #pomodoroGoalPosition {
-text-align: center;
+margin-left: 1em;
+padding-bottom: 1em;
 font-size: 1.4em;
 }
 
@@ -133,7 +134,7 @@ font-size: 1.4em;
 }
 
 .active {
-	color: red;
+	color: #f12711;
 }
 
 
