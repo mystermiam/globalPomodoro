@@ -1,7 +1,8 @@
 <template>
  	<div id='pomodoroContainer'>
         <PeopleInRoom id="peopleInRoom"/>
-		<div id="timer"><Timer/></div>
+		
+        <div id="timer"><Timer/></div>
 
 
         <div id='sideContainer'>
@@ -65,35 +66,47 @@
 <style scoped>
 #pomodoroContainer{
     display: grid;
-    grid-template-columns: repeat(8,1fr);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    margin: 3em;
     align-items: center;
+    height: 100%;
 }
 
 #peopleInRoom{
     padding: 1% 2%;
-    grid-row: 1/2;
     grid-column: 1/3;
+    height: 100%;
 
 }
 
 #chat{
-    grid-row: 2/2;
     grid-column: 1/9;
+    height: 100%;
 }
 
 #timer{
-    grid-row:1/2;
     grid-column: 3/7;
     display: block;
+    line-height: 1;
+    display: block;
+    flex-direction: column;
+    font-size: 48px;
+    border-radius: 5%;
+    background: #f12711; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f12711, #f5af19); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f12711, #f5af19); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    box-sizing: border-box;
+    text-align: center;
+    height: 100%;
+    margin: 0;
 }
 
 #sideContainer {
-    grid-row: 1/2;
     padding: 1% 2%;
     grid-column: 7/9;
-    border: 1px solid black;
     box-sizing: border-box;
     text-align: center;
+    height: 100%;
 
 }
 

@@ -34,13 +34,12 @@ html,body,#app{ height: 100%; margin: 0; }
 
 .chatBox{
     overflow-y: scroll;
-    background: #003C7A;
     max-height: 73%;
     min-height: 73%;
     flex:1;
     padding : 0.3em 0.8em 0 0.8em;
     box-sizing: border-box;
-    border:solid 1px blue;
+    border:solid 1px lightgray;
 }
 
 .inputContainer{  

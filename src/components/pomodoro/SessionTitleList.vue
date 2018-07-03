@@ -92,6 +92,11 @@ export default {
 
 
 <style scoped>
+#sessionTitleList {
+   height: 8em;
+   overflow-y: scroll;
+}
+
 #pomodoroGoal, #winStateInput {
   border: none;
   display: inline;
@@ -107,7 +112,9 @@ export default {
 }
 
 #winStateInput {
-  width: 20em;
+  width: 10em;
+  font-size: 1em;
+  overflow-x: hidden;
   font-weight: bold;
   text-align: center;
 }
@@ -117,12 +124,9 @@ export default {
 }
 
 #pomodoroGoalPosition {
-margin-left: 2.3em;
+text-align: center;
 font-size: 1.4em;
 }
-
-
-
 
 .sessionListEdit {
 	position: absolute;
@@ -130,10 +134,6 @@ font-size: 1.4em;
 
 .active {
 	color: red;
-}
-
-.optionHorizontalLine {
-  border-top: 1px solid black;
 }
 
 

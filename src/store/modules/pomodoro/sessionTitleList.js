@@ -11,7 +11,7 @@ export default {
         toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
         canBeEdited: true,
         numberOfPauses: 0,
-        winState: 'Enter your goal for today here',
+        winState: 'Enter your daily goal',
         currentTimeInterval: false,
         currentTime : [12,0]
         },
