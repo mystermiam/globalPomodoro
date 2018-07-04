@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <router-view>
-    </router-view>
+    
+    <notifications group="pomodoro"/>
+    <router-view/>
   </div>
 </template>
 
@@ -15,9 +16,16 @@ export default {
 
 <style>
   @import '../node_modules/bulma/css/bulma.css';
-html,body,#app{ height: 100%; margin: 0; }
 
+html,body,#app{
+height: 100%; 
+margin: 0; 
+font-family: 'Roboto Slab', serif;
+}
 
+.titleFont {
+  font-family: 'Archivo Narrow', sans-serif;
+}
 
 
 .chatContainer{
@@ -62,13 +70,14 @@ textarea{
   max-height: 40%
 }
 
-#theModal {
-    display: block;
-    width: 10em;
-    margin-bottom: 2em;
-    background-color: green;
-    border: 1px solid black;
-    color: black;
+/* Notifications! */
+.pomodoro-break {
+  background-color: #64B4C8;
+  color: #914B96;
+  text-align: center;
 }
+
+
+
 
 </style>

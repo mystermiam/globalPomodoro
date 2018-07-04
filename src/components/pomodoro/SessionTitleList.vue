@@ -8,16 +8,14 @@
 
 			<span v-bind:class="{ active: session.active }">{{index / 2 + 1}} - </span>
 
-
+      <!-- Replace with select? -->
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
         <datalist id="toDoListIntegration">
-          <option value='To-Dos'></option>
-          <option v-for='toDo in toDoListExamples' :value='toDo'></option>
-          <option value='Distractions'></option>   <!-- How to make the option disabled? -->
-          <option v-for='distraction in distractions' :value='distraction.name'></option>
+          <option v-for='toDo in toDoListExamples' :value='toDo'>To-Dos</option>
+          <option v-for='distraction in distractions' :value='distraction.name'>Distractions</option>
         </datalist>
 
-			<span v-bind:class="{ active: session.active }">{{session.name}} 
+			<span v-show='!session.edit' v-bind:class="{ active: session.active }">{{session.name}} 
      
       <!--<span v-if="currentTime[0] < 10">0</span><span class="hours">{{session.time[0]}}:</span>
       <span v-if="currentTime[1] < 10">0</span><span class="minutes">{{session.time[1]}}</span>-->
@@ -68,6 +66,7 @@ export default {
   },
 
   methods: {
+
   ...mapActions('sessionTitleList',{
       createSessionList: 'createSessionList',
       changePomodoroGoal: 'changePomodoroGoal',
@@ -130,7 +129,7 @@ font-size: 1.4em;
 }
 
 .sessionListEdit {
-	position: absolute;
+	margin-top: -1em;
 }
 
 .active {

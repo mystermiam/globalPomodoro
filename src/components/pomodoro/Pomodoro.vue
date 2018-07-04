@@ -31,7 +31,7 @@
     import SessionTitleList from '@/components/pomodoro/SessionTitleList'
     import DistractionList from '@/components/pomodoro/DistractionList'
 	import Chat from '@/components/pomodoro/Chat'
-    import FeedbackContainer from '@/components/pomodoro/FeedbackContainer'
+
     import {mapState, mapGetters, mapActions} from 'vuex'
 
 	export default{
@@ -62,7 +62,6 @@
         'Timer' : Timer,
         'DistractionList': DistractionList,
         'SessionTitleList': SessionTitleList,
-        'FeedbackContainer': FeedbackContainer,
         'Chat' : Chat,
         },
     };

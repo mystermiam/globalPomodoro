@@ -8,8 +8,10 @@ First testable version:
 If sessiongoal is finished copy next session goal :unfinished
 If sessiongoal is not finished move all sessiongoals one further - if it's completed move the other direction
 
-Create feedbacks with different text and color
-Give feedback through the chat?
+Create feedbacks with different text and color - On Break: 'Hands off!'
+
+
+Add timer in addressbar
 
 
 

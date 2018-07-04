@@ -12,6 +12,8 @@ export const SocketInstance = socketio('http://grow.cri-paris.org');
 
 Vue.use(VueSocketIO, SocketInstance, store);
 
+Vue.use(Notifications)
+
 Vue.config.productionTip = false;
 
 

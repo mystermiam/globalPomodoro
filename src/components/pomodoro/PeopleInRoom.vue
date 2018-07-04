@@ -4,7 +4,6 @@
     <ul id='listOfUsers'>
       <li v-for='user in users'><span class='green-dot'></span>{{user.name}}</li>
     </ul>
-
   </div>
 </template>
 
@@ -21,7 +20,7 @@ export default {
   },
 
   methods: {
- 
+  
   },
 
 

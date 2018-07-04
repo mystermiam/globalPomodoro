@@ -54,7 +54,11 @@ export default {
       //fetchTimeLeft : 'fetchTimeLeft',
       setTimer: 'setTimer',    
       sessionCompleted: 'sessionCompleted',
-    })
+    }),
+
+    ...mapActions('feedback',{
+       pomodoroBreakFeedback:'pomodoroBreakFeedback',    
+      }),
 
     },
   mounted(){

@@ -16,7 +16,7 @@
           
             {{distraction.name}}
 
-            <span @click='deleteItem(index)' class='deleteToDoButton'> - D</span>
+            <span @click='deleteItem(index)' class='deleteToDoButton'> - <i class="fas fa-trash-alt"></i></span>
          
           </li>
         
@@ -104,7 +104,6 @@ export default {
 
 
 .deleteToDoButton {
-  color: red;
   opacity: 0;
 }
 
@@ -112,8 +111,8 @@ export default {
   opacity: 1;
 }
 
-#addToDoTitle {
-  
+.fa-trash-alt{
+color: black;
 }
 
 </style>

@@ -99,6 +99,9 @@ export default {
                 } else if (state.timeLeft === 0 && !state.pause) {
                     // Work has passed and it's time for a pause
 
+                    //Call for break feedback
+                    commit('feedback/pomodoroBreakFeedback', null, { root: true })
+
                     state.bell.play();
 
                     let nextSessionNumber = state.sessionNumber + 1;
