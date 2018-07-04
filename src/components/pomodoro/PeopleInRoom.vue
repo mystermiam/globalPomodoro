@@ -31,10 +31,10 @@ export default {
 
 <style scoped>
 	#peopleContainer {
-  line-height: 1.5em;
+  line-height: 1.5vh;
 	display: block;
-	font-size: 48px;
-  margin-top: 20px;
+	font-size: 10vh;
+  margin-top: 2vh;
 	box-sizing: border-box;
 	}
 
@@ -44,9 +44,9 @@ export default {
   }
 
   .green-dot {
-    height: 0.65em;
-    width: 0.65em;
-    margin-right: 0.5em;
+    height: 1.8vh;
+    width: 1.8vh;
+    margin-right: 2vh;
     background-color: green;
     border-radius: 50%;
     display: inline-block;
