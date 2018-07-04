@@ -44,7 +44,7 @@ export default new Vuex.Store({
         dailies,
     },
     state : {
-        userIsLoggedIn : true
+        userIsLoggedIn : false
     },
     actions : {
         checkCredentials(context,user){
