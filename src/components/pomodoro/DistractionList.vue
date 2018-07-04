@@ -1,10 +1,7 @@
 <template>
   <div>
   
-      <p class='title'> -  Add whatever distracts you here! - </p>
-      
-
-      <input id='addToDoTitle' v-on:keyup.enter='addItem'>
+      <input id='addToDoTitle' placeholder='What distracts you?' v-on:keyup.enter='addItem'>
 
         <ul id='toDoList'>
 
@@ -76,13 +73,15 @@ export default {
 
 
 <style scoped>
+
+
 .title {
   font-size: 1em;
   margin: 0;
 }
 
 #toDoList {
-   height: 8em;
+   height: 11.5em;
    overflow-y: scroll;
 }
 

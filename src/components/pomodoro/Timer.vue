@@ -94,7 +94,7 @@ export default {
 }
 
 #sessionTitle {
-  font-size: 0.35em;
+  font-size: 3vh;
   color: white;
 }
 
@@ -108,10 +108,12 @@ export default {
 }
 
 #goButton {
-  width: 10em;
-  height: 4em;
+  width: 30vh;
+  height: 10vh;
   border-radius: 20%;
-  margin-bottom: 2em;
+  margin: 4vh;
+  font-size: 6vh;
+  line-height: 10vh;
 }
 
 #sessionCheckBox {

@@ -82,13 +82,13 @@
 #peopleInRoom{
     padding: 1% 2%;
     grid-column: 1/3;
-    height: 100%;
+    height: 50vh;
 
 }
 
 #chat{
     grid-column: 1/9;
-    height: 100%;
+    height: 50vh;
 }
 
 #timer{
@@ -97,14 +97,14 @@
     line-height: 1;
     display: block;
     flex-direction: column;
-    font-size: 48px;
+    font-size: 8vh;
     border-radius: 5%;
     background: #f12711; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f12711, #f5af19); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #f12711, #f5af19); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     box-sizing: border-box;
     text-align: center;
-    height: 100%;
+    height: 50vh;
     margin: 0;
 }
 
@@ -113,14 +113,14 @@
     grid-column: 7/9;
     box-sizing: border-box;
     text-align: center;
-    height: 100%;
+    height: 50vh;
 }
 
 .toggleLists {
     display: inline-block;
     float: left;
-    height: 2em;
-    line-height: 2em;
+    height: 4.5vh;
+    line-height: 4.5vh;
     width: 50%;
     background-color: lightgray;
     color: darkgray;
