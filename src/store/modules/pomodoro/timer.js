@@ -21,9 +21,10 @@ export default {
 
     actions : {
         sessionCompleted({rootState, state}){
-            // Doesn't work yet
-            alert(document.getElementById('sessionTitle').textContent)
-            document.getElementById('sessionTitle').innerHTML = rootState.sessionTitleList.sessions[state.sessionNumber + 2].name
+            // for completed tasks move things up one level
+            
+            //document.getElementById('sessionTitle').innerHTML = rootState.sessionTitleList.sessions[state.sessionNumber + 2].name
+
         },
 
 
@@ -97,6 +98,9 @@ export default {
 
                 } else if (state.timeLeft === 0 && !state.pause) {
                     // Work has passed and it's time for a pause
+
+                    //Call for break feedback
+                    commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
                     state.bell.play();
 

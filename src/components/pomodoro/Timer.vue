@@ -2,17 +2,17 @@
   <div>
 
    <div id='timerContainer' v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
-    <p>
-      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span class="minutes">{{Math.floor(timeLeft / 60)}} : </span>
-      <span v-if="(timeLeft % 60) < 10">0</span><span class="seconds">{{timeLeft % 60}}</span>
+    <p id='timerNumbers'>
+      <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span>{{Math.floor(timeLeft / 60)}} : </span>
+      <span v-if="(timeLeft % 60) < 10">0</span><span>{{timeLeft % 60}}</span>
     </p>
     <p>
 
-      <span v-if='sessionCategory === "Work"' id='sessionTitle'>{{sessionName}}</span>
+      <span v-if='sessionCategory === "Work"' id='sessionTitle'>{{sessions[sessionNumber] ? sessions[sessionNumber].name : 'Working Session'}}</span>
 
-      <!--<input id="checkBox" @input='sessionCompleted' type="checkbox">-->
+      <!--<input id="sessionCheckBox" @input='sessionCompleted' type="checkbox">-->
 
-      <span id='sessionTitle' v-if='sessionCategory === "Break" || sessionCategory === "Long Break"'>{{sessionCategory}}</span>
+      <span id='sessionTitle' v-if='sessionCategory === "Break" || sessionCategory === "Long Break"'>{{sessions[sessionNumber] ? sessions[sessionNumber].category : 'Work'}}</span>
 
     </p>
 
@@ -40,12 +40,11 @@ export default {
     }),
 
     ...mapState('sessionTitleList',{
-      sessions: 'sessions'
+      sessions: 'sessions',
     }),
 
     ...mapGetters('sessionTitleList',{
-      sessionCategory: 'sessionCategory',
-      sessionName: 'sessionName'
+      sessionCategory: 'sessionCategory'
     }),
 
   },
@@ -55,7 +54,11 @@ export default {
       //fetchTimeLeft : 'fetchTimeLeft',
       setTimer: 'setTimer',    
       sessionCompleted: 'sessionCompleted',
-    })
+    }),
+
+    ...mapActions('feedback',{
+       pomodoroBreakFeedback:'pomodoroBreakFeedback',    
+      }),
 
     },
   mounted(){
@@ -69,8 +72,9 @@ export default {
 
 
 <style scoped>
-p {
+#timerNumbers {
   color: white;
+  font-size: 1.3em;
 }
 
 #timerContainer {
@@ -90,7 +94,8 @@ p {
 }
 
 #sessionTitle {
-  font-size: 0.3em;
+  font-size: 0.35em;
+  color: white;
 }
 
 #completeSessionBox {
@@ -109,11 +114,11 @@ p {
   margin-bottom: 2em;
 }
 
-#checkBox {
+#sessionCheckBox {
   opacity: 0;
 }
 
-#timerContainer:hover #checkBox {
+#timerContainer:hover #sessionCheckBox {
   opacity: 1;
 }
 

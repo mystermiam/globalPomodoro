@@ -25,17 +25,10 @@ export default {
 				return state.sessions[rootState.timer.sessionNumber].category
 			}
 		},
-
-		sessionName(state,getter,rootState){
-			if(rootState.timer.sessionNumber === 0){
-				return 'Working Session'
-			} else {
-				return state.sessions[rootState.timer.sessionNumber].name
-			}
-		},
 	},
 
 	actions:{
+
 
 		sessionTime({state, rootState}){
 		
@@ -95,8 +88,18 @@ export default {
 		},
 
 
-		toggleList({commit}){
-			commit('toggleList')
+		showDistractionList({state, commit}){
+			// state.toggleLists = true => show sessionTitleList
+			if (state.toggleLists){
+				commit('showDistractionList')
+			}
+		},
+
+		showSessionList({state, commit}){
+			// state.toggleLists = true => show sessionTitleList
+			if (!state.toggleLists){
+				commit('showSessionList')
+			}
 		},
 
 		createSessionList({state, rootState, commit}){
@@ -177,12 +180,24 @@ export default {
 					    }
                     }
                 } else {
+                // go through array and count the number new
+
+                	state.numberOfPauses = 0;
+					for(let i=0;i<newNumber;i++){
+						if(state.numberOfPauses === 3){
+							state.numberOfPauses = 0
+						} else {
+							state.numberOfPauses++
+						}
+					}
+
                 // remove sessions from array with splice
+                
                   	commit('removeSession', newNumber);
+                
                 }
 
-
-                   commit('updatePomodoroGoal')
+                    commit('updatePomodoroGoal')
           
             } else {
                 document.getElementById("pomodoroGoal").value = ''+ state.pomodoroGoal +'';
@@ -238,7 +253,7 @@ export default {
 		},
 
 		removeSession(state, newNumber){
-			state.sessions.splice(newNumber * 2)
+			state.sessions.splice(newNumber * 2)	
 		},
 
 
@@ -286,8 +301,12 @@ export default {
             state.pomodoroGoal = eval(document.getElementById("pomodoroGoal").value);
        },
 
-       toggleList(state){
-			state.toggleLists = !state.toggleLists
+       showDistractionList(state){
+			state.toggleLists = false
+		},
+
+	    showSessionList(state){
+			state.toggleLists = true
 		},
 
 		winStateInput(state, input){

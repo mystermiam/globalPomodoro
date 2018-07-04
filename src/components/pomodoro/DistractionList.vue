@@ -1,8 +1,9 @@
 <template>
-  <div id='toDoListContainer'>
-
-      <p class='title'> -  Add Your Distractions here - </p>
+  <div>
+  
+      <p class='title'> -  Add whatever distracts you here! - </p>
       
+
       <input id='addToDoTitle' v-on:keyup.enter='addItem'>
 
         <ul id='toDoList'>
@@ -15,7 +16,7 @@
           
             {{distraction.name}}
 
-            <span @click='deleteItem(index)' class='deleteToDoButton'> - D</span>
+            <span @click='deleteItem(index)' class='deleteToDoButton'> - <i class="fas fa-trash-alt"></i></span>
          
           </li>
         
@@ -53,10 +54,10 @@ export default {
   },
       
   computed : {
-     ...mapState('distractionList',{
-      distractions: 'distractions',
-      myArray: 'myArray',
-    }),
+   ...mapState('distractionList',{
+    distractions: 'distractions',
+    myArray: 'myArray',
+  }),
   },
 
   methods: {
@@ -75,17 +76,15 @@ export default {
 
 
 <style scoped>
-#toDoListContainer {
-  display: inline-block;
-  margin-top: 20px;
-  box-sizing: border-box;
-  font-size: 40px;
-}
 .title {
-  font-size: 0.35em;
+  font-size: 1em;
   margin: 0;
 }
 
+#toDoList {
+   height: 8em;
+   overflow-y: scroll;
+}
 
 .toDoListEdit {
   border: none;
@@ -99,13 +98,12 @@ export default {
 }
 
 .toDoListItem {
-  font-size: 0.3em;
+  font-size: 1em;
   padding: 5px;
 }
 
 
 .deleteToDoButton {
-  color: red;
   opacity: 0;
 }
 
@@ -113,8 +111,8 @@ export default {
   opacity: 1;
 }
 
-#addToDoTitle {
-  
+.fa-trash-alt{
+color: black;
 }
 
 </style>
