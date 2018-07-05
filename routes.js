@@ -6,7 +6,7 @@ const express = require('express'),
 
 module.exports = router;
 
-router.get('http://grow.cri-paris.org/api/fetchMessages',messageController.fetchMessages);
+router.get('http://localhost:3801/api/fetchMessages',messageController.fetchMessages);
 
 router.post('http://localhost:3801/api/saveMessages',messageController.saveMessages);
 
