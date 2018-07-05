@@ -77,5 +77,5 @@ function disconnect(socket){
 }
 
 function newConnection(socket) {
-       
+       console.log('new one so its still on')
 }
