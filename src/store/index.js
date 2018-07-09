@@ -12,7 +12,6 @@ import chat from './modules/pomodoro/chat'
 import session from './modules/pomodoro/session'
 import distractionList from './modules/pomodoro/distractionList'
 import sessionTitleList from './modules/pomodoro/sessionTitleList'
-import feedback from './modules/pomodoro/feedback'
 
 
 //Sidebar Modules
@@ -26,6 +25,7 @@ import dailies from './modules/menu/toolbox/dailies'
 import landingPage from './modules/homepage/landingPage'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 Vue.use(VueRouter)
 
@@ -38,7 +38,6 @@ export default new Vuex.Store({
         distractionList,
         sessionTitleList,
         session,
-        feedback,
         avatar,
         pets,
         landingPage,
@@ -49,7 +48,7 @@ export default new Vuex.Store({
     },
     actions : {
         checkCredentials(context,user){
-            axios.post('http://localhost:3801/api/connection',user).then(function(response){
+            axios.post('http://grow.cri-paris.org/api/connection',user).then(function(response){
                 if(response.data.error){
                   console.log('not granted')
                 }
