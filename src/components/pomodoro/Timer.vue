@@ -8,11 +8,11 @@
     </p>
     <p>
 
-      <span v-if='sessionCategory === "Work"' id='sessionTitle'>{{sessions[sessionNumber] ? sessions[sessionNumber].name : 'Working Session'}}</span>
+      <span v-if='sessionCategory === "work"' id='sessionTitle'>{{sessions[sessionNumber] ? sessions[sessionNumber].name : 'Working Session'}}</span>
 
       <!--<input id="sessionCheckBox" @input='sessionCompleted' type="checkbox">-->
 
-      <span id='sessionTitle' v-if='sessionCategory === "Break" || sessionCategory === "Long Break"'>{{sessions[sessionNumber] ? sessions[sessionNumber].category : 'Work'}}</span>
+      <span id='sessionTitle' v-if='sessionCategory === "Break" || sessionCategory === "Long Break"'>{{sessionCategory}}</span>
 
     </p>
 
@@ -63,8 +63,7 @@ export default {
     },
   mounted(){
     //Example for how to get things from the server --> this.fetchTimeLeft(cb);
-    this.setTimer([1500,300,900]);
-   
+    this.setTimer([5,2,3,5,'longBreak', 8]); // work, short pause length, long pause length, current time, state of the session, number of sessions (start with 1 + 'work')
   },
   
 };
@@ -78,7 +77,7 @@ export default {
 }
 
 #timerContainer {
-  margin-top: 1.5em;
+  margin-top: 1.65em;
 }
 
 @keyframes timerBlink {

@@ -13,6 +13,9 @@ export default {
         pause: false,
 
         timeLeft: 0,
+
+        stateOfSession: null,
+        numberOfCurrentSession: null,
         
         timerInverval: false,
         timerBlinkAnimation: false,
@@ -39,7 +42,7 @@ export default {
         },
 
         // Set timer in the entry screen
-        setTimer({commit, state, rootState}, room){
+        setTimer({commit, state, rootState, dispatch}, room){
 
             if(state.timerInterval){
             commit('clearTimer');
@@ -51,7 +54,10 @@ export default {
                   type: 'setTimer',
                   work:  room[0],
                   shortPause: room[1],
-                  longPause:  room[2]
+                  longPause:  room[2],
+                  timeLeft: room[3],
+                  stateOfSession: room[4],
+                  numberOfCurrentSession: room[5]
                 })
 
 
@@ -65,11 +71,20 @@ export default {
                 })
             }
 
+
+             // If the room's time is running continue countdown, else show button so that you can click
+             if (room[4] === 'work' && room[3] < room[0] || room[4] === 'shortPause' && room[3] < room[1] || room[4] === 'longPause' && room[3] < room[2]){
+               dispatch('countdown')
+             } else {
+                commit('showGoButton')
+             }
+
+
              setTimeout(function(){
              commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })  
             },0)
 
-             commit('showGoButton')
+ 
              
         },
 
@@ -93,58 +108,65 @@ export default {
 
                 } else if(rootState.sessionTitleList.pomodorosDone == rootState.sessionTitleList.pomodoroGoal){
                     //PomodorosDone have reached pomodorogoal
-                    commit('clearTimer')
                     alert('You have reached your daily Goal! If you want to continue increase your Pomodoro Goal ;)')
 
-                } else if (state.timeLeft === 0 && !state.pause) {
-                    // Work has passed and it's time for a pause
-
-                    //Call for break feedback
-                    commit('feedback/pomodoroBreakFeedback', null, { root: true })
+                } else if (state.timeLeft === 0) {
+                    
+                    commit('clearTimer')
+                    state.timerInterval = false //only necessary for condition
 
                     state.bell.play();
 
-                    let nextSessionNumber = state.sessionNumber + 1;
-                    //If current session is a long break switch to long break, otherwise switch to short one
-                    if(rootState.sessionTitleList.sessions[nextSessionNumber].category === 'Break'){
-                    commit('switchToShortBreak')  
-                    } else {
-                    commit('switchToLongBreak')
-                    }   
+                    // ERROR: CLEARLY NOT HITTING CONDITIONS; BUT STILL WORKS? 0o
+                    if (state.numberOfCurrentSession % 7 === 0 && state.numberOfCurrentSession !== 0){
+                        // Work has passed and it's time for a pause
+                        
+                        //Call for break feedback
+                        commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
+                        commit('switchToLongBreak')
+                        
 
-                    commit('clearTimer')
-                    state.timerInterval = false
-                    setTimeout(function() {
-                    dispatch('countdown')
+                        setTimeout(function() {
+                            dispatch('countdown')
 
-                     //highlight current session title 
-                    commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
-                    commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
-                    }, 3000)         
-                } else if (state.timeLeft === 0 && state.pause) {
-                    // Pause has passed and it's time for work
-                    
-                    state.bell.play();
+                             //highlight current session title 
+                            commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
+                            commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
+                        }, 3000)   
+                    } else if(state.numberOfCurrentSession % 2 === 0){
+                        // Work!
+                        commit('switchToWork') 
+    
+                        setTimeout(function() {
+                            //highlight current session title 
+                            commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
+                            commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
 
-                    commit('switchToWork') 
-                    
+                            //Increment the amount of pomodoros done
+                            commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
 
-                    commit('clearTimer')
-                    state.timerInterval = false
-                    
-                    setTimeout(function() {
-                    //highlight current session title 
-                    commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
-                    commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
+                            //Show button again
+                            commit('showGoButton')
+                        }, 3000)
+                        } else {
+                         // Work has passed and it's time for a pause
 
-                    //Increment the amount of pomodoros done
-                    commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
+                        //Call for break feedback
+                        commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
-                    //Show button again
-                    commit('showGoButton')
-                    }, 3000)
-                    } 
+                        commit('switchToShortBreak')  
+                        
+                        setTimeout(function() {
+                            dispatch('countdown')
+
+                             //highlight current session title 
+                            commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
+                            commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
+                        }, 3000)   
+                    }
+                     state.numberOfCurrentSession++
+                    }
             },1000);
         }
         },  
@@ -157,10 +179,11 @@ export default {
        /**********************  countdown functions (in chronological order, badumm tss) *********************/
        setTimer(state, time){
             state.timeWork = time.work,
-            state.timeLeft = time.work,
-
             state.timeShortPause = time.shortPause,
-            state.timeLongPause = time.longPause
+            state.timeLongPause = time.longPause,
+            state.timeLeft = time.timeLeft,
+            state.stateOfSession = time.stateOfSession,
+            state.numberOfCurrentSession = time.numberOfCurrentSession
        },
 
        showGoButton(state){
@@ -184,7 +207,7 @@ export default {
 
             //start new timer after 3 seconds 
             setTimeout(function() {
-                state.pause = true;
+                state.stateOfSession = 'Break';
                 state.timeLeft = state.timeShortPause; 
                 state.timerBlinkAnimation = false;   
                 state.sessionNumber++
@@ -196,7 +219,7 @@ export default {
 
             setTimeout(function() { 
                 state.timeLeft = state.timeWork;
-                state.pause = false;     
+                state.stateOfSession = 'work';     
                 state.timerBlinkAnimation = false; 
                 state.sessionNumber++
             }, 3000)   
@@ -207,7 +230,7 @@ export default {
 
             //start new timer after 3 seconds 
             setTimeout(function() {
-                state.pause = true;
+                state.stateOfSession = 'Long Break';
                 state.timeLeft = state.timeLongPause; 
                 state.timerBlinkAnimation = false;   
                 state.sessionNumber++

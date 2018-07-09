@@ -4,9 +4,9 @@
   
 	<ul id='sessionTitleList'>
     <div v-for='(session, index) in sessions'>
-		<li v-if='session.category === "Work"' @dblclick='editTrueFunction(index)'>
+		<li v-if='session.category === "work"' @dblclick='editTrueFunction(index)'>
 
-			<span v-bind:class="{ active: session.active }">{{index / 2 + 1}} - </span>
+			<span v-bind:class="{ active: session.active }">{{session.sessionNumber}} - </span>
 
       <!-- Replace with select? -->
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
@@ -24,14 +24,15 @@
 
 		</li>
     <!--If break is the last one in the row don't display it / if index of this is smaller than pomodorogoal -->
-    <li v-bind:class='{ active: session.active }' v-if='session.category === "Break" && index < sessions.length - 1'>---------------</li>
-    <li v-bind:class='{ active: session.active }' v-if='session.category === "Long Break" && index < sessions.length - 1'>-------------------------</li>
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Break" && index < sessions.length - 1 && index !== 0'>---------------</li>
+    <li v-bind:class='{ active: session.active }' v-if='session.category === "Long Break" && index < sessions.length - 1 && index !== 0'>-------------------------</li>
     </div>
 	</ul>
 
   <br>
   <p class='textCenter'>Daily Winstate:</p>
-  <input id='winStateInput' :placeholder='winState' @blur='winStateInput'>
+  <textarea  id='winStateInput' :placeholder='winState' @blur='winStateInput'cols="30" rows="2"></textarea>
+
   </div>
 
 </template>
@@ -82,7 +83,7 @@ export default {
   mounted(){
   	this.createSessionList();
     //this.updateTime();
-    this.sessionTime();
+    //this.sessionTime();
   },
 
   
@@ -111,7 +112,7 @@ export default {
 }
 
 #winStateInput {
-  width: 10em;
+  width: 18em;
   font-size: 1em;
   overflow-x: hidden;
   font-weight: bold;
