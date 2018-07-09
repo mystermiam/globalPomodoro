@@ -105,6 +105,17 @@ export default {
                 if(state.timeLeft > 0){
                     //Counts down the seconds
                     commit('updateTimeLeft');
+                  
+                  //Show minutes left
+                  if(state.timeLeft % 60 ===  59 && Math.floor(state.timeLeft / 60) > 1){
+                    if(Math.floor(state.timeLeft / 60) < 10){
+                      document.title = '0' + Math.floor(state.timeLeft / 60) + ' minutes left!';
+                    } else {
+                      document.title = Math.floor(state.timeLeft / 60) + ' minutes left!';
+                    }
+                  } else if (Math.floor(state.timeLeft / 60) < 1) {
+                      document.title = state.timeLeft % 60 + ' seconds left!';
+                  }
 
                 } else if(rootState.sessionTitleList.pomodorosDone == rootState.sessionTitleList.pomodoroGoal){
                     //PomodorosDone have reached pomodorogoal
@@ -112,6 +123,7 @@ export default {
 
                 } else if (state.timeLeft === 0) {
                     
+                    document.title = 'Finished!'
                     commit('clearTimer')
                     state.timerInterval = false //only necessary for condition
 
