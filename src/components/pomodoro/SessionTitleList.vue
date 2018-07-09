@@ -4,9 +4,9 @@
   
 	<ul id='sessionTitleList'>
     <div v-for='(session, index) in sessions'>
-		<li v-if='session.category === "work"' @dblclick='editTrueFunction(index)'>
+		<li  :class="{learningUnderline: session.learningOrPerformance === 1, performanceUnderline: session.learningOrPerformance === 2}"  v-if='session.category === "work"' @dblclick='editTrueFunction(index)'  @contextmenu='learningOrPerformance([session.sessionNumber, $event])'>
 
-			<span v-bind:class="{ active: session.active }">{{session.sessionNumber}} - </span>
+			<span :class='{ active: session.active }'>{{session.sessionNumber}} - </span>
 
       <!-- Replace with select? -->
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
@@ -61,7 +61,7 @@ export default {
     }),
 
     ...mapGetters('sessionTitleList',{
-      hideLastBreak: 'hideLastBreak',
+      
     }),
 
   },
@@ -74,8 +74,10 @@ export default {
       editTrueFunction: 'editTrueFunction',
       editTitle: 'editTitle',    
       winStateInput: 'winStateInput',
+      learningOrPerformance: 'learningOrPerformance',
       updateTime: 'updateTime',
-      sessionTime: 'sessionTime'
+      sessionTime: 'sessionTime',
+
     }),
 
   },
@@ -135,6 +137,16 @@ font-size: 1.4em;
 
 .active {
 	color: #f12711;
+}
+
+.learningUnderline {
+  text-decoration: underline;
+  text-decoration-color: blue;
+}
+
+.performanceUnderline {
+  text-decoration: underline;
+  text-decoration-color: red;
 }
 
 

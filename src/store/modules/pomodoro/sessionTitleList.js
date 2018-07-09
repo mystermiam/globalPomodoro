@@ -19,12 +19,31 @@ export default {
 	getters: {
 		sessionCategory(state,getter,rootState){
 			return state.sessions[rootState.sessionTitleList.sessionNumber] ? state.sessions[rootState.sessionTitleList.sessionNumber].category : rootState.timer.stateOfSession	
-		}
+		},
 	},
 
 	actions:{
 
+		learningOrPerformance({state, commit}, object){
+			let sessionNumber = 0;
+			// find session with sessionNumber .find -->
+			for (let i=0; i < state.sessions.length; i++) {
+		        if (state.sessions[i].sessionNumber === object[0]) {
+		            sessionNumber = i
+		        }
+		    } 
+		
+			if( state.sessions[sessionNumber].learningOrPerformance > 1 ) {
+				commit('learningOrPerformanceReset', sessionNumber)
+			} else {				
+				commit('learningOrPerformanceIncrement', sessionNumber)
+			}
+			object[1].preventDefault();
+  		},
 
+
+
+		/*
 		sessionTime({state, rootState}){
 		
 		let timeWork = rootState.timer.timeWork,
@@ -82,6 +101,7 @@ export default {
 			}	
 		},
 
+		*/
 
 		showDistractionList({state, commit}){
 			// state.toggleLists = true => show sessionTitleList
@@ -106,13 +126,9 @@ export default {
 
 				
 			if (rootState.timer.stateOfSession === 'shortPause' || rootState.timer.stateOfSession === 'longPause'){
-				
 				numberOfSessionsWanted = state.pomodoroGoal * 2 + 1;
-			
 			} else {
-
 				numberOfSessionsWanted = state.pomodoroGoal * 2;
-
 			}
 
 			//If list is empty populate it with default working sessions
@@ -272,6 +288,7 @@ export default {
 						active: false,
 						time: [0,0,0],
 						sessionNumber: sessionNumber,
+						learningOrPerformance: 0
 					})
 		},
 
@@ -358,6 +375,17 @@ export default {
 			state.currentTime[0] = currentTime.hour
 			state.currentTime[1] = currentTime.minute
 		},
+
+		learningOrPerformanceReset(state, sessionNumber){
+			// find session with sessionNumber
+			state.sessions[sessionNumber].learningOrPerformance = 0
+		},
+
+		learningOrPerformanceIncrement(state, sessionNumber){
+			state.sessions[sessionNumber].learningOrPerformance++
+
+		},
+
 
 
 	}

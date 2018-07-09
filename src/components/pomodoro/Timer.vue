@@ -73,11 +73,11 @@ export default {
 <style scoped>
 #timerNumbers {
   color: white;
-  font-size: 1.3em;
+  font-size: 1.5em;
 }
 
 #timerContainer {
-  margin-top: 1.65em;
+  margin-top: 1.7em;
 }
 
 @keyframes timerBlink {
@@ -107,11 +107,14 @@ export default {
 }
 
 #goButton {
-  width: 30vh;
+  width: 20vh;
   height: 10vh;
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
   border-radius: 20%;
   margin: 4vh;
-  font-size: 6vh;
+  font-size: 5vh;
   line-height: 10vh;
 }
 
