@@ -8,7 +8,7 @@ import store from './store'
 import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 
-export const SocketInstance = socketio('http://grow.cri-paris.org/socket.io/');
+export const SocketInstance = socketio('http://grow.cri-paris.org/');
 
 Vue.use(VueSocketIO, SocketInstance, store);
 

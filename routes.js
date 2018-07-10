@@ -6,10 +6,10 @@ const express = require('express'),
 
 module.exports = router;
 
-router.get('http://localhost:3801/api/fetchMessages',messageController.fetchMessages);
+router.get('/api/fetchMessages',messageController.fetchMessages);
 
-router.post('http://localhost:3801/api/saveMessages',messageController.saveMessages);
+router.post('api/saveMessages',messageController.saveMessages);
 
-router.post('http://localhost:3801/api/connection',connectionController.connect);
+router.post('/api/connection',connectionController.connect);
 
 //router.get('/getTimeLeft',timerController.getTimeLeft);
