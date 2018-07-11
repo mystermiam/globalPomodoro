@@ -8,7 +8,7 @@ module.exports = router;
 
 router.get('/api/fetchMessages',messageController.fetchMessages);
 
-router.post('api/saveMessages',messageController.saveMessages);
+router.post('/api/saveMessages',messageController.saveMessages);
 
 router.post('/api/connection',connectionController.connect);
 
