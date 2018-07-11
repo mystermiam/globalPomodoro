@@ -90,13 +90,13 @@ export default {
             time:new Date()
           });
 
-          this.saveMessages({
+          /*this.saveMessages({
               author:this.author,
               textMessage:this.textMessage,
               time:new Date()
           }).then(function(response){
             console.log(response);
-          });
+          });*/
         this.textMessage='';
         this.$el.querySelector('#textField').rows = 1;
       }
