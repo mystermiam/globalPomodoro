@@ -17,9 +17,11 @@ import sessionTitleList from './modules/pomodoro/sessionTitleList'
 //Sidebar Modules
 import avatar from './modules/menu/sidebar/avatar'
 import pets from './modules/menu/sidebar/pets'
+import progressBar from './modules/menu/sidebar/progressBar'
 
 //Toolbox Modules
 import dailies from './modules/menu/toolbox/dailies'
+import toDo from './modules/menu/toolbox/toDo'
 
 //Landing Page Modules
 import landingPage from './modules/homepage/landingPage'
@@ -42,6 +44,9 @@ export default new Vuex.Store({
         pets,
         landingPage,
         dailies,
+        toDo,
+        progressBar,
+
     },
     state : {
         userIsLoggedIn : true

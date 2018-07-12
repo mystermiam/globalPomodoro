@@ -7,13 +7,13 @@
 
           <li v-for='(distraction, index) in distractions' v:bind='distraction' @dblclick='editTrueFunction(index)' class='toDoListItem' >
            
-            {{index + 1}} - 
+            <span class='index'>{{index + 1}}</span>
 
                <input  v-if='distraction.edit' v-on:keyup.enter='editItem'  @blur='editItem' class='toDoListEdit'> 
           
             {{distraction.name}}
 
-            <span @click='deleteItem(index)' class='deleteToDoButton'> - <i class="fas fa-trash-alt"></i></span>
+            <span @click='deleteItem(index)' class='deleteToDoButton'><i class="fas fa-trash-alt"></i></span>
          
           </li>
         
@@ -74,6 +74,20 @@ export default {
 
 <style scoped>
 
+#addToDoTitle {
+  margin-top: 0.5em;
+}
+
+.index {
+  display: inline-block;
+  width: 1.7em;
+  height: 1.7em;
+  text-align: center;
+  line-height: 1.7em;
+  border-radius: 50%; 
+  background-color: darkgrey;
+  color: lightgrey;
+}
 
 .title {
   font-size: 1em;
@@ -82,7 +96,9 @@ export default {
 
 #toDoList {
    height: 11.5em;
+   text-align: left;
    overflow-y: scroll;
+   margin-top: 0.7em;
 }
 
 .toDoListEdit {
@@ -108,6 +124,7 @@ export default {
 
 .toDoListItem:hover .deleteToDoButton {
   opacity: 1;
+  float: right;
 }
 
 .fa-trash-alt{

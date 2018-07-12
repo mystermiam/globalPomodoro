@@ -2,6 +2,7 @@
   <div>
  	Menu
  	<SideBar/>
+  <ProgressBar/>
   <Dailies/>
   <ToDo/>
   </div>
@@ -10,6 +11,7 @@
 
 <script>
 import SideBar from '@/components/menu/sidebar/SideBar'
+import ProgressBar from '@/components/menu/sidebar/ProgressBar'
 import Dailies from '@/components/menu/toolbox/Dailies'
 import ToDo from '@/components/menu/toolbox/ToDo'
 
@@ -21,7 +23,8 @@ export default {
   components : {
   	 'SideBar': SideBar,
      'Dailies': Dailies,
-     'ToDo': ToDo
+     'ToDo': ToDo,
+     'ProgressBar': ProgressBar
   },
       
   computed : {

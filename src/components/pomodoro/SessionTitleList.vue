@@ -15,7 +15,7 @@
           <option v-for='distraction in distractions' :value='distraction.name'>Distractions</option>
         </datalist>
 
-			<span v-show='!session.edit' v-bind:class="{ active: session.active }">{{session.name}} 
+			<span v-show='!session.edit' :class="{ active: session.active }">{{session.name}} 
      
       <!--<span v-if="currentTime[0] < 10">0</span><span class="hours">{{session.time[0]}}:</span>
       <span v-if="currentTime[1] < 10">0</span><span class="minutes">{{session.time[1]}}</span>-->

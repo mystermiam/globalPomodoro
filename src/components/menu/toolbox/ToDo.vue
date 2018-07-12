@@ -16,14 +16,12 @@ export default {
   },
       
   computed : {
-   ...mapState('toDo',{
-      template:'template',    
+   ...mapState('toDo',{ 
     })
   },
   
  methods: {
   ...mapActions('toDo',{
-      template: 'template',
     })
   },
 

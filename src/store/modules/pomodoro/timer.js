@@ -7,6 +7,15 @@ export default {
         showGoButton: false,
         sessionNumber: 0, // includes breaks
 
+        settings: {
+
+        automaticPause: false,
+        automaticWork: false,
+        displaySessionTitle: true,
+
+
+        },
+
         timeWork: 1500,
         timeShortPause: 300,
         timeLongPause: 900,
@@ -16,6 +25,7 @@ export default {
 
         stateOfSession: null,
         numberOfCurrentSession: null,
+        numberOfFirstSession: null,
         
         timerInverval: false,
         timerBlinkAnimation: false,
@@ -57,7 +67,7 @@ export default {
                   longPause:  room[2],
                   timeLeft: room[3],
                   stateOfSession: room[4],
-                  numberOfCurrentSession: room[5]
+                  numberOfCurrentSession: room[5],
                 })
 
 
@@ -89,8 +99,6 @@ export default {
         },
 
 
-
-
         countdown({commit, state, dispatch, rootState}, timeLeft){
             // Hide button on pressing start
             if(state.showGoButton){
@@ -106,71 +114,108 @@ export default {
                     //Counts down the seconds
                     commit('updateTimeLeft');
                   
-                  //Show minutes left
-                  if(state.timeLeft % 60 ===  59 && Math.floor(state.timeLeft / 60) > 1){
-                    if(Math.floor(state.timeLeft / 60) < 10){
-                      document.title = '0' + Math.floor(state.timeLeft / 60) + ' minutes left!';
-                    } else {
-                      document.title = Math.floor(state.timeLeft / 60) + ' minutes left!';
+                  //ADDRESSBAR: Show minutes left // Could specify beforehand if it's break or work, try out
+                  if(!state.settings.displaySessionTitle){
+                    if(state.timeLeft % 60 ===  59 && Math.floor(state.timeLeft / 60) > 1){
+                        document.title = Math.floor(state.timeLeft / 60) + ' minutes left!';
+                    } else if (Math.floor(state.timeLeft / 60) < 1) {
+                        document.title = state.timeLeft % 60 + ' seconds left!';
                     }
-                  } else if (Math.floor(state.timeLeft / 60) < 1) {
-                      document.title = state.timeLeft % 60 + ' seconds left!';
+                    // Else if its work show session title (updates only every minute!) , otherwise show category 
+                  } else if(rootState.sessionTitleList.sessions[state.sessionNumber].category === 'work'){
+                    if(state.timeLeft % 60 ===  59 && Math.floor(state.timeLeft / 60) > 1){
+                        document.title = '(' + Math.floor(state.timeLeft / 60) + ') ' + rootState.sessionTitleList.sessions[state.sessionNumber].name;
+                    } else if (Math.floor(state.timeLeft / 60) < 1) {
+                        document.title = '(' + state.timeLeft % 60 + ') ' + rootState.sessionTitleList.sessions[state.sessionNumber].name;
+                    }
+                  } else {
+                    if(state.timeLeft % 60 ===  59 && Math.floor(state.timeLeft / 60) > 1){
+                        document.title = '(' + Math.floor(state.timeLeft / 60) + ') ' + rootState.sessionTitleList.sessions[state.sessionNumber].category;
+                    } else if (Math.floor(state.timeLeft / 60) < 1) {
+                        document.title = '(' + state.timeLeft % 60 + ') ' + rootState.sessionTitleList.sessions[state.sessionNumber].category;
+                    }
                   }
+
 
                 } else if(rootState.sessionTitleList.pomodorosDone == rootState.sessionTitleList.pomodoroGoal){
                     //PomodorosDone have reached pomodorogoal
                     alert('You have reached your daily Goal! If you want to continue increase your Pomodoro Goal ;)')
 
                 } else if (state.timeLeft === 0) {
-                    
-                    document.title = 'Finished!'
+  
                     commit('clearTimer')
-                    state.timerInterval = false //only necessary for condition
+                    state.timerInterval = false // only necessary for condition
 
                     state.bell.play();
 
-                    // ERROR: CLEARLY NOT HITTING CONDITIONS; BUT STILL WORKS? 0o
                     if (state.numberOfCurrentSession % 7 === 0 && state.numberOfCurrentSession !== 0){
                         // Work has passed and it's time for a pause
                         
                         //Call for break feedback
                         commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
+                        document.title = 'Hands up!'
+
                         commit('switchToLongBreak')
                         
 
                         setTimeout(function() {
-                            dispatch('countdown')
+                            if(state.settings.automaticPause){
+                              dispatch('countdown')
+                            } else if (!state.settings.automaticPause){
+                              commit('clearTimer')
+                              state.timerInterval = false;
+                              commit('showGoButton')
+                            }
 
-                             //highlight current session title 
+                            //highlight current session title 
                             commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
                             commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
                         }, 3000)   
                     } else if(state.numberOfCurrentSession % 2 === 0){
                         // Work!
                         commit('switchToWork') 
-    
+
                         setTimeout(function() {
                             //highlight current session title 
                             commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
                             commit('sessionTitleList/highlightNextSession', state.sessionNumber, { root: true })
 
-                            //Increment the amount of pomodoros done
-                            commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
+                            //Increment the amount of pomodoros done, but only if the first session isn't a break
+                            if(state.sessionNumber !== 1  || ( rootState.sessionTitleList.sessions[0].category !== 'Break' && rootState.sessionTitleList.sessions[0].category !== 'Long Break'  )){
+                              commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
+                            }
 
-                            //Show button again
-                            commit('showGoButton')
+                            if(state.settings.automaticWork){
+                              dispatch('countdown')
+                              document.title = 'Back to Work!'
+                            } else if (!state.settings.automaticPause){
+                              commit('clearTimer')
+                              state.timerInterval = false;
+                              commit('showGoButton')
+                              document.title = 'Press GO to continue!'
+                            }
+
                         }, 3000)
                         } else {
                          // Work has passed and it's time for a pause
 
                         //Call for break feedback
-                        commit('feedback/pomodoroBreakFeedback', null, { root: true })
+                        // commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
                         commit('switchToShortBreak')  
+
+                        document.title = 'Hands up!'
                         
                         setTimeout(function() {
-                            dispatch('countdown')
+                            
+                            if(state.settings.automaticPause){
+                              dispatch('countdown')
+                            } else if (!state.settings.automaticPause){
+                              commit('clearTimer')
+                              state.timerInterval = false;
+                              commit('showGoButton')
+                            }
 
                              //highlight current session title 
                             commit('sessionTitleList/toneDownLastSession', state.sessionNumber, { root: true })
@@ -196,6 +241,7 @@ export default {
             state.timeLeft = time.timeLeft,
             state.stateOfSession = time.stateOfSession,
             state.numberOfCurrentSession = time.numberOfCurrentSession
+            state.numberOfFirstSession = time.numberOfCurrentSession
        },
 
        showGoButton(state){
@@ -229,9 +275,9 @@ export default {
        switchToWork(state){
             state.timerBlinkAnimation = true;
 
-            setTimeout(function() { 
-                state.timeLeft = state.timeWork;
-                state.stateOfSession = 'work';     
+            setTimeout(function() {
+                state.stateOfSession = 'work';  
+                state.timeLeft = state.timeWork;    
                 state.timerBlinkAnimation = false; 
                 state.sessionNumber++
             }, 3000)   

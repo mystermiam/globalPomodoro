@@ -7,8 +7,8 @@ export default {
 		sessions: [],
 		sessionTitleEdited: 0, 
 		pomodorosDone: 1,
-        pomodoroGoal: 10,
-        toDoListExamples: ['Writing an Email to Tom', 'Filling in Latitudes Application', 'Searching for Housing'], 
+        pomodoroGoal: 6,
+        toDoListExamples: ['Going to be connected', 'to To-Do list', 'soon!'], 
         canBeEdited: true,
         winState: 'Enter your daily goal',
         currentTimeInterval: false,
@@ -18,7 +18,7 @@ export default {
 
 	getters: {
 		sessionCategory(state,getter,rootState){
-			return state.sessions[rootState.sessionTitleList.sessionNumber] ? state.sessions[rootState.sessionTitleList.sessionNumber].category : rootState.timer.stateOfSession	
+			return state.sessions[rootState.timer.sessionNumber] ? state.sessions[rootState.timer.sessionNumber].category : "Can't find session category!"			
 		},
 	},
 
@@ -189,6 +189,8 @@ export default {
 	              type: 'editTitle',
 	              name: item.target.value,
 	 			});
+
+				
 			} else if(state.canBeEdited){
 			 	commit('closeEdit');
 			}
@@ -197,50 +199,28 @@ export default {
         // Set new pomodoro goal (can't decrease beyond pomodorosDone) --> change sessionlist accordingly 
         changePomodoroGoal({commit, state, rootState}){
           let newNumber = eval(document.getElementById("pomodoroGoal").value),
-          	  numberOfSession = state.sessions.length + rootState.timer.numberOfCurrentSession - 2,
+       		// it should be number of first session that you started in and not number of current session - Problem
+          	  numberOfSession = state.sessions.length + rootState.timer.numberOfFirstSession,
           	  numberOfSessionsWanted = numberOfSession + (newNumber - state.pomodoroGoal) * 2,
           	  numberOfWorkingSessionsCreated = state.pomodoroGoal + 1;
 
             if( newNumber >= state.pomodorosDone && newNumber <= 16 && newNumber !== state.pomodoroGoal){
                 // if more add new working sessions with push
-          
-              	let pomodoroGoalPlus = state.pomodoroGoal + 1,
-                	newNumberPlus = newNumber + 1;
 
                 if(newNumber > state.pomodoroGoal){ 
 
-                	for(let i = numberOfSession; i< numberOfSessionsWanted; i++){
-					if(numberOfSession % 2 === 1){
-						commit('createWorkSession', numberOfWorkingSessionsCreated)
-						numberOfWorkingSessionsCreated++
-					} else if (numberOfSession % 8 === 0){
-						commit('createLongPause')
-					} else {
-						commit('createShortPause')
-					}
-
-					numberOfSession++
-					}
-				}
-
-				/*
-                	// add two things decide dynamically what to add like in create
-                	for(let i = pomodoroGoalPlus; i < newNumberPlus; i++){
-                   	
-
-						numberOfSession++
-						commit('createWorkSession', numberOfWorkingSessionsCreated)
-						numberOfWorkingSessionsCreated++
-
-
-						numberOfSession++
-						if (numberOfSession % 8 === 0){
+                	for(let i = numberOfSession; i < numberOfSessionsWanted; i++){
+						if(numberOfSession % 2 === 1){
+							commit('createWorkSession', numberOfWorkingSessionsCreated)
+							numberOfWorkingSessionsCreated++
+						} else if (numberOfSession % 8 === 0){
 							commit('createLongPause')
 						} else {
 							commit('createShortPause')
 						}
-						
-                 */
+						numberOfSession++
+					}
+				}
                     
                 else {
                 // remove sessions from array with splice
@@ -311,7 +291,8 @@ export default {
 		},
 
 		removeSession(state, newNumber){
-			state.sessions.splice(newNumber * 2)	
+			state.sessions.splice(newNumber * 2)
+			//	
 		},
 
 

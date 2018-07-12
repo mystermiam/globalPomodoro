@@ -1,3 +1,6 @@
+
+
+
 export default {
 	namespaced: true,
 	state : {
@@ -10,18 +13,37 @@ export default {
 			rewardNextTime: [5,3],  // Dust, Gold
 		}],
 		dailyParameters: [1,2], //first is current dailies, second is max dailies
-
 		// Migrate values eventually, good for testing
+		levelBoundaries: [0,20,50,70], //matches Level, that's why first is 0 // it's not necessary to be dynamic
+
 		user: {
 			dustTotal: 0,
 			dust: [0,0,0,0,0],  // Water, Fire, Earth, Air, Steel
 			gold: 0,
 			health: 50,
+			level: 1,
 		}
 	},
 
 	actions: {
-		
+		increaseDust({commit, state, dispatch, rootState}, object){
+
+			commit('increaseDust', object)
+			commit('progressBar/progressBarMovesOn', object, { root: true })  
+
+			//Level up 
+			if(state.user.dustTotal >= state.levelBoundaries[state.user.level]){
+				commit('progressBar/emptyProgressBar', object, { root: true })  
+				commit('incrementLevel')
+				// if increaseDust is bigger than levelBoundary then increase dust afterwards // Problem
+				commit('progressBar/progressBarMovesOn', [object[0], state.user.dustTotal - state.levelBoundaries[state.user.level]], { root: true })  
+				
+				
+			}
+
+			
+		},
+
 		addDaily({commit, state}){
 			if(state.dailyParameters[0] < state.dailyParameters[1] && document.getElementById('dailyTitle').value.length > 4){
 
@@ -41,16 +63,16 @@ export default {
 			}
 		},
 
-		dailyDone({state, commit}, index){
-
+		dailyDone({state, commit, dispatch}, index){
+			
 			// Which kind of dust is increased + amount of dust that is acquired (difficulty)
 			switch(state.dailies[index].category){
-				case 'Water':  commit('increaseDust', [index, 0, state.dailies[index].rewardNextTime[0]]); break;
-				case 'Fire':   commit('increaseDust', [index, 1, state.dailies[index].rewardNextTime[0]]); break;
-				case 'Earth':  commit('increaseDust', [index, 2, state.dailies[index].rewardNextTime[0]]); break;
-				case 'Air':    commit('increaseDust', [index, 3, state.dailies[index].rewardNextTime[0]]); break;
-				case 'Steel':  commit('increaseDust', [index, 4, state.dailies[index].rewardNextTime[0]]); break;
-				default:                                                                                   break;
+				case 'Water':  dispatch('increaseDust', [0, state.dailies[index].rewardNextTime[0]]); break;
+				case 'Fire':   dispatch('increaseDust', [1, state.dailies[index].rewardNextTime[0]]); break;
+				case 'Earth':  dispatch('increaseDust', [2, state.dailies[index].rewardNextTime[0]]); break;
+				case 'Air':    dispatch('increaseDust', [3, state.dailies[index].rewardNextTime[0]]); break;
+				case 'Steel':  dispatch('increaseDust', [4, state.dailies[index].rewardNextTime[0]]); break;
+				default:                                                                              break;
 			};
 
 			commit('dailyDone', index)
@@ -87,7 +109,7 @@ export default {
 				timesCompleted: 1,
 				level: 'Novice',
 				doneToday: false,
-				dustNextTime: 5,
+				rewardNextTime: [5,3],
 			})
 
 			//Increase DailyCounter
@@ -104,8 +126,13 @@ export default {
 		},
 
 		increaseDust(state, obj){
-			// 0: index, 1: category of Dust, 2: experience increase
-			state.user.dust[obj[1]] += obj[2]
+			// 0: category of Dust, 1: dust increase
+			state.user.dust[obj[0]] += obj[1]
+		},
+
+		incrementLevel(state){
+			state.user.dustTotal -= state.levelBoundaries[state.user.level]
+			state.user.level++
 		},
 
 		changeDailyLevel(state, payload){

@@ -2,7 +2,7 @@
   <div id='dailyContainer'>
 
     <div class='container'>
-     <span id='howMuchDustOverall'>Overall Dust: {{user.dustTotal}}</span><br>
+     <span id='howMuchDustOverall'>Overall Dust: {{user.dustTotal}} / {{levelBoundaries[user.level]}}</span><br>
      <span>Water: {{user.dust[0]}} </span><br>
      <span>Fire: {{user.dust[1]}} </span><br>
      <span>Earth: {{user.dust[2]}} </span><br>
@@ -12,6 +12,7 @@
     </div>
     
     <div class='container'>
+       <span> Level: {{user.level}}</span><br>
        <span> Health: {{user.health}}</span><br>
        <span> Gold: {{user.gold}}</span>
     </div>
@@ -56,7 +57,8 @@ export default {
   computed : {
    ...mapState('dailies',{
       dailies:'dailies',
-      user: 'user'
+      user: 'user',
+      levelBoundaries: 'levelBoundaries',
     })
   },
   
@@ -94,6 +96,7 @@ export default {
 }
 
 #howMuchDustOverall {
-  font-size: 1.2em;
+  font-size: 1em;
+  font-style: bold;
 }
 </style>
