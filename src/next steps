@@ -5,33 +5,27 @@
 
 First testable version: 
 
-Issues: 
-
-
-When you start on a break it shows you that you are in working session 2 after the break :check
-
-correct remove and add feature? Break doesnt add correctly!!! I must have changed something fairly simple, because it was working beforehand
-
 If sessiongoal is finished copy next session goal :unfinished
 If sessiongoal is not finished move all sessiongoals one further - if it's completed move the other direction
 
-settings page: 
-On creating room: Short break, long break, working session :check
 
-display sessiontitle and break in header or just minutes left :check
-...
 
+Issues: 
 
 
 optional:
 
-- counts time even if its paused to show you your delay 
+- set different timers
 
-- settings, make pausing optional! (infinite timer! :))
+- counts time even if its paused to show you your delay 
 
 - add times next to the sessions
 
+- Move things around
+
 - Create schedules (replace working session with it)
+
+- Alternative timers 
 
 
 
@@ -59,6 +53,11 @@ Create sessiontitle and distraction list buttons :check
 Create feedbacks with different text and color - On Break: 'Hands off!' :check
 Add timer in addressbar :check
 add trashbin instead of   - D  :check
+correct remove and add feature? :check
+On creating room: Short break, long break, working session :check
+display sessiontitle and break in header or just minutes left :check
+When you start on a break it shows you that you are in working session 2 after the break :check
+
 
 
 

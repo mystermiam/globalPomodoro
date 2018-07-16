@@ -11,7 +11,7 @@ export default {
 
         automaticPause: false,
         automaticWork: false,
-        displaySessionTitle: true,
+        displaySessionTitle: false,
 
 
         },
@@ -111,6 +111,9 @@ export default {
             
             return state.timerInterval = setInterval(() => {
                 if(state.timeLeft > 0){
+
+                    commit('user/incrementSessionsCompleted', null, {root: true })
+
                     //Counts down the seconds
                     commit('updateTimeLeft');
                   
@@ -148,10 +151,12 @@ export default {
 
                     state.bell.play();
 
+
                     if (state.numberOfCurrentSession % 7 === 0 && state.numberOfCurrentSession !== 0){
                         // Work has passed and it's time for a pause
-                        
                         //Call for break feedback
+
+
                         commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
                         document.title = 'Hands up!'

@@ -39,8 +39,6 @@
 
 <script>
 
-// Battle plan: make edit function directly focused --> if unfocused turn it to false 
-
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {

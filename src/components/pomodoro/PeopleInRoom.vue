@@ -2,7 +2,7 @@
   <div id='peopleContainer'>
     Users currently online: 
     <ul id='listOfUsers'>
-      <li v-for='user in users'><span class='green-dot'></span>{{user.name}}</li>
+      <li v-for='user in users'><span class='green-dot'></span>{{user.name}} - ({{user.sessionsCompleted}})</li>
     </ul>
   </div>
 </template>
