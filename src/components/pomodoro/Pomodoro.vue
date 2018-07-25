@@ -20,6 +20,7 @@
         </div>
 
         <Chat id='chat'/>
+        <Settings/>
 	</div>
 </template>
 
@@ -31,6 +32,7 @@
     import SessionTitleList from '@/components/pomodoro/SessionTitleList'
     import DistractionList from '@/components/pomodoro/DistractionList'
 	import Chat from '@/components/pomodoro/Chat'
+    import Settings from '@/components/pomodoro/Settings'
 
     import {mapState, mapGetters, mapActions} from 'vuex'
 
@@ -63,6 +65,7 @@
         'DistractionList': DistractionList,
         'SessionTitleList': SessionTitleList,
         'Chat' : Chat,
+        'Settings': Settings,
         },
     };
 </script>

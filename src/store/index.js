@@ -12,6 +12,7 @@ import chat from './modules/pomodoro/chat'
 import session from './modules/pomodoro/session'
 import distractionList from './modules/pomodoro/distractionList'
 import sessionTitleList from './modules/pomodoro/sessionTitleList'
+import pomodoroSettings from './modules/pomodoro/pomodoroSettings'
 
 
 //Sidebar Modules
@@ -49,6 +50,7 @@ export default new Vuex.Store({
         dailies,
         toDo,
         progressBar,
+        pomodoroSettings
 
     },
     state : {

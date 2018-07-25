@@ -7,14 +7,6 @@ export default {
         showGoButton: false,
         sessionNumber: 0, // includes breaks
 
-        settings: {
-
-        automaticPause: false,
-        automaticWork: false,
-        displaySessionTitle: false,
-
-
-        },
 
         timeWork: 1500,
         timeShortPause: 300,
@@ -27,12 +19,15 @@ export default {
         numberOfCurrentSession: null,
         numberOfFirstSession: null,
         
+
+        beepTimes: [],
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
     },
 
     actions : {
+
         sessionCompleted({rootState, state}){
             // for completed tasks move things up one level
             
@@ -71,6 +66,15 @@ export default {
                 })
 
 
+            // Incomplete: Calculate beep times (for the fun of beeps) <-- could be moved into mutation, but couldn't bother for now
+              state.beepTimes.length = 0;
+              let workTime = Math.floor(room[0] / 60);
+      
+              for(let i = workTime - rootState.pomodoroSettings.beepEveryXMinutes; i >= rootState.pomodoroSettings.beepEveryXMinutes; i -= rootState.pomodoroSettings.beepEveryXMinutes){
+                state.beepTimes.push(i * 60);
+              }
+
+
             // If you created your own room (imperfect)
             } else if(document.getElementById("changeWorkTime").value.length > 0){
                 commit({
@@ -104,6 +108,7 @@ export default {
             if(state.showGoButton){
                 commit('hideGoButton')
             };
+
             
 
             // If timer is not already running --> start timer
@@ -112,13 +117,16 @@ export default {
             return state.timerInterval = setInterval(() => {
                 if(state.timeLeft > 0){
 
-                    commit('user/incrementSessionsCompleted', null, {root: true })
-
                     //Counts down the seconds
                     commit('updateTimeLeft');
+
+                    //If it is a working session and timeleft is equal to time of working session - 5 - 10 - 15, etc. <-- calculate this, when you set timer
+                    if(state.stateOfSession === 'work' && state.beepTimes.includes(state.timeLeft) ){
+                      state.bell.play();
+                    }
                   
                   //ADDRESSBAR: Show minutes left // Could specify beforehand if it's break or work, try out
-                  if(!state.settings.displaySessionTitle){
+                  if(!rootState.pomodoroSettings.displaySessionTitle){
                     if(state.timeLeft % 60 ===  59 && Math.floor(state.timeLeft / 60) > 1){
                         document.title = Math.floor(state.timeLeft / 60) + ' minutes left!';
                     } else if (Math.floor(state.timeLeft / 60) < 1) {
@@ -159,15 +167,18 @@ export default {
 
                         commit('feedback/pomodoroBreakFeedback', null, { root: true })
 
+                        // Incomplete: Should increment sessions <-- needs to be connected to individual user
+                        commit('user/incrementSessionsCompleted', null, {root: true })
+
                         document.title = 'Hands up!'
 
                         commit('switchToLongBreak')
                         
 
                         setTimeout(function() {
-                            if(state.settings.automaticPause){
+                            if(rootState.pomodoroSettings.automaticPause){
                               dispatch('countdown')
-                            } else if (!state.settings.automaticPause){
+                            } else if (!rootState.pomodoroSettings.automaticPause){
                               commit('clearTimer')
                               state.timerInterval = false;
                               commit('showGoButton')
@@ -191,10 +202,10 @@ export default {
                               commit('sessionTitleList/incrementPomodorosDone', null, { root: true }) 
                             }
 
-                            if(state.settings.automaticWork){
+                            if(rootState.pomodoroSettings.automaticWork){
                               dispatch('countdown')
                               document.title = 'Back to Work!'
-                            } else if (!state.settings.automaticPause){
+                            } else if (!rootState.pomodoroSettings.automaticPause){
                               commit('clearTimer')
                               state.timerInterval = false;
                               commit('showGoButton')
@@ -214,9 +225,9 @@ export default {
                         
                         setTimeout(function() {
                             
-                            if(state.settings.automaticPause){
+                            if(rootState.pomodoroSettings.automaticPause){
                               dispatch('countdown')
-                            } else if (!state.settings.automaticPause){
+                            } else if (!rootState.pomodoroSettings.automaticPause){
                               commit('clearTimer')
                               state.timerInterval = false;
                               commit('showGoButton')

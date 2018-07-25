@@ -31,7 +31,7 @@ export default {
 		 /**********************  add & delete functions *********************/
 		addItem({state, rootState, commit}, e){
 		
-		if(e.target.value.length > 0){
+		if(e.target.value.length > 3){
 			commit({
               type: 'addItem',
               name: e.target.value,

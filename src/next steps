@@ -15,6 +15,8 @@ Issues:
 
 optional:
 
+- post to Google calendar
+
 - set different timers
 
 - counts time even if its paused to show you your delay 
@@ -26,6 +28,10 @@ optional:
 - Create schedules (replace working session with it)
 
 - Alternative timers 
+
+- Try out beep every 5 minutes / 10 minutes? What effect does that have
+
+- Skip option @break
 
 
 

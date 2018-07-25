@@ -19,8 +19,8 @@
     <button id='goButton' @click='countdown' v-show='showGoButton'>Go!</button>
    
    </div>
-  </div>
 
+  </div>
 </template>
 
 <script>
