@@ -4,25 +4,21 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
+// Where is this coming from????
+var phaserModule = path.join(__dirname, '../node_modules/phaser-ce/')  //check
+var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
+var pixi = path.join(phaserModule, 'build/custom/pixi.js')
+var p2 = path.join(phaserModule, 'build/custom/p2.js')
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-const createLintingRule = () => ({
-  test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
-  enforce: 'pre',
-  include: [resolve('src'), resolve('test')],
-  options: {
-    formatter: require('eslint-friendly-formatter'),
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
-})
-
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  entry: {
-    app: './src/main.js'
+   entry: {
+    app: './src/main.js',
+    vendor: ['pixi', 'p2', 'phaser']
   },
   output: {
     path: config.build.assetsRoot,
@@ -36,11 +32,13 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'phaser': phaser,
+      'pixi': pixi,
+      'p2': p2
     }
   },
   module: {
     rules: [
-      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -74,7 +72,10 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      }
+      },
+      { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
+      { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
+      { test: /p2\.js/, use: ['expose-loader?p2'] }
     ]
   },
   node: {

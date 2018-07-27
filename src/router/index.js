@@ -7,6 +7,8 @@ import LandingPage from '@/components/homepage/LandingPage'
 import Menu from '@/components/menu/Menu'
 import store from '../store/index'
 
+import Game from '@/components/gameWorld/Game'
+
 
 Vue.use(Router)
 
@@ -61,6 +63,12 @@ const router =  new Router({
       path: '/Menu',
       name: 'Menu',
       component: Menu,
+      beforeEnter : notGrantedUser
+    },
+    {
+      path: '/Game',
+      name: 'Game',
+      component: Game,
       beforeEnter : notGrantedUser
     }
   ]
