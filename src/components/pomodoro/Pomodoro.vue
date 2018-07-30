@@ -27,12 +27,12 @@
 
 
 <script>
-    import PeopleInRoom from '@/components/pomodoro/PeopleInRoom'
-	import Timer from '@/components/pomodoro/Timer'
-    import SessionTitleList from '@/components/pomodoro/SessionTitleList'
-    import DistractionList from '@/components/pomodoro/DistractionList'
-	import Chat from '@/components/pomodoro/Chat'
-    import Settings from '@/components/pomodoro/Settings'
+    import PeopleInRoom from './PeopleInRoom'
+	import Timer from './Timer'
+    import SessionTitleList from './SessionTitleList'
+    import DistractionList from './DistractionList'
+	import Chat from './Chat'
+    import Settings from './Settings'
 
     import {mapState, mapGetters, mapActions} from 'vuex'
 

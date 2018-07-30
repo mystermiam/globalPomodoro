@@ -1,4 +1,4 @@
-import fakeBackEnd from '@/api/fakeBackEnd'
+
 
 export default {
     namespaced : true,
@@ -37,9 +37,9 @@ export default {
 
 
         //Example for how to fetch things from the server 
-        fetchTimeLeft({commit}){
+        fetchTimeLeft({commit, rootState}){
             return new Promise((resolve,reject)=>{
-                fakeBackEnd.getTimeLeft(()=>{
+                rootState.fakeBackEnd.getTimeLeft(()=>{
                     commit('setTimeLeft',time);
                     resolve();
                 });

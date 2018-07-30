@@ -1,4 +1,4 @@
-import fakeBackEndGrow from '@/api/fakeBackEndGrow'
+
 
 export default {
   namespaced: true,
@@ -13,9 +13,9 @@ export default {
   },
   actions: {
 
-    fetchPet({commit}){
+    fetchPet({commit, rootState}){
       return new Promise((resolve,reject)=>{
-        fakeBackEndGrow.fetchPet((server)=>{
+        rootState.fakeBackEndGrow.fetchPet((server)=>{
           commit('setState', server);
           resolve();
         });

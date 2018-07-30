@@ -14,16 +14,6 @@ var express = require('express'),
 /** MIDDLEWARES **/
 mongoose.Promise = global.Promise;
 
-// connecting to the server (Phaser Test)
-app.get('/api', (req, res) => {
-  res.json({message: 'Welcome to the Server'})
-})
-
-app.listen(3801, () => {
-  console.log('API listening on port 3801')
-})
-
-//
 
 //get content of incoming request under req.body
 app.use(bodyParser.json()); 

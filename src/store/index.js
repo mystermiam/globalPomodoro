@@ -27,6 +27,8 @@ import toDo from './modules/menu/toolbox/toDo'
 //Landing Page Modules
 import landingPage from './modules/homepage/landingPage'
 
+//Game Modules
+import game from './modules/gameWorld/game'
 
 //Axios
 import axios from 'axios'
@@ -38,6 +40,7 @@ Vue.use(VueRouter)
 Vue.use(Vuetify)
 
 export default new Vuex.Store({
+    namespaced : true,
     modules : {
         timer,
         chat,
@@ -50,7 +53,8 @@ export default new Vuex.Store({
         dailies,
         toDo,
         progressBar,
-        pomodoroSettings
+        pomodoroSettings,
+        game,
 
     },
     state : {

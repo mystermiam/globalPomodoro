@@ -28,7 +28,7 @@
 } -->
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
-import Message from '@/components/pomodoro/Message'
+import Message from './Message'
 
 export default {
   name: 'Chat',

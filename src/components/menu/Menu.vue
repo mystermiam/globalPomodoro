@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import SideBar from '@/components/menu/sidebar/SideBar'
-import ProgressBar from '@/components/menu/sidebar/ProgressBar'
-import Dailies from '@/components/menu/toolbox/Dailies'
-import ToDo from '@/components/menu/toolbox/ToDo'
+import SideBar from './sidebar/SideBar'
+import ProgressBar from './sidebar/ProgressBar'
+import Dailies from './toolbox/Dailies'
+import ToDo from './toolbox/ToDo'
 
 import {mapState, mapGetters, mapActions} from 'vuex'
 

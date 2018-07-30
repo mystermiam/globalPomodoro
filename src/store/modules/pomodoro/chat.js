@@ -1,8 +1,6 @@
 const axios = require('axios'),
         $ = require('jquery');
 
-
-import fakeBackEnd from '@/api/fakeBackEnd';
 export default {
     namespaced : true,
     state : {
@@ -19,9 +17,9 @@ export default {
             });
         },
 
-        fetchUsers({commit}){
+        fetchUsers({commit, rootState}){
              return new Promise((resolve,reject)=>{
-                fakeBackEnd.getUsers((users)=>{
+                rootState.fakeBackEnd.getUsers((users)=>{
                     commit('fetchUsers',users);
                     resolve();
                 });

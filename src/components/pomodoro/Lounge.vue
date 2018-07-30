@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Chat from '@/components/pomodoro/Chat'
+import Chat from './Chat'
 
 export default {
 

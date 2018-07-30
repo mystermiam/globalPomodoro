@@ -1,5 +1,3 @@
-import fakeBackEndGrow from '@/api/fakeBackEndGrow'
-
 export default {
 	namespaced: true,
 	
@@ -18,9 +16,9 @@ getters: {
 
 actions: {
 
-fetchState({commit}){
+fetchState({commit, rootState}){
 	return new Promise((resolve,reject)=>{
-		fakeBackEndGrow.fetchState((payload)=>{
+		rootState.fakeBackEndGrow.fetchState((payload)=>{
 			commit('setState', payload);
 			resolve();
 		});

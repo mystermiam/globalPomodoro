@@ -1,4 +1,4 @@
-import timer from '@/store/modules/pomodoro/timer'
+
 
 export default {
 	namespaced: true,
