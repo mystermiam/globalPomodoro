@@ -1,7 +1,9 @@
 //maybe remove if possible
 
 <template>
-  <GameDownloader />
+  <div  id='game-screen'>
+  	<GameDownloader/>
+  </div>
 </template>
 
 
@@ -22,6 +24,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  /* Preliminary lazyness of aligning it on my own screen */
+  position: fixed;
+},
+
+#game-screen {
+	/* Preliminary lazyness of aligning it on my own screen */
+	/* margin-left: 200px; */
+	margin-top: 50px;
 }
 </style>
