@@ -17,7 +17,10 @@ export default {
 		  addEventListener({commit}){
 	          window.addEventListener('keyup', function(e) {
 	          	$(document).keyup(function(e){	 
+				    // On escape press, show or hide setting page
+
 				    if(e.keyCode==27){
+				    	 alert("!")
 				        commit('toggleSettings')
 				    }
 				});

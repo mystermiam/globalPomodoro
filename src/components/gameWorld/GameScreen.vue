@@ -8,11 +8,24 @@
 
 
 <script>
+import {mapState, mapGetters, mapActions} from 'vuex'
 import GameDownloader from './GameDownloader'
 
 export default {
   name: 'GameScreen',
-  components: { GameDownloader }
+  components: { GameDownloader },
+
+  methods: {
+ // ...mapActions('',{
+ //     template: 'template',
+ //   })
+  },
+
+
+  created(){
+   // window.addEventListener('keyup', myMethod())
+  },
+
 };
 
 </script>

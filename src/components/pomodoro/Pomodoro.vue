@@ -9,7 +9,7 @@
 
         <div id='sideContainer'>
 
-            <div class='toggleLists' id='sessionTitleToggle' v-bind:class="{ toggleActive: !toggleLists }" @click='showDistractionList'>Pomodoros</div><div class='toggleLists' id='Toggle'  @click='showSessionList' v-bind:class="{ toggleActive: toggleLists }">Distractions</div>
+            <div class='toggleLists' id='sessionTitleToggle' v-bind:class="{ toggleActive: !toggleLists }" @click='showDistractionList'>Pomodoros</div><div class='toggleLists' id='Toggle'  @click='showSessionList' v-bind:class="{ toggleActive: toggleLists }">To-Dos</div>
             
             <br> 
             <br>

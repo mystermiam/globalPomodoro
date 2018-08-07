@@ -1,24 +1,27 @@
 import { Scene } from 'phaser'
 
+    var platforms,
+        player = {
+          allowedToJump: true
+        },
+        stars,
+        cursors,
+        score,
+        scoreText,
+        keys = {
+          spaceBar: false,
+          left: false,
+          right: false,
+        };
+
 export default class PlayScene extends Scene {
   constructor () {
     super({ key: 'PlayScene' })
   }
 
-  init () {
-    var player = {
-      allowedToJump: true
-    };
-    var stars;
-    var platforms;
-    var cursors;
-    var score = 0;
-    var scoreText;
-    var keys = {
-      spaceBar: false,
-      left: false,
-      right: false,
-    };
+  init () 
+  {
+    // should define variables here
   }
 
   create ()
@@ -58,8 +61,9 @@ export default class PlayScene extends Scene {
             repeat: -1
         });
 
-        //  Register the keys.
-        keys.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        //  Register the keys. Works with one key! But not with two!
+        //keys.left = this.input.keyboard.on(Phaser.Input.Keyboard.KeyCodes.A, function () {return true});
+        
         keys.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keys.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -100,25 +104,30 @@ export default class PlayScene extends Scene {
   update ()
     {
 
+        // With one key it works? Why? 
         if (keys.left.isDown)
         {
-            player.body.velocity.x = -160;
+
+            player.setVelocityX(-160);
 
             player.anims.play('left', true);
 
-            keys.left.isDown = false;
+            // Works, makes player stop, but directly, could use
+            //keys.left.isDown = false;
         }
+        
         else if (keys.right.isDown)
         {
-            player.body.velocity.x = 160;
+            player.setVelocityX(160);
 
             player.anims.play('right', true);
 
-            keys.right.isDown = false;
+            //keys.right.isDown = false;
         }
         else
         {
-            player.body.velocity.x = 0;
+
+            player.setVelocityX(0);
 
             player.anims.play('turn');
         }

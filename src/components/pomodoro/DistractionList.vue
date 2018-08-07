@@ -1,7 +1,7 @@
 <template>
   <div>
   
-      <input id='addToDoTitle' placeholder='What distracts you?' v-on:keyup.enter='addItem'>
+      <input id='addToDoTitle' placeholder='What do you need to do?' v-on:keyup.enter='addItem'>
 
         <ul id='toDoList'>
 
