@@ -1,9 +1,9 @@
 <template>
   <div>
- 	Menu
+ 	<!--Menu
  	<SideBar/>
   <ProgressBar/>
-  <Dailies/>
+  <Dailies/>-->
   <ToDo/>
   </div>
 

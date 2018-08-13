@@ -5,7 +5,7 @@
 
         <ul id='toDoList'>
 
-          <li v-for='(distraction, index) in distractions' v:bind='distraction' @dblclick='editTrueFunction(index)' class='toDoListItem' >
+          <li v-for='(distraction, index) in distractions' v:bind='distraction' @dblclick='editTrueFunction(index)' class='toDoListItem'>
            
             <span class='index'>{{index + 1}}</span>
 

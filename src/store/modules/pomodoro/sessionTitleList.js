@@ -10,7 +10,7 @@ export default {
         pomodoroGoal: 6,
         toDoListExamples: ['Going to be connected', 'to To-Do list', 'soon!'], 
         canBeEdited: true,
-        winState: 'Enter your daily goal',
+        winState: 'e.g. Be a CSS Ninja!',  // make array with different examples (exemplary but funny at the same time)
         currentTimeInterval: false,
         currentTime : [12,0]
         },

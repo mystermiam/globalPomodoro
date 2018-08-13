@@ -11,8 +11,8 @@
       <!-- Replace with select? -->
 			<input list='toDoListIntegration' class='sessionListEdit' v-if='session.edit' :bind='session.name' @blur='editTitle' v-on:keyup.enter='editTitle'> 
         <datalist id="toDoListIntegration">
-          <option v-for='toDo in toDoListExamples' :value='toDo'>To-Dos</option>
-          <option v-for='distraction in distractions' :value='distraction.name'>Distractions</option>
+          <!--<option v-for='toDo in toDoListExamples' :value='toDo'>To-Dos</option>-->
+          <option v-for='distraction in distractions' :value='distraction.name'>To-Dos</option>
         </datalist>
 
 			<span v-show='!session.edit' :class="{ active: session.active }">{{session.name}} 
@@ -30,7 +30,7 @@
 	</ul>
 
   <br>
-  <p class='textCenter'>Daily Winstate:</p>
+  <p class='textCenter'>What is your main focus for today?</p>
   <textarea  id='winStateInput' :placeholder='winState' @blur='winStateInput'cols="30" rows="2"></textarea>
 
   </div>

@@ -1,9 +1,19 @@
 
 --- 1. priority: Enjoy the time you spend working --- 
 
+--- 2. priority: Don't experiment more than 10 minutes! --- 
+
+--- Breathe a few times, before entering into the next pomodoro! Commit fully, respect the break! --- 
+
 Minigame tutorial:
 - let stars reappear
-- make player stop moving 
+
+
+RPG!!!
+- Understand basic setup :check
+- Create new basic environment to start with :check
+- Try to understand what is different with the movement system? Create vue way of pressing keys?
+- 
 
 
 
@@ -20,11 +30,17 @@ Issues:
 
 optional:
 
+- Full Screen
+	- fix button to a spot (attach new class to it with new position on fullscreen == true) :check
+	- remove chat? :check
+	- find icon :check
+	- show when hovering over area around it (full-screen-button-hover-container)  <--
+
+- counts time even if its paused to show you your delay (necessary?)
+
 - post to Google calendar
 
 - set different timers
-
-- counts time even if its paused to show you your delay 
 
 - add times next to the sessions
 
@@ -34,11 +50,16 @@ optional:
 
 - Alternative timers 
 
-- Try out beep every 5 minutes / 10 minutes? What effect does that have
+- Try out beep every 5 minutes / 10 minutes? What effect does that have :check
 
-- Skip option @break
+- Skip option @break 
 
 
+
+
+Collaborative storytelling platform: 
+
+- Create rooms with chats and a link to the individual story
 
 
 

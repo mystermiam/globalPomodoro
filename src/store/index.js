@@ -34,6 +34,7 @@ import game from './modules/gameWorld/game'
 import axios from 'axios'
 
 
+
 Vue.use(Vuex)
 Vue.use(VueRouter)
 

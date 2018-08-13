@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div v-bind:class='{ timerFullScreen: timerFullScreen }'>
 
-   <div id='timerContainer' v-bind:class="{ timerBlinkAnimation: timerBlinkAnimation }">
+   <div class='position-container'><div id='full-screen-button-hover-container' v-bind:class='{ positionFullScreenHoverContainer: timerFullScreen }'><i  class="fas fa-expand-arrows-alt" id='full-screen-button' @click='goFullScreen' v-bind:class='{ positionFullScreenButton: timerFullScreen }'></i></div></div>
+
+   <div id='timerContainer' v-bind:class='{ timerBlinkAnimation: timerBlinkAnimation }'>
+
     <p id='timerNumbers'>
       <span v-if="Math.floor(timeLeft / 60) < 10">0</span><span>{{Math.floor(timeLeft / 60)}} : </span>
       <span v-if="(timeLeft % 60) < 10">0</span><span>{{timeLeft % 60}}</span>
@@ -17,7 +20,7 @@
     </p>
 
     <button id='goButton' @click='countdown' v-show='showGoButton'>Go!</button>
-   
+  
    </div>
 
   </div>
@@ -36,7 +39,7 @@ export default {
       timerBlinkAnimation: 'timerBlinkAnimation',
       sessionNumber: 'sessionNumber',
       showGoButton: 'showGoButton',
-      
+      timerFullScreen: 'timerFullScreen',
     }),
 
     ...mapState('sessionTitleList',{
@@ -54,6 +57,7 @@ export default {
       //fetchTimeLeft : 'fetchTimeLeft',
       setTimer: 'setTimer',    
       sessionCompleted: 'sessionCompleted',
+      goFullScreen: 'goFullScreen',
     }),
 
     ...mapActions('feedback',{
@@ -116,6 +120,7 @@ export default {
   margin: 4vh;
   font-size: 5vh;
   line-height: 10vh;
+  cursor: pointer;
 }
 
 #sessionCheckBox {
@@ -125,5 +130,62 @@ export default {
 #timerContainer:hover #sessionCheckBox {
   opacity: 1;
 }
+
+/* Bugs here: Next steps -full screen without scrolling -fixate button; */
+#full-screen-button {
+  font-size: 0.4em;
+  position: relative;
+  top: -0.7em;
+  left: -2em;
+  cursor: pointer;
+  width: 1em;
+  color:  lightgray;
+  display: none;
+  z-index: 5;
+}
+
+#full-screen-button-hover-container {
+    width: 20vh;
+    height: 20vh;
+    position: relative;
+    top: 0;
+    z-index: 2;
+}
+
+#full-screen-button-hover-container:hover #full-screen-button {
+  display: inline-block;
+}
+
+.positionFullScreenButton {
+  position: absolute !important;
+  top: 0.3em !important;
+  left: 0.3em !important;
+  z-index: 4;
+}
+
+.positionFullScreenHoverContainer {
+  height: 40vh !important;
+  width: 40vh !important;
+  position: absolute !important;
+}
+
+
+.timerFullScreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 16vh !important;
+  height: 100% !important;
+  display: block;
+  border-radius: 0 !important;
+  overflow-x: hidden !important; /* Disable horizontal scroll */
+  transition: none !important; /* How to disable animation? */
+}
+
+.position-container {
+  position: absolute;
+}
+
 
 </style>

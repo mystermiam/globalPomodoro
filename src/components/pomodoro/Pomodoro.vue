@@ -19,7 +19,7 @@
 
         </div>
 
-        <Chat id='chat'/>
+        <Chat id='chat' v-show='!timerFullScreen' />
         <Settings/>
 	</div>
 </template>
@@ -47,6 +47,10 @@
         computed : {
          ...mapState('sessionTitleList',{
              toggleLists:'toggleLists',    
+        }),
+
+         ...mapState('timer',{
+             timerFullScreen:'timerFullScreen',    
         }),
         },
 
@@ -109,6 +113,7 @@
     text-align: center;
     height: 50vh;
     margin: 0;
+    transition: 0.5s;
 }
 
 #sideContainer {

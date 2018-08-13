@@ -1,4 +1,5 @@
-
+// Current problem: fake api is only there for the test, should be imported, not rootStated
+import fakeBackEndGrow from './../../../../api/fakeBackEndGrow'
 
 export default {
   namespaced: true,
@@ -15,7 +16,7 @@ export default {
 
     fetchPet({commit, rootState}){
       return new Promise((resolve,reject)=>{
-        rootState.fakeBackEndGrow.fetchPet((server)=>{
+        fakeBackEndGrow.fetchPet((server)=>{
           commit('setState', server);
           resolve();
         });

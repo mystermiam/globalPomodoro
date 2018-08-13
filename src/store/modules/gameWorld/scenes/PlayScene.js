@@ -6,6 +6,7 @@ import { Scene } from 'phaser'
         },
         stars,
         cursors,
+        bombs,
         score,
         scoreText,
         keys = {
@@ -26,7 +27,7 @@ export default class PlayScene extends Scene {
 
   create ()
     {
-         this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, 'sky');
 
         platforms = this.physics.add.staticGroup();
 
@@ -63,9 +64,9 @@ export default class PlayScene extends Scene {
 
         //  Register the keys. Works with one key! But not with two!
         //keys.left = this.input.keyboard.on(Phaser.Input.Keyboard.KeyCodes.A, function () {return true});
-        
-        keys.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keys.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keys.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keys.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keys.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
         //  Stop the following keys from propagating up to the browser
        // this.Phaser.Input.Keyboard.KeyCodes.addKeyCapture([ Phaser.Input.Keyboard.KeyCodes.LEFT, Phaser.Input.Keyboard.KeyCodes.RIGHT, Phaser.Input.Keyboard.KeyCodes.SPACE ]);
@@ -90,15 +91,12 @@ export default class PlayScene extends Scene {
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
 
 
-             //Add bomb to add game challenge
-        const bomb = this.physics.add.sprite(400, 200, 'bomb')
-        bomb.setCollideWorldBounds(true)
-        this.physics.add.collider(bomb, platforms);
-        bomb.setBounce(1)
-        bomb.setVelocity(200, 20)
+        bombs = this.physics.add.group();
 
-        this.physics.add.overlap(player, bomb, this.gameOver, null, this);
-    }
+        this.physics.add.collider(bombs, platforms);
+
+        this.physics.add.collider(player, bombs, this.hitBomb, null, this);
+  }
 
   
   update ()
@@ -121,8 +119,6 @@ export default class PlayScene extends Scene {
             player.setVelocityX(160);
 
             player.anims.play('right', true);
-
-            //keys.right.isDown = false;
         }
         else
         {
@@ -133,11 +129,11 @@ export default class PlayScene extends Scene {
         }
 
        // The player might try to jump if the jump key has been released while standing on the ground
-        if(!keys.spaceBar.isDown && player.body.touching.down){
+        if(!keys.up.isDown && player.body.touching.down){
            player.allowedToJump = true;
         }
         // The jump key is down, the body is on the ground and the player is allowed to jump => jump!
-        if(keys.spaceBar.isDown && player.body.touching.down && player.allowedToJump){
+        if(keys.up.isDown && player.body.touching.down && player.allowedToJump){
            /* Insert jump code */
            player.setVelocityY(-330);
            player.allowedToJump = false;
@@ -150,12 +146,34 @@ export default class PlayScene extends Scene {
 
         score += 10;
         scoreText.setText('Score: ' + score);
+
+        if (stars.countActive(true) === 0)
+        {
+            stars.children.iterate(function (child) {
+
+                child.enableBody(true, child.x, 0, true, true);
+
+            });
+
+            var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            var bomb = bombs.create(x, 16, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            bomb.allowGravity = false;
+
+        }
     }
 
-    gameOver()
+   hitBomb (player, bomb)
     {
-        score -= 10;
-        scoreText.setText('Score: ' + score);
+        this.physics.pause();
+
+        player.setTint(0xff0000);
+
+        player.anims.play('turn');
+
+        gameOver = true;
     }
-   
 }

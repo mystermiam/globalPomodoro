@@ -24,9 +24,16 @@ export default {
         timerInverval: false,
         timerBlinkAnimation: false,
         bell: new Audio("http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3"),
+
+        timerFullScreen: false,
     },
 
     actions : {
+
+        goFullScreen({commit}){
+          commit('goFullScreen')
+        },
+
 
         sessionCompleted({rootState, state}){
             // for completed tasks move things up one level
@@ -249,6 +256,7 @@ export default {
 
     mutations : {
 
+
        /**********************  countdown functions (in chronological order, badumm tss) *********************/
        setTimer(state, time){
             state.timeWork = time.work,
@@ -292,9 +300,9 @@ export default {
             state.timerBlinkAnimation = true;
 
             setTimeout(function() {
-                state.stateOfSession = 'work';  
-                state.timeLeft = state.timeWork;    
-                state.timerBlinkAnimation = false; 
+                state.stateOfSession = 'work' 
+                state.timeLeft = state.timeWork    
+                state.timerBlinkAnimation = false
                 state.sessionNumber++
             }, 3000)   
        },
@@ -304,9 +312,9 @@ export default {
 
             //start new timer after 3 seconds 
             setTimeout(function() {
-                state.stateOfSession = 'Long Break';
-                state.timeLeft = state.timeLongPause; 
-                state.timerBlinkAnimation = false;   
+                state.stateOfSession = 'Long Break'
+                state.timeLeft = state.timeLongPause
+                state.timerBlinkAnimation = false
                 state.sessionNumber++
             }, 3000)            
       },
@@ -317,10 +325,14 @@ export default {
 
         //Example for how to fetch things from the server 
        setTimeLeft(state,time){
-            state.timeWork = time[0];
-            state.timePause = time[1];
-            state.pause = time[2];
+            state.timeWork = time[0]
+            state.timePause = time[1]
+            state.pause = time[2]
        },
+
+       goFullScreen(state){
+          state.timerFullScreen = !state.timerFullScreen
+       }
     }
 }
 
