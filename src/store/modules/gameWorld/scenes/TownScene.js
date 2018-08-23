@@ -1,5 +1,7 @@
 import { Scene } from 'phaser'
 
+import playerModule from './../utilities/player'
+
 import Phaser from 'phaser'
 
 import { MAP_TOWN, IMAGE_TOWN } from '../constants/assets';
@@ -11,10 +13,21 @@ import exampleJSON from "./../assets/tilemaps/tuxemon-town.json"
 import exampleCharacterPNG from './../assets/atlas/atlas.png'
 import exampleCharacterJSON from './../assets/atlas/atlas.json'
 
+import exampleCharacter from './../assets/sprites/player.png'
+import thorsten from './../../../../../static/raw_sprites/spritesmith/npcs/npc_aprilFool.png'
+
 let cursors;
-let player;
+let keys = {
+          spaceBar: false,
+        };
+let player = {
+          inAction: false,
+          contactWithCharacter: false
+        };
 let showDebug = false;
 let anims;
+let Tommy;
+let Thorsten;
 
 export default class TownScene extends Scene {
 
@@ -33,6 +46,9 @@ preload() {
   // If you don't use an atlas, you can do the same thing with a spritesheet, see:
   //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
   this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
+  
+  this.load.spritesheet('exampleCharacter', exampleCharacter, {frameWidth: 32, frameHeight: 32});
+  this.load.image("thorsten", thorsten );
 }
 
 create() {
@@ -129,13 +145,36 @@ create() {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
     });
   });
+
+  keys.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+  // Add character to scene
+   // var NPCs = scene.physics.add.group(children, npcConfig);
+
+
+  Thorsten = this.add.image(150, 1100, 'thorsten');
+
+  Tommy = this.physics.add
+    .sprite(267,1200, 'exampleCharacter')
+    .setSize(32, 32)
+    .setOffset(0, 0)
+    .setImmovable(true);
+  
+  Tommy.body.moves = false;
+  this.physics.add.collider(player, Tommy, function(){player.blocked = true; player.contactWithCharacter = true; setTimeout(function(){ player.contactWithCharacter = false; }, 1000);}, null, this);
+  
+
+
+  
+
+
 }
 
 update(time, delta) {
-  const speed = 175
+  const speed = 300
   const prevVelocity = player.body.velocity.clone();
  
- 
+  //console.log(player.x, player.y)
   // Stop any previous movement from the last frame
   player.body.setVelocity(0);
 
@@ -185,6 +224,34 @@ update(time, delta) {
    cursors.right.isDown = false;
    cursors.up.isDown = false;
    cursors.down.isDown = false;
+
+
+  // Check if player is colliding with action layer of the world!
+  if(!keys.spaceBar.isDown && player.inAction){
+           player.inAction = false;
+        }
+        
+        if(keys.spaceBar.isDown && !player.inAction && player.contactWithCharacter){
+           /* Insert jump code */
+           console.log('Zumbaaa')
+           player.inAction = true;
+        }
+}
+
+
+playMusic(player, Tommy){
+  // Load iframe with youtube music
+
+  // 1st try: Load element outside of phaser game: Box :check!
+  playerModule.state.escapePressed = true;
+  
+}
+
+
+dialogue(player, Tommy){
+  
+  console.log('Hello, my name is Tommy')
+
 
 }
 

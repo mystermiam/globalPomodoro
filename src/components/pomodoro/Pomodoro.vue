@@ -113,7 +113,7 @@
     text-align: center;
     height: 50vh;
     margin: 0;
-    transition: 0.5s;
+    transition: 1s;
 }
 
 #sideContainer {

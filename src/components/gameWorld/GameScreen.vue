@@ -1,5 +1,3 @@
-//maybe remove if possible
-
 <template>
   <div  id='game-screen'>
   	<GameDownloader/>
@@ -14,17 +12,6 @@ import GameDownloader from './GameDownloader'
 export default {
   name: 'GameScreen',
   components: { GameDownloader },
-
-  methods: {
- // ...mapActions('',{
- //     template: 'template',
- //   })
-  },
-
-
-  created(){
-   // window.addEventListener('keyup', myMethod())
-  },
 
 };
 

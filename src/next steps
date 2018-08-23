@@ -5,20 +5,26 @@
 
 --- Breathe a few times, before entering into the next pomodoro! Commit fully, respect the break! --- 
 
-Minigame tutorial:
-- let stars reappear
-
-
 RPG!!!
-- Understand basic setup :check
-- Create new basic environment to start with :check
+- Move Tommy into right position :check
+- Make character solid  :check
+- open new tab on contact 
+- On enter console.log :check
+- on enter dialogue in console.log
+
+
+
 - Try to understand what is different with the movement system? Create vue way of pressing keys?
-- 
+- Seems to be a phaser 3 problem, not necessarily 2
+
+
 
 
 
 
 First testable version: 
+
+make them just movable!? no need for copying, etc.
 
 If sessiongoal is finished copy next session goal :unfinished
 If sessiongoal is not finished move all sessiongoals one further - if it's completed move the other direction
@@ -30,15 +36,9 @@ Issues:
 
 optional:
 
-- Full Screen
-	- fix button to a spot (attach new class to it with new position on fullscreen == true) :check
-	- remove chat? :check
-	- find icon :check
-	- show when hovering over area around it (full-screen-button-hover-container)  <--
-
 - counts time even if its paused to show you your delay (necessary?)
 
-- post to Google calendar
+-!- post to Google calendar 
 
 - set different timers
 
@@ -49,8 +49,6 @@ optional:
 - Create schedules (replace working session with it)
 
 - Alternative timers 
-
-- Try out beep every 5 minutes / 10 minutes? What effect does that have :check
 
 - Skip option @break 
 
@@ -89,7 +87,12 @@ correct remove and add feature? :check
 On creating room: Short break, long break, working session :check
 display sessiontitle and break in header or just minutes left :check
 When you start on a break it shows you that you are in working session 2 after the break :check
-
+- Full Screen :check
+	- fix button to a spot (attach new class to it with new position on fullscreen == true) :check
+	- remove chat? :check
+	- find icon :check
+	- show when hovering over area around it (full-screen-button-hover-container)  :check
+- Try out beep every 5 minutes / 10 minutes? What effect does that have :check
 
 
 
@@ -119,4 +122,13 @@ make progress bar / health bar
 
 
 
+Minigame tutorial:
+- ...
+- let stars reappear :check
+- Finished!
 
+
+RPG! :
+- Understand basic setup :check
+- Create new basic environment to start with :check
+- Make some experiments with vue and phaser? Can one implement the game in there? :check

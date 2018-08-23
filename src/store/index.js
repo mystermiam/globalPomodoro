@@ -28,7 +28,9 @@ import toDo from './modules/menu/toolbox/toDo'
 import landingPage from './modules/homepage/landingPage'
 
 //Game Modules
-import game from './modules/gameWorld/game'
+import game from './modules/gameWorld/index'
+
+import player from './modules/gameWorld/utilities/player'
 
 //Axios
 import axios from 'axios'
@@ -56,6 +58,7 @@ export default new Vuex.Store({
         progressBar,
         pomodoroSettings,
         game,
+        player,
 
     },
     state : {

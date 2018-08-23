@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import BootScene from './scenes/BootScene'
 import PlayScene from './scenes/PlayScene'
 import TownScene from './scenes/TownScene'
+import platformerScene from './scenes/DynamicPlatformer/platformer-scene'
+
 
 function launch() {
   new Phaser.Game({
@@ -17,7 +19,7 @@ function launch() {
         debug: true
       }
     },
-    scene: [BootScene, PlayScene, TownScene]
+    scene: [BootScene, PlayScene, TownScene, platformerScene]
   })
 }
 
