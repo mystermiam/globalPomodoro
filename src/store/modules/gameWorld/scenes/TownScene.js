@@ -15,19 +15,31 @@ import exampleCharacterJSON from './../assets/atlas/atlas.json'
 
 import exampleCharacter from './../assets/sprites/player.png'
 import thorsten from './../../../../../static/raw_sprites/spritesmith/npcs/npc_aprilFool.png'
+import discutor from './../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
+
 
 let cursors;
 let keys = {
           spaceBar: false,
         };
-let player = {
+let you = {
           inAction: false,
-          contactWithCharacter: false
+          isAllowedToMove: true,
+          contactWithCharacter: false,
+          characterLastContacted: null,
         };
+let player;
 let showDebug = false;
 let anims;
+
+let NPCs;
 let Tommy;
 let Thorsten;
+let Discutor;
+let conversation = {
+  'discutor': ['1','2','3'],
+};
+
 
 export default class TownScene extends Scene {
 
@@ -48,7 +60,8 @@ preload() {
   this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
   
   this.load.spritesheet('exampleCharacter', exampleCharacter, {frameWidth: 32, frameHeight: 32});
-  this.load.image("thorsten", thorsten );
+  this.load.spritesheet("thorsten", thorsten,  {frameWidth: 120, frameHeight: 120} );
+  this.load.spritesheet("discutor", discutor,  {frameWidth: 100, frameHeight: 100} );
 }
 
 create() {
@@ -120,7 +133,7 @@ create() {
 
   // Help text that has a "fixed" position on the screen
   this.add
-    .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+    .text(16, 16, 'Welcome to Grow Playground', {
       font: "18px monospace",
       fill: "#000000",
       padding: { x: 20, y: 10 },
@@ -149,32 +162,57 @@ create() {
   keys.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
   // Add character to scene
-   // var NPCs = scene.physics.add.group(children, npcConfig);
+  //NPCs = scene.physics.add.group(children, npcConfig).setImmovable(true);;
 
+  // Thorsten techno music
+  Thorsten = this.physics.add
+    .sprite(370, 840, 'thorsten')
+    .setSize(80,80)
+    .setOffset(20,20)
+    .setImmovable(true)
 
-  Thorsten = this.add.image(150, 1100, 'thorsten');
+  Thorsten.setDisplaySize(80,80)
+  
+  this.physics.add.collider(player, Thorsten, function(){you.contactWithCharacter = true; you.characterLastContacted = 'Thorsten'; setTimeout(function(){ you.contactWithCharacter = false; }, 1000);}, null, this);
 
+  // Tommy epic music
   Tommy = this.physics.add
-    .sprite(267,1200, 'exampleCharacter')
+    .sprite(440,840, 'exampleCharacter')
     .setSize(32, 32)
     .setOffset(0, 0)
     .setImmovable(true);
-  
-  Tommy.body.moves = false;
-  this.physics.add.collider(player, Tommy, function(){player.blocked = true; player.contactWithCharacter = true; setTimeout(function(){ player.contactWithCharacter = false; }, 1000);}, null, this);
+
+  Tommy.setDisplaySize(40,40)
+
+ 
+  this.physics.add.collider(player, Tommy, function(){you.contactWithCharacter = true; you.characterLastContacted = 'Tommy'; setTimeout(function(){ you.contactWithCharacter = false; }, 1000);}, null, this);
   
 
+  // Discutor! Discussion
+  Discutor = this.physics.add
+    .sprite(340,1120, 'discutor')
+    .setSize(60, 60)
+    .setOffset(30, 30)
+    .setImmovable(true);
 
+  Discutor.setDisplaySize(60,60)
+
+ 
+  this.physics.add.collider(player, Discutor, function(){you.contactWithCharacter = true; you.characterLastContacted = 'Discutor'; setTimeout(function(){ you.contactWithCharacter = false; }, 1000);}, null, this);
+  
   
 
 
 }
 
 update(time, delta) {
+  if (you.isAllowedToMove === true){
   const speed = 300
   const prevVelocity = player.body.velocity.clone();
- 
+  
+
   //console.log(player.x, player.y)
+
   // Stop any previous movement from the last frame
   player.body.setVelocity(0);
 
@@ -224,35 +262,70 @@ update(time, delta) {
    cursors.right.isDown = false;
    cursors.up.isDown = false;
    cursors.down.isDown = false;
+  
+  } //End of player is allowed to move function
 
 
   // Check if player is colliding with action layer of the world!
-  if(!keys.spaceBar.isDown && player.inAction){
-           player.inAction = false;
+  if(!keys.spaceBar.isDown && you.inAction){
+           you.inAction = false;
         }
         
-        if(keys.spaceBar.isDown && !player.inAction && player.contactWithCharacter){
-           /* Insert jump code */
-           console.log('Zumbaaa')
-           player.inAction = true;
+        if(keys.spaceBar.isDown && !you.inAction && you.contactWithCharacter){
+           you.inAction = true;
+
+           console.log(you.characterLastContacted)
+
+           if(you.characterLastContacted === 'Tommy' || you.characterLastContacted === 'Thorsten'){
+             this.playMusic();
+           } else if (you.characterLastContacted === 'Discutor'){
+             this.dialogue();
+           }
+
+
+          
+           
         }
 }
 
 
-playMusic(player, Tommy){
+playMusic(){
   // Load iframe with youtube music
 
   // 1st try: Load element outside of phaser game: Box :check!
-  playerModule.state.escapePressed = true;
-  
+  //playerModule.state.escapePressed = true;
+
+  // 2nd try: Open new tab with music :check! with several NPCs :check
+  if(you.characterLastContacted === 'Thorsten'){
+    console.log('Thorsten: opening tab to play music: Techno!')
+    window.open('https://music.youtube.com/watch?v=wNPiGiQNNrU&list=RDAMPLPLhc9cpTh-PxX1cw-8qEfEKUSlTzY3l3Dw');
+  } if(you.characterLastContacted === 'Tommy'){
+    console.log('Tommy: opening tab to play music: Epic!')
+    window.open('https://music.youtube.com/watch?v=fuO2JWumMZ0&list=RDQMoLN4u0LZsho');
+  }  
 }
 
 
-dialogue(player, Tommy){
+dialogue(){
+  // player is locked to conversation until he finished all the boxes! 
   
-  console.log('Hello, my name is Tommy')
+  //lock player
+  you.isAllowedToMove = false;
+  
+  let pointInConversation = 0;
+  
+  do {
+    if(keys.spaceBar.isDown){
+     console.log('1,2,3,'+ conversation.discutor[pointInConversation] +'')
+     pointInConversation++ 
+     setTimeout(function(){ /* slows down loop */  }, 1000);
+    } 
 
-
+    
+  } while (pointInConversation < conversation.discutor.length);
+     
+    you.isAllowedToMove = true; 
+ 
 }
 
 };

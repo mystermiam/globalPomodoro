@@ -8,10 +8,18 @@
 RPG!!!
 - Move Tommy into right position :check
 - Make character solid  :check
-- open new tab on contact 
+- open new tab on contact :check 
 - On enter console.log :check
+
+- create three characters connected to different musics
 - on enter dialogue in console.log
 
+
+
+- Supergoal! Gaelle Prototype 
+	- create a box filled with items
+	- when clicking on the item you can add a link on it
+	- you can place it in the world
 
 
 - Try to understand what is different with the movement system? Create vue way of pressing keys?
