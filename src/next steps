@@ -6,26 +6,34 @@
 --- Breathe a few times, before entering into the next pomodoro! Commit fully, respect the break! --- 
 
 RPG!!!
-- Move Tommy into right position :check
-- Make character solid  :check
-- open new tab on contact :check 
-- On enter console.log :check
 
-- create three characters connected to different musics
-- on enter dialogue in console.log
+Find a way to call actions from the scene 
 
+- Dialogue: 
+	- Create a workaround for collide!
+	- create a simple dialogue box
+	- 
 
+- make chat accessible with enter
+	- be able to use all keys
+	- Fit into Game screen (toggle it)
+		- CSS (opacity of background)
+		- 
 
 - Supergoal! Gaelle Prototype 
 	- create a box filled with items
 	- when clicking on the item you can add a link on it
 	- you can place it in the world
+	- Get preview on hovering or touching the item, can activate with enter or click on it
 
 
 - Try to understand what is different with the movement system? Create vue way of pressing keys?
 - Seems to be a phaser 3 problem, not necessarily 2
 
 
+
+Vision:
+- Earn gold through Pomodoro, can buy stuff with it 
 
 
 
@@ -140,3 +148,9 @@ RPG! :
 - Understand basic setup :check
 - Create new basic environment to start with :check
 - Make some experiments with vue and phaser? Can one implement the game in there? :check
+- Move Tommy into right position :check
+- Make character solid  :check
+- open new tab on contact :check 
+- On enter console.log :check
+- create three characters connected to different musics :check
+- on enter dialogue in console.log :check

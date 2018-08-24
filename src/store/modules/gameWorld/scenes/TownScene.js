@@ -1,6 +1,8 @@
 import { Scene } from 'phaser'
 
 import playerModule from './../utilities/player'
+import dialogueModule from './../utilities/dialogue'
+import store from './../../../index'
 
 import Phaser from 'phaser'
 
@@ -37,6 +39,7 @@ let Tommy;
 let Thorsten;
 let Discutor;
 let conversation = {
+  'pointInConversation': 0,
   'discutor': ['1','2','3'],
 };
 
@@ -308,24 +311,26 @@ playMusic(){
 
 dialogue(){
   // player is locked to conversation until he finished all the boxes! 
-  
-  //lock player
-  you.isAllowedToMove = false;
-  
-  let pointInConversation = 0;
-  
-  do {
-    if(keys.spaceBar.isDown){
-     console.log('1,2,3,'+ conversation.discutor[pointInConversation] +'')
-     pointInConversation++ 
-     setTimeout(function(){ /* slows down loop */  }, 1000);
-    } 
 
-    
-  } while (pointInConversation < conversation.discutor.length);
-     
-    you.isAllowedToMove = true; 
+  // lock player's movement // Collide doesn't work with no moving
+  //you.isAllowedToMove = false;
  
+  // have a console.log with the first message
+  dialogueModule.state.showDialogueBox = true
+  //dialogueModule.$emit('toggleDialogueBox');
+  //store.dialogue.dispatch('toggleDialogueBox');
+
+  console.log('3,2,'+ conversation.discutor[conversation.pointInConversation] +'')
+  
+  // if the person presses space it continues to the next message until conversation ends
+  conversation.pointInConversation++
+  
+  // if the conversation ends make player move again
+  if (conversation.pointInConversation >=  conversation.discutor.length){
+    conversation.pointInConversation = 0;
+    you.isAllowedToMove = true; 
+  }
+
 }
 
 };

@@ -31,6 +31,7 @@ import landingPage from './modules/homepage/landingPage'
 import game from './modules/gameWorld/index'
 
 import player from './modules/gameWorld/utilities/player'
+import dialogue from './modules/gameWorld/utilities/dialogue'
 
 //Axios
 import axios from 'axios'
@@ -59,6 +60,7 @@ export default new Vuex.Store({
         pomodoroSettings,
         game,
         player,
+        dialogue,
 
     },
     state : {

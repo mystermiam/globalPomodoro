@@ -1,6 +1,8 @@
 <template>
   <div  id='game-screen'>
   	<GameDownloader/>
+
+    <!--<Chat/>-->
   </div>
 </template>
 
@@ -8,10 +10,11 @@
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
 import GameDownloader from './GameDownloader'
+import Chat from './../pomodoro/Chat'
 
 export default {
   name: 'GameScreen',
-  components: { GameDownloader },
+  components: { GameDownloader, Chat },
 
 };
 
