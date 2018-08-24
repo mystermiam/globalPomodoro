@@ -33,11 +33,17 @@ export default {
   methods: {
   ...mapActions('player',{
       keymonitor: 'keymonitor',
+    }),
+
+  ...mapActions('dialogue',{
+      getPosition: 'getPosition',
     })
   },
 
   mounted() {
-    launch()
+    launch();
+
+    this.getPosition();
     
   }
 };

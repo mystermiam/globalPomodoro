@@ -1,6 +1,6 @@
 <template>
-  <div>
-      Hello
+  <div id='dialogueContainer'>
+     {{currentMessage.person}} - {{currentMessage.message}}
   </div>
 
 </template>
@@ -14,13 +14,13 @@ export default {
   components : {
   
   },
-  /*   
+     
   computed : {
-   ...mapState('template',{
-      template:'template',    
+   ...mapState('dialogue',{
+      currentMessage:'currentMessage',    
     })
   },
-  
+/*
  methods: {
   ...mapActions('template',{
       template: 'template',
@@ -35,5 +35,12 @@ export default {
 
 
 <style scoped>
-
+  #dialogueContainer{
+    display: inline-block;
+    width: 800px;
+    height: 120px;
+    background-color: blue;
+    color: white;
+    opacity: 0.8;
+  }
 </style>

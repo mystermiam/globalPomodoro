@@ -19,6 +19,9 @@ Find a way to call actions from the scene
 	- Fit into Game screen (toggle it)
 		- CSS (opacity of background)
 		- 
+- Characters 
+	- Add them to tile
+	- Add them as images not as sprites
 
 - Supergoal! Gaelle Prototype 
 	- create a box filled with items
