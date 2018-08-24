@@ -32,6 +32,7 @@ import game from './modules/gameWorld/index'
 
 import player from './modules/gameWorld/utilities/player'
 import dialogue from './modules/gameWorld/utilities/dialogue'
+import createNPCs from './modules/gameWorld/utilities/createNPCs'
 
 //Axios
 import axios from 'axios'
@@ -43,7 +44,7 @@ Vue.use(VueRouter)
 
 Vue.use(Vuetify)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     namespaced : true,
     modules : {
         timer,
@@ -61,6 +62,7 @@ export default new Vuex.Store({
         game,
         player,
         dialogue,
+        createNPCs,
 
     },
     state : {
@@ -92,3 +94,5 @@ export default new Vuex.Store({
         }
     }
 });
+
+export default store

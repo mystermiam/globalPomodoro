@@ -1,8 +1,9 @@
 <template>
 <div>
-  <div id="game-container" @click="keymonitor" />
+  <div id="game-container" @click="gameContainerClicked" />
   <!--<iframe width="420" height="315" src="http://localhost:8080/#/pomodoro" frameborder="0" allowfullscreen id='exampleContainer' v-show='escapePressed'></iframe>-->
-  <Dialogue v-show='showDialogueBox' />
+  <Dialogue/>
+  <CreateNPCs/>
 </div>
 </template>
 
@@ -11,6 +12,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
 //Components
 import Dialogue from './utilities/Dialogue'
+import CreateNPCs from './utilities/CreateNPCs'
 
 //Functions
 import launch from '../../store/modules/gameWorld/index'
@@ -18,21 +20,21 @@ import launch from '../../store/modules/gameWorld/index'
 export default {
   name: 'game',
 
-  components: { Dialogue },
+  components: { Dialogue, CreateNPCs },
 
   computed: {
   ...mapState('player',{
       escapePressed: 'escapePressed',
     }),
-
-  ...mapState('dialogue',{
-      showDialogueBox: 'showDialogueBox',
-    }),
   },
 
   methods: {
   ...mapActions('player',{
-      keymonitor: 'keymonitor',
+      // keymonitor: 'keymonitor',
+    }),
+
+  ...mapActions('createNPCs',{
+      gameContainerClicked: 'gameContainerClicked',
     }),
 
   ...mapActions('dialogue',{

@@ -1,8 +1,8 @@
 import { Scene } from 'phaser'
 
+import createNPCs from './../utilities/createNPCs'
 import playerModule from './../utilities/player'
 import dialogueModule from './../utilities/dialogue'
-import store from './../../../index'
 
 import Phaser from 'phaser'
 
@@ -209,6 +209,11 @@ create() {
 }
 
 update(time, delta) {
+  
+
+
+
+  // Movement
   if (you.isAllowedToMove === true){
   const speed = 300
   const prevVelocity = player.body.velocity.clone();
@@ -319,6 +324,9 @@ dialogue(){
   dialogueModule.state.showDialogueBox = true
   //dialogueModule.$emit('toggleDialogueBox');
   //store.dialogue.dispatch('toggleDialogueBox');
+  //dialogueModule.dialogue()
+
+  store.dispatch('dialogueExample')
 
   console.log('3,2,'+ conversation.discutor[conversation.pointInConversation] +'')
   

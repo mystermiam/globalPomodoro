@@ -2,25 +2,36 @@ export default {
 	namespaced: true,
 	state : {
 		positionOfContainer: [0,0],
-		showDialogueBox: true,
+		showDialogueBox: false,
         currentMessage: {
-        	'person': 'Tom',
+        	'person': 'Discutor',
         	'message': 'Boom'
         },
+        dialogues: {
+        	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p']]  
+        }
 	},
 	getters: {
 
 	},
 	actions: {
 		getPosition({commit}){
-			let position = document.getElementById('game-screen').getBoundingClientRect();
+			let positionWindow = document.body.getBoundingClientRect();
+            let positionGameScreen = document.getElementById('game-container').getBoundingClientRect();
+			console.log( positionWindow.top - positionGameScreen.top ); 
 
-			alert(position.bottom)
+			document.getElementById('dialogueContainer').style.left = ''+ (positionWindow.left - positionGameScreen.left) +'px';
 		},
 
 		toggleDialogueBox({commit}){
 		   commit('toggleDialogueBox')
+		},
+
+		dialogueExample({commit}){
+			alert('Hello')
 		}
+
+
 
 	},
 	mutations: {

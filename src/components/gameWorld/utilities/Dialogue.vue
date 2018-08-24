@@ -1,5 +1,5 @@
 <template>
-  <div id='dialogueContainer'>
+  <div id='dialogueContainer' v-show='showDialogueBox'>
      {{currentMessage.person}} - {{currentMessage.message}}
   </div>
 
@@ -17,8 +17,10 @@ export default {
      
   computed : {
    ...mapState('dialogue',{
-      currentMessage:'currentMessage',    
-    })
+      currentMessage:'currentMessage', 
+      showDialogueBox: 'showDialogueBox',   
+    }),
+
   },
 /*
  methods: {
@@ -42,5 +44,8 @@ export default {
     background-color: blue;
     color: white;
     opacity: 0.8;
+    position: absolute;
+    left: 45vh;
+    top: 86.5vh;
   }
 </style>

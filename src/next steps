@@ -5,9 +5,23 @@
 
 --- Breathe a few times, before entering into the next pomodoro! Commit fully, respect the break! --- 
 
+--- Take maybe 2 pomodoro sessions to work on one of the hard problems (movement, etc.) - and then continue to work on performance problems
+
 RPG!!!
 
+Hard problems:
+- Movement!
+	- Vue Key monitor?
+
+- Absolute paths!
+
+- Integrating Vue
+	- Calling actions 
+
+
 Find a way to call actions from the scene 
+
+Find a way to get position of the game screen to align vue elements
 
 - Dialogue: 
 	- Create a workaround for collide!
