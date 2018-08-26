@@ -2,7 +2,13 @@ import { Scene } from 'phaser'
 
 import createNPCs from './../utilities/createNPCs'
 import playerModule from './../utilities/player'
-import dialogueModule from './../utilities/dialogue'
+//import dialogueModule from './../utilities/dialogue'
+
+import store from '../../../index'
+
+//store.getters['moduleName/getterName']
+//store.state.dialogue.showDialogueBox = true;
+//store.dispatch('dialogue/getPosition');
 
 import Phaser from 'phaser'
 
@@ -16,6 +22,8 @@ import exampleCharacterPNG from './../assets/atlas/atlas.png'
 import exampleCharacterJSON from './../assets/atlas/atlas.json'
 
 import exampleCharacter from './../assets/sprites/player.png'
+//import exampleCharacter from '@/store/assets/sprites/player.png'
+
 import thorsten from './../../../../../static/raw_sprites/spritesmith/npcs/npc_aprilFool.png'
 import discutor from './../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
 
@@ -42,15 +50,12 @@ let conversation = {
   'pointInConversation': 0,
   'discutor': ['1','2','3'],
 };
-
-
+ 
 export default class TownScene extends Scene {
 
   constructor () {
     super({ key: 'TownScene' })
   }
-
-
 
 preload() {
   this.load.image("tiles", examplePNG );
@@ -68,6 +73,7 @@ preload() {
 }
 
 create() {
+  // Loading TileMap
   const map = this.make.tilemap({ key: "map" });
 
   // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
@@ -315,19 +321,20 @@ playMusic(){
 
 
 dialogue(){
+  alert("!")
   // player is locked to conversation until he finished all the boxes! 
 
   // lock player's movement // Collide doesn't work with no moving
   //you.isAllowedToMove = false;
  
   // have a console.log with the first message
-  dialogueModule.state.showDialogueBox = true
-  //dialogueModule.$emit('toggleDialogueBox');
-  //store.dialogue.dispatch('toggleDialogueBox');
-  //dialogueModule.dialogue()
+  
+  //store.getters['moduleName/getterName']
 
-  store.dispatch('dialogueExample')
-
+  store.state.dialogue.showDialogueBox = true;
+  
+  store.dispatch('dialogue/getPosition');
+  
   console.log('3,2,'+ conversation.discutor[conversation.pointInConversation] +'')
   
   // if the person presses space it continues to the next message until conversation ends
@@ -341,4 +348,4 @@ dialogue(){
 
 }
 
-};
+}

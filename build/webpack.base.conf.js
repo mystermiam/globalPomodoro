@@ -6,10 +6,6 @@ const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir),
-  
-  root: [
-    path.resolve('./src'),
-   ],
 }
 
 const createLintingRule = () => ({
@@ -35,12 +31,16 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  resolve: {
+  resolve: {  
+    root: [
+      path.resolve('./src'),
+     ],
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
     }
+
   },
   module: {
     rules: [

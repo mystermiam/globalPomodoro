@@ -1,3 +1,5 @@
+// https://gamedevacademy.org/create-a-dialog-modal-plugin-in-phaser-3-part-1/
+
 export default {
 	namespaced: true,
 	state : {
@@ -16,10 +18,27 @@ export default {
 	},
 	actions: {
 		getPosition({commit}){
-			let positionWindow = document.body.getBoundingClientRect();
-            let positionGameScreen = document.getElementById('game-container').getBoundingClientRect();
-			console.log( positionWindow.top - positionGameScreen.top ); 
+			let windowHeight = window.innerWidth;
+            let windowWidth = window.innerHeight;
+/*       
+            // Call to gamescene here 
+            const gameHeight = this.scene.sys.game.config.height;
+            const gameWidth = this.scene.sys.game.config.width;
 
+/*
+            // Put these into scene container, which one?! must have a general approach, maybe the index?
+			  // Gets the width of the game (based on the scene)
+			  _getGameWidth: function () {
+			    return this.scene.sys.game.config.width;
+			  },
+
+			  // Gets the height of the game (based on the scene)
+			  _getGameHeight: function () {
+			    return this.scene.sys.game.config.height;
+			  },
+*/        
+            console.log(windowHeight, gameHeight, windowWidth, gameWidth)
+			console.log( positionWindow.top - positionGameScreen.top );
 			document.getElementById('dialogueContainer').style.left = ''+ (positionWindow.left - positionGameScreen.left) +'px';
 		},
 

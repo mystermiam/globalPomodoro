@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div id="game-container" @click="gameContainerClicked" />
+  <div id="game-container" @click="gameContainerClicked()" />
   <!--<iframe width="420" height="315" src="http://localhost:8080/#/pomodoro" frameborder="0" allowfullscreen id='exampleContainer' v-show='escapePressed'></iframe>-->
   <Dialogue/>
   <CreateNPCs/>

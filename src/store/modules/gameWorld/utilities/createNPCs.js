@@ -1,14 +1,15 @@
+// import townscene to get access to TownScene variable to call TownScene.playMusic (use game element)
+import TownScene from '../scenes/TownScene'
+
 // Battle plan
 
-// load images with v-for into object container 
+// load images with v-for into object container :check
 // Create css class to format images into uniform size
-// click on image and add link
+// click on image and add link :check
 // be able to drag and drop the image / dblclick image, change cursor, click game screen get coordinates
 // realize coordinates of the image
 // load image --> add image into that position
 // save to server 
-
-import TownScene from './../scenes/TownScene'  //should be a specialized unit
 
 export default {
 	namespaced: true,
@@ -39,7 +40,9 @@ export default {
 	actions: {
 		showUrlInputField({commit}, name){
        
-			commit('showUrlInputField', name)
+			//commit('showUrlInputField', name)
+            console.log(TownScene)
+			TownScene.dialogue()
 		},
 
 		saveInput({commit, state}, index){
@@ -52,20 +55,26 @@ export default {
 			commit('showUrlInputField', state.objectsInInventory[index]);
 		},
 
-		addIntoGame({commit}){
-			// Change cursor (later copy of item should be attached to cursor)
-			document.getElementById("game-screen").style.cursor = "pointer";
+		addIntoGame({commit, state}){
 
             // Click on place to get coordinates
             commit('getCoordinates')
+
+            if(state.getCoordinates){
+				// Change cursor (later copy of item should be attached to cursor)
+			    document.getElementById("game-screen").style.cursor = "pointer";
+			} else {
+				document.getElementById("game-screen").style.cursor = "default";
+			}
 
             // If possible to place something there 
 			
 		},
 
 		gameContainerClicked({state}){
+			console.log(Phaser)
 			if(state.getCoordinates){
-				alert("!")
+
 			}
 		}
 

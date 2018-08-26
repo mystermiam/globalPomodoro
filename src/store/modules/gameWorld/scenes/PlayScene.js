@@ -1,6 +1,12 @@
 import { Scene } from 'phaser'
 
 
+// Triggering Vue instances
+//import store from '../../../index'
+//store.getters['moduleName/getterName']
+//store.state.dialogue.showDialogueBox = true;
+//store.dispatch('dialogue/getPosition');
+
 // All need to be reimported from static, wrong here
 import sky from '../assets/sky.png'
 import bomb from '../assets/bomb.png'

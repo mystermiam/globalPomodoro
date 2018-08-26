@@ -16,12 +16,20 @@ Hard problems:
 - Absolute paths!
 
 - Integrating Vue
-	- Calling actions 
+	- Calling actions :check!!!
+	- Calling ingame functions :check
+
+- Localisation problem 
+	- Get window height and width
+	- Get game height and width
+	- calculate position
 
 
-Find a way to call actions from the scene 
+- Iframe
+	-Cheerio? Npm
 
-Find a way to get position of the game screen to align vue elements
+
+
 
 - Dialogue: 
 	- Create a workaround for collide!
@@ -171,3 +179,8 @@ RPG! :
 - On enter console.log :check
 - create three characters connected to different musics :check
 - on enter dialogue in console.log :check
+
+
+
+HARD PROBLEMS!!
+
