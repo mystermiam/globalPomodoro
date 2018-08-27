@@ -15,10 +15,6 @@ Hard problems:
 
 - Absolute paths!
 
-- Integrating Vue
-	- Calling actions :check!!!
-	- Calling ingame functions :check
-
 - Localisation problem 
 	- Get window height and width
 	- Get game height and width
@@ -184,3 +180,7 @@ RPG! :
 
 HARD PROBLEMS!!
 
+
+- Integrating Vue
+	- Calling actions :check!!!
+	- Calling ingame functions :check!!!

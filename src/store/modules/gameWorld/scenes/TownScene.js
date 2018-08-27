@@ -321,7 +321,6 @@ playMusic(){
 
 
 dialogue(){
-  alert("!")
   // player is locked to conversation until he finished all the boxes! 
 
   // lock player's movement // Collide doesn't work with no moving
@@ -330,12 +329,11 @@ dialogue(){
   // have a console.log with the first message
   
   //store.getters['moduleName/getterName']
-
-  store.state.dialogue.showDialogueBox = true;
+  //store.state.dialogue.showDialogueBox = true;
   
-  store.dispatch('dialogue/getPosition');
+  store.dispatch('dialogue/startDialogue');
   
-  console.log('3,2,'+ conversation.discutor[conversation.pointInConversation] +'')
+  //console.log('3,2,'+ conversation.discutor[conversation.pointInConversation] +'')
   
   // if the person presses space it continues to the next message until conversation ends
   conversation.pointInConversation++
@@ -346,6 +344,10 @@ dialogue(){
     you.isAllowedToMove = true; 
   }
 
+}
+
+getPositionOfCursor() {
+  return [this.input.activePointer.x,this.input.activePointer.y]
 }
 
 }

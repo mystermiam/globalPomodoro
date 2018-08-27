@@ -1,9 +1,10 @@
 // https://gamedevacademy.org/create-a-dialog-modal-plugin-in-phaser-3-part-1/
+import { Grow } from '../index'
 
 export default {
 	namespaced: true,
 	state : {
-		positionOfContainer: [0,0],
+		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
         currentMessage: {
         	'person': 'Discutor',
@@ -17,45 +18,51 @@ export default {
 
 	},
 	actions: {
-		getPosition({commit}){
-			let windowHeight = window.innerWidth;
-            let windowWidth = window.innerHeight;
-/*       
-            // Call to gamescene here 
-            const gameHeight = this.scene.sys.game.config.height;
-            const gameWidth = this.scene.sys.game.config.width;
+		startDialogue({commit,dispatch}){
+			//Get position
+            // Calculate width
+            let windowWidth = window.innerWidth;
+            let gameWidth = Grow.config.width;
 
-/*
-            // Put these into scene container, which one?! must have a general approach, maybe the index?
-			  // Gets the width of the game (based on the scene)
-			  _getGameWidth: function () {
-			    return this.scene.sys.game.config.width;
-			  },
+            //Get offset of game Container
 
-			  // Gets the height of the game (based on the scene)
-			  _getGameHeight: function () {
-			    return this.scene.sys.game.config.height;
-			  },
-*/        
-            console.log(windowHeight, gameHeight, windowWidth, gameWidth)
-			console.log( positionWindow.top - positionGameScreen.top );
-			document.getElementById('dialogueContainer').style.left = ''+ (positionWindow.left - positionGameScreen.left) +'px';
+            
+            let positionUpperLeftCornerX = (windowWidth-gameWidth) / 2;
+            let positionUpperLeftCornerY = document.getElementById('game-container').offsetTop;  
+
+            if (positionUpperLeftCornerX < 0){
+            	positionUpperLeftCornerX = 0;
+            } 
+
+            commit('getPosition', [positionUpperLeftCornerX,positionUpperLeftCornerY])
+            
+            dispatch('toggleDialogueBox');
 		},
 
-		toggleDialogueBox({commit}){
+		setPosition({state, dispatch}){
+			let elementHeight = document.getElementById('dialogueContainer').offsetHeight;
+			// I don't know where the 16px come from, but shalalala
+			document.getElementById('dialogueContainer').style.top = (state.positionOfGameContainer[1] + Grow.config.height - elementHeight + 16) + 'px' ;
+			document.getElementById('dialogueContainer').style.left = state.positionOfGameContainer[0] + 'px';
+		},
+
+		toggleDialogueBox({commit, dispatch}){
 		   commit('toggleDialogueBox')
-		},
 
-		dialogueExample({commit}){
-			alert('Hello')
-		}
+		   // Load after the box is shown, so that one can get the width of the box
+		   setTimeout(function(){ dispatch('setPosition'); }, 0);
+		},
 
 
 
 	},
 	mutations: {
 		toggleDialogueBox(state){
-			state.showDialogueBox = !state.showDialogueBox
+			state.showDialogueBox = !state.showDialogueBox;
 		},
+
+		getPosition(state, coordinates){
+			state.positionOfGameContainer = [coordinates[0], coordinates[1]]
+		}
 	}
 }

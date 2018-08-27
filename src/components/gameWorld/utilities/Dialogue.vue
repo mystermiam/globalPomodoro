@@ -45,7 +45,7 @@ export default {
     color: white;
     opacity: 0.8;
     position: absolute;
-    left: 45vh;
-    top: 86.5vh;
+    left: 0;
+    top: 0;
   }
 </style>

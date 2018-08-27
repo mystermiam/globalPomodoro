@@ -1,6 +1,6 @@
-// import townscene to get access to TownScene variable to call TownScene.playMusic (use game element)
-import TownScene from '../scenes/TownScene'
-
+// Importing the game object? And then attaching the function to the game object!!!
+import { Grow } from '../index'
+// Grow.scene.scenes[2].dialogue()
 // Battle plan
 
 // load images with v-for into object container :check
@@ -14,7 +14,7 @@ import TownScene from '../scenes/TownScene'
 export default {
 	namespaced: true,
 	state : {
-		showObjectContainer: true,
+		showObjectContainer: false,
 		objectsInInventory: ['star', 'bomb'],
 		objects: {
 			'star':
@@ -40,9 +40,10 @@ export default {
 	actions: {
 		showUrlInputField({commit}, name){
        
-			//commit('showUrlInputField', name)
-            console.log(TownScene)
-			TownScene.dialogue()
+			commit('showUrlInputField', name)
+            
+            
+		
 		},
 
 		saveInput({commit, state}, index){
@@ -68,14 +69,15 @@ export default {
 			}
 
             // If possible to place something there 
-			
+			//console.log(Grow.scene.scenes[2].getPositionOfCursor())
 		},
 
 		gameContainerClicked({state}){
-			console.log(Phaser)
+			
 			if(state.getCoordinates){
-
+				console.log(Grow.scene.scenes[2].getPositionOfCursor())
 			}
+			
 		}
 
 	},
