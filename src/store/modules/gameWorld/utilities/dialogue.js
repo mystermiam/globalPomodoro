@@ -1,5 +1,10 @@
-// https://gamedevacademy.org/create-a-dialog-modal-plugin-in-phaser-3-part-1/
-import { Grow } from '../index'
+// Battle plan: 
+// Load first message with the name of the person -- dialogues --> currentMessage
+// When player is in dialogue & space is pressed 
+// Move to next point in conversation
+// If conversation is over toggle box & make player move
+
+import { Grow } from './../index'
 
 export default {
 	namespaced: true,
@@ -7,8 +12,9 @@ export default {
 		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
         currentMessage: {
-        	'person': 'Discutor',
-        	'message': 'Boom'
+        	'number': 0,
+        	'person': '',
+        	'message': ''
         },
         dialogues: {
         	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p']]  
@@ -18,14 +24,24 @@ export default {
 
 	},
 	actions: {
-		startDialogue({commit,dispatch}){
+		startDialogue({state,commit,dispatch}, person){
+			
+			let player = Grow.scene.scenes[2].player;
+
+            // Make player unable to move 
+            player.isAllowedToMove = false;
+            player.inDialogue = true;
+
+            // Set initial message
+            commit('setMessage', [state.currentMessage.number, person])
+
 			//Get position
             // Calculate width
             let windowWidth = window.innerWidth;
             let gameWidth = Grow.config.width;
 
             //Get offset of game Container
-
+         
             
             let positionUpperLeftCornerX = (windowWidth-gameWidth) / 2;
             let positionUpperLeftCornerY = document.getElementById('game-container').offsetTop;  
@@ -37,6 +53,11 @@ export default {
             commit('getPosition', [positionUpperLeftCornerX,positionUpperLeftCornerY])
             
             dispatch('toggleDialogueBox');
+
+		},
+
+		continueDialogue(){
+			alert("!")
 		},
 
 		setPosition({state, dispatch}){
@@ -54,7 +75,6 @@ export default {
 		},
 
 
-
 	},
 	mutations: {
 		toggleDialogueBox(state){
@@ -63,6 +83,13 @@ export default {
 
 		getPosition(state, coordinates){
 			state.positionOfGameContainer = [coordinates[0], coordinates[1]]
+		},
+
+		setMessage(state, obj){ 
+         state.currentMessage.person = state.dialogues[obj[1]][state.currentMessage.number][0];
+         state.currentMessage.message = state.dialogues[obj[1]][state.currentMessage.number][1];
 		}
+
+
 	}
 }
