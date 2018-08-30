@@ -9,14 +9,20 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
  		
  	    let scene = config.scene;
         
-        this.variable = 0;
-        this.call = config.furtherVar.realName
+        //define further variables for this character
+
+        // helps to identify in group: this.characters // not used yet
+        this.characterNumber = config.furtherVar.characterNumber;
+
+        this.name = config.furtherVar.name;
+        this.interaction = config.furtherVar.interaction;
 
         scene.physics.world.enable(this);
         this.setSize(56, 56)
         this.setDisplaySize(56,56);
         this.setOffset(35, 28);
         this.setImmovable(true);
+
 
         scene.physics.add.collider(scene.player, this, 
 
@@ -26,10 +32,10 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
               scene.player.actionCounter++
         
               if(scene.player.actionCounter === 1){
-
-                  scene.player.characterInteraction = ['dialogue', 'Discutor']; 
-
-                  store.dispatch('dialogue/loadDialogue');
+                // Could be useful for mapping player actions later on
+                  scene.player.characterInteraction = [this.interaction, this.name]; 
+                  
+                  if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
         
                   //Set timeout sets this to window!
                   setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
@@ -37,17 +43,26 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
       }}}, null, this);
 
 
-        config.scene.add.existing(this);
+        scene.add.existing(this);
+
+        scene.characters.add(this); 
     } // End of constructor
 
+    // update different numbers
+    updateDialogue(){
+      // at the moment only specified for townscene!!!
+      let scene = Grow.scene.scenes[2]
+    // Updating different kind of actions - in this case 'Dialogue' -- move to character
+        if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0 && scene.player.characterInteraction[0] === 'dialogue'){
 
-    updateFunction(time, delta) {
-    	// call from scene
-        console.log('hello')
-    }
+          store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted);
 
-    calling(){
-            console.log('helloooo')
+          scene.player.actionCounter++
+          scene.player.spaceBar.isDown = false;
+
+          // Time until people can continue the dialogue 350ms
+          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 350);
+        }
     }
 
 

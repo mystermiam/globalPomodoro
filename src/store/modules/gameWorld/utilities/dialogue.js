@@ -12,12 +12,16 @@ export default {
 		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
         currentMessage: {
+        	'kindOfMessage': 'normal',
         	'number': 0,
         	'person': '',
-        	'message': ''
+        	'message': '',
+        	'optionOne': '',
+        	'optionTwo': '',
+        	'optionSelected': 1,
         },
         dialogues: {
-        	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p']]  
+        	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', '1'], ['Leave him behind', 'endConversation']]],
         }
 	},
 	getters: {
@@ -26,8 +30,16 @@ export default {
 	actions: {
 		loadDialogue({state,commit,dispatch}){
 			let player = Grow.scene.scenes[2].player;
-			
+
 			console.log('dialogue with ' + player.characterInteraction[1] + ' [' + state.currentMessage.number + ']')
+
+            if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){ 
+            	commit('setCurrentMessageType', 'option')
+            	dispatch('loadOption', player.characterInteraction[1])
+            
+            } else {
+			// START MESSAGE
+			commit('setCurrentMessageType', 'normal')
 
 			if(state.currentMessage.number === 0){
             // Make player unable to move 
@@ -36,10 +48,7 @@ export default {
             //Stop movement animation (improve it with putting it into resting position)
             player.anims.stop();
 
-            // Specify the kind of interaction the player is in
-            player.inDialogue = true;
-
-            // Set initial message
+            // Set initial message if player.characterInteraction[1] is unequal to 'option'
             commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
             
 			//Get position
@@ -66,22 +75,49 @@ export default {
 			//If message is smaller than the length of the dialogue of the person, display next message
 			
             if(state.currentMessage.number < state.dialogues[player.characterInteraction[1]].length){
-           	 commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
-           	 //Increase the currentMessage number by one
-           	 commit('incrementMessageNumber')
+
+            //if the title of the person speaking is 'option' create option method
+            if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){
+			
+			commit('createOption', [state.currentMessage.number, player.characterInteraction[1]])
+
+            // else commit normal message
+            } else { 
+
+            commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]]) 
+
+        	}
+
+       	    //Increase the currentMessage number by one
+       	    commit('incrementMessageNumber')
+
         	} else {
 			// Reset message if currentMessage is equal to message length
 			 commit('resetMessageNumber')
 			// Make player move again 
             player.isAllowedToMove = true;
-			// Set player is in dialogue to false
-            player.inDialogue = false;
+
+            player.characterInteraction = [];
 			// Toggle dialoguebox
             setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; }, 0);
         	}
 		}
 
-		},
+		}},
+
+
+
+		loadOption({commit}, characterName){
+			// Load available options
+			commit('setOptions', characterName)
+
+
+			//if people are pressing down key and option is 1 choose option 2  (more dynamic?)
+
+			// if upkey is pressed and option 2 is chosen highlight option 1 
+            
+			
+		},	
 
 		setPosition({state, dispatch}){
 			let elementHeight = document.getElementById('dialogueContainer').offsetHeight;
@@ -108,9 +144,18 @@ export default {
 			state.positionOfGameContainer = [coordinates[0], coordinates[1]]
 		},
 
+		setCurrentMessageType(state, type){
+        	state.currentMessage.kindOfMessage = type
+        },
+
 		setMessage(state, obj){ 
          state.currentMessage.person = state.dialogues[obj[1]][state.currentMessage.number][0];
          state.currentMessage.message = state.dialogues[obj[1]][state.currentMessage.number][1];
+		},
+
+		setOptions(state, characterName){ 
+         state.currentMessage.optionOne = state.dialogues[characterName][state.currentMessage.number][1][0];
+         state.currentMessage.optionTwo = state.dialogues[characterName][state.currentMessage.number][2][0];
 		},
 
 		incrementMessageNumber(state){
@@ -119,7 +164,7 @@ export default {
 
 		resetMessageNumber(state){
 			state.currentMessage.number = 0;
-		}
+		},
 
 
 	}

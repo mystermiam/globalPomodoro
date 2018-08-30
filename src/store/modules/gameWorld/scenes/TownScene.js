@@ -149,55 +149,56 @@ create() {
  
   this.physics.add.collider(this.player, Tommy, function(){this.player.contactWithCharacter = true; this.player.characterLastContacted = 'Tommy'; setTimeout(function(){ this.player.contactWithCharacter = false; }, 1000);}, null, this);
   
-  
 
-   // LOAD PLAYER
-  this.discutor = new Character({
+
+// create a group for characters --> add characters to group --> add collider for group 
+// This group contains all the characters for collision and calling update-methods
+  this.characters = this.add.group();
+
+// LOAD CHARACTER
+  this.Discutor = new Character({
             scene: this,
             key: 'discutor',
             x: 340,
             y: 1120,
             furtherVar: {
-              'realName': 'Pascal'
+              'characterNumber': 0,
+              'name': 'Discutor',
+              'interaction': 'dialogue',
             }
         });
 
-// create a group for characters --> add characters to group --> add collider for group 
- // This group contains all the characters for collision and calling update-methods
-  this.characters = this.add.group();
 
-  this.characters.add(this.discutor); 
 
 //Experiments
+
+/* LOAD EXAMPLE CHARACTER
+  this.exampleCharacter = new Character({
+            scene: this,
+            key: 'loading from where?',
+            x: 340,
+            y: 1120,
+            furtherVar: {
+              'name': 'exampleCharacterName',
+              'interaction': 'kindOfInteraction',
+            }
+        });
+*/
+  // Maybe one should give the different characters in a scene a number, 
+  // so that one can find them in this.characters.children
+
   //console.log(this.characters.children.entries[0])
   //this.discutor.calling();
 
-/*
-  this.physics.add.collider(this.player, this.discutor, 
-
-    function(){
-    
-      if(keys.spaceBar.isDown){
-          this.player.actionCounter++
-    
-          if(this.player.actionCounter === 1){
-
-              this.player.characterInteraction = ['dialogue', 'Discutor']; 
-
-              store.dispatch('dialogue/loadDialogue');
-    
-              //Set timeout sets this to window!
-              setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
-    
-  }}}, null, this);
-
-*/
 }
 
 update(time, delta) {
   // Update movement
   this.player.move();
-
+  
+  if(this.player.characterInteraction[0] === 'dialogue'){
+    this[this.player.characterInteraction[1]].updateDialogue();
+  }
 /*
   // Run the update method of all enemies
   this.enemyGroup.children.entries.forEach(
@@ -216,17 +217,6 @@ update(time, delta) {
   
   // After 250 ms set playerinaction to false?
 }
-
-   if(this.player.spaceBar.isDown && this.player.actionCounter === 0 && this.player.inDialogue){
-
-      store.dispatch('dialogue/loadDialogue', this.player.characterLastContacted);
-
-      this.player.actionCounter++
-      this.player.spaceBar.isDown = false;
-
-      // Time until people can continue the dialogue 350ms
-      setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 350);
-  }
 
 } // End of update
 
@@ -331,5 +321,29 @@ getPositionOfCursor() {
       collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
     });
+*/
+
+
+
+
+/*
+  this.physics.add.collider(this.player, this.discutor, 
+
+    function(){
+    
+      if(keys.spaceBar.isDown){
+          this.player.actionCounter++
+    
+          if(this.player.actionCounter === 1){
+
+              this.player.characterInteraction = ['dialogue', 'Discutor']; 
+
+              store.dispatch('dialogue/loadDialogue');
+    
+              //Set timeout sets this to window!
+              setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
+    
+  }}}, null, this);
+
 */
 

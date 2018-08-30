@@ -5,8 +5,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
  	      let scene = config.scene;
         
         this.actionCounter = 0;
+
+        // are probably not necessary
         this.inAction = false;
         this.inDialogue = false;
+
+
         this.isAllowedToMove = true;
         this.contactWithCharacter = false;
         this.characterLastContacted = null;

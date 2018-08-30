@@ -1,8 +1,22 @@
 <template>
   <div id='dialogueContainer' v-show='showDialogueBox'>
+
+    <div v-show='currentMessage.kindOfMessage === "normal"'>
      <span id='dialogue-name'>{{currentMessage.person}}</span><br>
 
      <span id='dialogue-text'>{{currentMessage.message}}</span>
+    </div>
+
+    <div v-show='currentMessage.kindOfMessage === "option"'>
+      <span id='dialogue-name'>Player</span><br>
+
+      <span id='dialogue-option' v-bind:class='{ optionHighlighted: currentMessage.optionSelected === 1 }'>{{currentMessage.optionOne}}</span><br>
+
+      <span id='dialogue-option' v-bind:class='{ optionHighlighted: currentMessage.optionSelected === 2 }'>{{currentMessage.optionTwo}}</span><br>      
+
+      <!-- v-for for the amount of options --> 
+    </div>
+  
   </div>
 
 </template>
@@ -79,5 +93,18 @@ export default {
 @keyframes blink-caret {
   from, to { border-color: transparent }
   50% { border-color: orange; }
+}
+
+
+
+
+#dialogue-option {
+  border: 1px solid darkblue;
+  background-color: white;
+  margin: 10px;
+}
+
+.optionHighlighted {
+  background-color: yellow !important;
 }
 </style>
