@@ -20,7 +20,7 @@ export default {
         	'optionSelected': 0,
         },
         dialogues: {
-        	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', '1'], ['Leave him behind', 'endConversation']]],
+        	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', 1], ['Leave him behind', 'endConversation']]],
         }
 	},
 	getters: {
@@ -72,20 +72,10 @@ export default {
 			// Call function on spacebar click if player is in dialogue
 			
 			//If message is smaller than the length of the dialogue of the person, display next message
-			
+			console.log(state.currentMessage.number)
             if(state.currentMessage.number < state.dialogues[player.characterInteraction[1]].length){
-
-            //if the title of the person speaking is 'option' create option method
-            if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){
-			
-			commit('createOption', [state.currentMessage.number, player.characterInteraction[1]])
-
-            // else commit normal message
-            } else { 
-
+           
             commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]]) 
-
-        	}
 
        	    //Increase the currentMessage number by one
        	    commit('incrementMessageNumber')
@@ -111,19 +101,8 @@ export default {
 			for (let i=1; i<state.dialogues[characterName][state.currentMessage.number].length; i++){
 				commit('setOption', [characterName, i])
 			}
-
-			let player = Grow.scene.scenes[2].player;
-
-			// Create new update method in scene
-			player.characterInteraction[0] = 'option'
-
-
-
-			//if people are pressing down key and option is 1 choose option 2  (more dynamic?)
-
-			// if upkey is pressed and option 2 is chosen highlight option 1 
-            
 			
+			Grow.scene.scenes[2].player.characterInteraction[0] = 'option'	
 		},	
 
 		selectDifferentOption({commit}, number){
@@ -136,6 +115,43 @@ export default {
 			} else {
 				commit('selectLastOption', number)
 			}
+		},
+
+		takeOption({state, commit, dispatch}, option){
+			// if options[optionSelected] is a number set message type back to normal and set currentMessage.number to that number
+			if(typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'number'){
+
+				commit('changeMessageNumber', state.currentMessage.options[state.currentMessage.optionSelected][1])
+           
+                Grow.scene.scenes[2].player.characterInteraction[0] = 'dialogue'	
+
+				dispatch('loadDialogue')
+				
+
+			} else if (typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'string'){
+				// if options[optionSelected] is a string call that action
+
+			    // if it is quit , quit  
+			    if (state.currentMessage.options[state.currentMessage.optionSelected][1] === 'endConversation'){
+                 // Reset message if currentMessage is equal to message length
+			 		commit('resetMessageNumber')
+				// Make player move again 
+            		Grow.scene.scenes[2].player.isAllowedToMove = true;
+
+            		Grow.scene.scenes[2].player.characterInteraction = [];
+				// Toggle dialoguebox
+            		setTimeout(function(){dispatch('toggleDialogueBox'); Grow.scene.scenes[2].player.inAction = false; }, 0);
+
+            	
+			    }
+			   
+			}
+	
+            
+			// clear out options array for further use
+			state.currentMessage.options = [];
+			commit('resetOptionSelected')
+
 		},
 
 		setPosition({state}){
@@ -181,7 +197,7 @@ export default {
 		},
 
 		setOption(state, obj){ 
-            state.currentMessage.options.push(state.dialogues[obj[0]][state.currentMessage.number][obj[1]][0])
+            state.currentMessage.options.push(state.dialogues[obj[0]][state.currentMessage.number][obj[1]])
 		},
 
 		selectDifferentOption(state, number){
@@ -194,6 +210,18 @@ export default {
 
 		selectLastOption(state, number){
 			state.currentMessage.optionSelected = number
+		},
+
+		resetOptionSelected(state){
+			state.currentMessage.optionSelected = 0
+		},
+
+		changeMessageNumber(state, number){
+			state.currentMessage.number = number
+		},
+
+		endConversation(state,number){
+
 		}
 
 	}

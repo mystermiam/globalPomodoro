@@ -13,7 +13,7 @@
       <ul>
         <li v-for='(option, index) in currentMessage.options' 
         class='dialogue-option' 
-        v-bind:class='{ optionHighlighted: currentMessage.optionSelected === index }'>{{option}}
+        v-bind:class='{ optionHighlighted: currentMessage.optionSelected === index }'>{{option[0]}}
         </li>
       </ul>
 

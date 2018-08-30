@@ -101,7 +101,16 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
           // Time until people can continue the dialogue 350ms
           setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
-        } 
+        } else if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0){
+          
+          store.dispatch('dialogue/takeOption')
+
+          scene.player.actionCounter++
+          scene.player.spaceBar.isDown = false;
+
+          // Time until people can continue the dialogue 350ms
+          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
+        }
     }
 
 
