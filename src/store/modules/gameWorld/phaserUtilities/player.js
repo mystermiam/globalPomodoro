@@ -2,13 +2,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
  		
- 	    let scene = config.scene;
-
+ 	      let scene = config.scene;
+        
+        this.actionCounter = 0;
         this.inAction = false;
         this.inDialogue = false;
         this.isAllowedToMove = true;
         this.contactWithCharacter = false;
         this.characterLastContacted = null;
+        this.characterInteraction = [];
         this.cursors = scene.input.keyboard.createCursorKeys();
 
         scene.physics.world.enable(this);

@@ -24,25 +24,29 @@ export default {
 
 	},
 	actions: {
-		startDialogue({state,commit,dispatch}, person){
-			
+		loadDialogue({state,commit,dispatch}){
+			console.log('function called')  // only called once, because there is no more collision
 			let player = Grow.scene.scenes[2].player;
-
+			
+			if(state.currentMessage.number === 0){
             // Make player unable to move 
             player.isAllowedToMove = false;
+
+            //Stop movement animation (improve it with putting it into resting position)
+            player.anims.stop();
+
+            // Specify the kind of interaction the player is in
             player.inDialogue = true;
 
             // Set initial message
-            commit('setMessage', [state.currentMessage.number, person])
-
+            commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
+            
 			//Get position
             // Calculate width
             let windowWidth = window.innerWidth;
             let gameWidth = Grow.config.width;
 
             //Get offset of game Container
-         
-            
             let positionUpperLeftCornerX = (windowWidth-gameWidth) / 2;
             let positionUpperLeftCornerY = document.getElementById('game-container').offsetTop;  
 
@@ -51,19 +55,37 @@ export default {
             } 
 
             commit('getPosition', [positionUpperLeftCornerX,positionUpperLeftCornerY])
-            
-            dispatch('toggleDialogueBox');
 
-		},
+            setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; commit('incrementMessageNumber')}, 100);
+		
 
-		continueDialogue(){
-			alert("!")
+		} else if (state.currentMessage.number >= 1){
+			// Call function on spacebar click if player is in dialogue
+			
+			//If message is smaller than the length of the dialogue of the person, display next message
+			
+            if(state.currentMessage.number < state.dialogues[player.characterInteraction[1]].length){
+           	 commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
+           	 //Increase the currentMessage number by one
+           	 commit('incrementMessageNumber')
+        	} else {
+			// Reset message if currentMessage is equal to message length
+			 commit('resetMessageNumber')
+			// Make player move again 
+            player.isAllowedToMove = true;
+			// Set player is in dialogue to false
+            player.inDialogue = false;
+			// Toggle dialoguebox
+            setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; }, 0);
+        	}
+		}
+
 		},
 
 		setPosition({state, dispatch}){
 			let elementHeight = document.getElementById('dialogueContainer').offsetHeight;
-			// I don't know where the 16px come from, but shalalala
-			document.getElementById('dialogueContainer').style.top = (state.positionOfGameContainer[1] + Grow.config.height - elementHeight + 16) + 'px' ;
+			// I don't know where the 16px come from, but shalalala, the calculation must go wrong somewhere
+			document.getElementById('dialogueContainer').style.top = (state.positionOfGameContainer[1] + Grow.config.height - elementHeight + 45) + 'px' ;
 			document.getElementById('dialogueContainer').style.left = state.positionOfGameContainer[0] + 'px';
 		},
 
@@ -88,6 +110,14 @@ export default {
 		setMessage(state, obj){ 
          state.currentMessage.person = state.dialogues[obj[1]][state.currentMessage.number][0];
          state.currentMessage.message = state.dialogues[obj[1]][state.currentMessage.number][1];
+		},
+
+		incrementMessageNumber(state){
+			state.currentMessage.number++;
+		},
+
+		resetMessageNumber(state){
+			state.currentMessage.number = 0;
 		}
 
 

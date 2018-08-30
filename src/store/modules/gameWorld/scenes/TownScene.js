@@ -1,13 +1,18 @@
+// Example code:
+
+//store.getters['moduleName/getterName']
+//store.state.dialogue.showDialogueBox = true;
+//store.dispatch('dialogue/startDialogue', Player.characterLastContacted);
+
 import { Scene } from 'phaser'
 
 import createNPCs from './../utilities/createNPCs'
 //import dialogueModule from './../utilities/dialogue'
 
-import store from '../../../index'
 
-//store.getters['moduleName/getterName']
-//store.state.dialogue.showDialogueBox = true;
-//store.dispatch('dialogue/getPosition');
+import { Grow } from './../index' // necessary?
+
+import store from '../../../index'
 
 import Phaser from 'phaser'
 
@@ -42,10 +47,6 @@ let NPCs;
 let Tommy;
 let Thorsten;
 let Discutor;
-let conversation = {
-  'pointInConversation': 0,
-  'discutor': ['1','2','3'],
-};
  
 export default class TownScene extends Scene {
 
@@ -69,25 +70,6 @@ preload() {
 }
 
 create() {
-  /*
-  // Debug graphics
-  this.input.keyboard.once("keydown_D", event => {
-    // Turn on physics debugging to show player's hitbox
-    this.physics.world.createDebugGraphic();
-
-    // Create worldLayer collision graphic above the player, but below the help text
-    const graphics = this.add
-      .graphics()
-      .setAlpha(0.75)
-      .setDepth(20);
-    worldLayer.renderDebug(graphics, {
-      tileColor: null, // Color of non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-    });
-*/
-
-
   // Loading TileMap
   const map = this.make.tilemap({ key: "map" });
 
@@ -111,7 +93,6 @@ create() {
   // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
   const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
 
-
   // LOAD PLAYER
   this.player = new Player({
             scene: this,
@@ -119,7 +100,6 @@ create() {
             x: spawnPoint.x,
             y: spawnPoint.y
         });
-
 
   // Watch the player and worldLayer for collisions, for the duration of the scene:
   this.physics.add.collider(this.player, worldLayer);
@@ -131,8 +111,6 @@ create() {
 
 
   // ADD KEYS
-  //cursors = this.input.keyboard.createCursorKeys();
-
   keys.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
   // Welcome text that has a "fixed" position on the screen
@@ -158,7 +136,7 @@ create() {
 
   Thorsten.setDisplaySize(80,80)
   
-  this.physics.add.collider(this.player, Thorsten, function(){Player.contactWithCharacter = true; Player.characterLastContacted = 'Thorsten'; setTimeout(function(){ Player.contactWithCharacter = false; }, 1000);}, null, this);
+  this.physics.add.collider(this.player, Thorsten, function(){this.player.contactWithCharacter = true; this.player.characterLastContacted = 'Thorsten'; setTimeout(function(){ this.player.contactWithCharacter = false; }, 1000);}, null, this);
 
   // Tommy epic music
   Tommy = this.physics.add
@@ -183,44 +161,57 @@ create() {
   Discutor.setDisplaySize(60,60)
 
  
-  this.physics.add.collider(this.player, Discutor, function(){Player.contactWithCharacter = true; Player.characterLastContacted = 'Discutor'; setTimeout(function(){ Player.contactWithCharacter = false; }, 1000);}, null, this);
-  
+  //this.physics.add.collider(this.player, Discutor, function(){Player.contactWithCharacter = true; Player.characterLastContacted = 'Discutor'; setTimeout(function(){ Player.contactWithCharacter = false; }, 1000);}, null, this);
+  this.physics.add.collider(this.player, Discutor, 
+
+      function(){
+      this.player.actionCounter++
+      console.log(this.player.actionCounter)
+      if(this.player.actionCounter === 1){
+      console.log('triggered')
+      this.player.characterInteraction = ['dialogue', 'Discutor']; 
+
+      store.dispatch('dialogue/loadDialogue');
+      // This.player is not accessible in timeout, this = window
+      setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
+   
+    }}, null, this);
 
 }
 
 update(time, delta) {
   // Update movement
   this.player.move();
-
-  // Check if player is colliding with action layer of the world! necessary?
-  if(!keys.spaceBar.isDown && Player.inAction){
-           Player.inAction = false;
-  }
   
-  if(keys.spaceBar.isDown && !Player.inAction && Player.contactWithCharacter){
-     Player.inAction = true;
+  if(keys.spaceBar.isDown && !this.player.inAction && this.player.contactWithCharacter){
      
-     // Create 
-     console.log(Player.characterLastContacted)
+     this.player.inAction = true;
     
-     if(Player.characterLastContacted === 'Tommy' || Player.characterLastContacted === 'Thorsten'){
+     if(this.player.characterLastContacted === 'Tommy' || this.player.characterLastContacted === 'Thorsten'){
        this.playMusic();
-     } else if (Player.characterLastContacted === 'Discutor'){
-       this.dialogue();
-     }     
+     } 
+  
+  // After 250 ms set playerinaction to false?
 
-     console.log(Player.inDialogue) 
-  }
-
-  if(keys.spaceBar.isDown && Player.inDialogue){
-      alert("!")
-      store.dispatch('dialogue/continueDialogue', Player.characterLastContacted);
-  }
-
-
-
-
+   // keys.spaceBar.isDown = false;
 }
+
+   if(keys.spaceBar.isDown && this.player.actionCounter === 0 && this.player.inDialogue){
+
+      store.dispatch('dialogue/loadDialogue', this.player.characterLastContacted);
+
+      this.player.actionCounter++
+      keys.spaceBar.isDown = false;
+
+      setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
+  }
+
+} // End of update
+
+
+
+
+
 
 
 playMusic(){
@@ -234,33 +225,6 @@ playMusic(){
     console.log('Tommy: opening tab to play music: Epic!')
     window.open('https://music.youtube.com/watch?v=fuO2JWumMZ0&list=RDQMoLN4u0LZsho');
   }  
-}
-
-
-dialogue(){
-  // player is locked to conversation until he finished all the boxes! 
-
-  // lock player's movement // Collide doesn't work with no moving
-  //Player.isAllowedToMove = false;
- 
-  // have a console.log with the first message
-  
-  //store.getters['moduleName/getterName']
-  //store.state.dialogue.showDialogueBox = true;
-  
-  store.dispatch('dialogue/startDialogue', Player.characterLastContacted);
-  
-  //console.log('3,2,'+ conversation.discutor[conversation.pointInConversation] +'')
-  
-  // if the person presses space it continues to the next message until conversation ends
-  conversation.pointInConversation++
-  
-  // if the conversation ends make player move again
-  if (conversation.pointInConversation >=  conversation.discutor.length){
-    conversation.pointInConversation = 0;
-    Player.isAllowedToMove = true; 
-  }
-
 }
 
 getPositionOfCursor() {
@@ -325,3 +289,25 @@ getPositionOfCursor() {
     frameRate: 10,
     repeat: -1
   });*/
+
+
+
+
+    /*
+  // Debug graphics
+  this.input.keyboard.once("keydown_D", event => {
+    // Turn on physics debugging to show player's hitbox
+    this.physics.world.createDebugGraphic();
+
+    // Create worldLayer collision graphic above the player, but below the help text
+    const graphics = this.add
+      .graphics()
+      .setAlpha(0.75)
+      .setDepth(20);
+    worldLayer.renderDebug(graphics, {
+      tileColor: null, // Color of non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+    });
+*/
+
