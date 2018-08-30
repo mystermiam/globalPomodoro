@@ -21,6 +21,7 @@ export default {
         },
         dialogues: {
         	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', 1], ['Leave him behind', 'endConversation']]],
+        	'Thorsten': [['Thorsten', 'Hey there new One! Would you like to listen to some smooth Techno?'],['option', ['Yeah, I would love to listen to some music', 'https://music.youtube.com/watch?v=wNPiGiQNNrU&list=RDAMPLPLhc9cpTh-PxX1cw-8qEfEKUSlTzY3l3Dw'], ["I'm searching for something else ;) ", 'endConversation']]]
         }
 	},
 	getters: {
@@ -127,9 +128,25 @@ export default {
 
 				dispatch('loadDialogue')
 				
-
-			} else if (typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'string'){
 				// if options[optionSelected] is a string call that action
+			} else if (typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'string'){
+				// If it is music open new tab to play music 
+				let musicReg = new RegExp("^(http|https)://", "i");
+				let matchingLinks = state.currentMessage.options[state.currentMessage.optionSelected][1].match(musicReg);
+		
+				if (matchingLinks){
+					window.open(state.currentMessage.options[state.currentMessage.optionSelected][1]);
+					
+					// Reset message if currentMessage is equal to message length
+			 		commit('resetMessageNumber')
+				// Make player move again 
+            		Grow.scene.scenes[2].player.isAllowedToMove = true;
+
+            		Grow.scene.scenes[2].player.characterInteraction = [];
+				// Toggle dialoguebox
+            		setTimeout(function(){dispatch('toggleDialogueBox'); Grow.scene.scenes[2].player.inAction = false; }, 0);
+
+				} 
 
 			    // if it is quit , quit  
 			    if (state.currentMessage.options[state.currentMessage.optionSelected][1] === 'endConversation'){

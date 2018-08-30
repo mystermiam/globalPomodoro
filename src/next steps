@@ -15,11 +15,6 @@ Hard problems:
 
 - Absolute paths!
 
-- Localisation problem 
-	- Get window height and width
-	- Get game height and width
-	- calculate position
-
 
 - Iframe
 	-Cheerio? Npm
@@ -27,23 +22,16 @@ Hard problems:
 
 
 
-- Dialogue: 
-	- Create a workaround for collide!
-	- create a simple dialogue box
-	- 
 
 - make chat accessible with enter
 	- be able to use all keys
 	- Fit into Game screen (toggle it)
 		- CSS (opacity of background)
 		- 
-- Characters 
-	- Add them to tile
-	- Add them as images not as sprites
 
 - Supergoal! Gaelle Prototype 
-	- create a box filled with items
-	- when clicking on the item you can add a link on it
+	- create a box filled with items :check
+	- when clicking on the item you can add a link on it :check
 	- you can place it in the world
 	- Get preview on hovering or touching the item, can activate with enter or click on it
 
@@ -94,7 +82,7 @@ optional:
 
 Collaborative storytelling platform: 
 
-- Create rooms with chats and a link to the individual story
+- Create rooms with chats and a link to the individual story (storytelling rooms)
 
 
 
@@ -184,3 +172,20 @@ HARD PROBLEMS!!
 - Integrating Vue
 	- Calling actions :check!!!
 	- Calling ingame functions :check!!!
+
+- Localisation problem 
+	- Get window height and width
+	- Get game height and width
+	- calculate position
+
+- Characters 
+	- Add them to tile
+	- Add them as images not as sprites
+
+
+
+- Dialogue: 
+	- Create a workaround for collide!
+	- create a simple dialogue box
+	- ...
+	- ...

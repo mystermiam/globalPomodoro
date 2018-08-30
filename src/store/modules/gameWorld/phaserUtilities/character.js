@@ -16,11 +16,13 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
         this.name = config.furtherVar.name;
         this.interaction = config.furtherVar.interaction;
+        this.size = config.furtherVar.size;
+        this.offSet = config.furtherVar.offSet;
 
         scene.physics.world.enable(this);
-        this.setSize(56, 56)
-        this.setDisplaySize(56,56);
-        this.setOffset(35, 28);
+        this.setSize(this.size[0], this.size[1])
+        this.setDisplaySize(this.size[0], this.size[1]);
+        this.setOffset(this.offSet[0],this.offSet[1]);
         this.setImmovable(true);
 
 

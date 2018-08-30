@@ -126,15 +126,6 @@ create() {
 
 // CHARACTERS 
 
-  // Thorsten techno music
-  Thorsten = this.physics.add
-    .sprite(370, 840, 'thorsten')
-    .setSize(80,80)
-    .setOffset(20,20)
-    .setImmovable(true)
-
-  Thorsten.setDisplaySize(80,80)
-  
   this.physics.add.collider(this.player, Thorsten, function(){this.player.contactWithCharacter = true; this.player.characterLastContacted = 'Thorsten'; setTimeout(function(){ this.player.contactWithCharacter = false; }, 1000);}, null, this);
 
   // Tommy epic music
@@ -165,31 +156,24 @@ create() {
               'characterNumber': 0,
               'name': 'Discutor',
               'interaction': 'dialogue',
+              'size': [60,60],
+              'offSet': [35,24]
             }
         });
 
-
-
-//Experiments
-
-/* LOAD EXAMPLE CHARACTER
-  this.exampleCharacter = new Character({
+  this.Thorsten = new Character({
             scene: this,
-            key: 'loading from where?',
-            x: 340,
-            y: 1120,
+            key: 'thorsten',
+            x: 470,
+            y: 1100,
             furtherVar: {
-              'name': 'exampleCharacterName',
-              'interaction': 'kindOfInteraction',
+              'characterNumber': 1,
+              'name': 'Thorsten',
+              'interaction': 'dialogue',
+              'size': [80,80],
+              'offSet': [20,20]
             }
         });
-*/
-  // Maybe one should give the different characters in a scene a number, 
-  // so that one can find them in this.characters.children
-
-  //console.log(this.characters.children.entries[0])
-  //this.discutor.calling();
-
 }
 
 update(time, delta) {
@@ -353,3 +337,25 @@ getPositionOfCursor() {
 
 */
 
+
+
+
+//Experiments
+
+/* LOAD EXAMPLE CHARACTER
+  this.exampleCharacter = new Character({
+            scene: this,
+            key: 'loading from where?',
+            x: 340,
+            y: 1120,
+            furtherVar: {
+              'name': 'exampleCharacterName',
+              'interaction': 'kindOfInteraction',
+            }
+        });
+*/
+  // Maybe one should give the different characters in a scene a number, 
+  // so that one can find them in this.characters.children
+
+  //console.log(this.characters.children.entries[0])
+  //this.discutor.calling();
