@@ -25,9 +25,10 @@ export default {
 	},
 	actions: {
 		loadDialogue({state,commit,dispatch}){
-			console.log('function called')  // only called once, because there is no more collision
 			let player = Grow.scene.scenes[2].player;
 			
+			console.log('dialogue with ' + player.characterInteraction[1] + ' [' + state.currentMessage.number + ']')
+
 			if(state.currentMessage.number === 0){
             // Make player unable to move 
             player.isAllowedToMove = false;

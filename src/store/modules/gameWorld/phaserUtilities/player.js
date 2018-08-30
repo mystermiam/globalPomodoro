@@ -12,6 +12,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.characterLastContacted = null;
         this.characterInteraction = [];
         this.cursors = scene.input.keyboard.createCursorKeys();
+        this.spaceBar = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         scene.physics.world.enable(this);
 
@@ -26,7 +27,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   // Create a sprite with physics enabled via the physics system. The image used for the sprite has
   // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
 	 	this.setSize(30, 40);
-        this.setOffset(0, 24);
+    this.setOffset(0, 24);
         
         
 		scene.anims.create({
