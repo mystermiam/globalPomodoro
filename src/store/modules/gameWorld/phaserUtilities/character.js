@@ -53,7 +53,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
       // at the moment only specified for townscene!!!
       let scene = Grow.scene.scenes[2]
     // Updating different kind of actions - in this case 'Dialogue' -- move to character
-        if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0 && scene.player.characterInteraction[0] === 'dialogue'){
+        if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0){
 
           store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted);
 
@@ -62,8 +62,49 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
           // Time until people can continue the dialogue 350ms
           setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 350);
-        }
+        } 
     }
 
+    updateOptions(){
+      let scene = Grow.scene.scenes[2]
+
+        console.log(scene.player.cursors.down.isDown, scene.player.cursors.up.isDown)
+
+        if(scene.player.cursors.down.isDown && scene.player.actionCounter === 0){
+          
+
+          //if currentOption selected > length select 0;  
+          if(store.state.dialogue.currentMessage.optionSelected === store.state.dialogue.currentMessage.options.length - 1){
+            store.dispatch('dialogue/selectDifferentOption', 0);
+          } else {
+          //else currentOption++
+            store.dispatch('dialogue/selectDifferentOption', 1)
+          }
+
+          scene.player.actionCounter++
+          scene.player.cursors.down.isDown = false;
+
+          // Time until people can continue the dialogue 350ms
+          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
+        } else if(scene.player.cursors.up.isDown && scene.player.actionCounter === 0){
+       
+          //if currentOption selected > length select 0;  
+          if(store.state.dialogue.currentMessage.optionSelected === 0){
+            store.dispatch('dialogue/selectDifferentOption', store.state.dialogue.currentMessage.options.length - 1);
+          } else {
+          //else currentOption++
+            store.dispatch('dialogue/selectDifferentOption', -1)
+          }
+
+          scene.player.actionCounter++
+          scene.player.cursors.up.isDown = false;
+
+          // Time until people can continue the dialogue 350ms
+          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
+        } 
+    }
+
+
+//if currentOption selected is < 0 select currentOption.length;
 
  } // End of export

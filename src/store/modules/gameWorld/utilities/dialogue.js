@@ -16,9 +16,8 @@ export default {
         	'number': 0,
         	'person': '',
         	'message': '',
-        	'optionOne': '',
-        	'optionTwo': '',
-        	'optionSelected': 1,
+        	'options': [],
+        	'optionSelected': 0,
         },
         dialogues: {
         	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', '1'], ['Leave him behind', 'endConversation']]],
@@ -107,9 +106,17 @@ export default {
 
 
 
-		loadOption({commit}, characterName){
+		loadOption({state, commit}, characterName){
 			// Load available options
-			commit('setOptions', characterName)
+			for (let i=1; i<state.dialogues[characterName][state.currentMessage.number].length; i++){
+				commit('setOption', [characterName, i])
+			}
+
+			let player = Grow.scene.scenes[2].player;
+
+			// Create new update method in scene
+			player.characterInteraction[0] = 'option'
+
 
 
 			//if people are pressing down key and option is 1 choose option 2  (more dynamic?)
@@ -119,7 +126,19 @@ export default {
 			
 		},	
 
-		setPosition({state, dispatch}){
+		selectDifferentOption({commit}, number){
+			if(number === 0){
+				commit('selectFirstOption')
+			} else if (number === 1){
+				commit('selectDifferentOption', 1)
+			} else if (number === -1){
+				commit('selectDifferentOption', -1)
+			} else {
+				commit('selectLastOption', number)
+			}
+		},
+
+		setPosition({state}){
 			let elementHeight = document.getElementById('dialogueContainer').offsetHeight;
 			// I don't know where the 16px come from, but shalalala, the calculation must go wrong somewhere
 			document.getElementById('dialogueContainer').style.top = (state.positionOfGameContainer[1] + Grow.config.height - elementHeight + 45) + 'px' ;
@@ -153,11 +172,6 @@ export default {
          state.currentMessage.message = state.dialogues[obj[1]][state.currentMessage.number][1];
 		},
 
-		setOptions(state, characterName){ 
-         state.currentMessage.optionOne = state.dialogues[characterName][state.currentMessage.number][1][0];
-         state.currentMessage.optionTwo = state.dialogues[characterName][state.currentMessage.number][2][0];
-		},
-
 		incrementMessageNumber(state){
 			state.currentMessage.number++;
 		},
@@ -166,6 +180,21 @@ export default {
 			state.currentMessage.number = 0;
 		},
 
+		setOption(state, obj){ 
+            state.currentMessage.options.push(state.dialogues[obj[0]][state.currentMessage.number][obj[1]][0])
+		},
+
+		selectDifferentOption(state, number){
+            state.currentMessage.optionSelected += number
+		},
+
+		selectFirstOption(state){
+			state.currentMessage.optionSelected = 0
+		},
+
+		selectLastOption(state, number){
+			state.currentMessage.optionSelected = number
+		}
 
 	}
 }

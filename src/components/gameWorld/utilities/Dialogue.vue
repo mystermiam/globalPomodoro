@@ -10,11 +10,13 @@
     <div v-show='currentMessage.kindOfMessage === "option"'>
       <span id='dialogue-name'>Player</span><br>
 
-      <span id='dialogue-option' v-bind:class='{ optionHighlighted: currentMessage.optionSelected === 1 }'>{{currentMessage.optionOne}}</span><br>
+      <ul>
+        <li v-for='(option, index) in currentMessage.options' 
+        class='dialogue-option' 
+        v-bind:class='{ optionHighlighted: currentMessage.optionSelected === index }'>{{option}}
+        </li>
+      </ul>
 
-      <span id='dialogue-option' v-bind:class='{ optionHighlighted: currentMessage.optionSelected === 2 }'>{{currentMessage.optionTwo}}</span><br>      
-
-      <!-- v-for for the amount of options --> 
     </div>
   
   </div>

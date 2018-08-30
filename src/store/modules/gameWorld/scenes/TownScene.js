@@ -194,11 +194,17 @@ create() {
 
 update(time, delta) {
   // Update movement
+  if(this.player.isAllowedToMove){
   this.player.move();
-  
-  if(this.player.characterInteraction[0] === 'dialogue'){
-    this[this.player.characterInteraction[1]].updateDialogue();
   }
+
+  if(this.player.characterInteraction[0] === 'dialogue'){
+    this[this.player.characterInteraction[1]].updateDialogue()
+  } else if (this.player.characterInteraction[0] === 'option'){
+    this[this.player.characterInteraction[1]].updateOptions()
+  }
+
+
 /*
   // Run the update method of all enemies
   this.enemyGroup.children.entries.forEach(

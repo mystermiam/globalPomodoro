@@ -9,11 +9,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         // are probably not necessary
         this.inAction = false;
         this.inDialogue = false;
+        this.contactWithCharacter = false;
 
+        this.characterLastContacted = null;
 
         this.isAllowedToMove = true;
-        this.contactWithCharacter = false;
-        this.characterLastContacted = null;
         this.characterInteraction = [];
         this.cursors = scene.input.keyboard.createCursorKeys();
         this.spaceBar = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
