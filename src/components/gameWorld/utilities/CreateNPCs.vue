@@ -59,6 +59,7 @@ export default {
   top: 0;
   left: 0;
   padding: 20px;
+  opacity: 0.95;
 }
 
 .boxForObject  {

@@ -1,12 +1,12 @@
 // Battle plan: 
 // If link is incorrect, player is locked
+// what happens to itembox if a dialogue starts? close it? 
 
 import { Grow } from './../index'
 
 export default {
 	namespaced: true,
 	state : {
-		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
         currentMessage: {
         	'kindOfMessage': 'normal',
@@ -56,7 +56,7 @@ export default {
 			commit('addNPC', characterNumber)
 		},
 
-		loadDialogue({state,commit,dispatch}){
+		loadDialogue({state,commit,dispatch, rootState}){
 			let player = Grow.scene.scenes[2].player;
 
 			console.log('dialogue with ' + player.characterInteraction[1] + ' [' + state.currentMessage.number + ']')
@@ -76,11 +76,10 @@ export default {
             //Stop movement animation (improve it with putting it into resting position)
             player.anims.stop();
 
-            // Set initial message if player.characterInteraction[1] is unequal to 'option'
             commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
             
-            dispatch('getPosition')
-		
+			dispatch('loadInterface/getPosition', '', {root:true})
+
             setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; commit('incrementMessageNumber')}, 100);
 		
 
@@ -192,11 +191,11 @@ export default {
 
 		},
 
-		setPosition({state}){
+		setPosition({rootState}){
 			let elementHeight = document.getElementById('dialogueContainer').offsetHeight;
 			// I don't know where the 16px come from, but shalalala, the calculation must go wrong somewhere
-			document.getElementById('dialogueContainer').style.top = (state.positionOfGameContainer[1] + Grow.config.height - elementHeight + 45) + 'px' ;
-			document.getElementById('dialogueContainer').style.left = state.positionOfGameContainer[0] + 'px';
+			document.getElementById('dialogueContainer').style.top = (rootState.loadInterface.positionOfGameContainer[1] + Grow.config.height - elementHeight + 45) + 'px' ;
+			document.getElementById('dialogueContainer').style.left = rootState.loadInterface.positionOfGameContainer[0] + 'px';
 		},
 
 		toggleDialogueBox({commit, dispatch}){
@@ -219,10 +218,6 @@ export default {
 
 		toggleDialogueBox(state){
 			state.showDialogueBox = !state.showDialogueBox;
-		},
-
-		getPosition(state, coordinates){
-			state.positionOfGameContainer = [coordinates[0], coordinates[1]]
 		},
 
 		setCurrentMessageType(state, type){
@@ -265,10 +260,5 @@ export default {
 		changeMessageNumber(state, number){
 			state.currentMessage.number = number
 		},
-
-		endConversation(state,number){
-
-		}
-
 	}
 }

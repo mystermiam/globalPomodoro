@@ -6,9 +6,11 @@ import Character from './../phaserUtilities/character'
 import Star from './../assets/star.png'
 
 // Battle plan
-// be able to drag and drop the image / dblclick image, change cursor, click game screen get coordinates :check
 // save to server 
 // let image follow mouse  update() {  sprite.position.set(game.input.mousePointer.worldX, game.input.mousePointer.worldY);}
+// create edit function and pick character up function
+// move objectcontainer into right position
+// make it open on keypress
 
 export default {
 	namespaced: true,

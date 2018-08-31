@@ -30,13 +30,19 @@ export default {
   ...mapActions('createNPCs',{
       gameContainerClicked: 'gameContainerClicked',
     }),
+
+  ...mapActions('loadInterface' ,{
+      getPosition: 'getPosition',
+    }),
+
   },
 
   mounted() {
     launch();
 
     // Put interface into place 
-
+    this.getPosition()
+    
   }
 };
 </script>
