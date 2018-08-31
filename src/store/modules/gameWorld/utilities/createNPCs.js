@@ -1,22 +1,41 @@
+// show picture of npc
+// implement npc into game (only once) - disappear from window
+// create with this.character
+// customize character.js to create character with link
+
+
 // Importing the game object? And then attaching the function to the game object!!!
 import { Grow } from '../index'
+
+import Character from './../phaserUtilities/character'
+
+
+import Star from './../assets/star.png'
+
 // Grow.scene.scenes[2].dialogue()
 // Battle plan
-
 // load images with v-for into object container :check
-// Create css class to format images into uniform size
+// Create css class to format images into uniform size :check
 // click on image and add link :check
-// be able to drag and drop the image / dblclick image, change cursor, click game screen get coordinates
-// realize coordinates of the image
-// load image --> add image into that position
+// be able to drag and drop the image / dblclick image, change cursor, click game screen get coordinates :check
+// realize coordinates of the image :check
+// load image --> add image into that position :check
 // save to server 
 
 export default {
 	namespaced: true,
 	state : {
-		showObjectContainer: false,
-		objectsInInventory: ['star', 'bomb'],
+		characterID: 2, // should be replaced by dynamic individual id
+		showObjectContainer: true,
+		objectsInInventory: ['star'],
 		objects: {
+			'npc': 
+			{
+			'name': 'npc',
+			'image': '../assets/sprites/npc_bailey.png',
+			'showURL': false,
+			'link': '',
+			},
 			'star':
 			{
 			'name': 'star',
@@ -42,8 +61,6 @@ export default {
        
 			commit('showUrlInputField', name)
             
-            
-		
 		},
 
 		saveInput({commit, state}, index){
@@ -60,6 +77,7 @@ export default {
 
             // Click on place to get coordinates
             commit('getCoordinates')
+        
 
             if(state.getCoordinates){
 				// Change cursor (later copy of item should be attached to cursor)
@@ -67,15 +85,39 @@ export default {
 			} else {
 				document.getElementById("game-screen").style.cursor = "default";
 			}
-
-            // If possible to place something there 
-			//console.log(Grow.scene.scenes[2].getPositionOfCursor())
 		},
 
-		gameContainerClicked({state}){
-			
+		gameContainerClicked({state, commit}){
+			console.log(state.objects.star)
 			if(state.getCoordinates){
-				console.log(Grow.scene.scenes[2].getPositionOfCursor())
+				let scene = Grow.scene.scenes[2];
+				let map = Grow.scene.scenes[2].map;
+
+				let pointer = scene.input.activePointer;
+    			let worldPoint = pointer.positionToCamera(scene.cameras.main);
+    			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
+    			let snappedWorldPoint = map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
+    			console.log(snappedWorldPoint.x, snappedWorldPoint.y);
+
+    			//Grow.scene.scenes[2].add.image(snappedWorldPoint.x, snappedWorldPoint.y, 'star');
+    			Grow.scene.scenes[2][state.characterID] = new Character({
+		            scene: Grow.scene.scenes[2],
+		            key: 'star', // don't know yet how to do it
+		            x: snappedWorldPoint.x,
+		            y: snappedWorldPoint.y,
+		            furtherVar: [
+		              ['characterNumber', state.characterID],
+		              ['name', state.characterID],
+		              ['interaction', 'dialogue'],
+		              ['size', [25,25]],
+		              ['offSet', [0,0]],
+		              ['createdCharacter', true],
+		              ['link', state.objects.star.name],
+		            ]
+        		});
+
+        	commit('individualCharacterID')
+
 			}
 			
 		}
@@ -92,6 +134,10 @@ export default {
 
 		getCoordinates(state){
 			state.getCoordinates = !state.getCoordinates
+		},
+
+		individualCharacterID(state){
+			state.characterID++
 		}
 
 	}

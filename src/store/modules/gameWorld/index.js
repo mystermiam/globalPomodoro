@@ -1,8 +1,12 @@
 import Phaser from 'phaser'
-import BootScene from './scenes/BootScene'
+
+//Examples
 import PlayScene from './scenes/PlayScene'
-import TownScene from './scenes/TownScene'
 import platformerScene from './scenes/DynamicPlatformer/platformer-scene'
+
+import BootScene from './scenes/BootScene'
+import TownScene from './scenes/TownScene'
+import HouseOfMusicScene from './scenes/HouseOfMusicScene'
 
 var Grow = [];
 
@@ -20,7 +24,10 @@ function launch() {
         debug: true
       }
     },
-    scene: [BootScene, PlayScene, TownScene, platformerScene]
+    scene: [BootScene, HouseOfMusicScene, TownScene] // this defines, which number the scene has: Grow.scene.scenes[2].player;
+
+    //scene: [BootScene, PlayScene]
+    //scene: [BootScene, platformerScene]
   })
 }
 

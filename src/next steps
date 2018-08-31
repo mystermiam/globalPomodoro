@@ -20,7 +20,9 @@ Hard problems:
 	-Cheerio? Npm
 
 
+- Dynamic import
 
+- Grow.scene.scenes[2]  <-- make it adapt to current scene
 
 
 - make chat accessible with enter

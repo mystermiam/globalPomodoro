@@ -18,6 +18,13 @@
       </ul>
 
     </div>
+
+
+
+    <div v-show='currentMessage.kindOfMessage === "addLink"'>
+      <span>You can add your link below:</span><br><br>
+      <input id='inputToAddLink'></input><button @click='addLinkToCharacter'>Add to Character</button>
+    </div>
   
   </div>
 
@@ -40,14 +47,14 @@ export default {
     }),
 
   },
-/*
+
  methods: {
-  ...mapActions('template',{
-      template: 'template',
+  ...mapActions('dialogue',{
+      addLinkToCharacter: 'addLinkToCharacter',
     })
   },
 
- */
+ 
 
   
 };

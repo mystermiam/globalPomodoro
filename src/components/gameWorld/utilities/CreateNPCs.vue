@@ -53,10 +53,10 @@ export default {
 <style scoped>
 #objectContainer {
   display: inline-block;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   border: 4px double darkgray;
-  border-radius: 10%;
+  border-radius: 2%;
   background-color: lightgray;
   position: absolute;
   top: 0;

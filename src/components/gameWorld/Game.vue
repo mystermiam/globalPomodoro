@@ -23,27 +23,19 @@ export default {
   components: { Dialogue, CreateNPCs },
 
   computed: {
-  ...mapState('player',{
-      escapePressed: 'escapePressed',
-    }),
+
   },
 
   methods: {
-  ...mapActions('player',{
-      // keymonitor: 'keymonitor',
-    }),
-
   ...mapActions('createNPCs',{
       gameContainerClicked: 'gameContainerClicked',
     }),
-
-  ...mapActions('dialogue',{
-      getPosition: 'getPosition',
-    })
   },
 
   mounted() {
     launch();
+
+    // Put interface into place 
 
   }
 };

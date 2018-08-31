@@ -36,6 +36,8 @@ import Player from './../phaserUtilities/player'
 
 import Character from './../phaserUtilities/character'
 
+import Star from './../assets/star.png'
+
 
 let cursors;
 let keys = {
@@ -57,6 +59,10 @@ export default class TownScene extends Scene {
   }
 
 preload() {
+  //currently the image needs to be preloaded to be able to insert it into the game from createNPC
+  this.load.image('star', Star );
+
+
   this.load.image("tiles", examplePNG );
   this.load.tilemapTiledJSON("map", exampleJSON);
   // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
@@ -72,17 +78,18 @@ preload() {
 }
 
 create() {
+
   // Loading TileMap
-  const map = this.make.tilemap({ key: "map" });
+  this.map = this.make.tilemap({ key: "map" });
 
   // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
   // Phaser's cache (i.e. the name character used in preload)
-  const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+  const tileset = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
 
   // Parameters: layer name (or index) from Tiled, tileset, x, y
-  const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
-  const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
-  const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
+  const belowLayer = this.map.createStaticLayer("Below Player", tileset, 0, 0);
+  const worldLayer = this.map.createStaticLayer("World", tileset, 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", tileset, 0, 0);
 
   worldLayer.setCollisionByProperty({ collides: true });
 
@@ -93,7 +100,7 @@ create() {
 
   // Object layers in Tiled let character embed extra info into a map - like a spawn point or custom
   // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
-  const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
+  const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
 
   // LOAD PLAYER
   this.player = new Player({
@@ -109,7 +116,7 @@ create() {
   // CAMERA
   const camera = this.cameras.main;
   camera.startFollow(this.player);
-  camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
 
   // Welcome text that has a "fixed" position on the screen
@@ -152,13 +159,13 @@ create() {
             key: 'discutor',
             x: 340,
             y: 1120,
-            furtherVar: {
-              'characterNumber': 0,
-              'name': 'Discutor',
-              'interaction': 'dialogue',
-              'size': [60,60],
-              'offSet': [35,24]
-            }
+            furtherVar: [
+              ['characterNumber', 0],
+              ['name', 'Discutor'],
+              ['interaction', 'dialogue'],
+              ['size', [60,60]],
+              ['offSet', [35,24]],
+            ]
         });
 
   this.Thorsten = new Character({
@@ -166,14 +173,14 @@ create() {
             key: 'thorsten',
             x: 470,
             y: 1100,
-            furtherVar: {
-              'characterNumber': 1,
-              'name': 'Thorsten',
-              'interaction': 'dialogue',
-              'size': [80,80],
-              'offSet': [20,20]
-            }
-        });
+            furtherVar: [
+              ['characterNumber', 1],
+              ['name', 'Thorsten'],
+              ['interaction', 'dialogue'],
+              ['size', [80,80]],
+              ['offSet', [20,20]],
+            ]
+        }); 
 }
 
 update(time, delta) {
@@ -209,6 +216,7 @@ update(time, delta) {
 }
 
 } // End of update
+
 
 
 

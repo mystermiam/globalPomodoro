@@ -9,15 +9,12 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
  		
  	    let scene = config.scene;
         
-        //define further variables for this character
-
         // helps to identify in group: this.characters // not used yet
-        this.characterNumber = config.furtherVar.characterNumber;
 
-        this.name = config.furtherVar.name;
-        this.interaction = config.furtherVar.interaction;
-        this.size = config.furtherVar.size;
-        this.offSet = config.furtherVar.offSet;
+        //define further variables for this character
+        for (let i=0;i<config.furtherVar.length;i++){
+            this[config.furtherVar[i][0]] = config.furtherVar[i][1]
+        }
 
         scene.physics.world.enable(this);
         this.setSize(this.size[0], this.size[1])
@@ -25,7 +22,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         this.setOffset(this.offSet[0],this.offSet[1]);
         this.setImmovable(true);
 
-
+        if(this.createdCharacter === false || this.createdCharacter === undefined){
         scene.physics.add.collider(scene.player, this, 
 
             function(){
@@ -43,6 +40,32 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
                   setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
         
       }}}, null, this);
+
+      } else if (this.createdCharacter === true){
+        // Add basic dialogue function to newly created NPC
+        store.dispatch('dialogue/addNPC', this.characterNumber); // NPC should have an individual id , replaced here by 100
+
+        // Add here the functions for player constructed NPC's
+        scene.physics.add.collider(scene.player, this, 
+
+            function(){
+    
+          if(scene.player.spaceBar.isDown){
+              scene.player.actionCounter++
+        
+              if(scene.player.actionCounter === 1){
+                // Could be useful for mapping player actions later on
+                  scene.player.characterInteraction = [this.interaction, this.name]; 
+                  
+                  if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
+        
+                  //Set timeout sets this to window!
+                  setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
+        
+      }}}, null, this);
+
+
+      }
 
 
         scene.add.existing(this);
@@ -114,8 +137,5 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
           setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
         }
     }
-
-
-//if currentOption selected is < 0 select currentOption.length;
 
  } // End of export

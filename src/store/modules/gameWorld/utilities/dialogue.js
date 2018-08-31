@@ -21,13 +21,26 @@ export default {
         },
         dialogues: {
         	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', 1], ['Leave him behind', 'endConversation']]],
-        	'Thorsten': [['Thorsten', 'Hey there new One! Would you like to listen to some smooth Techno?'],['option', ['Yeah, I would love to listen to some music', 'https://music.youtube.com/watch?v=wNPiGiQNNrU&list=RDAMPLPLhc9cpTh-PxX1cw-8qEfEKUSlTzY3l3Dw'], ["I'm searching for something else ;) ", 'endConversation']]]
+        	'Thorsten': [['Thorsten', 'Hey there new one! Would you like to listen to some French Rap?'],['option', ['Yeah, I would love to listen to some music', 'https://music.youtube.com/watch?v=U_OFNlaeTP0&list=RDEMrVtQ-lZ7fMpTG2noSdOlEA'], ["I'm searching for something else ;) ", 'endConversation']]]
         }
 	},
 	getters: {
 
 	},
 	actions: {
+		addLinkToCharacter({commit, dispatch}){
+			let link = document.getElementById('inputToAddLink').value;
+			let characterNumber = Grow.scene.scenes[2].player.characterInteraction[1]
+			commit('addLinkToCharacter', [link, characterNumber])
+			commit('changeMessageNumber', 1)
+			commit('setCurrentMessageType', 'option')
+			dispatch('loadDialogue')
+		},
+
+		addNPC({commit}, characterNumber){
+			commit('addNPC', characterNumber)
+		},
+
 		loadDialogue({state,commit,dispatch}){
 			let player = Grow.scene.scenes[2].player;
 
@@ -148,7 +161,13 @@ export default {
 
 				} 
 
-			    // if it is quit , quit  
+				// Add Link
+				if(state.currentMessage.options[state.currentMessage.optionSelected][1] === 'addLink'){
+					commit('setCurrentMessageType', 'addLink')
+				}
+
+
+			    // End conversation
 			    if (state.currentMessage.options[state.currentMessage.optionSelected][1] === 'endConversation'){
                  // Reset message if currentMessage is equal to message length
 			 		commit('resetMessageNumber')
@@ -188,6 +207,14 @@ export default {
 
 	},
 	mutations: {
+		addLinkToCharacter(state, obj){
+			state.dialogues[obj[1]][1][1] = ['go to link', obj[0]]
+		},
+
+		addNPC(state, characterNumber){
+			state.dialogues[characterNumber] = [['Your NPC', 'Hey there my friend!'],['option',['You can add a link here', 'addLink'],['follow me', 'follow'],['go away', 'endConversation']]]
+		},
+
 		toggleDialogueBox(state){
 			state.showDialogueBox = !state.showDialogueBox;
 		},
