@@ -6,9 +6,7 @@
 
     <div v-show='objects[object].showURL'>
 
-      <input :value='objects[object].link'></input><button @click='saveInput(index)'>SAVE</button>
-
-      <button @click='addIntoGame(objects[object])'>ADD!</button>
+      <button id='dropObjectButton' @click='addIntoGame(objects[object])'>Drop into game</button>
       <br><br>
     </div>
 
@@ -39,7 +37,6 @@ export default {
  methods: {
   ...mapActions('createNPCs',{
       showUrlInputField: 'showUrlInputField',
-      saveInput: 'saveInput',
       addIntoGame: 'addIntoGame',
     })
   },
@@ -71,7 +68,26 @@ export default {
   padding: 10px;
   border: 1px solid black;
   background-color: white;
+}
 
+#dropObjectButton{
+  font-size: 0.7em;
+  display: inline-block;
 }
 
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <input :value='objects[object].link'></input><button @click='saveInput(index)'>SAVE</button>    saveInput: 'saveInput',-->
+

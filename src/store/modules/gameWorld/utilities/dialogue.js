@@ -1,8 +1,5 @@
 // Battle plan: 
-// Load first message with the name of the person -- dialogues --> currentMessage
-// When player is in dialogue & space is pressed 
-// Move to next point in conversation
-// If conversation is over toggle box & make player move
+// If link is incorrect, player is locked
 
 import { Grow } from './../index'
 
@@ -28,6 +25,24 @@ export default {
 
 	},
 	actions: {
+		getPosition({commit}){
+			//Get position
+            // Calculate width
+            let windowWidth = window.innerWidth;
+            let gameWidth = Grow.config.width;
+
+            //Get offset of game Container
+            let positionUpperLeftCornerX = (windowWidth-gameWidth) / 2;
+            let positionUpperLeftCornerY = document.getElementById('game-container').offsetTop;  
+
+            if (positionUpperLeftCornerX < 0){
+            	positionUpperLeftCornerX = 0;
+            } 
+
+            commit('getPosition', [positionUpperLeftCornerX,positionUpperLeftCornerY])
+
+		},
+
 		addLinkToCharacter({commit, dispatch}){
 			let link = document.getElementById('inputToAddLink').value;
 			let characterNumber = Grow.scene.scenes[2].player.characterInteraction[1]
@@ -64,21 +79,8 @@ export default {
             // Set initial message if player.characterInteraction[1] is unequal to 'option'
             commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
             
-			//Get position
-            // Calculate width
-            let windowWidth = window.innerWidth;
-            let gameWidth = Grow.config.width;
-
-            //Get offset of game Container
-            let positionUpperLeftCornerX = (windowWidth-gameWidth) / 2;
-            let positionUpperLeftCornerY = document.getElementById('game-container').offsetTop;  
-
-            if (positionUpperLeftCornerX < 0){
-            	positionUpperLeftCornerX = 0;
-            } 
-
-            commit('getPosition', [positionUpperLeftCornerX,positionUpperLeftCornerY])
-
+            dispatch('getPosition')
+		
             setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; commit('incrementMessageNumber')}, 100);
 		
 

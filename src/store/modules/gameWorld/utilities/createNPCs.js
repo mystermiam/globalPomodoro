@@ -1,10 +1,3 @@
-// show picture of npc
-// implement npc into game (only once) - disappear from window
-// create with this.character
-// customize character.js to create character with link
-
-
-// Importing the game object? And then attaching the function to the game object!!!
 import { Grow } from '../index'
 
 import Character from './../phaserUtilities/character'
@@ -12,20 +5,15 @@ import Character from './../phaserUtilities/character'
 
 import Star from './../assets/star.png'
 
-// Grow.scene.scenes[2].dialogue()
 // Battle plan
-// load images with v-for into object container :check
-// Create css class to format images into uniform size :check
-// click on image and add link :check
 // be able to drag and drop the image / dblclick image, change cursor, click game screen get coordinates :check
-// realize coordinates of the image :check
-// load image --> add image into that position :check
 // save to server 
+// let image follow mouse  update() {  sprite.position.set(game.input.mousePointer.worldX, game.input.mousePointer.worldY);}
 
 export default {
 	namespaced: true,
 	state : {
-		characterID: 2, // should be replaced by dynamic individual id
+		characterID: 4, // should be replaced by dynamic individual id
 		showObjectContainer: true,
 		objectsInInventory: ['star'],
 		objects: {
@@ -35,6 +23,7 @@ export default {
 			'image': '../assets/sprites/npc_bailey.png',
 			'showURL': false,
 			'link': '',
+			'quantity': 0,
 			},
 			'star':
 			{
@@ -42,6 +31,7 @@ export default {
 			'image': '../assets/star.png',
 			'showURL': false,
 			'link': '',
+			'quantity': 1,
             },
             'bomb':
 			{
@@ -49,31 +39,28 @@ export default {
 			'image': '../assets/bomb.png',
 			'showURL': false,
 			'link': '',
+			'quantity': 0,
             },
 		},
+		itemCurrentlySelected: false,
 		getCoordinates: false,
 	},
 	getters: {
 
 	},
 	actions: {
-		showUrlInputField({commit}, name){
+		showUrlInputField({state, commit}, name){
        
 			commit('showUrlInputField', name)
+
+			if(!state.itemCurrentlySelected){
+				commit('itemCurrentlySelected', name)
+			} else {
+				commit('unselectItem')
+			}
             
 		},
-
-		saveInput({commit, state}, index){
-			// Get text of input
-			let newInput = event.target.previousElementSibling.value;
-			// save it to variable
-			commit('saveInput', [newInput, index]);
-
-			// close input field
-			commit('showUrlInputField', state.objectsInInventory[index]);
-		},
-
-		addIntoGame({commit, state}){
+    	addIntoGame({state, commit}){
 
             // Click on place to get coordinates
             commit('getCoordinates')
@@ -87,9 +74,8 @@ export default {
 			}
 		},
 
-		gameContainerClicked({state, commit}){
-			console.log(state.objects.star)
-			if(state.getCoordinates){
+		gameContainerClicked({state, commit, dispatch}){
+			 if(state.itemCurrentlySelected){
 				let scene = Grow.scene.scenes[2];
 				let map = Grow.scene.scenes[2].map;
 
@@ -97,12 +83,10 @@ export default {
     			let worldPoint = pointer.positionToCamera(scene.cameras.main);
     			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
     			let snappedWorldPoint = map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
-    			console.log(snappedWorldPoint.x, snappedWorldPoint.y);
 
-    			//Grow.scene.scenes[2].add.image(snappedWorldPoint.x, snappedWorldPoint.y, 'star');
     			Grow.scene.scenes[2][state.characterID] = new Character({
 		            scene: Grow.scene.scenes[2],
-		            key: 'star', // don't know yet how to do it
+		            key: state.itemCurrentlySelected, 
 		            x: snappedWorldPoint.x,
 		            y: snappedWorldPoint.y,
 		            furtherVar: [
@@ -112,24 +96,27 @@ export default {
 		              ['size', [25,25]],
 		              ['offSet', [0,0]],
 		              ['createdCharacter', true],
-		              ['link', state.objects.star.name],
+		              ['link', state.objects[state.itemCurrentlySelected].name],
 		            ]
         		});
-
+    		//UNFINISHED: Increment character Number to give each character an individual id / would not work with multiple characters
         	commit('individualCharacterID')
-
-			}
-			
-		}
+        	
+        	// Remove item from itemlist 
+        	let positionOfItem = state.objectsInInventory.indexOf(state.itemCurrentlySelected);
+        	commit('removeItemFromItemList', positionOfItem)
+        	
+        	//UNFINISHED: Close url input field, use when working with quantities
+        	//dispatch('showUrlInputField', state.itemCurrentlySelected)
+        	
+        	// Unselect items
+        	commit('unselectItem')
+        	}}
 
 	},
 	mutations: {
 		showUrlInputField(state, name){
 			state.objects[name].showURL = !state.objects[name].showURL
-		},
-
-		saveInput(state, obj){
-			state.objects[state.objectsInInventory[obj[1]]].link = obj[0]
 		},
 
 		getCoordinates(state){
@@ -138,7 +125,70 @@ export default {
 
 		individualCharacterID(state){
 			state.characterID++
+		},
+
+		itemCurrentlySelected(state, name){
+			state.itemCurrentlySelected = name;
+		},
+
+		unselectItem(state){
+			state.itemCurrentlySelected = false;
+		},
+
+		removeItemFromItemList(state, positionOfItem){
+			//UNFINISHED: Should work with quantity later on
+			state.objectsInInventory.splice(positionOfItem, 1);
 		}
 
+
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+Actions 
+
+	saveInput({commit, state}, index){
+			// Get text of input
+			let newInput = event.target.previousElementSibling.value;
+			// save it to variable
+			commit('saveInput', [newInput, index]);
+
+			// close input field
+			commit('showUrlInputField', state.objectsInInventory[index]);
+	},
+
+Mutations
+
+	saveInput(state, obj){
+			state.objects[state.objectsInInventory[obj[1]]].link = obj[0]
+		},
+
+
+*/
