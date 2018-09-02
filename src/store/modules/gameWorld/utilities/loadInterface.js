@@ -7,6 +7,8 @@ export default {
 	namespaced: true,
 	state : {
 		positionOfGameContainer: [0,0],
+		showObjectContainer: false,
+		showChat: false,
 	},
 	getters: {
 
@@ -38,11 +40,43 @@ export default {
 			document.getElementById('objectContainer').style.left = (state.positionOfGameContainer[0] + Grow.config.width - objectContainerWidth - 1) + 'px';
 
 		},
+
+		keymonitor({state, commit}, e){
+		    if(e.key == 'i' ){
+		    	if(!state.showObjectContainer){
+		    	commit('showObjectContainer')
+		    	} else {
+		    	commit('hideObjectContainer')
+		    	}
+		    } else if(e.key == 'c'){
+		    	if(!state.showChat){
+		    		commit('showChat')
+		    	} else {
+		    		commit('hideChat')
+		    	}
+		    }
+		},
 	},
 	mutations: {
 		getPosition(state, coordinates){
 			state.positionOfGameContainer = [coordinates[0], coordinates[1]]
-			console.log(state.positionOfGameContainer)
 		},
+
+		showObjectContainer(state){
+			state.showObjectContainer = true;
+		},
+
+		hideObjectContainer(state){
+			state.showObjectContainer = false;
+		},
+
+		showChat(state){
+			state.showChat = true;
+		},
+
+		hideChat(state){
+			state.showChat = false;
+		},
+
 	}
 }

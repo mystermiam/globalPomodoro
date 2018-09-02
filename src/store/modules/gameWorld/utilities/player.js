@@ -1,22 +1,21 @@
+// Try to put movement keys here
+
 export default {
 	namespaced: true,
 	state : {
-		escapePressed: false,
+		sceneActive: 0,
 	},
 	getters: {
 
 	},
 	actions: {
-		keymonitor({commit}, event){
-		   //console.log(event.key)
-		   
-		   commit('keymonitor')
-
+		changeActiveScene({commit}, number){
+			commit('changeActiveScene', number)
 		}
 	},
 	mutations: {
-		keymonitor(state){
-			state.escapePressed = !state.escapePressed
+		changeActiveScene(state, number){
+			state.sceneActive = number
 		}
 	}
 }

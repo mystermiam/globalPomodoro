@@ -28,10 +28,15 @@ export default {
      
   computed : {
    ...mapState('createNPCs',{
-      showObjectContainer:'showObjectContainer', 
       objectsInInventory:'objectsInInventory',
       objects:'objects',
-    })
+    }),
+
+   ...mapState('loadInterface',{
+      showObjectContainer:'showObjectContainer', 
+    }),
+
+
   },
  
  methods: {

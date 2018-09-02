@@ -7,15 +7,16 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
     	// create this.template = new Template() with config in the scene that uses the character
         super(config.scene, config.x, config.y, config.key, config.furtherVar); 
  		
- 	    let scene = config.scene;
-        
+
+ 	      this.scene = config.scene;
+        let scene = this.scene
         // helps to identify in group: this.characters // not used yet
 
         //define further variables for this character
         for (let i=0;i<config.furtherVar.length;i++){
             this[config.furtherVar[i][0]] = config.furtherVar[i][1]
         }
-
+       
         scene.physics.world.enable(this);
         this.setSize(this.size[0], this.size[1])
         this.setDisplaySize(this.size[0], this.size[1]);
@@ -37,7 +38,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
                   if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
         
                   //Set timeout sets this to window!
-                  setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
+                  setTimeout(function(){ scene.player.actionCounter = 0}, 1000);
         
       }}}, null, this);
 
@@ -60,7 +61,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
                   if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
         
                   //Set timeout sets this to window!
-                  setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 1000);
+                  setTimeout(function(){ scene.player.actionCounter = 0}, 1000);
         
       }}}, null, this);
 
@@ -75,8 +76,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
     // update different numbers
     updateDialogue(){
-      // at the moment only specified for townscene!!!
-      let scene = Grow.scene.scenes[2]
+      let scene = this.scene
     // Updating different kind of actions - in this case 'Dialogue' -- move to character
         if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0){
 
@@ -86,14 +86,12 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
           scene.player.spaceBar.isDown = false;
 
           // Time until people can continue the dialogue 350ms
-          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 350);
+          setTimeout(function(){ scene.player.actionCounter = 0}, 350);
         } 
     }
 
     updateOptions(){
-      let scene = Grow.scene.scenes[2]
-
-        console.log(scene.player.cursors.down.isDown, scene.player.cursors.up.isDown)
+      let scene = this.scene
 
         if(scene.player.cursors.down.isDown && scene.player.actionCounter === 0){
           
@@ -110,7 +108,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
           scene.player.cursors.down.isDown = false;
 
           // Time until people can continue the dialogue 350ms
-          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
+          setTimeout(function(){ scene.player.actionCounter = 0}, 100);
         } else if(scene.player.cursors.up.isDown && scene.player.actionCounter === 0){
        
           //if currentOption selected > length select 0;  
@@ -125,7 +123,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
           scene.player.cursors.up.isDown = false;
 
           // Time until people can continue the dialogue 350ms
-          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
+          setTimeout(function(){ scene.player.actionCounter = 0}, 100);
         } else if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0){
           
           store.dispatch('dialogue/takeOption')
@@ -134,7 +132,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
           scene.player.spaceBar.isDown = false;
 
           // Time until people can continue the dialogue 350ms
-          setTimeout(function(){ Grow.scene.scenes[2].player.actionCounter = 0}, 100);
+          setTimeout(function(){ scene.player.actionCounter = 0}, 100);
         }
     }
 

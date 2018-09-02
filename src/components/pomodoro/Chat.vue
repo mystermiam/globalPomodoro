@@ -1,5 +1,5 @@
 <template>
-  <div class="chatContainer">
+  <div class="chatContainer"  v-show='showChat'>
     <div id="chatBox" class="chatBox">
         <message v-for="(message,i) in messages" :key="i" :message="message" :previous="i>0 ? messages[i-1] : ''">
         </message>
@@ -54,7 +54,11 @@ export default {
   computed : {
     ...mapState('chat',{
       messages:'messages'
-    })
+    }),
+
+    ...mapState('loadInterface',{
+      showChat: 'showChat',
+    }),
   },
   created (){
     this.fetchMessages();

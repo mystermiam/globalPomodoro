@@ -1,6 +1,6 @@
 // Battle plan: 
 // If link is incorrect, player is locked
-// what happens to itembox if a dialogue starts? close it? 
+// going from option to another option does not work 
 
 import { Grow } from './../index'
 
@@ -17,6 +17,7 @@ export default {
         	'optionSelected': 0,
         },
         dialogues: {
+        	'ItemFound':[['Rare artifact', 'You found a super rare artifact that nobody has ever found before you! Use i to open up itembox and use it']],
         	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', 1], ['Leave him behind', 'endConversation']]],
         	'Thorsten': [['Thorsten', 'Hey there new one! Would you like to listen to some French Rap?'],['option', ['Yeah, I would love to listen to some music', 'https://music.youtube.com/watch?v=U_OFNlaeTP0&list=RDEMrVtQ-lZ7fMpTG2noSdOlEA'], ["I'm searching for something else ;) ", 'endConversation']]]
         }
@@ -43,9 +44,10 @@ export default {
 
 		},
 
-		addLinkToCharacter({commit, dispatch}){
+		addLinkToCharacter({commit, dispatch, rootState}){
 			let link = document.getElementById('inputToAddLink').value;
-			let characterNumber = Grow.scene.scenes[2].player.characterInteraction[1]
+			let scene = Grow.scene.scenes[rootState.player.sceneActive];
+			let characterNumber = scene.player.characterInteraction[1]
 			commit('addLinkToCharacter', [link, characterNumber])
 			commit('changeMessageNumber', 1)
 			commit('setCurrentMessageType', 'option')
@@ -57,9 +59,10 @@ export default {
 		},
 
 		loadDialogue({state,commit,dispatch, rootState}){
-			let player = Grow.scene.scenes[2].player;
+			let scene = Grow.scene.scenes[rootState.player.sceneActive];
+			let player = scene.player;
 
-			console.log('dialogue with ' + player.characterInteraction[1] + ' [' + state.currentMessage.number + ']')
+			//console.log('dialogue with ' + player.characterInteraction[1] + ' [' + state.currentMessage.number + ']')
 
             if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){ 
             	commit('setCurrentMessageType', 'option')
@@ -70,6 +73,12 @@ export default {
 			commit('setCurrentMessageType', 'normal')
 
 			if(state.currentMessage.number === 0){
+
+			// Hide object container
+			if(rootState.loadInterface.showObjectContainer){
+				commit('loadInterface/hideObjectContainer', '', {root:true})
+			}
+
             // Make player unable to move 
             player.isAllowedToMove = false;
 
@@ -87,7 +96,6 @@ export default {
 			// Call function on spacebar click if player is in dialogue
 			
 			//If message is smaller than the length of the dialogue of the person, display next message
-			console.log(state.currentMessage.number)
             if(state.currentMessage.number < state.dialogues[player.characterInteraction[1]].length){
            
             commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]]) 
@@ -111,13 +119,13 @@ export default {
 
 
 
-		loadOption({state, commit}, characterName){
+		loadOption({state, commit, rootState}, characterName){
 			// Load available options
 			for (let i=1; i<state.dialogues[characterName][state.currentMessage.number].length; i++){
 				commit('setOption', [characterName, i])
 			}
-			
-			Grow.scene.scenes[2].player.characterInteraction[0] = 'option'	
+			let scene = Grow.scene.scenes[rootState.player.sceneActive];
+			scene.player.characterInteraction[0] = 'option'	
 		},	
 
 		selectDifferentOption({commit}, number){
@@ -132,13 +140,15 @@ export default {
 			}
 		},
 
-		takeOption({state, commit, dispatch}, option){
+		takeOption({state, commit, dispatch, rootState}, option){
+			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			// if options[optionSelected] is a number set message type back to normal and set currentMessage.number to that number
 			if(typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'number'){
-
+                
+                // This one causes lots of mistakes
 				commit('changeMessageNumber', state.currentMessage.options[state.currentMessage.optionSelected][1])
-           
-                Grow.scene.scenes[2].player.characterInteraction[0] = 'dialogue'	
+                
+                scene.player.characterInteraction[0] = 'dialogue'	
 
 				dispatch('loadDialogue')
 				
@@ -154,11 +164,11 @@ export default {
 					// Reset message if currentMessage is equal to message length
 			 		commit('resetMessageNumber')
 				// Make player move again 
-            		Grow.scene.scenes[2].player.isAllowedToMove = true;
+            		scene.player.isAllowedToMove = true;
 
-            		Grow.scene.scenes[2].player.characterInteraction = [];
+            		scene.player.characterInteraction = [];
 				// Toggle dialoguebox
-            		setTimeout(function(){dispatch('toggleDialogueBox'); Grow.scene.scenes[2].player.inAction = false; }, 0);
+            		setTimeout(function(){dispatch('toggleDialogueBox'); scene.player.inAction = false; }, 0);
 
 				} 
 
@@ -173,11 +183,11 @@ export default {
                  // Reset message if currentMessage is equal to message length
 			 		commit('resetMessageNumber')
 				// Make player move again 
-            		Grow.scene.scenes[2].player.isAllowedToMove = true;
+            		scene.player.isAllowedToMove = true;
 
-            		Grow.scene.scenes[2].player.characterInteraction = [];
+            		scene.player.characterInteraction = [];
 				// Toggle dialoguebox
-            		setTimeout(function(){dispatch('toggleDialogueBox'); Grow.scene.scenes[2].player.inAction = false; }, 0);
+            		setTimeout(function(){dispatch('toggleDialogueBox'); scene.player.inAction = false; }, 0);
 
             	
 			    }
@@ -213,7 +223,7 @@ export default {
 		},
 
 		addNPC(state, characterNumber){
-			state.dialogues[characterNumber] = [['Your NPC', 'Hey there my friend!'],['option',['You can add a link here', 'addLink'],['follow me', 'follow'],['go away', 'endConversation']]]
+			state.dialogues[characterNumber] = [['Your NPC', 'Hey there my friend!'],['option',['You can add a link here', 'addLink'],['further options', 2],['go away', 'endConversation']],['option',['pick Item up', 'pickUp'],['follow me', 'follow'],['go back', 1]]]
 		},
 
 		toggleDialogueBox(state){

@@ -16,8 +16,7 @@ export default {
 	namespaced: true,
 	state : {
 		characterID: 4, // should be replaced by dynamic individual id
-		showObjectContainer: true,
-		objectsInInventory: ['star'],
+		objectsInInventory: [],
 		objects: {
 			'npc': 
 			{
@@ -51,6 +50,10 @@ export default {
 
 	},
 	actions: {
+		findItem({commit}, name){
+			commit('findItem', name)
+		},
+
 		showUrlInputField({state, commit}, name){
        
 			commit('showUrlInputField', name)
@@ -76,18 +79,18 @@ export default {
 			}
 		},
 
-		gameContainerClicked({state, commit, dispatch}){
+		gameContainerClicked({state, commit, dispatch, rootState}){
 			 if(state.itemCurrentlySelected){
-				let scene = Grow.scene.scenes[2];
-				let map = Grow.scene.scenes[2].map;
+				let scene = Grow.scene.scenes[rootState.player.sceneActive];
+				let map = scene.map;
 
 				let pointer = scene.input.activePointer;
     			let worldPoint = pointer.positionToCamera(scene.cameras.main);
     			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
     			let snappedWorldPoint = map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
 
-    			Grow.scene.scenes[2][state.characterID] = new Character({
-		            scene: Grow.scene.scenes[2],
+    			scene[state.characterID] = new Character({
+		            scene: scene,
 		            key: state.itemCurrentlySelected, 
 		            x: snappedWorldPoint.x,
 		            y: snappedWorldPoint.y,
@@ -117,6 +120,10 @@ export default {
 
 	},
 	mutations: {
+		findItem(state, name){
+			state.objectsInInventory.push(name)
+		},
+
 		showUrlInputField(state, name){
 			state.objects[name].showURL = !state.objects[name].showURL
 		},
@@ -141,8 +148,6 @@ export default {
 			//UNFINISHED: Should work with quantity later on
 			state.objectsInInventory.splice(positionOfItem, 1);
 		}
-
-
 	}
 
 }

@@ -1,3 +1,8 @@
+//Battle plan:
+// Learn about using constants (variable management)
+// Learn about absolute paths
+//
+
 // Example code:
 
 //store.getters['moduleName/getterName']
@@ -9,14 +14,12 @@ import { Scene } from 'phaser'
 import createNPCs from './../utilities/createNPCs'
 //import dialogueModule from './../utilities/dialogue'
 
-
-import { Grow } from './../index' // necessary?
-
 import store from '../../../index'
 
-import Phaser from 'phaser'
+//import Phaser from 'phaser'
 
-import { MAP_TOWN, IMAGE_TOWN } from '../constants/assets';
+// Learn about using constants like this!
+//import { MAP_TOWN, IMAGE_TOWN } from '../constants/assets';
 
 //Town Scene
 import examplePNG from "./../assets/tilesets/tuxmon-sample-32px-extruded.png"
@@ -26,6 +29,7 @@ import exampleCharacterPNG from './../assets/atlas/atlas.png'
 import exampleCharacterJSON from './../assets/atlas/atlas.json'
 
 import exampleCharacter from './../assets/sprites/player.png'
+// Learn about absolute pathways
 //import exampleCharacter from '@/store/assets/sprites/player.png'
 
 import thorsten from './../../../../../static/raw_sprites/spritesmith/npcs/npc_aprilFool.png'
@@ -39,18 +43,11 @@ import Character from './../phaserUtilities/character'
 import Star from './../assets/star.png'
 
 
-let cursors;
-let keys = {
-          spaceBar: false,
-        };
 
+// Only need it if debug is activated
 let showDebug = false;
-let anims;
 
-let NPCs;
-let Tommy;
-let Thorsten;
-let Discutor;
+
  
 export default class TownScene extends Scene {
 
@@ -59,6 +56,9 @@ export default class TownScene extends Scene {
   }
 
 preload() {
+  // set Active Scene (adapt to number of this scene)
+  store.dispatch('player/changeActiveScene', 2); 
+
   //currently the image needs to be preloaded to be able to insert it into the game from createNPC
   this.load.image('star', Star );
 
@@ -132,55 +132,46 @@ create() {
 
 
 // CHARACTERS 
-
-  this.physics.add.collider(this.player, Thorsten, function(){this.player.contactWithCharacter = true; this.player.characterLastContacted = 'Thorsten'; setTimeout(function(){ this.player.contactWithCharacter = false; }, 1000);}, null, this);
-
-  // Tommy epic music
-  Tommy = this.physics.add
-    .sprite(440,840, 'exampleCharacter')
-    .setSize(32, 32)
-    .setOffset(0, 0)
-    .setImmovable(true);
-
-  Tommy.setDisplaySize(40,40)
-
- 
-  this.physics.add.collider(this.player, Tommy, function(){this.player.contactWithCharacter = true; this.player.characterLastContacted = 'Tommy'; setTimeout(function(){ this.player.contactWithCharacter = false; }, 1000);}, null, this);
-  
-
-
 // create a group for characters --> add characters to group --> add collider for group 
 // This group contains all the characters for collision and calling update-methods
-  this.characters = this.add.group();
+this.characters = this.add.group();
 
 // LOAD CHARACTER
-  this.Discutor = new Character({
-            scene: this,
-            key: 'discutor',
-            x: 340,
-            y: 1120,
-            furtherVar: [
-              ['characterNumber', 0],
-              ['name', 'Discutor'],
-              ['interaction', 'dialogue'],
-              ['size', [60,60]],
-              ['offSet', [35,24]],
-            ]
-        });
+this.Discutor = new Character({
+          scene: this,
+          key: 'discutor',
+          x: 340,
+          y: 1120,
+          furtherVar: [
+            ['characterNumber', 0],
+            ['name', 'Discutor'],
+            ['interaction', 'dialogue'],
+            ['size', [60,60]],
+            ['offSet', [35,24]],
+          ]
+      });
 
-  this.Thorsten = new Character({
-            scene: this,
-            key: 'thorsten',
-            x: 470,
-            y: 1100,
-            furtherVar: [
-              ['characterNumber', 1],
-              ['name', 'Thorsten'],
-              ['interaction', 'dialogue'],
-              ['size', [80,80]],
-              ['offSet', [20,20]],
-            ]
-        }); 
+this.Thorsten = new Character({
+          scene: this,
+          key: 'thorsten',
+          x: 470,
+          y: 1100,
+          furtherVar: [
+            ['characterNumber', 1],
+            ['name', 'Thorsten'],
+            ['interaction', 'dialogue'],
+            ['size', [80,80]],
+            ['offSet', [20,20]],
+          ]
+      }); 
+
+  // Items one can find 
+  this.itemsOneCanFind = this.physics.add.group()
+
+  // Create as characters
+  this.star = this.itemsOneCanFind.create(200, 1150, 'star')
+
+  this.physics.add.overlap(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
 }
 
 update(time, delta) {
@@ -195,51 +186,29 @@ update(time, delta) {
     this[this.player.characterInteraction[1]].updateOptions()
   }
 
-
-/*
-  // Run the update method of all enemies
-  this.enemyGroup.children.entries.forEach(
-      (sprite) => {
-          sprite.update(time, delta);
-      }
-*/
-
-  if(this.player.spaceBar.isDown && !this.player.inAction && this.player.contactWithCharacter){
-     
-     this.player.inAction = true;
-    
-     if(this.player.characterLastContacted === 'Tommy' || this.player.characterLastContacted === 'Thorsten'){
-       this.playMusic();
-     } 
-  
-  // After 250 ms set playerinaction to false?
-}
-
 } // End of update
 
 
 
+collectItem(player, item){
+  // Get item name 
+  let name = item.texture.key; 
+  // add item to createNPC objectsInInventory
+  store.dispatch('createNPCs/findItem', name)
 
-
-
-
-
-playMusic(){
-  // Load iframe with youtube music
-
-  // 2nd try: Open new tab with music :check! with several NPCs :check
-  if(this.player.characterLastContacted === 'Thorsten'){
-    console.log('Thorsten: opening tab to play music: Techno!')
-    window.open('https://music.youtube.com/watch?v=wNPiGiQNNrU&list=RDAMPLPLhc9cpTh-PxX1cw-8qEfEKUSlTzY3l3Dw');
-  } if(this.player.characterLastContacted === 'Tommy'){
-    console.log('Tommy: opening tab to play music: Epic!')
-    window.open('https://music.youtube.com/watch?v=fuO2JWumMZ0&list=RDQMoLN4u0LZsho');
-  }  
+  // dispatch dialogue?
+  // this.player.characterInteraction = ['dialogue', 'ItemFound']
+  
+  alert('You found a rare item, use i to open your itembox and use it ;)')
+  // Remove item
+  this[name].disableBody(true, true);
 }
+
 
 getPositionOfCursor() {
   return [this.input.activePointer.x,this.input.activePointer.y]
 }
+
 
 }
 
@@ -367,3 +336,57 @@ getPositionOfCursor() {
 
   //console.log(this.characters.children.entries[0])
   //this.discutor.calling();
+
+
+
+/*
+playMusic(){
+  // Load iframe with youtube music
+
+  // 2nd try: Open new tab with music :check! with several NPCs :check
+  if(this.player.characterLastContacted === 'Thorsten'){
+    console.log('Thorsten: opening tab to play music: Techno!')
+    window.open('https://music.youtube.com/watch?v=wNPiGiQNNrU&list=RDAMPLPLhc9cpTh-PxX1cw-8qEfEKUSlTzY3l3Dw');
+  } if(this.player.characterLastContacted === 'Tommy'){
+    console.log('Tommy: opening tab to play music: Epic!')
+    window.open('https://music.youtube.com/watch?v=fuO2JWumMZ0&list=RDQMoLN4u0LZsho');
+  }  
+}
+
+*/
+
+
+/*
+  // Run the update method of all enemies
+  this.enemyGroup.children.entries.forEach(
+      (sprite) => {
+          sprite.update(time, delta);
+      }
+*/
+/*
+  if(this.player.spaceBar.isDown && !this.player.inAction && this.player.contactWithCharacter){
+     
+     this.player.inAction = true;
+    
+     if(this.player.characterLastContacted === 'Tommy' || this.player.characterLastContacted === 'Thorsten'){
+       this.playMusic();
+     } 
+  
+  // After 250 ms set playerinaction to false?
+
+*/
+
+/*
+  // Tommy epic music
+  Tommy = this.physics.add
+    .sprite(440,840, 'exampleCharacter')
+    .setSize(32, 32)
+    .setOffset(0, 0)
+    .setImmovable(true);
+
+  Tommy.setDisplaySize(40,40)
+
+ 
+  this.physics.add.collider(this.player, Tommy, function(){this.player.contactWithCharacter = true; this.player.characterLastContacted = 'Tommy'; setTimeout(function(){ this.player.contactWithCharacter = false; }, 1000);}, null, this);
+  
+*/
