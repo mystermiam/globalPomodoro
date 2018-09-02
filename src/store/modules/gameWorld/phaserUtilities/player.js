@@ -1,3 +1,19 @@
+import exampleCharacterPNG from './../assets/atlas/atlas.png'
+import exampleCharacterJSON from './../assets/atlas/atlas.json'
+
+
+// Could be relevant
+
+//   this.scene.manager.keys.GamepadScene.stop();
+ //   this.input.keyboard.removeAllListeners();
+  //  this.input.removeAllListeners();
+   // this.server.removeAllListeners();
+
+
+// Sensor field (solves collide problem)
+//I've set a key-less child sprite to the player in the same size and set the anchor depending on the direction the player look (0.5 +/- 0.25, 0.5 +/- 0.25), to let it leap a bit of.
+// With this "sensor-field" I can work with overlap to pass the object for evaluation.
+   
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
@@ -64,7 +80,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 	 	} // End of constructor
 
-
+preloading(){
+  this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
+}
 
 move(time, delta) {
 // Movement

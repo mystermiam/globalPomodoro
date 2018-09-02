@@ -1,6 +1,4 @@
 import { Scene } from 'phaser'
-import Phaser from 'phaser'
-
 
 export default class BootScene extends Scene {
   constructor () {
@@ -17,10 +15,10 @@ export default class BootScene extends Scene {
 
     // Platformer test 
     //this.scene.start('platformerScene')
-
+ 
     // World test
-    this.scene.start('TownScene')
-    //this.scene.start('MusicHouseScene')
+    this.scene.start('HouseOfMusicScene')
+    
 
 
   

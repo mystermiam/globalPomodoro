@@ -11,7 +11,8 @@ RPG!!!
 
 Hard problems:
 - Movement!
-	- Vue Key monitor? // it's actually something with my keyboard?
+	- Vue Key monitor :check
+	- Try out movement keys with vue? // it's actually something with my keyboard?
 
 - Absolute paths!
 
@@ -19,10 +20,7 @@ Hard problems:
 	- Cheerio? Npm
 	- Try from server
 
-
 - Dynamic import
-
-- Grow.scene.scenes[2]  <-- make it adapt to current scene
 
 
 - make chat accessible with enter
@@ -189,5 +187,10 @@ HARD PROBLEMS!!
 - Dialogue: 
 	- Create a workaround for collide!
 	- create a simple dialogue box
+	- make it more dynamic
 	- ...
 	- ...
+
+
+
+- Grow.scene.scenes[2] :check

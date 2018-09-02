@@ -16,16 +16,26 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         for (let i=0;i<config.furtherVar.length;i++){
             this[config.furtherVar[i][0]] = config.furtherVar[i][1]
         }
+        
        
+        // console.log(this.size[0], this.size[1]) probably only works because size is a thing already
         scene.physics.world.enable(this);
         this.setSize(this.size[0], this.size[1])
         this.setDisplaySize(this.size[0], this.size[1]);
         this.setOffset(this.offSet[0],this.offSet[1]);
         this.setImmovable(true);
 
+
+        // If the dialogue is pushed to dialogue.js here it needs to be deleted at some point, probably at scene switch
+        if(this.dialogue === undefined){} else {
+          store.dispatch('dialogue/addDialogue', [this.name, this.dialogue]);
+        }
+
+
+        
         if(this.createdCharacter === false || this.createdCharacter === undefined){
         scene.physics.add.collider(scene.player, this, 
-
+      
             function(){
     
           if(scene.player.spaceBar.isDown){
@@ -36,7 +46,6 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
                   scene.player.characterInteraction = [this.interaction, this.name]; 
                   
                   if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
-        
                   //Set timeout sets this to window!
                   setTimeout(function(){ scene.player.actionCounter = 0}, 1000);
         
@@ -57,7 +66,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
               if(scene.player.actionCounter === 1){
                 // Could be useful for mapping player actions later on
                   scene.player.characterInteraction = [this.interaction, this.name]; 
-                  
+                  console.log('called')
                   if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
         
                   //Set timeout sets this to window!
@@ -71,7 +80,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
 
-        scene.characters.add(this); 
+       // scene.characters.add(this); 
     } // End of constructor
 
     // update different numbers

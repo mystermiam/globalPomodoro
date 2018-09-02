@@ -1,4 +1,6 @@
 // Battle plan: 
+
+// Empty dialogue on scene change and also in general ;)
 // If link is incorrect, player is locked
 // going from option to another option does not work 
 
@@ -7,7 +9,6 @@ import { Grow } from './../index'
 export default {
 	namespaced: true,
 	state : {
-		showDialogueBox: false,
         currentMessage: {
         	'kindOfMessage': 'normal',
         	'number': 0,
@@ -26,23 +27,9 @@ export default {
 
 	},
 	actions: {
-		getPosition({commit}){
-			//Get position
-            // Calculate width
-            let windowWidth = window.innerWidth;
-            let gameWidth = Grow.config.width;
-
-            //Get offset of game Container
-            let positionUpperLeftCornerX = (windowWidth-gameWidth) / 2;
-            let positionUpperLeftCornerY = document.getElementById('game-container').offsetTop;  
-
-            if (positionUpperLeftCornerX < 0){
-            	positionUpperLeftCornerX = 0;
-            } 
-
-            commit('getPosition', [positionUpperLeftCornerX,positionUpperLeftCornerY])
-
-		},
+        addDialogue({commit}, obj){
+        	commit('addDialogue', obj)
+        },
 
 		addLinkToCharacter({commit, dispatch, rootState}){
 			let link = document.getElementById('inputToAddLink').value;
@@ -58,20 +45,25 @@ export default {
 			commit('addNPC', characterNumber)
 		},
 
-		loadDialogue({state,commit,dispatch, rootState}){
+		loadDialogue({state,commit,dispatch,rootState}){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
+            
+            if(state.currentMessage.number >= state.dialogues[player.characterInteraction[1]].length){
+			// no option
+			dispatch('endConversation')
 
-			//console.log('dialogue with ' + player.characterInteraction[1] + ' [' + state.currentMessage.number + ']')
-
-            if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){ 
+			// If 'name' is option
+			} else if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){ 
             	commit('setCurrentMessageType', 'option')
             	dispatch('loadOption', player.characterInteraction[1])
             
+            // otherwise load a normal message
             } else {
 			// START MESSAGE
 			commit('setCurrentMessageType', 'normal')
 
+			// If dialogue box is not yet loaded
 			if(state.currentMessage.number === 0){
 
 			// Hide object container
@@ -89,7 +81,7 @@ export default {
             
 			dispatch('loadInterface/getPosition', '', {root:true})
 
-            setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; commit('incrementMessageNumber')}, 100);
+            setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false; commit('incrementMessageNumber')}, 100);
 		
 
 		} else if (state.currentMessage.number >= 1){
@@ -104,20 +96,24 @@ export default {
        	    commit('incrementMessageNumber')
 
         	} else {
-			// Reset message if currentMessage is equal to message length
-			 commit('resetMessageNumber')
-			// Make player move again 
-            player.isAllowedToMove = true;
-
-            player.characterInteraction = [];
-			// Toggle dialoguebox
-            setTimeout(function(){dispatch('toggleDialogueBox'); player.inAction = false; }, 0);
+        	dispatch('endConversation')
         	}
 		}
 
 		}},
 
+		endConversation({commit, dispatch, rootState}){
+			let player = Grow.scene.scenes[rootState.player.sceneActive].player;
+			// End conversation
+			// Reset message if currentMessage is equal to message length
+			commit('resetMessageNumber')
+			// Make player move again 
+            player.isAllowedToMove = true;
 
+            player.characterInteraction = [];
+			// Toggle dialoguebox
+            setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false; }, 0);
+		},
 
 		loadOption({state, commit, rootState}, characterName){
 			// Load available options
@@ -201,33 +197,22 @@ export default {
 
 		},
 
-		setPosition({rootState}){
-			let elementHeight = document.getElementById('dialogueContainer').offsetHeight;
-			// I don't know where the 16px come from, but shalalala, the calculation must go wrong somewhere
-			document.getElementById('dialogueContainer').style.top = (rootState.loadInterface.positionOfGameContainer[1] + Grow.config.height - elementHeight + 45) + 'px' ;
-			document.getElementById('dialogueContainer').style.left = rootState.loadInterface.positionOfGameContainer[0] + 'px';
-		},
+		
 
-		toggleDialogueBox({commit, dispatch}){
-		   commit('toggleDialogueBox')
-
-		   // Load after the box is shown, so that one can get the width of the box
-		   setTimeout(function(){ dispatch('setPosition'); }, 0);
-		},
 
 
 	},
 	mutations: {
+		addDialogue(state, obj){
+			state.dialogues[obj[0]] = obj[1]
+		},
+
 		addLinkToCharacter(state, obj){
 			state.dialogues[obj[1]][1][1] = ['go to link', obj[0]]
 		},
 
 		addNPC(state, characterNumber){
 			state.dialogues[characterNumber] = [['Your NPC', 'Hey there my friend!'],['option',['You can add a link here', 'addLink'],['further options', 2],['go away', 'endConversation']],['option',['pick Item up', 'pickUp'],['follow me', 'follow'],['go back', 1]]]
-		},
-
-		toggleDialogueBox(state){
-			state.showDialogueBox = !state.showDialogueBox;
 		},
 
 		setCurrentMessageType(state, type){

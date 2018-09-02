@@ -101,7 +101,7 @@ create() {
   // Object layers in Tiled let character embed extra info into a map - like a spawn point or custom
   // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
   const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
-
+  
   // LOAD PLAYER
   this.player = new Player({
             scene: this,
@@ -161,7 +161,7 @@ this.Thorsten = new Character({
             ['name', 'Thorsten'],
             ['interaction', 'dialogue'],
             ['size', [80,80]],
-            ['offSet', [20,20]],
+            ['offSet', [80,80]],
           ]
       }); 
 
@@ -172,6 +172,15 @@ this.Thorsten = new Character({
   this.star = this.itemsOneCanFind.create(200, 1150, 'star')
 
   this.physics.add.overlap(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
+
+
+
+  // Doors to other instances
+  const doorValueGuy = this.map.findObject("Objects", obj => obj.name === "Door_ValueGuy");
+
+  console.log(doorValueGuy)
+  this.physics.add.overlap(this.player, 'Door_ValueGuy', function(){console.log('!'); this.stop(this.sys.config.key); this.scene.start('HouseOfMusicScene');}, null, this);
+
 }
 
 update(time, delta) {

@@ -49,6 +49,18 @@
                  "width":0,
                  "x":352,
                  "y":1216
+                }, 
+                {
+                 "height":0,
+                 "id":279,
+                 "name":"Door_ValueGuy",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":272,
+                 "y":1144
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -56,7 +68,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":277,
+ "nextobjectid":287,
  "orientation":"orthogonal",
  "properties":
     {
@@ -67,7 +79,7 @@
      "edges":"string"
     },
  "renderorder":"right-down",
- "tiledversion":"1.1.5",
+ "tiledversion":"1.1.3",
  "tileheight":32,
  "tilesets":[
         {
@@ -1156,19 +1168,19 @@
                 },
              "336":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "337":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "338":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "339":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "34":
                 {
@@ -1176,23 +1188,23 @@
                 },
              "340":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "341":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "342":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "343":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "344":
                 {
-                 "collides":true
+                 "collides":false
                 },
              "345":
                 {
@@ -2646,123 +2658,11 @@
                 {
                  "collides":false
                 },
-             "672":
-                {
-                 "collides":false
-                },
-             "673":
-                {
-                 "collides":false
-                },
-             "674":
-                {
-                 "collides":false
-                },
-             "675":
-                {
-                 "collides":false
-                },
-             "676":
-                {
-                 "collides":false
-                },
-             "677":
-                {
-                 "collides":false
-                },
-             "678":
-                {
-                 "collides":false
-                },
-             "679":
-                {
-                 "collides":false
-                },
              "68":
                 {
                  "collides":false
                 },
-             "680":
-                {
-                 "collides":false
-                },
-             "681":
-                {
-                 "collides":false
-                },
-             "682":
-                {
-                 "collides":false
-                },
-             "683":
-                {
-                 "collides":false
-                },
-             "684":
-                {
-                 "collides":false
-                },
-             "685":
-                {
-                 "collides":false
-                },
-             "686":
-                {
-                 "collides":false
-                },
-             "687":
-                {
-                 "collides":false
-                },
-             "688":
-                {
-                 "collides":false
-                },
-             "689":
-                {
-                 "collides":false
-                },
              "69":
-                {
-                 "collides":false
-                },
-             "690":
-                {
-                 "collides":false
-                },
-             "691":
-                {
-                 "collides":false
-                },
-             "692":
-                {
-                 "collides":false
-                },
-             "693":
-                {
-                 "collides":false
-                },
-             "694":
-                {
-                 "collides":false
-                },
-             "695":
-                {
-                 "collides":false
-                },
-             "696":
-                {
-                 "collides":false
-                },
-             "697":
-                {
-                 "collides":false
-                },
-             "698":
-                {
-                 "collides":false
-                },
-             "699":
                 {
                  "collides":false
                 },
@@ -2774,87 +2674,7 @@
                 {
                  "collides":false
                 },
-             "700":
-                {
-                 "collides":false
-                },
-             "701":
-                {
-                 "collides":false
-                },
-             "702":
-                {
-                 "collides":false
-                },
-             "703":
-                {
-                 "collides":false
-                },
-             "704":
-                {
-                 "collides":false
-                },
-             "705":
-                {
-                 "collides":false
-                },
-             "706":
-                {
-                 "collides":false
-                },
-             "707":
-                {
-                 "collides":false
-                },
-             "708":
-                {
-                 "collides":false
-                },
-             "709":
-                {
-                 "collides":false
-                },
              "71":
-                {
-                 "collides":false
-                },
-             "710":
-                {
-                 "collides":false
-                },
-             "711":
-                {
-                 "collides":false
-                },
-             "712":
-                {
-                 "collides":false
-                },
-             "713":
-                {
-                 "collides":false
-                },
-             "714":
-                {
-                 "collides":false
-                },
-             "715":
-                {
-                 "collides":false
-                },
-             "716":
-                {
-                 "collides":false
-                },
-             "717":
-                {
-                 "collides":false
-                },
-             "718":
-                {
-                 "collides":false
-                },
-             "719":
                 {
                  "collides":false
                 },
@@ -5529,123 +5349,11 @@
                 {
                  "collides":"bool"
                 },
-             "672":
-                {
-                 "collides":"bool"
-                },
-             "673":
-                {
-                 "collides":"bool"
-                },
-             "674":
-                {
-                 "collides":"bool"
-                },
-             "675":
-                {
-                 "collides":"bool"
-                },
-             "676":
-                {
-                 "collides":"bool"
-                },
-             "677":
-                {
-                 "collides":"bool"
-                },
-             "678":
-                {
-                 "collides":"bool"
-                },
-             "679":
-                {
-                 "collides":"bool"
-                },
              "68":
                 {
                  "collides":"bool"
                 },
-             "680":
-                {
-                 "collides":"bool"
-                },
-             "681":
-                {
-                 "collides":"bool"
-                },
-             "682":
-                {
-                 "collides":"bool"
-                },
-             "683":
-                {
-                 "collides":"bool"
-                },
-             "684":
-                {
-                 "collides":"bool"
-                },
-             "685":
-                {
-                 "collides":"bool"
-                },
-             "686":
-                {
-                 "collides":"bool"
-                },
-             "687":
-                {
-                 "collides":"bool"
-                },
-             "688":
-                {
-                 "collides":"bool"
-                },
-             "689":
-                {
-                 "collides":"bool"
-                },
              "69":
-                {
-                 "collides":"bool"
-                },
-             "690":
-                {
-                 "collides":"bool"
-                },
-             "691":
-                {
-                 "collides":"bool"
-                },
-             "692":
-                {
-                 "collides":"bool"
-                },
-             "693":
-                {
-                 "collides":"bool"
-                },
-             "694":
-                {
-                 "collides":"bool"
-                },
-             "695":
-                {
-                 "collides":"bool"
-                },
-             "696":
-                {
-                 "collides":"bool"
-                },
-             "697":
-                {
-                 "collides":"bool"
-                },
-             "698":
-                {
-                 "collides":"bool"
-                },
-             "699":
                 {
                  "collides":"bool"
                 },
@@ -5657,87 +5365,7 @@
                 {
                  "collides":"bool"
                 },
-             "700":
-                {
-                 "collides":"bool"
-                },
-             "701":
-                {
-                 "collides":"bool"
-                },
-             "702":
-                {
-                 "collides":"bool"
-                },
-             "703":
-                {
-                 "collides":"bool"
-                },
-             "704":
-                {
-                 "collides":"bool"
-                },
-             "705":
-                {
-                 "collides":"bool"
-                },
-             "706":
-                {
-                 "collides":"bool"
-                },
-             "707":
-                {
-                 "collides":"bool"
-                },
-             "708":
-                {
-                 "collides":"bool"
-                },
-             "709":
-                {
-                 "collides":"bool"
-                },
              "71":
-                {
-                 "collides":"bool"
-                },
-             "710":
-                {
-                 "collides":"bool"
-                },
-             "711":
-                {
-                 "collides":"bool"
-                },
-             "712":
-                {
-                 "collides":"bool"
-                },
-             "713":
-                {
-                 "collides":"bool"
-                },
-             "714":
-                {
-                 "collides":"bool"
-                },
-             "715":
-                {
-                 "collides":"bool"
-                },
-             "716":
-                {
-                 "collides":"bool"
-                },
-             "717":
-                {
-                 "collides":"bool"
-                },
-             "718":
-                {
-                 "collides":"bool"
-                },
-             "719":
                 {
                  "collides":"bool"
                 },
