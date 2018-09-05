@@ -12,17 +12,35 @@ import Star from './../assets/star.png'
 // move objectcontainer into right position
 // make it open on keypress
 
+
+// added in character.js 
+let dialogue1 = [
+['Your NPC', 'Hey there my friend!'],
+['option',
+	['You can add a link here', ["commit('setCurrentMessageType', 'addLink')"]],
+	['further options', [2, "commit('setCurrentMessageType', 'option')"]],
+	['go away', [10]],
+],
+['option',
+	['pick Item up', [10, 'console.log("pick item up function should be called here")']],
+	['follow me', [10, 'console.log("follow function should be called here")']],
+	['go back', [1]]
+]
+];
+
+
 export default {
 	namespaced: true,
 	state : {
 		characterID: 4, // should be replaced by dynamic individual id
-		objectsInInventory: [],
+		objectsInInventory: ['star'],
 		objects: {
 			'npc': 
 			{
 			'name': 'npc',
 			'image': '../assets/sprites/npc_bailey.png',
 			'showURL': false,
+			'dialogue': dialogue1,
 			'link': '',
 			'quantity': 0,
 			},
@@ -30,6 +48,7 @@ export default {
 			{
 			'name': 'star',
 			'image': '../assets/star.png',
+			'dialogue': dialogue1,
 			'showURL': false,
 			'link': '',
 			'quantity': 1,
@@ -37,7 +56,8 @@ export default {
             'bomb':
 			{
 			'name': 'bomb',
-			'image': '../assets/bomb.png',
+			'image': '../assets/bomb.png',	
+			'dialogue': dialogue1,
 			'showURL': false,
 			'link': '',
 			'quantity': 0,
@@ -83,7 +103,6 @@ export default {
 			 if(state.itemCurrentlySelected){
 				let scene = Grow.scene.scenes[rootState.player.sceneActive];
 				let map = scene.map;
-
 				let pointer = scene.input.activePointer;
     			let worldPoint = pointer.positionToCamera(scene.cameras.main);
     			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
@@ -95,15 +114,18 @@ export default {
 		            x: snappedWorldPoint.x,
 		            y: snappedWorldPoint.y,
 		            furtherVar: [
-		              ['characterNumber', state.characterID],
+		              ['characterNumber', state.itemCurrentlySelected],
 		              ['name', state.characterID],
 		              ['interaction', 'dialogue'],
+		              ['dialogue', state.objects[state.itemCurrentlySelected].dialogue],
 		              ['size', [25,25]],
 		              ['offSet', [0,0]],
 		              ['createdCharacter', true],
 		              ['link', state.objects[state.itemCurrentlySelected].name],
 		            ]
         		});
+        	//Push dialogue to dialogue box on dropping
+        	//dispatch('dialogue/addDialogue', [''+ state.characterID +'',state.objects[state.itemCurrentlySelected].dialogue], {root:true})
     		//UNFINISHED: Increment character Number to give each character an individual id / would not work with multiple characters
         	commit('individualCharacterID')
         	

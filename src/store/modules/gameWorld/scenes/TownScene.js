@@ -16,6 +16,7 @@ import createNPCs from './../utilities/createNPCs'
 
 import store from '../../../index'
 
+import { Grow } from './../index'
 //import Phaser from 'phaser'
 
 // Learn about using constants like this!
@@ -56,8 +57,15 @@ export default class TownScene extends Scene {
   }
 
 preload() {
-  // set Active Scene (adapt to number of this scene)
-  store.dispatch('player/changeActiveScene', 2); 
+    //Set active scene for vue
+    let numberOfActiveScene = 0;
+    for(let i=0;i<Grow.scene.scenes.length;i++){
+      if(Grow.scene.scenes[i].sys.config.key === this.sys.config.key){
+        numberOfActiveScene = i;
+      }
+    }
+    store.dispatch('player/changeActiveScene', numberOfActiveScene);
+
 
   //currently the image needs to be preloaded to be able to insert it into the game from createNPC
   this.load.image('star', Star );
@@ -119,7 +127,7 @@ create() {
   camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
 
-  // Welcome text that has a "fixed" position on the screen
+  /* // Welcome text that has a "fixed" position on the screen
   this.add
     .text(16, 16, 'Welcome to Grow Playground', {
       font: "18px monospace",
@@ -129,7 +137,7 @@ create() {
     })
     .setScrollFactor(0)
     .setDepth(30);
-
+*/
 
 // CHARACTERS 
 // create a group for characters --> add characters to group --> add collider for group 
@@ -137,6 +145,18 @@ create() {
 this.characters = this.add.group();
 
 // LOAD CHARACTER
+
+let DiscutorDialogue = [
+['Discutor', "I'm the mightiest man in the whole universe!"],
+['Player', 'Sure, sure :p'],
+['option', 
+  ['Jump on his head', [1]], 
+  ['Kick him out of the screen', [3, "scene.Discutor.setImmovable(false)"]],  
+  ['Leave him behind', [10]]
+],
+['Discutor', 'Hah! You see. Nothing happened!'],
+['Player', "Let's see about that!"],
+];
 this.Discutor = new Character({
           scene: this,
           key: 'discutor',
@@ -146,10 +166,19 @@ this.Discutor = new Character({
             ['characterNumber', 0],
             ['name', 'Discutor'],
             ['interaction', 'dialogue'],
+            ['dialogue', DiscutorDialogue],
             ['size', [60,60]],
-            ['offSet', [35,24]],
+            ['offSet', [35,20]],
           ]
       });
+
+let ThorstenDialogue = [
+['Thorsten', 'Hey there new one! Would you like to listen to some French Rap?'],
+['option', 
+  ['Yeah, I would love to listen to some music', [10, 'https://music.youtube.com/watch?v=U_OFNlaeTP0&list=RDEMrVtQ-lZ7fMpTG2noSdOlEA']], 
+  ["I'm searching for something else ;) ", [10]]
+]
+];
 
 this.Thorsten = new Character({
           scene: this,
@@ -160,10 +189,14 @@ this.Thorsten = new Character({
             ['characterNumber', 1],
             ['name', 'Thorsten'],
             ['interaction', 'dialogue'],
+            ['dialogue', ThorstenDialogue],
             ['size', [80,80]],
-            ['offSet', [80,80]],
+            ['offSet', [20,20]],
           ]
       }); 
+
+
+
 
   // Items one can find 
   this.itemsOneCanFind = this.physics.add.group()
@@ -176,10 +209,15 @@ this.Thorsten = new Character({
 
 
   // Doors to other instances
-  const doorValueGuy = this.map.findObject("Objects", obj => obj.name === "Door_ValueGuy");
+  const doorMusicHouse = this.map.findObject("Objects", obj => obj.name === "Door_ValueGuy");
 
-  console.log(doorValueGuy)
-  this.physics.add.overlap(this.player, 'Door_ValueGuy', function(){console.log('!'); this.stop(this.sys.config.key); this.scene.start('HouseOfMusicScene');}, null, this);
+  this.doorMusicHouse = this.physics.add.sprite(doorMusicHouse.x, doorMusicHouse.y);
+  
+  this.physics.add.collider(this.player, this.doorMusicHouse, 
+    function(){
+      this.scene.stop(this.sys.config.key); 
+      this.scene.start('HouseOfMusicScene', null);
+    }, null, this);
 
 }
 

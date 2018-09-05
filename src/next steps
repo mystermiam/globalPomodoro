@@ -9,6 +9,16 @@
 
 RPG!!!
 
+Dialogue:
+
+- call functions dynamically: check 
+
+
+
+
+
+
+
 Hard problems:
 - Movement!
 	- Vue Key monitor :check
@@ -29,11 +39,13 @@ Hard problems:
 		- CSS (opacity of background)
 		- 
 
+
+
 - Supergoal! Gaelle Prototype 
 	- create a box filled with items :check
 	- when clicking on the item you can add a link on it :check
-	- you can place it in the world
-	- Get preview on hovering or touching the item, can activate with enter or click on it
+	- you can place it in the world :check
+	- Get preview on hovering or touching the item, can activate with enter or click on it 
 
 
 - Try to understand what is different with the movement system? Create vue way of pressing keys?

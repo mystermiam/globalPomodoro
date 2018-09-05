@@ -39,8 +39,14 @@ export default class HouseOfMusicScene extends Scene {
   }
 
 preload() {
-    store.dispatch('player/changeActiveScene', 1); 
-
+    //This.sys.config.key gives the name of the scene; 
+    let numberOfActiveScene = 0;
+    for(let i=0;i<Grow.scene.scenes.length;i++){
+      if(Grow.scene.scenes[i].sys.config.key === this.sys.config.key){
+        numberOfActiveScene = i;
+      }
+    }
+    store.dispatch('player/changeActiveScene', numberOfActiveScene); 
 // Can't find gid in musichouse.json (it doesn't update for some reason)
 //  this.load.image("tiles", house_inside );
 //  this.load.image("hmmmm", interior );
@@ -117,7 +123,13 @@ create() {
 
   } while (repetition < 3)
 
-  let dialogueValueGuy = [['Thomas the Value Guy','Hey there'],['option', [valueList[currentValues[0]], 2], [valueList[currentValues[1]], 2], [valueList[currentValues[2]], 2]],['Thomas the Value Guy','Good Choice! Come back once you have learned something about this value!']];
+  let dialogueValueGuy = [
+  ['Thomas the Value Guy','Hey there'],
+  ['option', 
+    [valueList[currentValues[0]][0] , [2, "dispatch('endConversation')", 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray' ]], 
+    [valueList[currentValues[1]][0], [2]], 
+    [valueList[currentValues[2]][0], [2]]],
+  ['Thomas the Value Guy','Good Choice! Come back once you have learned something about this value!']];
 
   this.ValueGuy = new Character({
           scene: this,

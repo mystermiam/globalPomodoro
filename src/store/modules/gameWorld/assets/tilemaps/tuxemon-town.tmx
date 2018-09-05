@@ -3507,7 +3507,7 @@
   <object id="275" name="Spawn Point" x="352" y="1216">
    <point/>
   </object>
-  <object id="279" name="Door_ValueGuy" x="272" y="1144">
+  <object id="279" name="Door_ValueGuy" x="273" y="1118">
    <point/>
   </object>
  </objectgroup>

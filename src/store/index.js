@@ -34,6 +34,7 @@ import player from './modules/gameWorld/utilities/player'
 import dialogue from './modules/gameWorld/utilities/dialogue'
 import createNPCs from './modules/gameWorld/utilities/createNPCs'
 import loadInterface from './modules/gameWorld/utilities/loadInterface'
+import quests from './modules/gameWorld/utilities/quests'
 
 //Axios
 import axios from 'axios'
@@ -65,7 +66,7 @@ const store = new Vuex.Store({
         dialogue,
         createNPCs,
         loadInterface,
-
+        quests,
     },
     state : {
         userIsLoggedIn : true

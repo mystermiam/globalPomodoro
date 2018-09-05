@@ -28,7 +28,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
         // If the dialogue is pushed to dialogue.js here it needs to be deleted at some point, probably at scene switch
         if(this.dialogue === undefined){} else {
-          store.dispatch('dialogue/addDialogue', [this.name, this.dialogue]);
+          store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue]);
         }
 
 
@@ -53,7 +53,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
       } else if (this.createdCharacter === true){
         // Add basic dialogue function to newly created NPC
-        store.dispatch('dialogue/addNPC', this.characterNumber); // NPC should have an individual id , replaced here by 100
+       // store.dispatch('dialogue/addNPC', this.characterNumber); // NPC should have an individual id , replaced here by 100
 
         // Add here the functions for player constructed NPC's
         scene.physics.add.collider(scene.player, this, 
@@ -66,7 +66,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
               if(scene.player.actionCounter === 1){
                 // Could be useful for mapping player actions later on
                   scene.player.characterInteraction = [this.interaction, this.name]; 
-                  console.log('called')
+              
                   if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
         
                   //Set timeout sets this to window!

@@ -30,7 +30,16 @@ export default class TemplateScene extends Scene {
   }
 
 preload() {
+	// Update which scene is currently active for Vue 
+    let numberOfActiveScene = 0;
+    for(let i=0;i<Grow.scene.scenes.length;i++){
+      if(Grow.scene.scenes[i].sys.config.key === this.sys.config.key){
+        numberOfActiveScene = i;
+      }
+    }
+    store.dispatch('player/changeActiveScene', numberOfActiveScene);
 
+    
 } // End of Preload
 
 create() {

@@ -17,54 +17,62 @@ export default {
         	'options': [],
         	'optionSelected': 0,
         },
-        dialogues: {
-        	'ItemFound':[['Rare artifact', 'You found a super rare artifact that nobody has ever found before you! Use i to open up itembox and use it']],
-        	'Discutor': [['Discutor', "I'm the mightiest man in the whole universe!"],['Player', 'Sure, sure :p'],['option', ['Jump on his head', 1], ['Leave him behind', 'endConversation']]],
-        	'Thorsten': [['Thorsten', 'Hey there new one! Would you like to listen to some French Rap?'],['option', ['Yeah, I would love to listen to some music', 'https://music.youtube.com/watch?v=U_OFNlaeTP0&list=RDEMrVtQ-lZ7fMpTG2noSdOlEA'], ["I'm searching for something else ;) ", 'endConversation']]]
-        }
+        dialogues: {},
+
 	},
 	getters: {
 
 	},
 	actions: {
+
+		// Called in character.js from this[characterName].dialogue
         addDialogue({commit}, obj){
         	commit('addDialogue', obj)
         },
 
+        setCurrentMessageType({commit}, type){
+        	commit('setCurrentMessageType', type)
+        },
+
+        // Called from createNPCs dialogue1
 		addLinkToCharacter({commit, dispatch, rootState}){
 			let link = document.getElementById('inputToAddLink').value;
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let characterNumber = scene.player.characterInteraction[1]
+
 			commit('addLinkToCharacter', [link, characterNumber])
 			commit('changeMessageNumber', 1)
 			commit('setCurrentMessageType', 'option')
 			dispatch('loadDialogue')
 		},
 
-		addNPC({commit}, characterNumber){
-			commit('addNPC', characterNumber)
-		},
-
 		loadDialogue({state,commit,dispatch,rootState}){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
-            
-            if(state.currentMessage.number >= state.dialogues[player.characterInteraction[1]].length){
+			let nameOfCharacter = player.characterInteraction[1];
+			let messageNumber = state.currentMessage.number;
+
+            if(messageNumber >= state.dialogues[nameOfCharacter].length){
 			// no option
 			dispatch('endConversation')
+          
+
 
 			// If 'name' is option
-			} else if(state.dialogues[player.characterInteraction[1]][state.currentMessage.number][0] === 'option'){ 
+			} else if(state.dialogues[nameOfCharacter][messageNumber][0] === 'option'){ 
             	commit('setCurrentMessageType', 'option')
-            	dispatch('loadOption', player.characterInteraction[1])
-            
+
+            	return dispatch('loadOption', nameOfCharacter)
+      
+
+
+
             // otherwise load a normal message
             } else {
-			// START MESSAGE
 			commit('setCurrentMessageType', 'normal')
 
 			// If dialogue box is not yet loaded
-			if(state.currentMessage.number === 0){
+			if(!rootState.loadInterface.showDialogueBox){
 
 			// Hide object container
 			if(rootState.loadInterface.showObjectContainer){
@@ -77,27 +85,23 @@ export default {
             //Stop movement animation (improve it with putting it into resting position)
             player.anims.stop();
 
-            commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]])
+            commit('setMessage', [messageNumber, nameOfCharacter])
             
 			dispatch('loadInterface/getPosition', '', {root:true})
 
             setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false; commit('incrementMessageNumber')}, 100);
 		
 
-		} else if (state.currentMessage.number >= 1){
+		} else {
 			// Call function on spacebar click if player is in dialogue
-			
-			//If message is smaller than the length of the dialogue of the person, display next message
-            if(state.currentMessage.number < state.dialogues[player.characterInteraction[1]].length){
            
-            commit('setMessage', [state.currentMessage.number, player.characterInteraction[1]]) 
+            commit('setMessage', [messageNumber, nameOfCharacter]) 
+
+            scene.player.characterInteraction[0] = 'dialogue';
 
        	    //Increase the currentMessage number by one
        	    commit('incrementMessageNumber')
 
-        	} else {
-        	dispatch('endConversation')
-        	}
 		}
 
 		}},
@@ -111,6 +115,7 @@ export default {
             player.isAllowedToMove = true;
 
             player.characterInteraction = [];
+
 			// Toggle dialoguebox
             setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false; }, 0);
 		},
@@ -136,64 +141,51 @@ export default {
 			}
 		},
 
-		takeOption({state, commit, dispatch, rootState}, option){
+
+
+
+
+		// Called in updateOptions in Character.js
+		takeOption({state, commit, dispatch, rootState}){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
-			// if options[optionSelected] is a number set message type back to normal and set currentMessage.number to that number
-			if(typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'number'){
-                
-                // This one causes lots of mistakes
-				commit('changeMessageNumber', state.currentMessage.options[state.currentMessage.optionSelected][1])
-                
-                scene.player.characterInteraction[0] = 'dialogue'	
+			let optionSelected = state.currentMessage.options[state.currentMessage.optionSelected][1];
+            let options = state.currentMessage.options;
 
-				dispatch('loadDialogue')
-				
-				// if options[optionSelected] is a string call that action
-			} else if (typeof state.currentMessage.options[state.currentMessage.optionSelected][1] === 'string'){
-				// If it is music open new tab to play music 
-				let musicReg = new RegExp("^(http|https)://", "i");
-				let matchingLinks = state.currentMessage.options[state.currentMessage.optionSelected][1].match(musicReg);
-		
-				if (matchingLinks){
-					window.open(state.currentMessage.options[state.currentMessage.optionSelected][1]);
+            // go through optionSelected one by one and execute its functions
+            for(let i=0;i<optionSelected.length;i++){
+
+				// if optionSelected is a number set message type back to normal and set currentMessage.number to that number
+				if(typeof optionSelected[i] === 'number'){
+	                
+                    let number = optionSelected[i];
+
+                    state.currentMessage.options = [];
+		            commit('resetOptionSelected') 
+
+	                // Changes message to number in option [Number needs to be in first place!!]
+					commit('changeMessageNumber', number)
+
+					dispatch('loadDialogue')
 					
-					// Reset message if currentMessage is equal to message length
-			 		commit('resetMessageNumber')
-				// Make player move again 
-            		scene.player.isAllowedToMove = true;
 
-            		scene.player.characterInteraction = [];
-				// Toggle dialoguebox
-            		setTimeout(function(){dispatch('toggleDialogueBox'); scene.player.inAction = false; }, 0);
+			      // if optionSelected is a string call that action
+				} else if (typeof optionSelected[i] === 'string') {
+					// If it is music open new tab to play music 
+					let musicReg = new RegExp("^(http|https)://", "i");
+					let matchingLinks = optionSelected[i].match(musicReg);
+			
+					if (matchingLinks){
+						window.open(optionSelected[i])
+					} else {
 
+						// Call function, etc. (Could be a huge security risk)
+						eval(optionSelected[i])
+
+
+					}
 				} 
 
-				// Add Link
-				if(state.currentMessage.options[state.currentMessage.optionSelected][1] === 'addLink'){
-					commit('setCurrentMessageType', 'addLink')
-				}
-
-
-			    // End conversation
-			    if (state.currentMessage.options[state.currentMessage.optionSelected][1] === 'endConversation'){
-                 // Reset message if currentMessage is equal to message length
-			 		commit('resetMessageNumber')
-				// Make player move again 
-            		scene.player.isAllowedToMove = true;
-
-            		scene.player.characterInteraction = [];
-				// Toggle dialoguebox
-            		setTimeout(function(){dispatch('toggleDialogueBox'); scene.player.inAction = false; }, 0);
-
-            	
-			    }
-			   
-			}
-	
-            
-			// clear out options array for further use
-			state.currentMessage.options = [];
-			commit('resetOptionSelected')
+			} // End of for loop    		
 
 		},
 
@@ -208,11 +200,7 @@ export default {
 		},
 
 		addLinkToCharacter(state, obj){
-			state.dialogues[obj[1]][1][1] = ['go to link', obj[0]]
-		},
-
-		addNPC(state, characterNumber){
-			state.dialogues[characterNumber] = [['Your NPC', 'Hey there my friend!'],['option',['You can add a link here', 'addLink'],['further options', 2],['go away', 'endConversation']],['option',['pick Item up', 'pickUp'],['follow me', 'follow'],['go back', 1]]]
+			state.dialogues[obj[1]][1][1] = ['go to link', [10, obj[0]]]
 		},
 
 		setCurrentMessageType(state, type){
@@ -257,3 +245,46 @@ export default {
 		},
 	}
 }
+
+
+
+
+
+
+
+
+
+
+// Graveyard: 
+
+/*
+
+
+			else if(Array.isArray(optionSelected[i])){
+
+				let vueOrScene = optionSelected[i][0];
+				let location = optionSelected[i][1];
+				let nameOfFunction = optionSelected[i][2];
+				let functionParameter = [];
+                
+                if(optionSelected[i].length > 3){
+                	for (let j=0; j < optionSelected[i][3].length; j++){
+						functionParameter.push(optionSelected[i][2][j])
+					}
+                }
+
+				//Have some standard vue functions in the dialogue
+                if(location === 'dialogue'){
+                	dispatch(nameOfFunction, functionParameter)
+                } else if (vueOrScene === 'vue'){
+                	// Add function here
+
+                } else if (vueOrScene === 'scene'){
+				//Have custom functions within the scene! (well organized)
+	
+                	// Add function in scene here
+                }
+
+			}
+
+*/
