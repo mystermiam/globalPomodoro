@@ -5,11 +5,12 @@ export default {
      showLogin: false,
      showSignUp: false,
      showSocialModal: false,
-     someOtherState: 10,
+     someOtherState: 0,
     },
 
     actions : {
     someAction(){
+
     },
 
     addDragon(){

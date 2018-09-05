@@ -73,13 +73,18 @@ export default {
               timeWork: payload[0],
               timePause: payload[1],
               pause: payload[2]
-            }); 
-
+            });  
+<<<<<<< HEAD
              setTimeout(function(){
              commit('sessionTitleList/highlightNextSessionTitle', null, { root: true })  
         },0)
+             
+=======
 
-         },
+            setTimeout(commit('sessionTitleList/highlightNextSessionTitle', null, { root: true }),0);   
+>>>>>>> 4cad5d6f3e969dfdda08ae802de038c0464f0e55
+        },
+
 
         countdown({commit, state, dispatch, rootState},timeLeft){
 
