@@ -269,16 +269,16 @@ body {
 
   font-family: 'roots';
 
-  src: url('../../../static/polices/HEAVENLYROOTED.ttf');
-  src: url('../../../static/polices/HEAVENLYROOTED.ttf') format('truetype');
+  /*src: url('./../../../static/polices/HEAVENLYROOTED.ttf');
+  src: url('./../../../static/polices/HEAVENLYROOTED.ttf') format('truetype');*/
 }
 
 @font-face{
 
   font-family: 'VBG';
-
-  src: url('../../../static/polices/ValeriaBoldGrunge.ttf');
-  src: url('../../../static/polices/ValeriaBoldGrunge.ttf') format('truetype');
+ /*
+  src: url('./../../../static/polices/ValeriaBoldGrunge.ttf');
+  src: url('./../../../static/polices/ValeriaBoldGrunge.ttf') format('truetype');*/
 }
 
 

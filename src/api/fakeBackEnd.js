@@ -3,18 +3,23 @@ const time = [3, 3, false],
 	    {
 	  		userID: '5678',
 	  		name: 'Jabol',
+	  		sessionsCompleted: 3,
 	  	}, {
 	  		userID: '9012',
 	  		name: 'Youcef',
+	  		sessionsCompleted: 1,
 	  	}, {
 	  		userID: '01234',
-	  		name: 'Gionisos',
+	  		name: 'Pascal',
+	  		sessionsCompleted: 1,
 	  	}, {
 	  		userID: '3456',
-	  		name: 'Aurelie'
+	  		name: 'Aurelie',
+	  		sessionsCompleted: 2,
 	  	}, {
 	  		userID: '7890',
-	  		name: 'Noam'
+	  		name: 'Noam',
+	  		sessionsCompleted: 5,
 	  	}
 	  ];
 

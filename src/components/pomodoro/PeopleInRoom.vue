@@ -1,11 +1,9 @@
 <template>
   <div id='peopleContainer'>
-   
+    Users currently online: 
     <ul id='listOfUsers'>
-      <li v-for='user in users'>- {{user.name}}</li>
+      <li v-for='user in users'><span class='green-dot'></span>{{user.name}} - ({{user.sessionsCompleted}})</li>
     </ul>
-
-
   </div>
 </template>
 
@@ -33,17 +31,24 @@ export default {
 
 <style scoped>
 	#peopleContainer {
+  line-height: 1.5vh;
 	display: block;
-	width: 25%;
-	min-height: 25%;
-	font-size: 48px;
-  margin-top: 20px;
-	float: left;
+	font-size: 10vh;
+  margin-top: 2vh;
 	box-sizing: border-box;
-
 	}
 
   #listOfUsers {
-    font-size: 0.3em;
+  margin-top: auto;
+   /*font-size: 0.3em;*/
+  }
+
+  .green-dot {
+    height: 1.8vh;
+    width: 1.8vh;
+    margin-right: 2vh;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
   }
 </style>

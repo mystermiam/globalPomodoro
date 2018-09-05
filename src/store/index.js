@@ -12,14 +12,32 @@ import chat from './modules/pomodoro/chat'
 import session from './modules/pomodoro/session'
 import distractionList from './modules/pomodoro/distractionList'
 import sessionTitleList from './modules/pomodoro/sessionTitleList'
+import pomodoroSettings from './modules/pomodoro/pomodoroSettings'
 
 
 //Sidebar Modules
 import avatar from './modules/menu/sidebar/avatar'
+import pets from './modules/menu/sidebar/pets'
+import progressBar from './modules/menu/sidebar/progressBar'
+
+//Toolbox Modules
+import dailies from './modules/menu/toolbox/dailies'
+import toDo from './modules/menu/toolbox/toDo'
 
 //Landing Page Modules
 import landingPage from './modules/homepage/landingPage'
+
+//Game Modules
+import game from './modules/gameWorld/index'
+
+import player from './modules/gameWorld/utilities/player'
+import dialogue from './modules/gameWorld/utilities/dialogue'
+import createNPCs from './modules/gameWorld/utilities/createNPCs'
+import loadInterface from './modules/gameWorld/utilities/loadInterface'
+
+//Axios
 import axios from 'axios'
+
 
 
 Vue.use(Vuex)
@@ -27,7 +45,8 @@ Vue.use(VueRouter)
 
 Vue.use(Vuetify)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
+    namespaced : true,
     modules : {
         timer,
         chat,
@@ -35,22 +54,32 @@ export default new Vuex.Store({
         sessionTitleList,
         session,
         avatar,
+        pets,
         landingPage,
-      
+        dailies,
+        toDo,
+        progressBar,
+        pomodoroSettings,
+        game,
+        player,
+        dialogue,
+        createNPCs,
+        loadInterface,
+
     },
     state : {
         userIsLoggedIn : true
     },
     actions : {
         checkCredentials(context,user){
-            axios.post('http://localhost:3801/connection',user).then(function(response){
+            axios.post('http://grow.cri-paris.org/api/connection',user).then(function(response){
                 if(response.data.error){
                   console.log('not granted')
                 }
                 else if(response.data.success){
                   context.state.userIsLoggedIn = true;
                   console.log('granted');
-                  router.push({name:'Session'});
+                  router.push({name:'Pomodoro'});
                 }
             });
         },
@@ -67,3 +96,5 @@ export default new Vuex.Store({
         }
     }
 });
+
+export default store

@@ -14,19 +14,21 @@ export default {
   components : {
   
   },
-      
+  /*    
   computed : {
    ...mapState('template',{
       template:'template',    
     })
   },
-
-  methods: {
+ */
+ 
+ /*
+ methods: {
   ...mapActions('template',{
       template: 'template',
     })
   },
-
+  */
 
   
 };

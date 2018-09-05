@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import Avatar from '@/components/menu/sidebar/Avatar'
+    import Avatar from './Avatar'
 
     export default{
         name:'SideBar',

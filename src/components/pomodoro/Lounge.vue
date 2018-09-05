@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="lounge">
     <Chat></Chat>
   </div>
 
 </template>
 
 <script>
-import Chat from '@/components/pomodoro/Chat'
+import Chat from './Chat'
 
 export default {
 
@@ -21,5 +21,10 @@ export default {
 
 
 <style scoped>
+	.lounge{
+		height: 100%;
+		width:50%;
+		margin: 0 auto;
+	}
 
 </style>

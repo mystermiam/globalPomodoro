@@ -1,5 +1,5 @@
 <template>
-    <div class="message" v-bind:class="{ another : !!sameSender}">
+    <div class="message" v-bind:class="{ another : sameSender}">
         <div v-if="sameSender" class="head">
             <span class="author">{{message.author}}</span> - <span class="timestamp">{{displayTime}}</span>
         </div>
@@ -30,20 +30,24 @@
 
 <style scoped>
 .content p{
+    color:white;
     display: inline;
     white-space: pre-line;
     text-overflow: clip;
     word-break: break-word;
 }
-.message{
-    background: #ddd;
-}
+
 
 .head{
-    color:red;
+    color:black;
+    font-weight: bold;
+}
+.message{
+    margin: 0;
+    background: #003C7A;
 }
 
 .another{
-    margin-top:0.3em;
+    margin-top:1em;
 }
 </style>

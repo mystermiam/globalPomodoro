@@ -1,8 +1,6 @@
 const axios = require('axios'),
         $ = require('jquery');
 
-
-import fakeBackEnd from '@/api/fakeBackEnd';
 export default {
     namespaced : true,
     state : {
@@ -14,14 +12,14 @@ export default {
     },
     actions : {
         fetchMessages({commit}){
-            axios.get('http://localhost:3801/fetchMessages').then(function(response){
+            axios.get('/api/fetchMessages').then(function(response){
                 commit('setMessages',response.data.messages);
             });
         },
 
-        fetchUsers({commit}){
+        fetchUsers({commit, rootState}){
              return new Promise((resolve,reject)=>{
-                fakeBackEnd.getUsers((users)=>{
+                rootState.fakeBackEnd.getUsers((users)=>{
                     commit('fetchUsers',users);
                     resolve();
                 });
@@ -31,7 +29,7 @@ export default {
 
         saveMessages(context,message){
             
-           axios.post('http://localhost:3801/saveMessages',{newMessage:message
+           axios.post('/api/saveMessages',{newMessage:message
            }).then(function(response){
             console.log('bitch');
             console.log(response);

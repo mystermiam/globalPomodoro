@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Session from '@/components/pomodoro/Session'
-import Lounge from '@/components/pomodoro/Lounge'
-import Pomodoro from '@/components/pomodoro/Pomodoro'
-import LandingPage from '@/components/homepage/LandingPage'
-import Menu from '@/components/menu/Menu'
-import store from '../store/index'
+import Session from './../components/pomodoro/Session'
+import Lounge from './../components/pomodoro/Lounge'
+import Pomodoro from './../components/pomodoro/Pomodoro'
+import LandingPage from './../components/homepage/LandingPage'
+import Menu from './../components/menu/Menu'
+import GameScreen from './../components/gameWorld/GameScreen'
+
+import store from './../store/index'
 
 
 Vue.use(Router)
@@ -62,7 +64,13 @@ const router =  new Router({
       name: 'Menu',
       component: Menu,
       beforeEnter : notGrantedUser
-    }
+    },
+    {
+      path: '/Game',
+      name: 'Game',
+      component: GameScreen,
+      beforeEnter : notGrantedUser
+    },
   ]
 })
 

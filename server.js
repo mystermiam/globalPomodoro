@@ -42,8 +42,10 @@ mongoose.connect(process.env.DB_URI).then(function(response){
 mongoose.connection.once('open',function(){
     console.log('connected');
 }).on('error',function(error){
-    console.log(error)
-})
+    console.log(error);
+});
+
+
 
 io.sockets.on('connection', function(socket){
     console.log('socket : new connection');
@@ -75,5 +77,5 @@ function disconnect(socket){
 }
 
 function newConnection(socket) {
-       
+       console.log('new one so its still on')
 }

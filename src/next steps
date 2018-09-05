@@ -1,0 +1,196 @@
+
+--- 1. priority: Enjoy the time you spend working --- 
+
+--- 2. priority: Don't experiment more than 10 minutes! --- 
+
+--- Breathe a few times, before entering into the next pomodoro! Commit fully, respect the break! --- 
+
+--- Take maybe 2 pomodoro sessions to work on one of the hard problems (movement, etc.) - and then continue to work on performance problems
+
+RPG!!!
+
+Hard problems:
+- Movement!
+	- Vue Key monitor :check
+	- Try out movement keys with vue? // it's actually something with my keyboard?
+
+- Absolute paths!
+
+- Iframe
+	- Cheerio? Npm
+	- Try from server
+
+- Dynamic import
+
+
+- make chat accessible with enter
+	- be able to use all keys
+	- Fit into Game screen (toggle it)
+		- CSS (opacity of background)
+		- 
+
+- Supergoal! Gaelle Prototype 
+	- create a box filled with items :check
+	- when clicking on the item you can add a link on it :check
+	- you can place it in the world
+	- Get preview on hovering or touching the item, can activate with enter or click on it
+
+
+- Try to understand what is different with the movement system? Create vue way of pressing keys?
+- Seems to be a phaser 3 problem, not necessarily 2
+
+
+
+Vision:
+- Earn gold through Pomodoro, can buy stuff with it 
+
+
+
+
+First testable version: 
+
+make them just movable!? no need for copying, etc.
+
+If sessiongoal is finished copy next session goal :unfinished
+If sessiongoal is not finished move all sessiongoals one further - if it's completed move the other direction
+
+
+
+Issues: 
+
+
+optional:
+
+- counts time even if its paused to show you your delay (necessary?)
+
+-!- post to Google calendar 
+
+- set different timers
+
+- add times next to the sessions
+
+- Move things around
+
+- Create schedules (replace working session with it)
+
+- Alternative timers 
+
+- Skip option @break 
+
+
+
+
+Collaborative storytelling platform: 
+
+- Create rooms with chats and a link to the individual story (storytelling rooms)
+
+
+
+
+
+sessionTitleList 
+
+populate new rows  :check
+Remove rows        :check
+Focus textfield    :check
+Change session input to field :check
+if unfocus remove field :check
+Integrate with ToDoList (split into subtasks) :check
+Add task from Distraction list  :check
+Create breaks in array :check
+Create a break strip in between the working sessions :check
+highlight break strip during break :check
+short break + long breaks :check
+remove and add :check
+fix long break :check
+Add winstate of the day :check
+Create sessiontitle and distraction list buttons :check
+Create feedbacks with different text and color - On Break: 'Hands off!' :check
+Add timer in addressbar :check
+add trashbin instead of   - D  :check
+correct remove and add feature? :check
+On creating room: Short break, long break, working session :check
+display sessiontitle and break in header or just minutes left :check
+When you start on a break it shows you that you are in working session 2 after the break :check
+- Full Screen :check
+	- fix button to a spot (attach new class to it with new position on fullscreen == true) :check
+	- remove chat? :check
+	- find icon :check
+	- show when hovering over area around it (full-screen-button-hover-container)  :check
+- Try out beep every 5 minutes / 10 minutes? What effect does that have :check
+
+
+
+
+
+Distraction List 
+
+Edit todos :check
+change todos to index! :check
+delete todos :check
+
+move todos around - vue draggable - ask Jabol
+
+
+
+
+Avatar (import functions from hello-vue components)
+
+load equipment :check
+avatarSize: fit items to avatar size :check
+create new items :check
+fit avatar body :check
+load pet  :check
+make progress bar / health bar
+
+
+
+
+
+Minigame tutorial:
+- ...
+- let stars reappear :check
+- Finished!
+
+
+RPG! :
+- Understand basic setup :check
+- Create new basic environment to start with :check
+- Make some experiments with vue and phaser? Can one implement the game in there? :check
+- Move Tommy into right position :check
+- Make character solid  :check
+- open new tab on contact :check 
+- On enter console.log :check
+- create three characters connected to different musics :check
+- on enter dialogue in console.log :check
+
+
+
+HARD PROBLEMS!!
+
+
+- Integrating Vue
+	- Calling actions :check!!!
+	- Calling ingame functions :check!!!
+
+- Localisation problem 
+	- Get window height and width
+	- Get game height and width
+	- calculate position
+
+- Characters 
+	- Add them to tile
+	- Add them as images not as sprites
+
+
+
+- Dialogue: 
+	- Create a workaround for collide!
+	- create a simple dialogue box
+	- make it more dynamic
+	- ...
+	- ...
+
+
+
+- Grow.scene.scenes[2] :check

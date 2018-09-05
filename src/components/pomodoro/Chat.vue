@@ -1,5 +1,5 @@
 <template>
-  <div class="chatContainer">
+  <div class="chatContainer"  v-show='showChat'>
     <div id="chatBox" class="chatBox">
         <message v-for="(message,i) in messages" :key="i" :message="message" :previous="i>0 ? messages[i-1] : ''">
         </message>
@@ -7,8 +7,8 @@
     <div>
       <div class="inputContainer">
         
-          <input type="text" name="username" placeholder="Who are you ?" v-model="author">
-          <textarea id="textField" v-model="textMessage" @keydown="handleKey" placeholder="Say whatever..." rows=1></textarea>
+          <input class="input" type="text" name="username" placeholder="Who are you ?" v-model="author">
+          <textarea class="textarea" id="textField" v-model="textMessage" @keydown="handleKey" placeholder="Say whatever..." rows=1></textarea>
         
      </div>
     </div>
@@ -28,7 +28,7 @@
 } -->
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex'
-import Message from '@/components/pomodoro/Message'
+import Message from './Message'
 
 export default {
   name: 'Chat',
@@ -54,7 +54,11 @@ export default {
   computed : {
     ...mapState('chat',{
       messages:'messages'
-    })
+    }),
+
+    ...mapState('loadInterface',{
+      showChat: 'showChat',
+    }),
   },
   created (){
     this.fetchMessages();
