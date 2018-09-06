@@ -27,8 +27,14 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
 
         // If the dialogue is pushed to dialogue.js here it needs to be deleted at some point, probably at scene switch
-        if(this.dialogue === undefined){} else {
-          store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue]);
+        if(this.dialogueStartsAt === undefined){
+          console.log('character.dialogueStartsAt is undefined')
+          if(this.dialogue === undefined){console.log('character.dialogue is undefined')} else {
+            store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue, 0]);
+        }} else {
+          if(this.dialogue === undefined){console.log('character.dialogue is undefined')} else {
+          store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue, this.dialogueStartsAt]);
+        }
         }
 
 

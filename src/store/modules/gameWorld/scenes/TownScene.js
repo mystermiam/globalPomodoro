@@ -1,7 +1,11 @@
 //Battle plan:
 // Learn about using constants (variable management)
 // Learn about absolute paths
-//
+// Learn about using constants like this!
+// import { MAP_TOWN, IMAGE_TOWN } from '../constants/assets';
+// This one could be good for the guide example! Movement sprites
+// import guide from '@/store/assets/sprites/guide.png'
+
 
 // Example code:
 
@@ -17,10 +21,8 @@ import createNPCs from './../utilities/createNPCs'
 import store from '../../../index'
 
 import { Grow } from './../index'
-//import Phaser from 'phaser'
 
-// Learn about using constants like this!
-//import { MAP_TOWN, IMAGE_TOWN } from '../constants/assets';
+//import Phaser from 'phaser'
 
 //Town Scene
 import examplePNG from "./../assets/tilesets/tuxmon-sample-32px-extruded.png"
@@ -29,10 +31,9 @@ import exampleJSON from "./../assets/tilemaps/tuxemon-town.json"
 import exampleCharacterPNG from './../assets/atlas/atlas.png'
 import exampleCharacterJSON from './../assets/atlas/atlas.json'
 
-import exampleCharacter from './../assets/sprites/player.png'
-// Learn about absolute pathways
-//import exampleCharacter from '@/store/assets/sprites/player.png'
 
+
+import vicky from './../assets/sprites/npc_vicky.png'
 import thorsten from './../../../../../static/raw_sprites/spritesmith/npcs/npc_aprilFool.png'
 import discutor from './../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
 
@@ -79,10 +80,10 @@ preload() {
   // If you don't use an atlas, you can do the same thing with a spritesheet, see:
   //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
   this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
-  
-  this.load.spritesheet('exampleCharacter', exampleCharacter, {frameWidth: 32, frameHeight: 32});
+
   this.load.spritesheet("thorsten", thorsten,  {frameWidth: 120, frameHeight: 120} );
   this.load.spritesheet("discutor", discutor,  {frameWidth: 100, frameHeight: 100} );
+  this.load.spritesheet("vicky", vicky,  {frameWidth: 100, frameHeight: 100} );
 }
 
 create() {
@@ -167,6 +168,7 @@ this.Discutor = new Character({
             ['name', 'Discutor'],
             ['interaction', 'dialogue'],
             ['dialogue', DiscutorDialogue],
+            ['dialogueStartsAt', 0],
             ['size', [60,60]],
             ['offSet', [35,20]],
           ]
@@ -184,16 +186,58 @@ this.Thorsten = new Character({
           scene: this,
           key: 'thorsten',
           x: 470,
-          y: 1100,
+          y: 880,
           furtherVar: [
             ['characterNumber', 1],
             ['name', 'Thorsten'],
             ['interaction', 'dialogue'],
-            ['dialogue', ThorstenDialogue],
+            ['dialogue', ThorstenDialogue],  
+            ['dialogueStartsAt', 0],
             ['size', [80,80]],
             ['offSet', [20,20]],
           ]
       }); 
+
+
+  // LOAD Vicky Questgiver
+
+let VickyDialogue = [
+['Vicky', "Hey there fellow, I have a quest for you!"],
+['Player', "Quests? You mean like in RPG's!?"],
+['Vicky', "Exactly, so do you want it or not?"],
+['option', 
+  ["What do you want me to do?", [4]],
+  ["Like a real RPG player, accept Quest anyways", [10, "dispatch('loadInterface/openQuestContainer', 'test', {root:true})", "dispatch('changeDialogueStartsAt', [2, 'Vicky', 7])", 'console.log("scene.Vicky.dialogueStartsAt")']],
+  ["I'm not really a 'Quest Person'", [10]]
+],
+['Vicky', "You will have to do..."],
+['option', 
+  ["Ah, that sounds doable!", [2]],
+  ["No, I'm out!", [10]],
+],
+// 5
+["Warning", "This shouldn't be shown, alternate conversation after this point"],
+
+["Vicky", 'Come back, once you finished the quest'],
+];
+
+this.Vicky = new Character({
+          scene: this,
+          key: 'vicky',
+          x: 280,
+          y: 1170,
+          furtherVar: [
+            ['characterNumber', 2],
+            ['name', 'Vicky'],
+            ['interaction', 'dialogue'],
+            ['dialogue', VickyDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [56,56]],
+            ['offSet', [0,0]],
+          ]
+      });
+
+
 
 
 

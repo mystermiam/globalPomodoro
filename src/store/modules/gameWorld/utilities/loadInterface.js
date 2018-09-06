@@ -9,13 +9,18 @@ export default {
 		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
 		showObjectContainer: false,
-		showQuestContainer: true,
+		showQuestContainer: false,
 		showChat: false,
 	},
 	getters: {
 
 	},
 	actions: {
+		openQuestContainer({commit, rootState}, questName){
+			commit('setQuest', [rootState.quests.questShown, questName]) 
+			commit('openQuestContainer')
+		},
+
 		closeQuestContainer({commit}){ commit('closeQuestContainer') },
 
 		alignInterfaceContainer({state}){
@@ -136,9 +141,18 @@ export default {
 			state.showDialogueBox = false;
 		},
 
+		openQuestContainer(state){
+			state.showQuestContainer = true;
+		},
+
+		setQuest(state, obj){
+			// Quests.questsShown = questName
+			obj[0] = obj[1]
+		},
+
 		closeQuestContainer(state){
 			state.showQuestContainer = false;
-		}
+		},
 
 
 

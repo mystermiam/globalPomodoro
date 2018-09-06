@@ -24,6 +24,8 @@ export default {
 
 	},
 	actions: {
+		// Called in dialogue function of person / Object [SceneActive, Name, newStartingPoint]
+		changeDialogueStartsAt({commit}, obj){ commit('changeDialogueStartsAt', obj)},
 
 		// Called in character.js from this[characterName].dialogue
         addDialogue({commit}, obj){
@@ -79,13 +81,18 @@ export default {
 				commit('loadInterface/hideObjectContainer', '', {root:true})
 			}
 
+
+
             // Make player unable to move 
             player.isAllowedToMove = false;
 
             //Stop movement animation (improve it with putting it into resting position)
             player.anims.stop();
-
+            console.log(player.scene[nameOfCharacter])
+            commit('changeMessageNumber', player.scene[nameOfCharacter].dialogueStartsAt)
             commit('setMessage', [messageNumber, nameOfCharacter])
+
+
             
 			dispatch('loadInterface/getPosition', '', {root:true})
 
@@ -151,6 +158,7 @@ export default {
 			let optionSelected = state.currentMessage.options[state.currentMessage.optionSelected][1];
             let options = state.currentMessage.options;
 
+
             // go through optionSelected one by one and execute its functions
             for(let i=0;i<optionSelected.length;i++){
 
@@ -195,6 +203,9 @@ export default {
 
 	},
 	mutations: {
+		// called in dialogue function of character / obj = sceneActive, name number
+		changeDialogueStartsAt(state, obj){ Grow.scene.scenes[obj[0]][obj[1]].dialogueStartsAt = obj[2] }, 
+
 		addDialogue(state, obj){
 			state.dialogues[obj[0]] = obj[1]
 		},

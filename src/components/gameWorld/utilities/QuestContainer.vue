@@ -12,10 +12,10 @@
 
 
     <div id='questStepsContainer'>
-      <h2>Steps to take</h2>
+      <h2>Steps to take:</h2>
 
       <ul>
-        <li v-for='step in quests[questShown].stepsToDo'>{{step}}</li>
+        <li v-for='(step, index) in quests[questShown].stepsToDo'>{{index + 1}}: {{step}}</li>
       </ul>
 
     </div>
@@ -30,7 +30,7 @@
     </div>
 
 
-    <button @click='acceptQuest'>Accept Quest</button>
+    <button id='acceptQuestButton' @click='acceptQuest'>Accept Quest</button>
 
   </div>
 
@@ -124,6 +124,45 @@ export default {
 }
 
 #questDescriptionContainer {
-  
+  background-color: #faf9f7;
+  border-radius: 3px;
+  width: 320px;
+  height: 150px;
+  -webkit-box-shadow: inset 0px 0px 135px -20px rgba(0,0,0,0.25);
+  -moz-box-shadow: inset 0px 0px 135px -20px rgba(0,0,0,0.25);
+  box-shadow: inset 0px 0px 135px -20px rgba(0,0,0,0.25);
+  margin: 0 auto;
+  padding: 10px;
+  margin-bottom: 10px;
 }
+
+#questStepsContainer {
+  background-color: #faf9f7;
+  border-radius: 3px;
+  width: 320px;
+  height: 150px;
+  -webkit-box-shadow: inset 0px 0px 135px -20px rgba(0,0,0,0.25);
+  -moz-box-shadow: inset 0px 0px 135px -20px rgba(0,0,0,0.25);
+  box-shadow: inset 0px 0px 135px -20px rgba(0,0,0,0.25);
+  margin: 0 auto;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#questRewardContainer {
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+#acceptQuestButton {
+  width: 120px;
+  height: 35px;
+  line-height: 25px;
+  background-color: green;
+  color: orange;
+  border-radius: 20%;
+  margin-left: 105px;
+}
+
 </style>
