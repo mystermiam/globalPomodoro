@@ -9,9 +9,15 @@
 
 RPG!!!
 
+Map: 
+
+- load several tilesets into one tilemap
+- create a border around the tilemap and put it into the center if it doesn't fit the entire screen
+
 Dialogue:
 
 - call functions dynamically: check 
+- Continue dialogue through vue function (window detect spacebar), not phaser one
 
 
 
@@ -88,6 +94,8 @@ optional:
 - Alternative timers 
 
 - Skip option @break 
+
+- Have a learning log function that offers you to write down what you learned during your break
 
 
 

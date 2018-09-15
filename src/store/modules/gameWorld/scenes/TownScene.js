@@ -247,6 +247,10 @@ this.Vicky = new Character({
 
   // Create as characters
   this.star = this.itemsOneCanFind.create(200, 1150, 'star')
+  // Add dialogue to star
+  let dialogue_star = ['Item', 'You just found a star, press "i" to use it'];
+  store.dispatch('dialogue/addDialogue', dialogue_star);
+
 
   this.physics.add.overlap(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
 
@@ -288,18 +292,12 @@ collectItem(player, item){
   store.dispatch('createNPCs/findItem', name)
 
   // dispatch dialogue?
-  // this.player.characterInteraction = ['dialogue', 'ItemFound']
+  // this.player.characterInteraction = ['dialogue', '' + 'dialogue_' + name + '']
   
-  alert('You found a rare item, use i to open your itembox and use it ;)')
+  //alert('You found a rare item, use i to open your itembox and use it ;)')
   // Remove item
   this[name].disableBody(true, true);
 }
-
-
-getPositionOfCursor() {
-  return [this.input.activePointer.x,this.input.activePointer.y]
-}
-
 
 }
 

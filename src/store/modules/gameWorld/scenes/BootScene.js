@@ -17,7 +17,7 @@ export default class BootScene extends Scene {
     //this.scene.start('platformerScene')
  
     // World test
-    this.scene.start('TownScene')
+    this.scene.start('EmptyGrassField')
     
 
 

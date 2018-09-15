@@ -1,8 +1,8 @@
 // Battle plan: 
 
-// Empty dialogue on scene change and also in general ;)
+// Call function, not just from option, but also from normal dialogue?
+// Empty state.dialogues on scene change and also in general ;)
 // If link is incorrect, player is locked
-// going from option to another option does not work 
 
 import { Grow } from './../index'
 

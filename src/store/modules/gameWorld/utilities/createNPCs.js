@@ -32,8 +32,7 @@ let dialogue1 = [
 export default {
 	namespaced: true,
 	state : {
-		characterID: 4, // should be replaced by dynamic individual id
-		objectsInInventory: ['star'],
+		objectsInInventory: [],
 		objects: {
 			'npc': 
 			{
@@ -64,12 +63,56 @@ export default {
             },
 		},
 		itemCurrentlySelected: false,
-		getCoordinates: false,
+		makeGameScreenClickable: false,
 	},
 	getters: {
 
 	},
 	actions: {
+		gameContainerClicked({state, commit, dispatch, rootState}){
+			 if(state.itemCurrentlySelected){
+				let scene = Grow.scene.scenes[rootState.player.sceneActive];
+				let map = scene.map;
+				let pointer = scene.input.activePointer;
+    			let worldPoint = pointer.positionToCamera(scene.cameras.main);
+    			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
+    			let snappedWorldPoint = map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
+
+    			console.log(snappedWorldPoint)
+
+    			scene[state.characterID] = new Character({
+		            scene: scene,
+		            key: state.itemCurrentlySelected, 
+		            x: snappedWorldPoint.x,
+		            y: snappedWorldPoint.y,
+		            furtherVar: [
+		              ['characterNumber', state.itemCurrentlySelected],
+		              ['name', state.characterID],
+		              ['interaction', 'dialogue'],
+		              ['dialogue', state.objects[state.itemCurrentlySelected].dialogue],
+		              ['dialogueStartsAt', 0],
+		              ['size', [25,25]],
+		              ['offSet', [0,0]],
+		              ['createdCharacter', true],
+		              ['link', state.objects[state.itemCurrentlySelected].name],
+		            ]
+        		});
+ 
+    		//UNFINISHED: Increment character Number to give each character an individual id / would not work with multiple characters
+        	commit('individualCharacterID')
+        	
+        	// Remove item from itemlist 
+        	let positionOfItem = state.objectsInInventory.indexOf(state.itemCurrentlySelected);
+        	commit('removeItemFromItemList', positionOfItem)
+        	
+        	//UNFINISHED: Close url input field, use when working with quantities
+        	//dispatch('showUrlInputField', state.itemCurrentlySelected)
+        	
+        	// Unselect items
+        	commit('unselectItem')
+        }},
+
+
 		findItem({commit}, name){
 			commit('findItem', name)
 		},
@@ -85,60 +128,19 @@ export default {
 			}
             
 		},
-    	addIntoGame({state, commit}){
-
-            // Click on place to get coordinates
-            commit('getCoordinates')
+    	addIntoGame({state, commit, rootState}){
+            
+            //Click on place to get coordinates
+            commit('loadInterface/makeGameScreenClickable', '', {root:true})
         
 
-            if(state.getCoordinates){
+            if(rootState.loadInterface.makeGameScreenClickable){
 				// Change cursor (later copy of item should be attached to cursor)
 			    document.getElementById("game-screen").style.cursor = "pointer";
 			} else {
 				document.getElementById("game-screen").style.cursor = "default";
 			}
 		},
-
-		gameContainerClicked({state, commit, dispatch, rootState}){
-			 if(state.itemCurrentlySelected){
-				let scene = Grow.scene.scenes[rootState.player.sceneActive];
-				let map = scene.map;
-				let pointer = scene.input.activePointer;
-    			let worldPoint = pointer.positionToCamera(scene.cameras.main);
-    			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
-    			let snappedWorldPoint = map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
-
-    			scene[state.characterID] = new Character({
-		            scene: scene,
-		            key: state.itemCurrentlySelected, 
-		            x: snappedWorldPoint.x,
-		            y: snappedWorldPoint.y,
-		            furtherVar: [
-		              ['characterNumber', state.itemCurrentlySelected],
-		              ['name', state.characterID],
-		              ['interaction', 'dialogue'],
-		              ['dialogue', state.objects[state.itemCurrentlySelected].dialogue],
-		              ['size', [25,25]],
-		              ['offSet', [0,0]],
-		              ['createdCharacter', true],
-		              ['link', state.objects[state.itemCurrentlySelected].name],
-		            ]
-        		});
-        	//Push dialogue to dialogue box on dropping
-        	//dispatch('dialogue/addDialogue', [''+ state.characterID +'',state.objects[state.itemCurrentlySelected].dialogue], {root:true})
-    		//UNFINISHED: Increment character Number to give each character an individual id / would not work with multiple characters
-        	commit('individualCharacterID')
-        	
-        	// Remove item from itemlist 
-        	let positionOfItem = state.objectsInInventory.indexOf(state.itemCurrentlySelected);
-        	commit('removeItemFromItemList', positionOfItem)
-        	
-        	//UNFINISHED: Close url input field, use when working with quantities
-        	//dispatch('showUrlInputField', state.itemCurrentlySelected)
-        	
-        	// Unselect items
-        	commit('unselectItem')
-        	}}
 
 	},
 	mutations: {

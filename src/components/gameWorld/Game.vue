@@ -1,12 +1,11 @@
 <template>
 <div>
-  <div id='vueInterfaceContainer'>
+  <div id='vueInterfaceContainer' v-bind:class='{ makeGameScreenClickable: makeGameScreenClickable }'>
     <QuestContainer/>
 
   </div>
 
-
-  <div id="game-container" @click="gameContainerClicked"/>
+  <div id="game-container" @click="gameContainerClicked" v-bind:class='{ makeVueScreenClickable: !makeGameScreenClickable }'/>
   <!--<iframe width="420" height="315" src="http://localhost:8080/#/pomodoro" frameborder="0" allowfullscreen id='exampleContainer' v-show='escapePressed'></iframe>-->
   <Dialogue/>
   <CreateNPCs/>
@@ -33,6 +32,9 @@ export default {
   components: { Dialogue, CreateNPCs, QuestContainer, Chat },
 
   computed: {
+    ...mapState('loadInterface',{
+      makeGameScreenClickable:'makeGameScreenClickable',  
+    }),
   },
 
   methods: {
@@ -95,6 +97,14 @@ export default {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+
+.makeGameScreenClickable {
+  pointer-events: none;
+}
+
+.makeVueScreenClickable {
+  pointer-events: none;
 }
 
 

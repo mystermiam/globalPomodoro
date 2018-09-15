@@ -64,26 +64,24 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         // Add here the functions for player constructed NPC's
         scene.physics.add.collider(scene.player, this, 
 
-            function(){
+          function(){
     
-          if(scene.player.spaceBar.isDown){
-              scene.player.actionCounter++
-        
-              if(scene.player.actionCounter === 1){
-                // Could be useful for mapping player actions later on
-                  scene.player.characterInteraction = [this.interaction, this.name]; 
-              
-                  if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
-        
-                  //Set timeout sets this to window!
-                  setTimeout(function(){ scene.player.actionCounter = 0}, 1000);
-        
-      }}}, null, this);
+              if(scene.player.spaceBar.isDown){
+                  scene.player.actionCounter++
+            
+                  if(scene.player.actionCounter === 1){
+                    // Could be useful for mapping player actions later on
+                      scene.player.characterInteraction = [this.interaction, this.name]; 
+                  
+                      if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
+            
+                      //Set timeout sets this to window!
+                      setTimeout(function(){ scene.player.actionCounter = 0}, 1000);
+          
+          }}}, null, this);
 
 
       }
-
-
         scene.add.existing(this);
 
        // scene.characters.add(this); 

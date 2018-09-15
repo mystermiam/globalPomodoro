@@ -47,11 +47,7 @@ preload() {
       }
     }
     store.dispatch('player/changeActiveScene', numberOfActiveScene); 
-// Can't find gid in musichouse.json (it doesn't update for some reason)
-//  this.load.image("tiles", house_inside );
-//  this.load.image("hmmmm", interior );
-//  this.load.tilemapTiledJSON("map", MusicHouse);
-    
+
     this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
     
     this.load.image('ValueGuy', ValueGuy);

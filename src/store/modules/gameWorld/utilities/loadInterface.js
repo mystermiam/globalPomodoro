@@ -9,6 +9,7 @@ export default {
 		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
 		showObjectContainer: false,
+		makeGameScreenClickable: false,
 		showQuestContainer: false,
 		showChat: false,
 	},
@@ -106,9 +107,16 @@ export default {
 		    		commit('hideChat')
 		    	}
 		    }
+
+		    // Make vue container clickable
+		    commit('makeVueContainerClickable')
 		},
 	},
 	mutations: {
+		makeVueContainerClickable(state) { state.makeGameScreenClickable = false },
+
+		makeGameScreenClickable(state){ state.makeGameScreenClickable = true },
+
 		toggleDialogueBox(state){
 			state.showDialogueBox = !state.showDialogueBox;
 		},
