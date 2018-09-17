@@ -9,7 +9,11 @@
 
 RPG!!!
 
+- If space is pressed and there is no collision with a character show a function of the character (e.g. the link of an item)
+
+
 Map: 
+
 
 - load several tilesets into one tilemap
 - create a border around the tilemap and put it into the center if it doesn't fit the entire screen

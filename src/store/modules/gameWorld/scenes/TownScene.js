@@ -278,6 +278,7 @@ update(time, delta) {
   if(this.player.characterInteraction[0] === 'dialogue'){
     this[this.player.characterInteraction[1]].updateDialogue()
   } else if (this.player.characterInteraction[0] === 'option'){
+    console.log("!")
     this[this.player.characterInteraction[1]].updateOptions()
   }
 

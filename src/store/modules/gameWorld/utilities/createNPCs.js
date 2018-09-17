@@ -17,15 +17,25 @@ import Star from './../assets/star.png'
 let dialogue1 = [
 ['Your NPC', 'Hey there my friend!'],
 ['option',
-	['You can add a link here', ["commit('setCurrentMessageType', 'addLink')"]],
+	['You can add a link here', [1, "commit('setCurrentMessageType', 'addLink')"]],
 	['further options', [2, "commit('setCurrentMessageType', 'option')"]],
 	['go away', [10]],
 ],
 ['option',
-	['pick Item up', [10, 'console.log("pick item up function should be called here")']],
-	['follow me', [10, 'console.log("follow function should be called here")']],
-	['go back', [1]]
-]
+	['change Link', [2, "commit('setCurrentMessageType', 'addLink')"]],
+	['go back', [1]],
+],
+];
+
+//['follow me', [10, 'console.log("follow function should be called here")']], ['pick Item up', [2, "dispatch('createNPCs/pickYourItemUp', '', {root:true})"]],
+// If I add a third option it doesn't work anymore
+
+let dialogue2 = [
+['A random item', 'Please connect me'],
+['option',
+	['You can add a link here', ["commit('setCurrentMessageType', 'addLink')"]],
+	['go away', [10]],
+],
 ];
 
 
@@ -34,32 +44,28 @@ export default {
 	state : {
 		objectsInInventory: [],
 		objects: {
-			'npc': 
-			{
-			'name': 'npc',
-			'image': '../assets/sprites/npc_bailey.png',
-			'showURL': false,
-			'dialogue': dialogue1,
-			'link': '',
-			'quantity': 0,
-			},
 			'star':
 			{
 			'name': 'star',
 			'image': '../assets/star.png',
 			'dialogue': dialogue1,
-			'showURL': false,
+			'objectClicked': false,
 			'link': '',
 			'quantity': 1,
+			'size': [25,25],
+			'offSet': [0,0],
             },
             'bomb':
 			{
 			'name': 'bomb',
 			'image': '../assets/bomb.png',	
-			'dialogue': dialogue1,
-			'showURL': false,
+			'dialogue': dialogue2,
+			'objectClicked': false,
 			'link': '',
 			'quantity': 0,
+			'size': [30,30],
+			'offSet': [0,0],
+			// ref1 Add other variables if necessary, first here then to gameContainerClicked
             },
 		},
 		itemCurrentlySelected: false,
@@ -69,40 +75,61 @@ export default {
 
 	},
 	actions: {
+		pickYourItemUp({dispatch, rootState}){
+			// Find item --> look at characterInteraction
+			let scene = Grow.scene.scenes[rootState.player.sceneActive];
+			let name = scene.characterInteraction[0];
+			alert("!")
+			console.log(name)
+			dispatch('findItem', name)
+
+		},
+
+
 		gameContainerClicked({state, commit, dispatch, rootState}){
 			 if(state.itemCurrentlySelected){
+			 	console.log('implement ' + state.itemCurrentlySelected + ' in map')
+
 				let scene = Grow.scene.scenes[rootState.player.sceneActive];
 				let map = scene.map;
 				let pointer = scene.input.activePointer;
     			let worldPoint = pointer.positionToCamera(scene.cameras.main);
     			let pointerTileXY = map.worldToTileXY(worldPoint.x, worldPoint.y);
     			let snappedWorldPoint = map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
+    			let name = 'item_' + snappedWorldPoint.x + '_'  + snappedWorldPoint.y + '_in_scene_' + rootState.player.sceneActive;
+        	    
+        	    // Get position of item based on the key of itemCurrentlySelected; won't work with 2 items of the same kind?
+        	    let positionOfItem = 0;
+        	    for(let i=0;i<state.objectsInInventory.length;i++){
+        	    	if(state.objectsInInventory[1] === state.itemCurrentlySelected){
+        	    		return positionOfItem = i;
+        	    	}
+        	    } 
 
-    			console.log(snappedWorldPoint)
-
-    			scene[state.characterID] = new Character({
+        	    
+        	    
+    			// phaserUtilities character.js
+    			scene[name] = new Character({
 		            scene: scene,
 		            key: state.itemCurrentlySelected, 
 		            x: snappedWorldPoint.x,
 		            y: snappedWorldPoint.y,
 		            furtherVar: [
-		              ['characterNumber', state.itemCurrentlySelected],
-		              ['name', state.characterID],
+		              ['name', name],
 		              ['interaction', 'dialogue'],
 		              ['dialogue', state.objects[state.itemCurrentlySelected].dialogue],
 		              ['dialogueStartsAt', 0],
 		              ['size', [25,25]],
 		              ['offSet', [0,0]],
 		              ['createdCharacter', true],
-		              ['link', state.objects[state.itemCurrentlySelected].name],
+		              ['link', state.objectsInInventory[positionOfItem][2]],
+		              ['size', state.objects[state.itemCurrentlySelected].size],
+		              ['offSet', state.objects[state.itemCurrentlySelected].offSet],
+		              // ref1 Add other variables if necessary, first to state.objects then here
 		            ]
         		});
- 
-    		//UNFINISHED: Increment character Number to give each character an individual id / would not work with multiple characters
-        	commit('individualCharacterID')
-        	
-        	// Remove item from itemlist 
-        	let positionOfItem = state.objectsInInventory.indexOf(state.itemCurrentlySelected);
+         	
+        	// remove item
         	commit('removeItemFromItemList', positionOfItem)
         	
         	//UNFINISHED: Close url input field, use when working with quantities
@@ -110,24 +137,36 @@ export default {
         	
         	// Unselect items
         	commit('unselectItem')
-        }},
+
+        }
+
+        // Hover function
+
+        // Battle plan:
+        // find game object that shares the same coordinates than the mouse
+        // get game object, look for hover attribute (hover: link) --> read link attribute
+        // display hovered attribute 
+     
 
 
-		findItem({commit}, name){
-			commit('findItem', name)
+    },
+
+
+		findItem({commit}, item){
+			commit('findItem', item)
 		},
 
-		showUrlInputField({state, commit}, name){
-       
-			commit('showUrlInputField', name)
+		objectClicked({state, commit, dispatch}, name){
+			commit('objectClicked', name)
 
 			if(!state.itemCurrentlySelected){
 				commit('itemCurrentlySelected', name)
+				setTimeout(function(){dispatch('addIntoGame')}, 0);
 			} else {
 				commit('unselectItem')
 			}
-            
 		},
+
     	addIntoGame({state, commit, rootState}){
             
             //Click on place to get coordinates
@@ -144,20 +183,17 @@ export default {
 
 	},
 	mutations: {
-		findItem(state, name){
-			state.objectsInInventory.push(name)
+		findItem(state, item){
+			state.objectsInInventory.push(item)
+			console.log(state.objectsInInventory)
 		},
 
-		showUrlInputField(state, name){
-			state.objects[name].showURL = !state.objects[name].showURL
+		objectClicked(state, name){
+			state.objects[name].objectClicked = !state.objects[name].objectClicked
 		},
 
 		getCoordinates(state){
 			state.getCoordinates = !state.getCoordinates
-		},
-
-		individualCharacterID(state){
-			state.characterID++
 		},
 
 		itemCurrentlySelected(state, name){

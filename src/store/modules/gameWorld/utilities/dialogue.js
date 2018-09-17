@@ -36,7 +36,7 @@ export default {
         	commit('setCurrentMessageType', type)
         },
 
-        // Called from createNPCs dialogue1
+        // Called from createNPCs dialogue1 OR Dialogue.vue
 		addLinkToCharacter({commit, dispatch, rootState}){
 			let link = document.getElementById('inputToAddLink').value;
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
@@ -48,70 +48,71 @@ export default {
 			dispatch('loadDialogue')
 		},
 
+		createCharacterWithLink({commit}, obj){
+			//Eventually should be united with addLinkToCharacter
+			commit('createCharacterWithLink', obj)
+		},
+
 		loadDialogue({state,commit,dispatch,rootState}){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
 			let nameOfCharacter = player.characterInteraction[1];
 			let messageNumber = state.currentMessage.number;
 
-            if(messageNumber >= state.dialogues[nameOfCharacter].length){
+			// Dialogue plan: 
+
+			// If messageNumber > length then endConversation
+			if(messageNumber >= state.dialogues[nameOfCharacter].length){
 			// no option
-			dispatch('endConversation')
-          
+			return dispatch('endConversation')
+       	    } 
 
+			// Else If dialoguebox is not shown --> show dialoguebox
+			else if(!rootState.loadInterface.showDialogueBox){
 
-			// If 'name' is option
-			} else if(state.dialogues[nameOfCharacter][messageNumber][0] === 'option'){ 
+			
+				if(rootState.loadInterface.showObjectContainer){
+					// Hide object container
+					commit('loadInterface/hideObjectContainer', '', {root:true})
+				}
+
+	            // Make player unable to move 
+	            player.isAllowedToMove = false;
+
+	            //Stop movement animation (improve it with putting it into resting position)
+	            player.anims.stop();
+
+	            commit('changeMessageNumber', player.scene[nameOfCharacter].dialogueStartsAt)
+	    
+				dispatch('loadInterface/getPosition', '', {root:true})
+
+	            setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false;}, 100);
+			
+			} 
+
+			// If messagetype is option --> loadOption
+			if(state.dialogues[nameOfCharacter][messageNumber][0] === 'option'){ 
+	
             	commit('setCurrentMessageType', 'option')
 
-            	return dispatch('loadOption', nameOfCharacter)
-      
-
+            	dispatch('loadOption', nameOfCharacter)
 
 
             // otherwise load a normal message
             } else {
 			commit('setCurrentMessageType', 'normal')
-
-			// If dialogue box is not yet loaded
-			if(!rootState.loadInterface.showDialogueBox){
-
-			// Hide object container
-			if(rootState.loadInterface.showObjectContainer){
-				commit('loadInterface/hideObjectContainer', '', {root:true})
 			}
 
-
-
-            // Make player unable to move 
-            player.isAllowedToMove = false;
-
-            //Stop movement animation (improve it with putting it into resting position)
-            player.anims.stop();
-            console.log(player.scene[nameOfCharacter])
-            commit('changeMessageNumber', player.scene[nameOfCharacter].dialogueStartsAt)
-            commit('setMessage', [messageNumber, nameOfCharacter])
-
-
-            
-			dispatch('loadInterface/getPosition', '', {root:true})
-
-            setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false; commit('incrementMessageNumber')}, 100);
-		
-
-		} else {
+            // General functions on each click
 			// Call function on spacebar click if player is in dialogue
-           
-            commit('setMessage', [messageNumber, nameOfCharacter]) 
+	        commit('setMessage', [messageNumber, nameOfCharacter]) 
 
-            scene.player.characterInteraction[0] = 'dialogue';
+	   	    //Increase the currentMessage number by one
+	   	    commit('incrementMessageNumber')
 
-       	    //Increase the currentMessage number by one
-       	    commit('incrementMessageNumber')
 
-		}
 
-		}},
+		},
 
 		endConversation({commit, dispatch, rootState}){
 			let player = Grow.scene.scenes[rootState.player.sceneActive].player;
@@ -128,6 +129,8 @@ export default {
 		},
 
 		loadOption({state, commit, rootState}, characterName){
+			// If there are still options in the array, remove options
+			if(state.currentMessage.options.length > 0) { commit('emptyCurrentOptionArray') }
 			// Load available options
 			for (let i=1; i<state.dialogues[characterName][state.currentMessage.number].length; i++){
 				commit('setOption', [characterName, i])
@@ -167,7 +170,9 @@ export default {
 	                
                     let number = optionSelected[i];
 
-                    state.currentMessage.options = [];
+                    // change to dialogue, so that it updates in scene
+                    scene.player.characterInteraction[0] = 'dialogue';
+
 		            commit('resetOptionSelected') 
 
 	                // Changes message to number in option [Number needs to be in first place!!]
@@ -203,6 +208,10 @@ export default {
 
 	},
 	mutations: {
+		emptyCurrentOptionArray(state){
+			state.currentMessage.options = [];
+		},
+
 		// called in dialogue function of character / obj = sceneActive, name number
 		changeDialogueStartsAt(state, obj){ Grow.scene.scenes[obj[0]][obj[1]].dialogueStartsAt = obj[2] }, 
 
@@ -211,7 +220,15 @@ export default {
 		},
 
 		addLinkToCharacter(state, obj){
+			// object: link, characterNumber  // should have position that is changed too 
+			// here dialogues.characterNumber / 1st position of dialogue / option 1 is changed
 			state.dialogues[obj[1]][1][1] = ['go to link', [10, obj[0]]]
+		},
+
+		createCharacterWithLink(state, obj){
+			// needs: Character Number for state.dialogues,position inside individual dialogue that should be changed,
+			// and link 
+			state.dialogues[obj[0]][obj[1][0]][obj[1][1]] = ['go to link', [10, obj[2]]]
 		},
 
 		setCurrentMessageType(state, type){

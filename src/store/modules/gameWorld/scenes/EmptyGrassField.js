@@ -19,9 +19,10 @@ import discutor from './../../../../../static/raw_sprites/spritesmith/npcs/npc_t
 import exampleCharacterPNG from './../assets/atlas/atlas.png'
 import exampleCharacterJSON from './../assets/atlas/atlas.json'
 
-// Import Sprites.js here
+// Import Sprites.js here (should be bundled)
 import Player from './../phaserUtilities/player'
 import Character from './../phaserUtilities/character'
+import Shelf from './../phaserUtilities/shelf'
 
 
 // Steps to take: 1) Import into scenes/index.js 
@@ -35,6 +36,7 @@ preload() {
 
   //currently the image needs to be preloaded to be able to insert it into the game from createNPC
   this.load.image("star", star );
+  this.load.image("bomb", bomb );
   this.load.image("vicky", vicky );
   this.load.image("thorsten", thorsten );
   this.load.image("discutor", discutor );
@@ -103,14 +105,45 @@ create() {
   this.itemsOneCanFind = this.physics.add.group()
 
   // Create as characters
-  this.createItem('star', 200,200);
-  this.createItem('thorsten', 300,200);
-  this.createItem('discutor', 400,200);
+  this.createItem('bomb', 260,140, 'https://docs.google.com/document/d/13BDpVuM0gMo8xoHvfJcf-uKYH0UxXiBJc2mBm0ZftHk/edit', 'Gaell - Data Visualization');
+  this.createItem('star', 340,150, 'https://www.youtube.com/watch?v=ctXQxPO3bbg', 'Youtube: Study Music');
 
   this.physics.add.collider(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
 
 
 
+
+
+
+
+
+
+
+
+/*  // Create a shelf
+
+  //Battle plan: 
+
+  //Create shelf in map: Objects
+  const shelf_1 = this.map.findObject("Objects", obj => obj.name === "shelf_1");
+
+  //Create an empty sprite to collide with
+  this.shelf_3_1 = new Shelf({
+    scene: this,
+    key: null,
+    x: shelf_1.x,
+    y: shelf_1.y,
+    furtherVar: [
+      ['name', 'shelf_1'],
+      ['shelfType', 1],
+      ['size', [shelf_1.width, shelf_1.height]],
+      ['offSet', [0,0]],
+    ]
+  })
+
+  // Call shelf function in utilities 
+  // if one collides with shelf it opens up shelf container
+  // */
 
 
 
@@ -136,22 +169,52 @@ update(time, delta) {
 
 collectItem(player, item){
   // Get item name
-  let name = item.texture.key; 
-
+  
   // dispatch dialogue eventually, detached from character 
   // this.player.characterInteraction = ['itemFound', 'itemID']
   
-  // add item to createNPC objectsInInventory
-  store.dispatch('createNPCs/findItem', name)
+  // add item to createNPC objectsInInventory // push whatever information is needed
+    store.dispatch('createNPCs/findItem', [item.name,item.key,item.link])
+  
+  
 
   alert('You found an item, use "i" to open your itembox and use it')
-  // Remove item
+  // Remove item 
   this['item' + item.x + item.y].disableBody(true, true);
 }
 
-createItem(key, x, y){
-  // Create individual name depending on location!
+createItem(key, x, y, link, linkTitle){
+  // Create individual name depending on location! 
+  // Unfinished: Should it mention or be equal to scene number like in createNPCs/gameContainerClicked
   this['item' + x + y] = this.itemsOneCanFind.create(x, y, key);
+
+  // Add a link to the item
+  if (link && linkTitle) { 
+    this['item' + x + y].link = link;
+    this['item' + x + y].linkTitle = linkTitle;
+  } else if (link){ this['item' + x + y].link = link; }
+ 
+  this['item' + x + y].key = key;
+  this['item' + x + y].name = 'item' + x + y;
+
+  
+
+
+  // Make character interactive so that he reacts to click events
+  this['item' + x + y].setInteractive();
+
+  this['item' + x + y].on('pointerover', () => { 
+
+  // should be only added once
+  if (linkTitle) { this.hoverText = this.add.text(x - 100, y - 40, this['item' + x + y].linkTitle) };
+    
+
+  });
+
+  this['item' + x + y].on('pointerout', () => {
+    this.hoverText.setText('')
+  });
+
 }
 
 

@@ -2,13 +2,7 @@
   <div v-show='showObjectContainer' id='objectContainer'>
    <div v-for='(object,index) in objectsInInventory'>
     
-    <img class='boxForObject' :value='objects[object].name' :src="objects[object].image" @click='showUrlInputField(objects[object].name)'></img>
-
-    <div v-show='objects[object].showURL'>
-
-      <button id='dropObjectButton' @click='addIntoGame(objects[object])'>Drop into game</button>
-      <br><br>
-    </div>
+    <img class='boxForObject' :value='object[0]' :src="objects[object[1]].image" @click='objectClicked(objects[object[1]].name)' v-bind:class='{ objectClicked: objects[object[1]].objectClicked }'></img>
 
    </div>
 
@@ -41,7 +35,7 @@ export default {
  
  methods: {
   ...mapActions('createNPCs',{
-      showUrlInputField: 'showUrlInputField',
+      objectClicked: 'objectClicked',
       addIntoGame: 'addIntoGame',
     })
   },
@@ -81,6 +75,10 @@ export default {
   display: inline-block;
 }
 
+.objectClicked {
+  border: 1px solid red !important;
+}
+
 </style>
 
 
@@ -93,7 +91,38 @@ export default {
 
 
 
+<!--
+GRAVEYARD
+
+<input :value='objects[object].link'></input><button @click='saveInput(index)'>SAVE</button>    saveInput: 'saveInput',
 
 
-<!-- <input :value='objects[object].link'></input><button @click='saveInput(index)'>SAVE</button>    saveInput: 'saveInput',-->
 
+
+URL INPUT FIELD: 
+    <img class='boxForObject' :value='objects[object].name' :src="objects[object].image" @click='showUrlInputField(objects[object].name)'></img>
+
+    <div v-show='objects[object].showURL'>
+
+      <button id='dropObjectButton' @click='addIntoGame(objects[object])'>Drop into game</button>
+      <br><br>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 

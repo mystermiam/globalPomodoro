@@ -9,7 +9,7 @@ export default {
 		positionOfGameContainer: [0,0],
 		showDialogueBox: false,
 		showObjectContainer: false,
-		makeGameScreenClickable: false,
+		makeGameScreenClickable: true,
 		showQuestContainer: false,
 		showChat: false,
 	},
@@ -107,9 +107,6 @@ export default {
 		    		commit('hideChat')
 		    	}
 		    }
-
-		    // Make vue container clickable
-		    commit('makeVueContainerClickable')
 		},
 	},
 	mutations: {
@@ -127,10 +124,12 @@ export default {
 
 		showObjectContainer(state){
 			state.showObjectContainer = true;
+			state.makeGameScreenClickable = false;
 		},
 
 		hideObjectContainer(state){
 			state.showObjectContainer = false;
+			state.makeGameScreenClickable = true;
 		},
 
 		showChat(state){
@@ -151,6 +150,7 @@ export default {
 
 		openQuestContainer(state){
 			state.showQuestContainer = true;
+			state.makeGameScreenClickable = false;
 		},
 
 		setQuest(state, obj){
@@ -160,6 +160,7 @@ export default {
 
 		closeQuestContainer(state){
 			state.showQuestContainer = false;
+			state.makeGameScreenClickable = true;
 		},
 
 

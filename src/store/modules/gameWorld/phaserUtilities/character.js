@@ -26,6 +26,31 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         this.setImmovable(true);
 
 
+        // Undefined, because the individual name is not linked to the created character
+        console.log(this.linkTitle)
+        //if(this.linkTitle){
+          // Make character interactive so that he reacts to click events (makes it only interactive if link is added in the beginning)
+          this.setInteractive();
+
+
+          this.on('pointerover', () => { 
+            console.log(this.link); 
+
+          // should be only added once
+            scene.hoverText = scene.add.text(config.x - 100, config.y - 40, this.link)
+            
+            console.log(scene.hoverText)
+
+          });
+
+          this.on('pointerout', () => {
+            scene.hoverText.setText('')
+          });
+       //}
+
+
+
+
         // If the dialogue is pushed to dialogue.js here it needs to be deleted at some point, probably at scene switch
         if(this.dialogueStartsAt === undefined){
           console.log('character.dialogueStartsAt is undefined')
@@ -61,6 +86,12 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         // Add basic dialogue function to newly created NPC
        // store.dispatch('dialogue/addNPC', this.characterNumber); // NPC should have an individual id , replaced here by 100
 
+
+        // if there is a link he directly changes the option to go to link
+        if(this.link){
+          store.dispatch('dialogue/createCharacterWithLink', [this.name, [1,1], this.link, ]);
+        }
+
         // Add here the functions for player constructed NPC's
         scene.physics.add.collider(scene.player, this, 
 
@@ -85,6 +116,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
 
        // scene.characters.add(this); 
+
     } // End of constructor
 
     // update different numbers
@@ -103,6 +135,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         } 
     }
 
+    // Called in scene
     updateOptions(){
       let scene = this.scene
 

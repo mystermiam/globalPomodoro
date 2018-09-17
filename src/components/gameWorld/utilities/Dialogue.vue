@@ -42,7 +42,7 @@ export default {
      
   computed : {
    ...mapState('dialogue',{
-      currentMessage:'currentMessage',  
+      currentMessage:'currentMessage',
     }),
 
   ...mapState('loadInterface',{
