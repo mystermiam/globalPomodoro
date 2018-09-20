@@ -1,4 +1,5 @@
 import { Scene } from 'phaser'
+import BaseScene from './BaseScene';
 
 export default class BootScene extends Scene {
   constructor () {
@@ -6,7 +7,8 @@ export default class BootScene extends Scene {
   }
 
   preload () {
-
+    this.load.setBaseURL('./assets/');
+    this.load.json('assets');
   }
 
   create () {
@@ -17,8 +19,8 @@ export default class BootScene extends Scene {
     //this.scene.start('platformerScene')
  
     // World test
+    //this.changeToScene('EmptyGrassField');
     this.scene.start('EmptyGrassField')
-    
 
 
   

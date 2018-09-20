@@ -8,6 +8,7 @@ import BootScene from './scenes/BootScene'
 import TownScene from './scenes/TownScene'
 import HouseOfMusicScene from './scenes/HouseOfMusicScene'
 import EmptyGrassField from './scenes/EmptyGrassField'
+import NuitBlancheTown from './scenes/NuitBlancheTown'
 
 var Grow = [];
 
@@ -22,10 +23,10 @@ function launch() {
       default: 'arcade',
       arcade: {
         gravity: { y: 0 }, // Top down game, so no gravity
-        debug: false
+        debug: true
       }
     },
-    scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField] // this defines, which number the scene has: Grow.scene.scenes[2].player;
+    scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;
 
     //scene: [BootScene, PlayScene]
     //scene: [BootScene, platformerScene]

@@ -7,6 +7,38 @@
 
 --- Take maybe 2 pomodoro sessions to work on one of the hard problems (movement, etc.) - and then continue to work on performance problems
 
+
+
+Nuit Blanche: 
+- Follow function, character that guides you around
+	-Create sequences
+
+- Experience bar (basic interface)
+
+- Map transition
+
+- Movement function
+
+- Fishing function
+
+- After the 28. --> !! Create content !! 
+
+- Create an NPC instead of an item (spritesheet instead of image)
+	- add text to NPC
+
+
+- Push it onto server
+
+
+
+Next two priorities: 
+
+- Create maploader
+- Change between maps
+
+- need to call functions not only from options but also from normal dialogue
+
+
 RPG!!!
 
 - If space is pressed and there is no collision with a character show a function of the character (e.g. the link of an item)

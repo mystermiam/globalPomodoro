@@ -38,7 +38,7 @@ export default class Shelf extends Phaser.Physics.Arcade.Sprite {
 
         scene.physics.add.collider(scene.player, this, function(){
     
-          if(scene.player.spaceBar.isDown){
+          if(scene.player.cursors.space.isDown){
               scene.player.actionCounter++
         
               if(scene.player.actionCounter === 1){

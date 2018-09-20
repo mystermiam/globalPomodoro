@@ -19,12 +19,24 @@
 
     </div>
 
+    <div v-show='currentMessage.kindOfMessage === "userInput"'>
+      <span id='dialogue-question'>{{currentMessage.person}}</span><br>
+
+      <textarea id='dialogueUserInput' rows="4" cols="50"></textarea>
+      <!-- Should eventually have a user input that shows up if you have typed enough --> 
+      <button id='dialogue-user-input-button' @click='userInputQuestion'>Submit answer</button>
+    </div>
+
+
+
 
 
     <div v-show='currentMessage.kindOfMessage === "addLink"'>
       <span>You can add your link below:</span><br><br>
       <input id='inputToAddLink'></input><button @click='addLinkToCharacter'>Add to Character</button>
     </div>
+
+
   
   </div>
 
@@ -54,6 +66,7 @@ export default {
  methods: {
   ...mapActions('dialogue',{
       addLinkToCharacter: 'addLinkToCharacter',
+      userInputQuestion: 'userInputQuestion',
     })
   },
 
@@ -93,6 +106,11 @@ export default {
     overflow: hidden; /* Ensures the content is not revealed until the animation */
     letter-spacing: .15em; /* Adjust as needed */
     animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+  }
+
+  #dialogue-user-input-button{
+    position: relative;
+    top: -30px;
   }
 
 /* The typing effect */

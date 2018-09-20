@@ -1,36 +1,48 @@
 <template>
+
   <div id='questContainer' v-show='showQuestContainer'>
-    <span id='questContainerCloseButton' @click='closeQuestContainer'>x</span>
 
-    <div id='questTitleContainer'>
-      <h1>{{quests[questShown].title}}</h1>
-    </div>
-
-    <div id='questDescriptionContainer'>
-      <span>{{quests[questShown].description}}</span>
+    <div id='questLogContainer' v-show='questContainerDisplay == "questLog"'>
+      <div v-for='quest in activeQuests' @click='openActiveQuest(quest)'>
+        {{quest}}
+      </div>
     </div>
 
 
-    <div id='questStepsContainer'>
-      <h2>Steps to take:</h2>
+    <div v-show='questContainerDisplay == "newQuest" || questContainerDisplay ==  "activeQuest"'>
+      <span id='questContainerCloseButton' @click='closeQuestContainer'>x</span>
 
-      <ul>
-        <li v-for='(step, index) in quests[questShown].stepsToDo'>{{index + 1}}: {{step}}</li>
-      </ul>
+      <div id='questTitleContainer'>
+        <h1>{{quests[questShown].title}}</h1>
+      </div>
 
+      <div id='questDescriptionContainer'>
+        <span>{{quests[questShown].description}}</span>
+      </div>
+
+
+      <div id='questStepsContainer'>
+        <h2>Steps to take:</h2>
+
+        <ul>
+          <li v-for='(step, index) in quests[questShown].stepsToDo'>{{index + 1}}: {{step}}</li>
+        </ul>
+
+      </div>
+
+
+      <div id='questRewardContainer'>
+        <h2>Rewards</h2>
+
+        gold: {{quests[questShown].reward.gold}}
+
+        experience: {{quests[questShown].reward.experience}}
+      </div>
+
+
+      <button id='acceptQuestButton' @click='acceptQuest' v-show='questContainerDisplay == "newQuest"'>Accept Quest</button>
     </div>
 
-
-    <div id='questRewardContainer'>
-      <h2>Rewards</h2>
-
-      gold: {{quests[questShown].reward.gold}}
-
-      experience: {{quests[questShown].reward.experience}}
-    </div>
-
-
-    <button id='acceptQuestButton' @click='acceptQuest'>Accept Quest</button>
 
   </div>
 
@@ -45,12 +57,15 @@ export default {
       
   computed : {
    ...mapState('loadInterface',{
-      showQuestContainer:'showQuestContainer',    
+      showQuestContainer:'showQuestContainer',
+      showQuestLog:'showQuestLog', 
+      questContainerDisplay: 'questContainerDisplay',  
     }),
 
     ...mapState('quests',{
       quests:'quests', 
-      questShown: 'questShown',  
+      questShown: 'questShown', 
+      activeQuests:'activeQuests',  
     })
   },
  
@@ -61,6 +76,7 @@ export default {
 
   ...mapActions('quests',{
       acceptQuest: 'acceptQuest',
+      openActiveQuest: 'openActiveQuest',
     }),
 
 

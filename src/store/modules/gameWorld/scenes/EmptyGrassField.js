@@ -37,10 +37,10 @@ preload() {
   //currently the image needs to be preloaded to be able to insert it into the game from createNPC
   this.load.image("star", star );
   this.load.image("bomb", bomb );
-  this.load.image("vicky", vicky );
-  this.load.image("thorsten", thorsten );
-  this.load.image("discutor", discutor );
 
+  this.load.spritesheet("thorsten", thorsten,  {frameWidth: 120, frameHeight: 120} );
+  this.load.spritesheet("discutor", discutor,  {frameWidth: 100, frameHeight: 100} );
+  this.load.spritesheet("vicky", vicky,  {frameWidth: 100, frameHeight: 100} );
 
   // Update which scene is currently active for Vue 
     let numberOfActiveScene = 0;
@@ -58,6 +58,7 @@ preload() {
     // Make sure this has the right type
     this.load.image("tiles", tiles );
     this.load.tilemapTiledJSON("map", map);
+
 } // End of Preload
 
 create() {
@@ -106,9 +107,177 @@ create() {
 
   // Create as characters
   this.createItem('bomb', 260,140, 'https://docs.google.com/document/d/13BDpVuM0gMo8xoHvfJcf-uKYH0UxXiBJc2mBm0ZftHk/edit', 'Gaell - Data Visualization');
-  this.createItem('star', 340,150, 'https://www.youtube.com/watch?v=ctXQxPO3bbg', 'Youtube: Study Music');
+  this.createItem('star', 340,150, 'https://www.youtube.com/watch?v=Gzm_mcLyMVo', 'Classcraft - using games to display content');
 
   this.physics.add.collider(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
+
+
+
+  // CREATE CHARACTERS
+
+  let DiscutorDialogue = [
+['Discutor', "Hey there wanderer, would you like to work more efficiently?"],
+['option', 
+  ['Sure, I would like to learn more about learning', [4]],
+  ['I want to have a tool that can help me!', [2]],  
+  ["No, I'm currently not interested", [10]]
+],
+['Discutor', 'Then check out this new tool'],
+['option', 
+  ['try out tool', [10, 'http://grow.cri-paris.org/#/pomodoro']], 
+  ['Leave him behind', [10]]
+],
+['Discutor', 'Did you ever hear about the last lecture of Randy Pusch from MIT?'],
+['option', 
+  ['No I have never heard about it', [6]], 
+  ['Actually I know this one already', [1]]
+],
+['option', 
+  ['let me check it out', [10, 'https://www.youtube.com/watch?v=ji5_MqicxSo']], 
+  ['Actually I have better things to do', [10]]
+],
+];
+this.Discutor = new Character({
+          scene: this,
+          key: 'discutor',
+          x: 150,
+          y: 540,
+          furtherVar: [
+            ['characterNumber', 0],
+            ['name', 'Discutor'],
+            ['interaction', 'dialogue'],
+            ['dialogue', DiscutorDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [60,60]],
+            ['offSet', [35,20]],
+          ]
+      });
+
+let ThorstenDialogue = [
+['Thorsten', 'Hey there new one. Do you need some good music to focus?'],
+['option', 
+  ['Yeah, I could need some music right now!', [10, 'https://www1.brain.fm/']], 
+  ["I'm searching for something else ;) ", [10]]
+]
+];
+
+this.Thorsten = new Character({
+          scene: this,
+          key: 'thorsten',
+          x: 425,
+          y: 170,
+          furtherVar: [
+            ['characterNumber', 1],
+            ['name', 'Thorsten'],
+            ['interaction', 'dialogue'],
+            ['dialogue', ThorstenDialogue],  
+            ['dialogueStartsAt', 0],
+            ['size', [80,80]],
+            ['offSet', [20,20]],
+          ]
+      }); 
+
+
+
+let VickyDialogue = [
+['Vicky', 'Hey there wanderer! I have the pleasure to be your personal coach today. Your first task is to do 10 push ups'],
+['option', 
+  ['Accept Quest', [10, 
+      "dispatch('loadInterface/openQuestContainer', 'exercise', {root:true})", 
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 5])",
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2, 15000])",]], 
+  ["Leave", [10]]
+],
+
+['Quest', 'Did you finish the Quest?'],
+['option', 
+  ['Yes, I finished', [4, 
+      "dispatch('setCurrentMessageType', 'userInput')", 
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2])"]], 
+  ["No, not yet", [10]]
+],
+['How do you feel after the exercise?', null],
+
+
+['Quest', 'It should take more time to finish this quest'],
+  
+];
+
+this.QuestGiver = new Character({
+          scene: this,
+          key: 'vicky',
+          x: 270,
+          y: 300,
+          furtherVar: [
+            ['characterNumber', 2],
+            ['name', 'QuestGiver'],
+            ['interaction', 'dialogue'],
+            ['dialogue', VickyDialogue],  
+            ['dialogueStartsAt', 0],
+            ['size', [60,60]],
+            ['offSet', [0,0]],
+          ]
+      }); 
+
+
+/*
+let QuestDialogue2 = [
+['Coach', "I have the honor to be your fitness coach for today! Your first exercise is to do 10 push ups. Return to me after you finished"],
+['option', 
+  ['Accept Quest', [10, 
+      "dispatch('loadInterface/openQuestContainer', 'exercise', {root:true})", 
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 5])",
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2, 15000])",]], 
+  ["I feel lazy today", [10]]
+],
+
+['Quest', 'Did you finish the Quest?'],
+['option', 
+  ['Yes, I finished!', [4, 
+      "dispatch('setCurrentMessageType', 'userInput')", 
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2])"]], 
+  ["No, not yet", [10]]
+],
+['What did you learn?', null],
+
+
+['Quest', 'It should take more time to finish this quest'],
+
+];
+
+this.QuestGiver = new Character({
+          scene: this,
+          key: 'vicky',
+          x: 270,
+          y: 300,
+          furtherVar: [
+            ['characterNumber', 2],
+            ['name', 'QuestGiver'],
+            ['interaction', 'dialogue'],
+            ['dialogue', QuestDialogue],  
+            ['dialogueStartsAt', 2],
+            ['size', [60,60]],
+            ['offSet', [0,0]],
+          ]
+      }); 
+*/
+
+
+// Doors to other instances (to be continued)
+  //const doorMusicHouse = this.map.findObject("Objects", obj => obj.name === "Door_ValueGuy");
+
+/*
+  this.doorMusicHouse = this.physics.add.sprite(200, 200, 'thorsten');
+  
+  this.physics.add.collider(this.player, this.doorMusicHouse, 
+    function(){
+      console.log(this.scene)
+      this.scene.stop(this.sys.config.key); 
+      this.scene.start('TownScene');
+    }, null, this); 
+*/
+
+
 
 
 
@@ -145,6 +314,17 @@ create() {
   // if one collides with shelf it opens up shelf container
   // */
 
+  // Welcome text that has a "fixed" position on the screen
+  this.add
+    .text(16, 16, "When you program, be in the moment!", {
+      font: "18px monospace",
+      fill: "#000000",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#ffffff"
+    })
+    .setScrollFactor(0)
+    .setDepth(30);
+
 
 
 } // End of Create
@@ -153,14 +333,18 @@ update(time, delta) {
   // Update movement
   if(this.player.isAllowedToMove){
   this.player.move();
-  }
 
-  //Update dialogue function
-  if(this.player.characterInteraction[0] === 'dialogue'){
-    //triggers character.js
+  //Update dialogue function - triggers character.js
+  } else if(this.player.characterInteraction[0] === 'dialogue'){
+    
     this[this.player.characterInteraction[1]].updateDialogue()
+
   } else if (this.player.characterInteraction[0] === 'option'){
     this[this.player.characterInteraction[1]].updateOptions()
+
+  } else if (this.player.characterInteraction[0] === 'userInput'){
+    this[this.player.characterInteraction[1]].updateUserInput()
+
   }
 } // End of update
 
@@ -206,8 +390,11 @@ createItem(key, x, y, link, linkTitle){
   this['item' + x + y].on('pointerover', () => { 
 
   // should be only added once
-  if (linkTitle) { this.hoverText = this.add.text(x - 100, y - 40, this['item' + x + y].linkTitle) };
-    
+  if (linkTitle) { this.hoverText = this.add.text(x - 100, y - 40, this['item' + x + y].linkTitle) 
+
+
+  };
+  
 
   });
 

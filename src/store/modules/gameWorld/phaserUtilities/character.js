@@ -27,7 +27,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
 
         // Undefined, because the individual name is not linked to the created character
-        console.log(this.linkTitle)
+      
         //if(this.linkTitle){
           // Make character interactive so that he reacts to click events (makes it only interactive if link is added in the beginning)
           this.setInteractive();
@@ -52,24 +52,16 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
 
         // If the dialogue is pushed to dialogue.js here it needs to be deleted at some point, probably at scene switch
-        if(this.dialogueStartsAt === undefined){
-          console.log('character.dialogueStartsAt is undefined')
-          if(this.dialogue === undefined){console.log('character.dialogue is undefined')} else {
-            store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue, 0]);
-        }} else {
-          if(this.dialogue === undefined){console.log('character.dialogue is undefined')} else {
-          store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue, this.dialogueStartsAt]);
-        }
-        }
-
-
+        if(this.dialogue){ store.dispatch('dialogue/addDialogue', ['' + this.name + '', this.dialogue, 0]);}
         
+
+
         if(this.createdCharacter === false || this.createdCharacter === undefined){
         scene.physics.add.collider(scene.player, this, 
       
             function(){
     
-          if(scene.player.spaceBar.isDown){
+          if(scene.player.cursors.space.isDown){
               scene.player.actionCounter++
         
               if(scene.player.actionCounter === 1){
@@ -97,7 +89,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
           function(){
     
-              if(scene.player.spaceBar.isDown){
+              if(scene.player.cursors.space.isDown){
                   scene.player.actionCounter++
             
                   if(scene.player.actionCounter === 1){
@@ -123,12 +115,12 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
     updateDialogue(){
       let scene = this.scene
     // Updating different kind of actions - in this case 'Dialogue' -- move to character
-        if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0){
+        if(scene.player.cursors.space.isDown && scene.player.actionCounter === 0){
 
           store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted);
 
           scene.player.actionCounter++
-          scene.player.spaceBar.isDown = false;
+          scene.player.cursors.space.isDown = false;
 
           // Time until people can continue the dialogue 350ms
           setTimeout(function(){ scene.player.actionCounter = 0}, 350);
@@ -137,7 +129,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
     // Called in scene
     updateOptions(){
-      let scene = this.scene
+      let scene = this.scene;
 
         if(scene.player.cursors.down.isDown && scene.player.actionCounter === 0){
           
@@ -170,16 +162,32 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
           // Time until people can continue the dialogue 350ms
           setTimeout(function(){ scene.player.actionCounter = 0}, 100);
-        } else if(scene.player.spaceBar.isDown && scene.player.actionCounter === 0){
+        } else if(scene.player.cursors.space.isDown && scene.player.actionCounter === 0){
           
           store.dispatch('dialogue/takeOption')
 
           scene.player.actionCounter++
-          scene.player.spaceBar.isDown = false;
+          scene.player.cursors.space.isDown = false;
 
           // Time until people can continue the dialogue 350ms
-          setTimeout(function(){ scene.player.actionCounter = 0}, 100);
+          setTimeout(function(){ scene.player.actionCounter = 0}, 350);
         }
     }
+
+    updateUserInput(){
+      let scene = this.scene;
+
+        if(scene.player.cursors.space.isDown && scene.player.actionCounter === 0){
+           
+           scene.player.actionCounter++
+           scene.player.cursors.space.isDown = false;
+
+           document.getElementById('dialogueUserInput').value = document.getElementById('dialogueUserInput').value + ' ';
+
+           setTimeout(function(){ scene.player.actionCounter = 0 }, 10);
+        }
+    }
+
+
 
  } // End of export

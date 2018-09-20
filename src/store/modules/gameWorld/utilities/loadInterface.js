@@ -11,18 +11,27 @@ export default {
 		showObjectContainer: false,
 		makeGameScreenClickable: true,
 		showQuestContainer: false,
+		questContainerDisplay: 'questLog',
 		showChat: false,
+		enableVueKeys: true,
 	},
 	getters: {
 
 	},
 	actions: {
+
 		openQuestContainer({commit, rootState}, questName){
 			commit('setQuest', [rootState.quests.questShown, questName]) 
+			commit('changeQuestContainerDisplay', 'newQuest')
 			commit('openQuestContainer')
+
 		},
 
 		closeQuestContainer({commit}){ commit('closeQuestContainer') },
+
+		openQuestLog({commit}){ commit('openQuestlog')},
+		closeQuestLog({commit}){ commit('closeQuestlog')},
+
 
 		alignInterfaceContainer({state}){
 			// Eventually make every other elements relative to this one
@@ -92,6 +101,7 @@ export default {
             setTimeout(function(){ dispatch('alignObjectContainer'); }, 0);
 		},
 
+		// Is called from Game.vue (mounted) 
 		keymonitor({state, commit, dispatch}, e){
 		    if(e.key == 'i' ){
 		    	if(!state.showObjectContainer){
@@ -106,10 +116,25 @@ export default {
 		    	} else {
 		    		commit('hideChat')
 		    	}
+		    } else if(e.key == 'q'){
+		    	if(!state.showQuestContainer){
+		    		commit('openQuestContainer')
+		    		commit('changeQuestContainerDisplay', 'questLog')
+		    		commit('makeVueContainerClickable')
+		    		dispatch('getPosition')
+		    	} else {
+		    		commit('closeQuestContainer')
+		    		commit('makeGameScreenClickable')
+		    	}
 		    }
 		},
 	},
 	mutations: {
+		enableVueKeys(state) { state.enableVueKeys = true },
+		disableVueKeys(state) { state.enableVueKeys = false },
+
+		changeQuestContainerDisplay(state, display) { state.questContainerDisplay = display },
+
 		makeVueContainerClickable(state) { state.makeGameScreenClickable = false },
 
 		makeGameScreenClickable(state){ state.makeGameScreenClickable = true },

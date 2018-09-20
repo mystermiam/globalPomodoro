@@ -32,9 +32,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.isAllowedToMove = true;
         this.characterInteraction = [];
-        this.cursors = scene.input.keyboard.createCursorKeys();
-        this.spaceBar = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+        // Cursors registered by Phaser!
+        this.cursors = scene.input.keyboard.createCursorKeys();
+            
+        
         scene.physics.world.enable(this);
 
         //Later on spawn character from this position on login

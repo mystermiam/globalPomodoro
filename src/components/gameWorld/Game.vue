@@ -1,12 +1,16 @@
 <template>
 <div>
   <div id='vueInterfaceContainer' v-bind:class='{ makeGameScreenClickable: makeGameScreenClickable }'>
+    
     <QuestContainer/>
 
   </div>
 
   <div id="game-container" @click="gameContainerClicked" v-bind:class='{ makeVueScreenClickable: !makeGameScreenClickable }'/>
-  <!--<iframe width="420" height="315" src="http://localhost:8080/#/pomodoro" frameborder="0" allowfullscreen id='exampleContainer' v-show='escapePressed'></iframe>-->
+ 
+  <!--<iframe width="420" height="315" src="http://localhost:8080/#/pomodoro" frameborder="0" 
+  allowfullscreen id='exampleContainer' v-show='escapePressed'></iframe>-->
+ 
   <Dialogue/>
   <CreateNPCs/>
   <!--<Chat/>-->
@@ -34,7 +38,9 @@ export default {
   computed: {
     ...mapState('loadInterface',{
       makeGameScreenClickable:'makeGameScreenClickable',  
+      enableVueKeys: 'enableVueKeys',
     }),
+
   },
 
   methods: {
@@ -51,8 +57,10 @@ export default {
 
   created() {
     window.addEventListener('keydown', (e) => {
-      if (e.key == 'Escape' || e.key == 'i' || e.key == 'c') {
-        this.keymonitor(e)
+      if (e.key == 'Escape' || e.key == 'i' || e.key == 'c' || e.key == 'q' || e.key == 'Enter') {
+        if(this.enableVueKeys){
+          this.keymonitor(e)
+        }
       }
     });
   },

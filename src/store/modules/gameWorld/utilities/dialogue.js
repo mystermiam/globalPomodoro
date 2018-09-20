@@ -24,15 +24,41 @@ export default {
 
 	},
 	actions: {
+		//Called in dialogue.vue --> userInput
+		userInputQuestion({dispatch, rootState}){
+			dispatch('endConversation')
+			alert("You have completed this quest successfully!")
+
+			// Unfinished: Get QuestName somehow // and go to second question if there is one? reset textfield and change dialogue.question
+			dispatch('quests/removeActiveQuest', 'test', {root:true})
+
+			// 
+			dispatch('quests/questAccomplished', 'test', {root:true})
+		},
 		// Called in dialogue function of person / Object [SceneActive, Name, newStartingPoint]
-		changeDialogueStartsAt({commit}, obj){ commit('changeDialogueStartsAt', obj)},
+		changeDialogueStartsAt({commit, rootState}, obj){ 
+			if (obj.length == 4){
+				// The fourth argument is time, so the dialogue start will be changed after a timeout
+				setTimeout(function(){commit('changeDialogueStartsAt', obj), '', {root:true}}, obj[3]);
+			} 
+
+			else {
+				commit('changeDialogueStartsAt', obj)
+			}
+		},
 
 		// Called in character.js from this[characterName].dialogue
         addDialogue({commit}, obj){
         	commit('addDialogue', obj)
         },
 
-        setCurrentMessageType({commit}, type){
+        setCurrentMessageType({commit, dispatch, rootState}, type){
+        	// Call scene to not update dialogue function for now
+        	if(type == 'userInput'){
+        		// Stop user input (should be an external function in player)
+	            dispatch('player/disableKeyboardKeys', 'all', {root:true})
+        	}
+
         	commit('setCurrentMessageType', type)
         },
 
@@ -59,7 +85,6 @@ export default {
 			let nameOfCharacter = player.characterInteraction[1];
 			let messageNumber = state.currentMessage.number;
 
-			// Dialogue plan: 
 
 			// If messageNumber > length then endConversation
 			if(messageNumber >= state.dialogues[nameOfCharacter].length){
@@ -76,19 +101,27 @@ export default {
 					commit('loadInterface/hideObjectContainer', '', {root:true})
 				}
 
+
 	            // Make player unable to move 
 	            player.isAllowedToMove = false;
+
+	            dispatch('player/disableKeyboardKeys', 'vue', {root:true})
 
 	            //Stop movement animation (improve it with putting it into resting position)
 	            player.anims.stop();
 
+
+	            //Update message number
 	            commit('changeMessageNumber', player.scene[nameOfCharacter].dialogueStartsAt)
-	    
+	    		messageNumber = state.currentMessage.number;
+
 				dispatch('loadInterface/getPosition', '', {root:true})
 
 	            setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false;}, 100);
 			
 			} 
+
+
 
 			// If messagetype is option --> loadOption
 			if(state.dialogues[nameOfCharacter][messageNumber][0] === 'option'){ 
@@ -100,11 +133,18 @@ export default {
 
             // otherwise load a normal message
             } else {
+  
+            setTimeout(function(){
+            	if(state.dialogues[nameOfCharacter][messageNumber].length === 3){
+      
+            	eval(state.dialogues[nameOfCharacter][messageNumber][2]);
+            }
+        	}, 2000);
+            
 			commit('setCurrentMessageType', 'normal')
 			}
 
             // General functions on each click
-			// Call function on spacebar click if player is in dialogue
 	        commit('setMessage', [messageNumber, nameOfCharacter]) 
 
 	   	    //Increase the currentMessage number by one
@@ -122,7 +162,9 @@ export default {
 			// Make player move again 
             player.isAllowedToMove = true;
 
+            // Enable keys again
             player.characterInteraction = [];
+            dispatch('player/enableKeyboardKeys', '', {root:true})
 
 			// Toggle dialoguebox
             setTimeout(function(){dispatch('loadInterface/toggleDialogueBox', '', {root:true}); player.inAction = false; }, 0);
@@ -212,10 +254,11 @@ export default {
 			state.currentMessage.options = [];
 		},
 
-		// called in dialogue function of character / obj = sceneActive, name number
+		// called in dialogue function of character / obj = sceneActive, name, number
 		changeDialogueStartsAt(state, obj){ Grow.scene.scenes[obj[0]][obj[1]].dialogueStartsAt = obj[2] }, 
 
 		addDialogue(state, obj){
+			// 0: name, 1: dialogue
 			state.dialogues[obj[0]] = obj[1]
 		},
 
