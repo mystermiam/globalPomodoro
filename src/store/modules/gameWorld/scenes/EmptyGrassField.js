@@ -25,7 +25,9 @@ import dude from '../assets/dude.png'
 import Character from './../phaserUtilities/character'
 import Shelf from './../phaserUtilities/shelf'
 
+// Import external functions
 import loadScene from './../phaserUtilities/loadScene'
+import {updateDialogue, updateOptions, updateUserInput} from './../phaserUtilities/phaserDialogue'
 
 
 // Steps to take: 1) Import into scenes/index.js 
@@ -302,18 +304,21 @@ this.firstScene();
 update(time, delta) {
   // Update movement
   if(this.player.isAllowedToMove){
+  
   this.player.move();
 
-  //Update dialogue function - triggers character.js <-- Should trigger inside here
+  //Update dialogue function - triggers phaserDialogue.js
   } else if(this.player.characterInteraction[0] === 'dialogue'){
     
-    this[this.player.characterInteraction[1]].updateDialogue()
+    updateDialogue()
 
   } else if (this.player.characterInteraction[0] === 'option'){
-    this[this.player.characterInteraction[1]].updateOptions()
+    
+    updateOptions()
 
   } else if (this.player.characterInteraction[0] === 'userInput'){
-    this[this.player.characterInteraction[1]].updateUserInput()
+    
+    updateUserInput()
 
   }
 } // End of update
@@ -342,13 +347,12 @@ let firstDialogue = [
 ];
 
 store.dispatch('dialogue/addDialogue', ['firstDialogue', firstDialogue])
-store.dispatch('dialogue/loadDialogue', 'firstDialogue')
 
+this.player.characterInteraction[0] = 'dialogue';
+
+setTimeout(function(){ store.dispatch('dialogue/loadDialogue', 'firstDialogue') }, 2940 );
 
 };
-
-
-
 
 
 

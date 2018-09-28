@@ -82,8 +82,9 @@ export default {
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
 
+			if (dialogueName) {player.characterInteraction[1] = dialogueName} 
+
 			let nameOfCharacter = player.characterInteraction[1]; 
-			if (dialogueName) {nameOfCharacter = dialogueName} 
 
 
 			let messageNumber = state.currentMessage.number;
@@ -104,7 +105,7 @@ export default {
 
 
 	            // Set idle frame // currently not possible, because prevVelocity is already at 0
-	          /*  if      (player.prevVelocity.x < 0) player.setTexture("atlas", "misa-left");
+	          /*if      (player.prevVelocity.x < 0) player.setTexture("atlas", "misa-left");
     			else if (player.prevVelocity.x > 0) player.setTexture("atlas", "misa-right");
     			else if (player.prevVelocity.y < 0) player.setTexture("atlas", "misa-back");
     			else if (player.prevVelocity.y > 0) player.setTexture("atlas", "misa-front");
@@ -125,7 +126,7 @@ export default {
 	            	dialogueStartsAt = player.scene[nameOfCharacter].dialogueStartsAt;
 	            }
 
-	            //Update message number
+	            // Update message number
 	            commit('changeMessageNumber', dialogueStartsAt)
 	    		messageNumber = state.currentMessage.number;
 
