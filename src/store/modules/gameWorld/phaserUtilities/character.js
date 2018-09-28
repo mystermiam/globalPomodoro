@@ -37,9 +37,15 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
             console.log(this.link); 
 
           // should be only added once
-            scene.hoverText = scene.add.text(config.x - 100, config.y - 40, this.link)
-            
-            console.log(scene.hoverText)
+            scene.hoverText = scene.add.text(config.x - 100, config.y - 40, this.link, 
+                                        {
+                                          font: "10px monospace",
+                                          fill: "#000000",
+                                          padding: { x: 20, y: 10 },
+                                          backgroundColor: "#ffffff"
+                                        })
+                                        .setScrollFactor(0)
+                                        .setDepth(30);
 
           });
 
@@ -75,7 +81,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
       }}}, null, this);
 
       } else if (this.createdCharacter === true){
-        // Add basic dialogue function to newly created NPC
+       // Add basic dialogue function to newly created NPC
        // store.dispatch('dialogue/addNPC', this.characterNumber); // NPC should have an individual id , replaced here by 100
 
 

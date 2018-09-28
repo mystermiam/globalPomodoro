@@ -139,16 +139,6 @@ export default {
         	commit('unselectItem')
 
         }
-
-        // Hover function
-
-        // Battle plan:
-        // find game object that shares the same coordinates than the mouse
-        // get game object, look for hover attribute (hover: link) --> read link attribute
-        // display hovered attribute 
-     
-
-
     },
 
 

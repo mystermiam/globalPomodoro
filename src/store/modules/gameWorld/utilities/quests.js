@@ -12,7 +12,7 @@
 export default {
 	namespaced: true,
 	state : {
-		questShown: 'test',
+		questShown: '',
 		quests: {
 			test: {
 				title: 'test quest to test the quest',
@@ -40,6 +40,11 @@ export default {
 
 	},
 	actions: {
+		// called from utilities/dialogue/userInputQuestion
+		questAccomplished({commit, rootState}, obj){
+		// obj: kindOfExperience, AmountOfExperience
+		commit('progressBar/progressBarMovesOn', obj, {root:true})
+		},
 		// Called from 
 		removeActiveQuest({commit, state}, questName){ 
 			for(let i=0;i<state.activeQuests.length;i++){
@@ -52,18 +57,25 @@ export default {
 		},
 
 		openActiveQuest({commit, rootState}, questName){
+			commit('setQuest', questName)
 			commit('loadInterface/changeQuestContainerDisplay', 'activeQuest', {root:true})
 		},
 
 		acceptQuest({commit, rootState}){ 
 			commit('acceptQuest') 
 			commit('loadInterface/closeQuestContainer', '' , {root:true})
+			commit('emptyQuestShown')
 		},
 
 	},
 	mutations: {
-		removeActiveQuest(state, index){ state.activeQuests.splice(index, 1) },
+		removeActiveQuest(state, index) { state.activeQuests.splice(index, 1) },
 
-		acceptQuest(state){ state.activeQuests.push(state.questShown) },
+		acceptQuest(state) { state.activeQuests.push(state.questShown) },
+
+		setQuest(state, questName) { state.questShown = questName },
+
+		emptyQuestShown(state) { state.questShown = 'no quest selected' },
+
 	}
 }

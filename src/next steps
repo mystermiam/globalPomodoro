@@ -10,34 +10,49 @@
 
 
 Nuit Blanche: 
-- Follow function, character that guides you around
-	-Create sequences
 
-- Experience bar (basic interface)
+Next priority: 
 
-- Map transition
+- Create welcome sequence
+	- Update dialogue outside of character
 
-- Movement function
+- Call function after normal speech
+
+
+//
 
 - Fishing function
 
-- After the 28. --> !! Create content !! 
+- Get fitting characters
+
+- Push it onto server (connect to other players, add modified chat?)
+
+- have star follow you
+
+- minimap?
+
+- Experience bar (basic interface)  (First attempt solved) 
+
+- Map transition (SOLVED!)
+
+- Movement function, character that guides you around (solved)
+
+- After the 28. --> !! Create content !!
+
+Content ideas
+- CRI quiz to get fishing route
+- Fishing to get star 
+- Character that asks you questions
+
+- simplify application
 
 - Create an NPC instead of an item (spritesheet instead of image)
 	- add text to NPC
 
 
-- Push it onto server
-
-
-
-Next two priorities: 
-
-- Create maploader
-- Change between maps
-
+- Create maploader (put map in the center of the gamescreen)
 - need to call functions not only from options but also from normal dialogue
-
+- More options than 3 
 
 RPG!!!
 

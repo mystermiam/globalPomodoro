@@ -32,8 +32,7 @@ export default {
 			// Unfinished: Get QuestName somehow // and go to second question if there is one? reset textfield and change dialogue.question
 			dispatch('quests/removeActiveQuest', 'test', {root:true})
 
-			// 
-			dispatch('quests/questAccomplished', 'test', {root:true})
+			dispatch('quests/questAccomplished', [2, 5], {root:true})
 		},
 		// Called in dialogue function of person / Object [SceneActive, Name, newStartingPoint]
 		changeDialogueStartsAt({commit, rootState}, obj){ 
@@ -79,13 +78,17 @@ export default {
 			commit('createCharacterWithLink', obj)
 		},
 
-		loadDialogue({state,commit,dispatch,rootState}){
+		loadDialogue({state,commit,dispatch,rootState}, dialogueName){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
-			let nameOfCharacter = player.characterInteraction[1];
+
+			let nameOfCharacter = player.characterInteraction[1]; 
+			if (dialogueName) {nameOfCharacter = dialogueName} 
+
+
 			let messageNumber = state.currentMessage.number;
 
-
+			console.log(state.dialogues)
 			// If messageNumber > length then endConversation
 			if(messageNumber >= state.dialogues[nameOfCharacter].length){
 			// no option
@@ -96,13 +99,17 @@ export default {
 			else if(!rootState.loadInterface.showDialogueBox){
 
 			
-				if(rootState.loadInterface.showObjectContainer){
-					// Hide object container
-					commit('loadInterface/hideObjectContainer', '', {root:true})
-				}
+				commit('loadInterface/hideVueInterface', '', {root:true})
+			
 
 
-	            // Make player unable to move 
+	            // Set idle frame // currently not possible, because prevVelocity is already at 0
+	          /*  if      (player.prevVelocity.x < 0) player.setTexture("atlas", "misa-left");
+    			else if (player.prevVelocity.x > 0) player.setTexture("atlas", "misa-right");
+    			else if (player.prevVelocity.y < 0) player.setTexture("atlas", "misa-back");
+    			else if (player.prevVelocity.y > 0) player.setTexture("atlas", "misa-front");
+			  */
+    			// Make player unable to move 
 	            player.isAllowedToMove = false;
 
 	            dispatch('player/disableKeyboardKeys', 'vue', {root:true})
@@ -111,8 +118,15 @@ export default {
 	            player.anims.stop();
 
 
+	            // DialogueStartsAt is currently linked 
+	            let dialogueStartsAt = 0
+	            
+	            if (player.scene[nameOfCharacter]){ 
+	            	dialogueStartsAt = player.scene[nameOfCharacter].dialogueStartsAt;
+	            }
+
 	            //Update message number
-	            commit('changeMessageNumber', player.scene[nameOfCharacter].dialogueStartsAt)
+	            commit('changeMessageNumber', dialogueStartsAt)
 	    		messageNumber = state.currentMessage.number;
 
 				dispatch('loadInterface/getPosition', '', {root:true})
@@ -159,11 +173,17 @@ export default {
 			// End conversation
 			// Reset message if currentMessage is equal to message length
 			commit('resetMessageNumber')
+			
 			// Make player move again 
             player.isAllowedToMove = true;
-
+            
             // Enable keys again
             player.characterInteraction = [];
+
+            //remove options
+
+            commit('loadInterface/showVueInterface', '', {root:true})
+
             dispatch('player/enableKeyboardKeys', '', {root:true})
 
 			// Toggle dialoguebox
@@ -173,6 +193,9 @@ export default {
 		loadOption({state, commit, rootState}, characterName){
 			// If there are still options in the array, remove options
 			if(state.currentMessage.options.length > 0) { commit('emptyCurrentOptionArray') }
+            if(state.currentMessage.optionSelected !== 0) { commit('resetOptionSelected') }
+			
+
 			// Load available options
 			for (let i=1; i<state.dialogues[characterName][state.currentMessage.number].length; i++){
 				commit('setOption', [characterName, i])

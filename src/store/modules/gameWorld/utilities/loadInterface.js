@@ -14,6 +14,7 @@ export default {
 		questContainerDisplay: 'questLog',
 		showChat: false,
 		enableVueKeys: true,
+		showVueInterface: true,
 	},
 	getters: {
 
@@ -21,13 +22,17 @@ export default {
 	actions: {
 
 		openQuestContainer({commit, rootState}, questName){
-			commit('setQuest', [rootState.quests.questShown, questName]) 
+			commit('quests/setQuest', questName, {root:true})
 			commit('changeQuestContainerDisplay', 'newQuest')
 			commit('openQuestContainer')
 
 		},
 
-		closeQuestContainer({commit}){ commit('closeQuestContainer') },
+		closeQuestContainer({commit, rootState}){ 	
+			commit('closeQuestContainer') 
+			
+			setTimeout(function(){ commit('quests/emptyQuestShown', '', {root:true}) }, 0);
+		},
 
 		openQuestLog({commit}){ commit('openQuestlog')},
 		closeQuestLog({commit}){ commit('closeQuestlog')},
@@ -178,14 +183,17 @@ export default {
 			state.makeGameScreenClickable = false;
 		},
 
-		setQuest(state, obj){
-			// Quests.questsShown = questName
-			obj[0] = obj[1]
-		},
-
 		closeQuestContainer(state){
 			state.showQuestContainer = false;
 			state.makeGameScreenClickable = true;
+		},
+
+		showVueInterface(state){
+			state.showVueInterface = true;
+		},
+
+		hideVueInterface(state){
+			state.showVueInterface = false;
 		},
 
 

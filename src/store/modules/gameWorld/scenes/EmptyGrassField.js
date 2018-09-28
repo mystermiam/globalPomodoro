@@ -14,15 +14,18 @@ import bomb from './../assets/bomb.png'
 import vicky from './../assets/sprites/npc_vicky.png'
 import thorsten from './../../../../../static/raw_sprites/spritesmith/npcs/npc_aprilFool.png'
 import discutor from './../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
+import ValueGuy from './../assets/sprites/npc_ian.png'
 
-// Import Sprites here 
-import exampleCharacterPNG from './../assets/atlas/atlas.png'
-import exampleCharacterJSON from './../assets/atlas/atlas.json'
+// import guide
+import dude from '../assets/dude.png'
+
 
 // Import Sprites.js here (should be bundled)
-import Player from './../phaserUtilities/player'
+
 import Character from './../phaserUtilities/character'
 import Shelf from './../phaserUtilities/shelf'
+
+import loadScene from './../phaserUtilities/loadScene'
 
 
 // Steps to take: 1) Import into scenes/index.js 
@@ -33,26 +36,21 @@ export default class EmptyGrassField extends Scene {
   }
 
 preload() {
-
+  //simplifies all generalizable functions //imported from phaserUtilities
+  loadScene(this, 'preload');
+  
   //currently the image needs to be preloaded to be able to insert it into the game from createNPC
   this.load.image("star", star );
   this.load.image("bomb", bomb );
 
-  this.load.spritesheet("thorsten", thorsten,  {frameWidth: 120, frameHeight: 120} );
-  this.load.spritesheet("discutor", discutor,  {frameWidth: 100, frameHeight: 100} );
-  this.load.spritesheet("vicky", vicky,  {frameWidth: 100, frameHeight: 100} );
+  this.load.image('ValueGuy', ValueGuy);
+  this.load.image("thorsten", thorsten,  {frameWidth: 120, frameHeight: 120} );
+  this.load.image("discutor", discutor,  {frameWidth: 100, frameHeight: 100} );
+  this.load.image("vicky", vicky,  {frameWidth: 100, frameHeight: 100} );
 
-  // Update which scene is currently active for Vue 
-    let numberOfActiveScene = 0;
-    for(let i=0;i<Grow.scene.scenes.length;i++){
-      if(Grow.scene.scenes[i].sys.config.key === this.sys.config.key){
-        numberOfActiveScene = i;
-      }
-    }
-    store.dispatch('player/changeActiveScene', numberOfActiveScene);
+  this.load.spritesheet('dude', dude, {frameWidth: 32, frameHeight: 48});
 
-    // Load PLAYER
-    this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
+  
     
     // Load MAP
     // Make sure this has the right type
@@ -62,11 +60,10 @@ preload() {
 } // End of Preload
 
 create() {
+
   // Loading TileMap
   this.map = this.make.tilemap({ key: "map" });
 
-  // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
-  // Phaser's cache (i.e. the name character used in preload)
   const tileset = this.map.addTilesetImage("EmptyGrassField", "tiles");
 
   // Parameters: layer name (or index) from Tiled, tileset, x, y
@@ -76,30 +73,15 @@ create() {
 
   worldLayer.setCollisionByProperty({ collides: true });
 
-  // By default, everything gets depth sorted on the screen in the order we created things. Here, we
-  // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
-  // Higher depths will sit on top of lower depth objects.
   aboveLayer.setDepth(10);
 
-  // Object layers in Tiled let character embed extra info into a map - like a spawn point or custom
-  // collision shapes. In the tmx file, there's an object layer with a point named "Spawn Point"
-  const spawnPoint = this.map.findObject("Objects", obj => obj.name === "Spawn Point");
-  
-  // LOAD PLAYER
-  this.player = new Player({
-            scene: this,
-            key: 'atlas',
-            x: spawnPoint.x,
-            y: spawnPoint.y
-        });
+  loadScene(this, 'create');
 
-  // Watch the player and worldLayer for collisions, for the duration of the scene:
-  this.physics.add.collider(this.player, worldLayer);
+   // Watch the player and worldLayer for collisions, for the duration of the scene:
+  this.physics.add.collider(this.player, worldLayer); 
 
-  // CAMERA
-  const camera = this.cameras.main;
-  camera.startFollow(this.player);
-  camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
+
 
 
   // Items one can find 
@@ -107,7 +89,7 @@ create() {
 
   // Create as characters
   this.createItem('bomb', 260,140, 'https://docs.google.com/document/d/13BDpVuM0gMo8xoHvfJcf-uKYH0UxXiBJc2mBm0ZftHk/edit', 'Gaell - Data Visualization');
-  this.createItem('star', 340,150, 'https://www.youtube.com/watch?v=Gzm_mcLyMVo', 'Classcraft - using games to display content');
+  this.createItem('star', 340,150, 'https://www.youtube.com/watch?v=Gzm_mcLyMVo', 'Classcraft - games in the classroom');
 
   this.physics.add.collider(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
 
@@ -120,23 +102,27 @@ create() {
 ['option', 
   ['Sure, I would like to learn more about learning', [4]],
   ['I want to have a tool that can help me!', [2]],  
-  ["No, I'm currently not interested", [10]]
+  ["No, I'm currently not interested", ["dispatch('endConversation')"]]
 ],
 ['Discutor', 'Then check out this new tool'],
 ['option', 
-  ['try out tool', [10, 'http://grow.cri-paris.org/#/pomodoro']], 
-  ['Leave him behind', [10]]
+  ['try out tool', ["dispatch('endConversation')", 'http://grow.cri-paris.org/#/pomodoro']], 
+  ['Leave him behind', ["dispatch('endConversation')"]]
 ],
 ['Discutor', 'Did you ever hear about the last lecture of Randy Pusch from MIT?'],
 ['option', 
   ['No I have never heard about it', [6]], 
-  ['Actually I know this one already', [1]]
+  ['Actually I know this one already', [7]]
 ],
 ['option', 
-  ['let me check it out', [10, 'https://www.youtube.com/watch?v=ji5_MqicxSo']], 
-  ['Actually I have better things to do', [10]]
+  ['let me check it out', ["dispatch('endConversation')", 'https://www.youtube.com/watch?v=ji5_MqicxSo']], 
+  ['Actually I have better things to do', ["dispatch('endConversation')"]]
 ],
+['Discutor', "That's too bad, that's all the content I know. Maybe come back later, when my content is updated"],
+
 ];
+
+
 this.Discutor = new Character({
           scene: this,
           key: 'discutor',
@@ -154,11 +140,17 @@ this.Discutor = new Character({
       });
 
 let ThorstenDialogue = [
-['Thorsten', 'Hey there new one. Do you need some good music to focus?'],
+['Thorsten', 'Hey there new one. I was created to give you a nice working environment!'],
 ['option', 
-  ['Yeah, I could need some music right now!', [10, 'https://www1.brain.fm/']], 
-  ["I'm searching for something else ;) ", [10]]
-]
+  ['Cool, set it up!', [2, 'http://grow.cri-paris.org/#/pomodoro']], 
+  ["I'm searching for something else ;) ", ["dispatch('endConversation')"]]
+],
+['Thorsten', 'Which music would you like?'],
+['option', 
+  ['Relax', ["dispatch('endConversation')", '']], 
+  ['Focus', ["dispatch('endConversation')", '']],
+  ['No Music for now', ["dispatch('endConversation')"]],
+],
 ];
 
 this.Thorsten = new Character({
@@ -206,8 +198,8 @@ let VickyDialogue = [
 this.QuestGiver = new Character({
           scene: this,
           key: 'vicky',
-          x: 270,
-          y: 300,
+          x: 530,
+          y: 270,
           furtherVar: [
             ['characterNumber', 2],
             ['name', 'QuestGiver'],
@@ -219,100 +211,6 @@ this.QuestGiver = new Character({
           ]
       }); 
 
-
-/*
-let QuestDialogue2 = [
-['Coach', "I have the honor to be your fitness coach for today! Your first exercise is to do 10 push ups. Return to me after you finished"],
-['option', 
-  ['Accept Quest', [10, 
-      "dispatch('loadInterface/openQuestContainer', 'exercise', {root:true})", 
-      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 5])",
-      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2, 15000])",]], 
-  ["I feel lazy today", [10]]
-],
-
-['Quest', 'Did you finish the Quest?'],
-['option', 
-  ['Yes, I finished!', [4, 
-      "dispatch('setCurrentMessageType', 'userInput')", 
-      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2])"]], 
-  ["No, not yet", [10]]
-],
-['What did you learn?', null],
-
-
-['Quest', 'It should take more time to finish this quest'],
-
-];
-
-this.QuestGiver = new Character({
-          scene: this,
-          key: 'vicky',
-          x: 270,
-          y: 300,
-          furtherVar: [
-            ['characterNumber', 2],
-            ['name', 'QuestGiver'],
-            ['interaction', 'dialogue'],
-            ['dialogue', QuestDialogue],  
-            ['dialogueStartsAt', 2],
-            ['size', [60,60]],
-            ['offSet', [0,0]],
-          ]
-      }); 
-*/
-
-
-// Doors to other instances (to be continued)
-  //const doorMusicHouse = this.map.findObject("Objects", obj => obj.name === "Door_ValueGuy");
-
-/*
-  this.doorMusicHouse = this.physics.add.sprite(200, 200, 'thorsten');
-  
-  this.physics.add.collider(this.player, this.doorMusicHouse, 
-    function(){
-      console.log(this.scene)
-      this.scene.stop(this.sys.config.key); 
-      this.scene.start('TownScene');
-    }, null, this); 
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  // Create a shelf
-
-  //Battle plan: 
-
-  //Create shelf in map: Objects
-  const shelf_1 = this.map.findObject("Objects", obj => obj.name === "shelf_1");
-
-  //Create an empty sprite to collide with
-  this.shelf_3_1 = new Shelf({
-    scene: this,
-    key: null,
-    x: shelf_1.x,
-    y: shelf_1.y,
-    furtherVar: [
-      ['name', 'shelf_1'],
-      ['shelfType', 1],
-      ['size', [shelf_1.width, shelf_1.height]],
-      ['offSet', [0,0]],
-    ]
-  })
-
-  // Call shelf function in utilities 
-  // if one collides with shelf it opens up shelf container
-  // */
 
   // Welcome text that has a "fixed" position on the screen
   this.add
@@ -327,6 +225,78 @@ this.QuestGiver = new Character({
 
 
 
+
+// Doors to other instances (to be continued)
+  //const doorMusicHouse = this.map.findObject("Objects", obj => obj.name === "Door_ValueGuy");
+ let TeleporterDialogue = [
+['Teleporter', "Where would you like to go?"],
+['option', 
+  ["I'd like to go to Town", ["scene.scene.stop('EmptyGrassField'); scene.scene.start('TownScene');"]], 
+  ["Visit the Value guy", ["scene.scene.stop('EmptyGrassField'); scene.scene.start('HouseOfMusicScene');"]],
+],
+];
+
+this.Teleporter = new Character({
+          scene: this,
+          key: 'thorsten',
+          x: 200,
+          y: 200,
+          furtherVar: [
+            ['characterNumber', 7],
+            ['name', 'Teleporter'],
+            ['interaction', 'dialogue'],
+            ['dialogue', TeleporterDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [100,100]],
+            ['offSet', [0,0]],
+          ]
+      });
+
+
+// Multiple questions
+
+let QuestionDialogue = [
+['Quest', '?'],
+['option', 
+  ['Yes, I finished', [4, 
+      "dispatch('setCurrentMessageType', 'userInput')", 
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2])"]], 
+  ["No, not yet", [10]]
+]
+];
+
+this.Questionner = new Character({
+          scene: this,
+          key: 'vicky',
+          x: 530,
+          y: 270,
+          furtherVar: [
+            ['characterNumber', 2],
+            ['name', 'Questionner'],
+            ['interaction', 'dialogue'],
+            ['dialogue', QuestionDialogue],  
+            ['dialogueStartsAt', 0],
+            ['size', [60,60]],
+            ['offSet', [0,0]],
+          ]
+      }); 
+
+
+
+
+
+
+this.misa = this.physics.add.sprite(380, 400, 'atlas');
+
+
+this.firstScene();
+
+
+
+
+
+
+
 } // End of Create
 
 update(time, delta) {
@@ -334,7 +304,7 @@ update(time, delta) {
   if(this.player.isAllowedToMove){
   this.player.move();
 
-  //Update dialogue function - triggers character.js
+  //Update dialogue function - triggers character.js <-- Should trigger inside here
   } else if(this.player.characterInteraction[0] === 'dialogue'){
     
     this[this.player.characterInteraction[1]].updateDialogue()
@@ -349,6 +319,122 @@ update(time, delta) {
 } // End of update
 
 // Add functions of the Scene here
+
+
+firstScene(){
+// Character looks down  
+this.player.setTexture("atlas", "misa-front")
+// Disable character movement
+this.player.isAllowedToMove = false;
+
+// Speed times time === px moved, move 2 fields up = 96
+this.movingCharacter('misa', [['up',1920],['left',1010],['up',10]], 50);
+
+// Start dialogue after movement
+let firstDialogue = [
+['Quest', '?'],
+['option', 
+  ['Yes, I finished', [4, 
+      "dispatch('setCurrentMessageType', 'userInput')", 
+      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2])"]], 
+  ["No, not yet", [10]]
+]
+];
+
+store.dispatch('dialogue/addDialogue', ['firstDialogue', firstDialogue])
+store.dispatch('dialogue/loadDialogue', 'firstDialogue')
+
+
+};
+
+
+
+
+
+
+// Movement function --> moving characters
+movingCharacter(character, movement, speedValue, i = 0){
+
+  // Make a translate to pixels function, translates time and speed into pixels
+
+
+  // I would like to be able to move characters by field?
+  // There is a certain time that a character needs to move to a second field
+  // Can I do this with pixels? / speed times time
+  let scene = Grow.scene.scenes[store.state.player.sceneActive];
+
+  if (i === 0){
+    // Load animations
+    scene.anims.create({
+        key: character + "-left-walk",
+        frames: scene.anims.generateFrameNames("atlas", { prefix: character + "-left-walk.", start: 0, end: 3, zeroPad: 3 }),
+        frameRate: 10,
+        repeat: -1
+      });
+      scene.anims.create({
+        key: character + "-right-walk",
+        frames: scene.anims.generateFrameNames("atlas", { prefix: character + "-right-walk.", start: 0, end: 3, zeroPad: 3 }),
+        frameRate: 10,
+        repeat: -1
+      });
+      scene.anims.create({
+        key: character + "-front-walk",
+        frames: scene.anims.generateFrameNames("atlas", { prefix: character + "-front-walk.", start: 0, end: 3, zeroPad: 3 }),
+        frameRate: 10,
+        repeat: -1
+      });
+      scene.anims.create({
+        key: character + "-back-walk",
+        frames: scene.anims.generateFrameNames("atlas", { prefix: character + "-back-walk", start: 0, end: 3, zeroPad: 3 }),
+        frameRate: 10,
+        repeat: -1
+      });
+  }
+ 
+
+  let speed = 0;
+  if (speedValue !== undefined && speedValue > 0) { speed = speedValue } else { speed = 300 }
+
+   if(movement[i][0] === 'up'){
+      scene[character].body.setVelocityY(-speed)
+      scene[character].anims.play(character + "-back-walk", true);
+   } else if(movement[i][0] === 'down'){
+      scene[character].body.setVelocityY(speed)
+      scene[character].anims.play(character + "-front-walk", true);
+   } else if(movement[i][0] === 'left'){
+      scene[character].body.setVelocityX(-speed)
+      scene[character].anims.play(character + "-left-walk", true);
+   } else if(movement[i][0] === 'right'){
+      scene[character].body.setVelocityX(speed)
+      scene[character].anims.play(character + "-right-walk", true);
+   }
+
+     setTimeout(function(){
+
+      let prevVelocity = scene[character].body.velocity.clone();
+
+      scene[character].body.setVelocity(0); 
+
+      i++;
+      
+      if(i < movement.length){
+        
+        scene.movingCharacter(character, movement, speed, i)
+
+      } else {
+        scene[character].anims.stop();
+
+        // If we were moving, pick an idle frame to use // Based on misa at this pointerover
+        if      (prevVelocity.x < 0) scene[character].setTexture("atlas", "misa-left");
+        else if (prevVelocity.x > 0) scene[character].setTexture("atlas", "misa-right");
+        else if (prevVelocity.y < 0) scene[character].setTexture("atlas", "misa-back");
+        else if (prevVelocity.y > 0) scene[character].setTexture("atlas", "misa-front");
+      }
+
+     }, movement[i][1]);
+
+}  
+
 
 
 collectItem(player, item){
@@ -390,7 +476,15 @@ createItem(key, x, y, link, linkTitle){
   this['item' + x + y].on('pointerover', () => { 
 
   // should be only added once
-  if (linkTitle) { this.hoverText = this.add.text(x - 100, y - 40, this['item' + x + y].linkTitle) 
+  if (linkTitle) { this.hoverText = this.add.text(x - 100, y - 40, this['item' + x + y].linkTitle,
+                                        {
+                                          font: "10px monospace",
+                                          fill: "#000000",
+                                          padding: { x: 20, y: 10 },
+                                          backgroundColor: "#ffffff"
+                                        })
+                                        .setScrollFactor(0)
+                                        .setDepth(30);
 
 
   };
@@ -407,6 +501,127 @@ createItem(key, x, y, link, linkTitle){
 
 
 
+
+
 } // End of Export
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+// Quiz
+
+  let QuizzorDialogue = [
+['Quizzor', "Would you like to participate in the CRI quiz? if you answer all the questions correctly, you will earn a neat reward!"],
+['option', 
+  ['Sure, I have nothing to lose', [2]], 
+  ["I tried already one too many times", ["commit('endConversation')"]],
+],
+['Quizzor', "Cool! First question: What is the principal value of the CRI?"],
+['option', 
+  ['#Yolo', [10]], 
+  ['#Open', [4]],
+  ['#Freedom', [10]],
+],
+['Quizzor', "Next up! Second question: What can you find on the lowest floor of the CRI?"],
+['option', 
+  ['Free Hotdogs', [10]], 
+  ['A Book Archive', [10]],
+  ['Gender Free Toilets', [6]]
+],
+['Quizzor', "Next up! Third and last question: Who has access to the CRI on Saturday afternoons?"],
+['option', 
+  ['Only Francois Taddei', [10]], 
+  ['No one', [10]],
+  ['Everyone, all the time!', [8]]
+],
+['Quizzor', "That's correct! Claim your reward!"],
+['option', 
+  ['Claim reward, check your inventory by pressing "i"', ["commit('endConversation')", ]],
+],
+['Quizzor', "That's not correct. Try again!"],
+
+
+];
+
+this.Quizzor = new Character({
+          scene: this,
+          key: 'discutor',
+          x: 320,
+          y: 200,
+          furtherVar: [
+            ['characterNumber', 5],
+            ['name', 'Quizzor'],
+            ['interaction', 'dialogue'],
+            ['dialogue', QuizzorDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [60,60]],
+            ['offSet', [35,20]],
+          ]
+      });
+
+*/
+
+
+
+
+
+/*  // Create a shelf
+
+  //Battle plan: 
+
+  //Create shelf in map: Objects
+  const shelf_1 = this.map.findObject("Objects", obj => obj.name === "shelf_1");
+
+  //Create an empty sprite to collide with
+  this.shelf_3_1 = new Shelf({
+    scene: this,
+    key: null,
+    x: shelf_1.x,
+    y: shelf_1.y,
+    furtherVar: [
+      ['name', 'shelf_1'],
+      ['shelfType', 1],
+      ['size', [shelf_1.width, shelf_1.height]],
+      ['offSet', [0,0]],
+    ]
+  })
+
+  // Call shelf function in utilities 
+  // if one collides with shelf it opens up shelf container
+  // */
+
+
+
+
+
 
 

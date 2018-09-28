@@ -1,16 +1,16 @@
 <template>
 
-  <div id='questContainer' v-show='showQuestContainer'>
+  <div id='questContainer' v-if='showQuestContainer'>
 
-    <div id='questLogContainer' v-show='questContainerDisplay == "questLog"'>
-      <div v-for='quest in activeQuests' @click='openActiveQuest(quest)'>
-        {{quest}}
+    <div id='questLogContainer' v-if='questContainerDisplay == "questLog"'> Quest Log
+      <div v-if='quest' v-for='quest in activeQuests' @click='openActiveQuest(quest)'> 
+          {{quest}}
       </div>
     </div>
 
 
-    <div v-show='questContainerDisplay == "newQuest" || questContainerDisplay ==  "activeQuest"'>
-      <span id='questContainerCloseButton' @click='closeQuestContainer'>x</span>
+    <div v-if='questContainerDisplay == "newQuest" || questContainerDisplay ==  "activeQuest"'>
+      <span id='questContainerCloseButton' @click='closeQuestContainer(quest)'>x</span>
 
       <div id='questTitleContainer'>
         <h1>{{quests[questShown].title}}</h1>
@@ -34,13 +34,18 @@
       <div id='questRewardContainer'>
         <h2>Rewards</h2>
 
-        gold: {{quests[questShown].reward.gold}}
+        <span v-if='quests[questShown].reward.gold > 0'> 
+          gold: {{quests[questShown].reward.gold}}  
+        </span>
 
-        experience: {{quests[questShown].reward.experience}}
+        <span v-if='quests[questShown].reward.experience > 0'> 
+          experience: {{quests[questShown].reward.experience}} 
+        </span>
+
       </div>
 
 
-      <button id='acceptQuestButton' @click='acceptQuest' v-show='questContainerDisplay == "newQuest"'>Accept Quest</button>
+      <button id='acceptQuestButton' @click='acceptQuest' v-if='questContainerDisplay == "newQuest"'>Accept Quest</button>
     </div>
 
 

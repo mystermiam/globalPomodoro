@@ -23,7 +23,7 @@ function launch() {
       default: 'arcade',
       arcade: {
         gravity: { y: 0 }, // Top down game, so no gravity
-        debug: true
+        debug: false
       }
     },
     scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;

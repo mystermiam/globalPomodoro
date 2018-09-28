@@ -1,12 +1,12 @@
 export default {
 	namespaced: true,
 	state : {
-		dustProgressBar: [],
+		dustProgressBar: [[1,5]],
 		dustOverAllProgress: [],
 	},
 	getters: {
 		percentageOfDustTotal(){
-			return 
+			
 		}
 	},
 	actions: {

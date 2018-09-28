@@ -35,9 +35,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         // Cursors registered by Phaser!
         this.cursors = scene.input.keyboard.createCursorKeys();
-            
+
         
         scene.physics.world.enable(this);
+
+
+
+
+         // CAMERA
+        const camera = scene.cameras.main;
+        camera.startFollow(this);
+        camera.setBounds(0, 0, scene.map.widthInPixels, scene.map.heightInPixels);
+
+
 
         //Later on spawn character from this position on login
 	 	/*this.lastPosition = {
@@ -90,32 +100,33 @@ move(time, delta) {
 // Movement
   if (this.isAllowedToMove === true){
   const speed = 300
-  const prevVelocity = this.body.velocity.clone();
+  this.prevVelocity = this.body.velocity.clone();
   
 
   //console.log(player.x, player.y)
 
+  // Current movement pattern
+  // register that key is down --> .isDown === true;
+
+  // No function / event listener to set .isDown === false;
+  // idea: Listen for how long a key was pressed beforehand and set it to false if it wasn't pressed in the last 100ms
+  // 2nd idea: make character always move a full field like in pokemon
+
   // Stop any previous movement from the last frame
   this.body.setVelocity(0);
 
-  // Horizontal movement
   if (this.cursors.left.isDown) {
     this.body.setVelocityX(-speed);
   } else if (this.cursors.right.isDown) {
    this.body.setVelocityX(speed);
-  }
-
-  // Vertical movement
-  if (this.cursors.up.isDown) {
+  } else if (this.cursors.up.isDown) {
     this.body.setVelocityY(-speed);
   } else if (this.cursors.down.isDown) {
     this.body.setVelocityY(speed);
   }
 
-  // Normalize and scale the velocity so that this can't move faster along a diagonal
-  this.body.velocity.normalize().scale(speed);
-
   // Update the animation last and give left/right animations precedence over up/down animations
+  // Should be added to movement function above?
   if (this.cursors.left.isDown) {
     this.anims.play("misa-left-walk", true);
   } else if (this.cursors.right.isDown) {
@@ -128,10 +139,10 @@ move(time, delta) {
     this.anims.stop();
 
     // If we were moving, pick an idle frame to use
-    if      (prevVelocity.x < 0) this.setTexture("atlas", "misa-left");
-    else if (prevVelocity.x > 0) this.setTexture("atlas", "misa-right");
-    else if (prevVelocity.y < 0) this.setTexture("atlas", "misa-back");
-    else if (prevVelocity.y > 0) this.setTexture("atlas", "misa-front");
+    if      (this.prevVelocity.x < 0) this.setTexture("atlas", "misa-left");
+    else if (this.prevVelocity.x > 0) this.setTexture("atlas", "misa-right");
+    else if (this.prevVelocity.y < 0) this.setTexture("atlas", "misa-back");
+    else if (this.prevVelocity.y > 0) this.setTexture("atlas", "misa-front");
   }
  
   /*if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
@@ -139,16 +150,17 @@ move(time, delta) {
   }*/
 
   // I don't know yet how to stop the animation after keypress, this should happen automatically
-  // but this is currently not the case, I think because of how we installed the thing, maybe it will work if we run it like a vue app?
+  // but this is currently not the case, I think because of how we installed the thing, maybe it will work if we run it like a vue app? 
    this.cursors.left.isDown = false;
    this.cursors.right.isDown = false;
    this.cursors.up.isDown = false;
    this.cursors.down.isDown = false;
-  
+
   } //End of player is allowed to move function
 
 
 // Player functions
+
 }
 
 

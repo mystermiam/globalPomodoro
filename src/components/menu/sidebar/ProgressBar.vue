@@ -41,17 +41,19 @@ export default {
 <style scoped>
   .progress-bar-container {
     display: block;
-    width: 15em;
-    height: 2em;
+    width: 160px;
+    height: 30px;
     border: 1px solid black;
     border-radius: 10%;
+    background-color: white;
   }
 
   .progress-bar {
     width: 100%;
     display: inline-block;
-    height: 1.5em;
-    margin-top: 0.25em;
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 1px;
   }
 
   .progressBarWater {

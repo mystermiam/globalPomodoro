@@ -52,20 +52,20 @@ preload() {
     
     this.load.image('ValueGuy', ValueGuy);
     // Make sure this has the right type
-    this.load.image("tiles", TryOutPNG );
-    this.load.tilemapTiledJSON("map", TryOutJson);
+    this.load.image("tiles1", TryOutPNG );
+    this.load.tilemapTiledJSON("map1", TryOutJson);
 }
 
 create() {
-  this.map = this.make.tilemap({ key: "map" });
+  this.map = this.make.tilemap({ key: "map1" });
 
   // Find name inside of tilemap
-  const tileset = this.map.addTilesetImage("interior", "tiles");
+  const tileset1 = this.map.addTilesetImage("interior", "tiles1");
   
   // Parameters: layer name (or index) from Tiled, tileset, x, y
-  const belowLayer = this.map.createStaticLayer("Below Player", tileset, 0, 0);
-  const worldLayer = this.map.createStaticLayer("Collision Layer", tileset, 0, 0);
-  const aboveLayer = this.map.createStaticLayer("Above Player", tileset, 0, 0);
+  const belowLayer = this.map.createStaticLayer("Below Player", tileset1, 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", tileset1, 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", tileset1, 0, 0);
  
   worldLayer.setCollisionByProperty({ collides: true });
 
@@ -89,54 +89,46 @@ create() {
   camera.startFollow(this.player);
   camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
   
+
+    // VALUE GUY
+
   let valueList = [
-  ['Acceptance',''],
-  ['Accomplishment',''],
-  ['Accountability', ''],
-  ['Accuracy', ''],
-  ['Achievement', ''],
-  ['Adaptability', ''],
-  ['Alertness', ''],
-  ['Altruism', ''],
-  ['Ambition', ''],
-  ['Amusement', ''],
-  ['Assertiveness', ''],
-  ['Attentive', ''],
-  ['Awareness', ''],
-];
+    ['Acceptance',''],
+    ['Accomplishment',''],
+    ['Accountability', ''],
+    ['Accuracy', ''],
+    ['Achievement', ''],
+    ['Adaptability', ''],
+    ['Alertness', ''],
+    ['Altruism', ''],
+    ['Ambition', ''],
+    ['Amusement', ''],
+    ['Assertiveness', ''],
+    ['Attentive', ''],
+    ['Awareness', ''],
+  ];
 
-  let currentValues = [];
-  let repetition = 0;
-
-  do {
-  
-  let value = Math.floor(Math.random() * valueList.length)
-  
-  if (currentValues.indexOf(value) < 0){
-    currentValues.push(value);
-    repetition++
-  }
-
-  } while (repetition < 3)
+  let currentValues = this.generateValues(3, 13);
 
   let dialogueValueGuy = [
-  ['Thomas the Value Guy','Hey there'],
+  ['Thomas the Value Guy','Hey there! My name is Thomas the Value Guy, each week you can choose one value here to reflect upon.'],
   ['option', 
-    [valueList[currentValues[0]][0] , [2, "dispatch('endConversation')", 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray' ]], 
-    [valueList[currentValues[1]][0], [2]], 
-    [valueList[currentValues[2]][0], [2]]],
+    [valueList[currentValues[0]][0] + ' - ' + valueList[currentValues[0]][1], [2, "dispatch('endConversation')", 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray' ]], 
+    [valueList[currentValues[1]][0] + ' - ' + valueList[currentValues[1]][1], [2]], 
+    [valueList[currentValues[2]][0] + ' - ' + valueList[currentValues[2]][1], [2]]],
   ['Thomas the Value Guy','Good Choice! Come back once you have learned something about this value!']];
 
   this.ValueGuy = new Character({
           scene: this,
           key: 'ValueGuy',
-          x: 150,
-          y: 150,
+          x: 130 ,
+          y: 140,
           furtherVar: [
             ['characterNumber', 0],
             ['name', 'ValueGuy'],
             ['interaction', 'dialogue'],
             ['dialogue', dialogueValueGuy],
+            ['dialogueStartsAt', 0],
             ['size', [70,70]],
             ['offSet', [0,0]],
           ]
@@ -157,6 +149,26 @@ update(time, delta) {
   } else if (this.player.characterInteraction[0] === 'option'){
     this[this.player.characterInteraction[1]].updateOptions()
   }
+}
+
+
+
+generateValues(numberOfValues, valueListLength){
+  let currentValues = [];
+  let repetition = 0;
+
+  do {
+  
+  let value = Math.floor(Math.random() * valueListLength)
+  
+  if (currentValues.indexOf(value) < 0){
+    currentValues.push(value);
+    repetition++
+  }
+
+  } while (repetition < numberOfValues)
+
+  return currentValues
 }
 
 }

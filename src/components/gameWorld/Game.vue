@@ -1,8 +1,10 @@
 <template>
 <div>
-  <div id='vueInterfaceContainer' v-bind:class='{ makeGameScreenClickable: makeGameScreenClickable }'>
+  <div id='vueInterfaceContainer' v-show='showVueInterface' v-bind:class='{ makeGameScreenClickable: makeGameScreenClickable }'>
     
     <QuestContainer/>
+
+    <ProgressBar id='progressBarContainer' />
 
   </div>
 
@@ -25,6 +27,8 @@ import Dialogue from './utilities/Dialogue'
 import CreateNPCs from './utilities/CreateNPCs'
 import QuestContainer from './utilities/QuestContainer'
 
+import ProgressBar from './../menu/sidebar/ProgressBar'
+
 import Chat from './../pomodoro/Chat'
 
 //Functions
@@ -33,12 +37,13 @@ import launch from '../../store/modules/gameWorld/index'
 export default {
   name: 'game',
 
-  components: { Dialogue, CreateNPCs, QuestContainer, Chat },
+  components: { Dialogue, CreateNPCs, QuestContainer, ProgressBar, Chat },
 
   computed: {
     ...mapState('loadInterface',{
       makeGameScreenClickable:'makeGameScreenClickable',  
       enableVueKeys: 'enableVueKeys',
+      showVueInterface: 'showVueInterface',
     }),
 
   },
@@ -96,15 +101,11 @@ export default {
       justify-content: center;
 }
 
-#exampleContainer {
-	display: inline-block;
-	width: 400px;
-	height: 400px;
-	background-color: black;
-	color: white;
-	position: absolute;
-	top: 0;
-	left: 0;
+#progressBarContainer {
+  position: absolute;
+  top: 560px;
+  left: 630px;
+
 }
 
 .makeGameScreenClickable {
