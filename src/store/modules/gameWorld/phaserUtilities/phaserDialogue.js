@@ -7,8 +7,17 @@ export function updateDialogue(){
       
         // Updating different kind of actions - in this case 'Dialogue' -- move to character
         if(scene.player.cursors.space.isDown && scene.player.actionCounter === 0){
+          // Variable is set to 'string that can be evaluated'
+          if (store.state.dialogue.functionToBeCalled){
+            eval (store.state.dialogue.functionToBeCalled)
 
-          store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted);
+          } 
+
+          store.commit('dialogue/emptyDialogueFunction')
+          // If variable is defined it is evaluated here
+          // otherwise proceed as normal
+          // Clean out afterwards
+          store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted)
 
           scene.player.actionCounter++
           scene.player.cursors.space.isDown = false;

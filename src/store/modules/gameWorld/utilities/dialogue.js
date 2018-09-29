@@ -18,6 +18,7 @@ export default {
         	'optionSelected': 0,
         },
         dialogues: {},
+        functionToBeCalled: '',
 
 	},
 	getters: {
@@ -144,17 +145,17 @@ export default {
 
             	dispatch('loadOption', nameOfCharacter)
 
-
             // otherwise load a normal message
-            } else {
-  
-            setTimeout(function(){
-            	if(state.dialogues[nameOfCharacter][messageNumber].length === 3){
+            else {
+
+            // If dialogue message has 3 arguments --> save it into a variable that is evaluated on the next tick
+              if(state.dialogues[nameOfCharacter][messageNumber].length === 3){
       
-            	eval(state.dialogues[nameOfCharacter][messageNumber][2]);
-            }
-        	}, 2000);
-            
+              	commit('callFunctionAfterThisMessage', state.dialogues[nameOfCharacter][messageNumber][2])
+
+              }
+
+
 			commit('setCurrentMessageType', 'normal')
 			}
 
@@ -273,9 +274,13 @@ export default {
 
 	},
 	mutations: {
-		emptyCurrentOptionArray(state){
-			state.currentMessage.options = [];
-		},
+		emptyDialogueFunction(state){ state.functionToBeCalled = false },
+
+        callFunctionAfterThisMessage(state, functionToBeCalled){ 
+        	state.functionToBeCalled = functionToBeCalled
+        },
+
+		emptyCurrentOptionArray(state){ state.currentMessage.options = []; },
 
 		// called in dialogue function of character / obj = sceneActive, name, number
 		changeDialogueStartsAt(state, obj){ Grow.scene.scenes[obj[0]][obj[1]].dialogueStartsAt = obj[2] }, 

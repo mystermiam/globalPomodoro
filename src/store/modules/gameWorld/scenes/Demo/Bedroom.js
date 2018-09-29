@@ -8,6 +8,10 @@ import store from '../../../../index'
 import TryOutJson from './../../assets/tilemaps/TryOut.json'
 import TryOutPNG from './../../assets/tilesets/interior.png'
 
+// Import Music here
+import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
+
+
 // Import Sprites.js here
 import Player from './../../phaserUtilities/player'
 
@@ -19,7 +23,6 @@ import loadScene from './../../phaserUtilities/loadScene'
 import {updateDialogue, updateOptions, updateUserInput} from './../../phaserUtilities/phaserDialogue'
 
 
-// Steps to take: 1) Import into scenes/index.js 
 export default class Bedroom extends Scene {
 
   constructor () {
@@ -31,12 +34,25 @@ preload() {
     loadScene(this, 'preload');
 
     // Load MAP
-    // Make sure this has the right type
+    // Make sure this has the right type (name after mapName)
     this.load.image("tilesBedroom", TryOutPNG );
     this.load.tilemapTiledJSON("mapBedroom", TryOutJson);
+
+
+    // Takes too damn long, load in bootscene and then play maybe
+    // this.load.audio('backgroundMusic', backgroundMusic)
 }
 
 create() {
+  // Add and play the music // make it toggleAble
+  /*
+        this.music = this.sound.add('backgroundMusic');
+        this.music.play({
+            loop: true
+        });
+  */
+
+
   this.map = this.make.tilemap({ key: "mapBedroom" });
 
   // Find name inside of tilemap
@@ -59,6 +75,12 @@ create() {
 
   // Watch the player and worldLayer for collisions, for the duration of the scene:
   this.physics.add.collider(this.player, worldLayer);
+
+
+
+  this.beginningScene();
+
+
 
 } // End of Create
 
@@ -87,7 +109,32 @@ update(time, delta) {
 
 
 // Add functions here!
+beginningScene(){
 
+let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
+
+// Character looks down  
+this.player.setTexture("atlas", "misa-front")
+// Disable character movement
+this.player.isAllowedToMove = false;
+
+
+let BeginningDialogue = [
+['Arya', 'Hey there, my Name is Arya. Welcome to my world.'],
+['Arya', 'Before we begin. Can you tell me your name?'],
+
+];
+
+// create dialogue function!
+
+store.dispatch('dialogue/addDialogue', ['BeginningDialogue', BeginningDialogue])
+
+scene.player.characterInteraction[0] = 'dialogue' 
+
+store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
+
+
+}
 
 
 

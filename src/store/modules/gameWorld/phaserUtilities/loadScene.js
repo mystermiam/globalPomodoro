@@ -72,7 +72,38 @@ const spawnPoint = scene.map.findObject("Objects", obj => obj.name === "Spawn Po
   camera.setBounds(-moveMapX, -moveMapY, scene.map.widthInPixels, scene.map.heightInPixels);
 
 
-// load doors
+// load doors 
+// Idea for later: If the door is closed, one needs to use space to open it, if it is open, one doesn't need space
+
+// Find the number of doors in a room
+let numberOfDoors = 0;
+let objectLayer = 0;
+
+for(let i = 0; i <scene.map.objects.length; i++){
+  if(scene.map.objects[i].name == 'Doors'){
+    objectLayer = i;
+    numberOfDoors = scene.map.objects[i].objects.length;
+  }
+}
+
+// Find the name of the doors and create objects that bring you to another room
+let doors = [];
+
+for(let i = 0; i < numberOfDoors + 0; i++){
+  let doorObject = scene.map.objects[objectLayer].objects[i];
+  doors[i] = doorObject.name;
+
+  // Create a door sprite 
+  scene[doors[i]] = scene.physics.add.sprite(doorObject.x, doorObject.y);
+
+  // Create a collider with door
+  scene.physics.add.collider(scene.player, scene[doors[i]], function(){
+    scene.scene.stop(scene.sys.config.key); 
+    scene.scene.start(doors[i]);
+  }, null, scene);
+}
+
+// 
 
 }
 
