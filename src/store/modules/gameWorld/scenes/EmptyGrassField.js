@@ -348,9 +348,13 @@ let firstDialogue = [
 
 store.dispatch('dialogue/addDialogue', ['firstDialogue', firstDialogue])
 
-this.player.characterInteraction[0] = 'dialogue';
+setTimeout(function(){
+  let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
+  
+  scene.player.characterInteraction[0] = 'dialogue' 
 
-setTimeout(function(){ store.dispatch('dialogue/loadDialogue', 'firstDialogue') }, 2940 );
+  store.dispatch('dialogue/loadDialogue', 'firstDialogue') 
+}, 2940 ); // Time that is needed for the movement
 
 };
 

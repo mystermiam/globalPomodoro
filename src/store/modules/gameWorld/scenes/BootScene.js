@@ -20,9 +20,10 @@ export default class BootScene extends Scene {
  
     // World test
     //this.changeToScene('EmptyGrassField');
-    this.scene.start('EmptyGrassField')
+    //this.scene.start('EmptyGrassField')
 
-
+    // DEMO
+    this.scene.start('Bedroom')
   
   }
 }

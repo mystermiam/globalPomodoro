@@ -39,7 +39,7 @@ if(state == 'preload'){
 if(state == 'create'){
 
 
-// load spawnpoint and player
+// load spawnpoint and player // if you arrive through doors find alternate spawnpoint
 const spawnPoint = scene.map.findObject("Objects", obj => obj.name === "Spawn Point");
   
   // LOAD PLAYER
@@ -49,6 +49,28 @@ const spawnPoint = scene.map.findObject("Objects", obj => obj.name === "Spawn Po
             x: spawnPoint.x,
             y: spawnPoint.y
         });
+
+
+  // CAMERA  // the camera is fixed to the center of the 
+             //  screen if the map size is smaller than 800/600px
+  const camera = scene.cameras.main;
+  camera.startFollow(scene.player);
+  
+  let moveMapX = 0;
+  let moveMapY = 0;
+
+  if (scene.map.widthInPixels < 800){
+    // Move map to the right, so that it is centered
+    moveMapX = (800 - scene.map.widthInPixels) / 2
+  } 
+
+  if (scene.map.widthInPixels < 600){
+    // Move map down, so that it is centered
+    moveMapY = (600 - scene.map.heightInPixels) / 2
+  }
+  
+  camera.setBounds(-moveMapX, -moveMapY, scene.map.widthInPixels, scene.map.heightInPixels);
+
 
 // load doors
 

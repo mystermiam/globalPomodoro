@@ -89,7 +89,6 @@ export default {
 
 			let messageNumber = state.currentMessage.number;
 
-			console.log(state.dialogues)
 			// If messageNumber > length then endConversation
 			if(messageNumber >= state.dialogues[nameOfCharacter].length){
 			// no option

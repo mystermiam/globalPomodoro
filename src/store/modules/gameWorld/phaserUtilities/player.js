@@ -40,21 +40,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.world.enable(this);
 
 
-
-
-         // CAMERA
-        const camera = scene.cameras.main;
-        camera.startFollow(this);
-        camera.setBounds(0, 0, scene.map.widthInPixels, scene.map.heightInPixels);
-
-
-
         //Later on spawn character from this position on login
-	 	/*this.lastPosition = {
-	      x: x,
-	      y: y,
-	      emittedOn: Date.now()
-	    };*/
+    	 	/*this.lastPosition = {
+    	      x: x,
+    	      y: y,
+    	      emittedOn: Date.now()
+    	    };*/
 
         
   // Create a sprite with physics enabled via the physics system. The image used for the sprite has
@@ -91,10 +82,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	 	  config.scene.add.existing(this);
 
 	 	} // End of constructor
-
-preloading(){
-  this.load.atlas("atlas", exampleCharacterPNG, exampleCharacterJSON);
-}
 
 move(time, delta) {
 // Movement

@@ -10,6 +10,10 @@ import HouseOfMusicScene from './scenes/HouseOfMusicScene'
 import EmptyGrassField from './scenes/EmptyGrassField'
 import NuitBlancheTown from './scenes/NuitBlancheTown'
 
+
+// DEMO SCENES
+import Bedroom from './scenes/Demo/Bedroom'
+
 var Grow = [];
 
 function launch() {
@@ -26,7 +30,8 @@ function launch() {
         debug: false
       }
     },
-    scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;
+    scene: [BootScene, Bedroom]
+    //scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;
 
     //scene: [BootScene, PlayScene]
     //scene: [BootScene, platformerScene]

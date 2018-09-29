@@ -1,29 +1,29 @@
 import { Scene } from 'phaser'
 
-import { Grow } from './../index' // necessary? 3 times games phaser, scene, Grow
+import { Grow } from './../../index' // necessary? 3 times games phaser, scene, Grow
 
-import store from '../../../index'
+import store from '../../../../index'
 
 // Import Tilemaps here
-import tiles from "./../assets/tilesets/tuxmon-sample-32px-extruded.png"
-import map from "./../assets/tilemaps/tuxemon-town.json"
+import TryOutJson from './../../assets/tilemaps/TryOut.json'
+import TryOutPNG from './../../assets/tilesets/interior.png'
 
 // Import Sprites.js here
-import Player from './../phaserUtilities/player'
+import Player from './../../phaserUtilities/player'
 
-import Character from './../phaserUtilities/character'
+import Character from './../../phaserUtilities/character'
 
 
 // Import external functions
-import loadScene from './../phaserUtilities/loadScene'
-import {updateDialogue, updateOptions, updateUserInput} from './../phaserUtilities/phaserDialogue'
+import loadScene from './../../phaserUtilities/loadScene'
+import {updateDialogue, updateOptions, updateUserInput} from './../../phaserUtilities/phaserDialogue'
 
 
 // Steps to take: 1) Import into scenes/index.js 
-export default class TemplateScene extends Scene {
+export default class Bedroom extends Scene {
 
   constructor () {
-    super({ key: 'TemplateScene' })
+    super({ key: 'Bedroom' })
   }
 
 preload() {
@@ -32,22 +32,20 @@ preload() {
 
     // Load MAP
     // Make sure this has the right type
-    this.load.image("tiles", tiles );
-    this.load.tilemapTiledJSON("map", map);
-} // End of Preload
+    this.load.image("tilesBedroom", TryOutPNG );
+    this.load.tilemapTiledJSON("mapBedroom", TryOutJson);
+}
 
 create() {
-  // Loading TileMap
-  this.map = this.make.tilemap({ key: "map" });
+  this.map = this.make.tilemap({ key: "mapBedroom" });
 
-  // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
-  // Phaser's cache (i.e. the name character used in preload)
-  const tileset = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
-
+  // Find name inside of tilemap
+  const tilesetBedroom = this.map.addTilesetImage("interior", "tilesBedroom");
+  
   // Parameters: layer name (or index) from Tiled, tileset, x, y
-  const belowLayer = this.map.createStaticLayer("Below Player", tileset, 0, 0);
-  const worldLayer = this.map.createStaticLayer("World", tileset, 0, 0);
-  const aboveLayer = this.map.createStaticLayer("Above Player", tileset, 0, 0);
+  const belowLayer = this.map.createStaticLayer("Below Player", tilesetBedroom, 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", tilesetBedroom, 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", tilesetBedroom, 0, 0);
 
   worldLayer.setCollisionByProperty({ collides: true });
 
