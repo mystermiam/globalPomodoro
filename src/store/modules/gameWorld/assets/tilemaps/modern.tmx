@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="63" height="50" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
  <tileset firstgid="1" name="SF_Outside_C" tilewidth="16" tileheight="16" tilecount="2304" columns="48">
-  <image source="../../tilesset/SF_Outside_C.png" width="768" height="768"/>
+  <image source="../tilesets/SF_Outside_C.png" width="768" height="768"/>
  </tileset>
  <tileset firstgid="2305" name="SF_Outside_B" tilewidth="16" tileheight="16" tilecount="2304" columns="48">
-  <image source="../../tilesset/SF_Outside_B.png" width="768" height="768"/>
+  <image source="../tilesets/SF_Outside_B.png" width="768" height="768"/>
  </tileset>
  <tileset firstgid="4609" name="SF_Outside_A5" tilewidth="16" tileheight="16" tilecount="1152" columns="24">
-  <image source="../../tilesset/SF_Outside_A5.png" width="384" height="768"/>
+  <image source="../tilesets/SF_Outside_A5.png" width="384" height="768"/>
  </tileset>
  <tileset firstgid="5761" name="SF_Outside_A4" tilewidth="16" tileheight="16" tilecount="2160" columns="48">
-  <image source="../../tilesset/SF_Outside_A4.png" width="768" height="720"/>
+  <image source="../tilesets/SF_Outside_A4.png" width="768" height="720"/>
  </tileset>
  <tileset firstgid="7921" name="Outside_C" tilewidth="16" tileheight="16" tilecount="2304" columns="48">
-  <image source="../../tilesset/Outside_C.png" width="768" height="768"/>
+  <image source="../tilesets/Outside_C.png" width="768" height="768"/>
  </tileset>
  <tileset firstgid="10225" name="Dungeon_C" tilewidth="16" tileheight="16" tilecount="2304" columns="48">
-  <image source="../../tilesset/Dungeon_C.png" width="768" height="768"/>
+  <image source="../tilesets/Dungeon_C.png" width="768" height="768"/>
  </tileset>
  <tileset firstgid="12529" name="Outside_A4" tilewidth="16" tileheight="16" tilecount="2160" columns="48">
-  <image source="../../tilesset/Outside_A4.png" width="768" height="720"/>
+  <image source="../tilesets/Outside_A4.png" width="768" height="720"/>
  </tileset>
  <tileset firstgid="14689" name="Dungeon_B" tilewidth="16" tileheight="16" tilecount="2304" columns="48">
-  <image source="../../tilesset/Dungeon_B.png" width="768" height="768"/>
+  <image source="../tilesets/Dungeon_B.png" width="768" height="768"/>
  </tileset>
  <tileset firstgid="16993" name="outsideFantasy" tilewidth="16" tileheight="16" tilecount="3600" columns="60">
-  <image source="../../tilesset/outsideFantasy.png" width="960" height="960"/>
+  <image source="../tilesets/outsideFantasy.png" width="960" height="960"/>
  </tileset>
  <tileset firstgid="20593" name="pianiste" tilewidth="16" tileheight="16" tilecount="266" columns="14">
-  <image source="../../tilesset/pianiste.png" width="227" height="304"/>
+  <image source="../tilesets/pianiste.png" width="227" height="304"/>
  </tileset>
  <tileset firstgid="20859" name="punk" tilewidth="16" tileheight="16" tilecount="576" columns="24">
-  <image source="../../tilesset/punk.png" trans="78c380" width="384" height="384"/>
+  <image source="../tilesets/punk.png" trans="78c380" width="384" height="384"/>
  </tileset>
  <tileset firstgid="21435" name="mack_char01" tilewidth="16" tileheight="16" tilecount="576" columns="24">
-  <image source="../../tilesset/mack_char01.png" trans="78c380" width="384" height="384"/>
+  <image source="../tilesets/mack_char01.png" trans="78c380" width="384" height="384"/>
  </tileset>
  <layer name="Below Player" width="63" height="50">
   <data encoding="csv">
