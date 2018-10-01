@@ -25,6 +25,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         this.setOffset(this.offSet[0],this.offSet[1]);
         this.setImmovable(true);
 
+        scene.physics.add.collider(this, scene.player);
 
         // Undefined, because the individual name is not linked to the created character
       
@@ -65,7 +66,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         
 
 
-      scene.physics.add.collider(scene.player, this, function(){
+      scene.physics.add.overlap(scene.player.sensorField, this, function(){
       
           if(scene.player.cursors.space.isDown){
               scene.player.actionCounter++
@@ -92,7 +93,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         }
 
         // Add here the functions for player constructed NPC's
-        scene.physics.add.collider(scene.player, this, 
+        scene.physics.add.overlap(scene.player.sensorField, this, 
 
           function(){
     

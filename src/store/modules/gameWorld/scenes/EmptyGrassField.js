@@ -201,7 +201,7 @@ this.QuestGiver = new Character({
           scene: this,
           key: 'vicky',
           x: 530,
-          y: 270,
+          y: 500,
           furtherVar: [
             ['characterNumber', 2],
             ['name', 'QuestGiver'],
@@ -255,34 +255,56 @@ this.Teleporter = new Character({
       });
 
 
-// Multiple questions
 
-let QuestionDialogue = [
-['Quest', '?'],
+
+  let QuizzorDialogue = [
+['Quizzor', "Would you like to participate in the CRI quiz? if you answer all the questions correctly, you will earn a neat reward!"],
 ['option', 
-  ['Yes, I finished', [4, 
-      "dispatch('setCurrentMessageType', 'userInput')", 
-      "dispatch('changeDialogueStartsAt', [3, 'QuestGiver', 2])"]], 
-  ["No, not yet", [10]]
-]
+  ['Sure, I have nothing to lose', [2]], 
+  ["I tried already one too many times", ["commit('endConversation')"]],
+],
+['Quizzor', "Cool! First question: What is the principal value of the CRI?"],
+['option', 
+  ['#Yolo', [10]], 
+  ['#Open', [4]],
+  ['#Freedom', [10]],
+],
+['Quizzor', "Next up! Second question: What can you find on the lowest floor of the CRI?"],
+['option', 
+  ['Free Hotdogs', [10]], 
+  ['A Book Archive', [10]],
+  ['Gender Free Toilets', [6]]
+],
+['Quizzor', "Next up! Third and last question: Who has access to the CRI on Saturday afternoons?"],
+['option', 
+  ['Only Francois Taddei', [10]], 
+  ['No one', [10]],
+  ['Everyone, all the time!', [8]]
+],
+['Quizzor', "That's correct! Claim your reward!"],
+['option', 
+  ['Claim reward, check your inventory by pressing "i"', ["commit('endConversation')", ]],
+],
+['Quizzor', "That's not correct. Try again!"],
+
+
 ];
 
-this.Questionner = new Character({
+this.Quizzor = new Character({
           scene: this,
-          key: 'vicky',
-          x: 530,
-          y: 270,
+          key: 'discutor',
+          x: 320,
+          y: 200,
           furtherVar: [
-            ['characterNumber', 2],
-            ['name', 'Questionner'],
+            ['characterNumber', 5],
+            ['name', 'Quizzor'],
             ['interaction', 'dialogue'],
-            ['dialogue', QuestionDialogue],  
+            ['dialogue', QuizzorDialogue],
             ['dialogueStartsAt', 0],
             ['size', [60,60]],
-            ['offSet', [0,0]],
+            ['offSet', [35,20]],
           ]
-      }); 
-
+      });
 
 
 
@@ -291,7 +313,7 @@ this.Questionner = new Character({
 this.misa = this.physics.add.sprite(380, 400, 'atlas');
 
 
-this.firstScene();
+//this.firstScene();
 
 
 

@@ -50,6 +50,18 @@ const spawnPoint = scene.map.findObject("Objects", obj => obj.name === "Spawn Po
             y: spawnPoint.y
         });
 
+/*
+  scene.sensorField = new SensorField({
+    scene: scene,
+    key: '',
+    x: spawnPoint.x,
+    y: spawnPoint.y,
+
+  })
+*/ 
+
+
+
 
   // CAMERA  // the camera is fixed to the center of the 
              //  screen if the map size is smaller than 800/600px

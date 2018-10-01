@@ -6,6 +6,7 @@ import Phaser from 'phaser'
 export default {
 	namespaced: true,
 	state : {
+		userName: 'Gionisos',
 		sceneActive: 0,
 		stats: {
 			level: 1,
@@ -54,8 +55,8 @@ export default {
 
 	},
 	mutations: {
-		changeActiveScene(state, number){
-			state.sceneActive = number
-		}
+		changeUserName(state, userInput){ state.userName = userInput }, 
+
+		changeActiveScene(state, number){ state.sceneActive = number },
 	}
 }

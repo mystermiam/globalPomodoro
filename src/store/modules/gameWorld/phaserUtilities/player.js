@@ -1,19 +1,16 @@
-import exampleCharacterPNG from './../assets/atlas/atlas.png'
-import exampleCharacterJSON from './../assets/atlas/atlas.json'
-
-
-// Could be relevant
-
-//   this.scene.manager.keys.GamepadScene.stop();
- //   this.input.keyboard.removeAllListeners();
-  //  this.input.removeAllListeners();
-   // this.server.removeAllListeners();
-
-
 // Sensor field (solves collide problem)
 //I've set a key-less child sprite to the player in the same size and set the anchor depending on the direction the player look (0.5 +/- 0.25, 0.5 +/- 0.25), to let it leap a bit of.
 // With this "sensor-field" I can work with overlap to pass the object for evaluation.
    
+// Battle plan for sensor field: 
+// Create a sprite inside the player file, otherwise create a separate file
+// On player move - Fix file to player location 
+// Move it ahead a little bit, so that it can overlap with others
+// update it depending on which player the sprite faces
+import { Grow } from './../index'
+
+import store from '../../../index'
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
@@ -27,7 +24,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.inAction = false;
         this.inDialogue = false;
         this.contactWithCharacter = false;
-
+        
         this.characterLastContacted = null;
 
         this.isAllowedToMove = true;
@@ -38,7 +35,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         
         scene.physics.world.enable(this);
-
+        
 
         //Later on spawn character from this position on login
     	 	/*this.lastPosition = {
@@ -81,17 +78,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 	 	  config.scene.add.existing(this);
 
+
+
+      // Sensorfield!
+      this.sensorField = scene.physics.add.sprite(this.x, this.y);
+      this.sensorField.frame.width = 30;
+      this.sensorField.frame.height = 40;
+
+
 	 	} // End of constructor
 
 move(time, delta) {
 // Movement
   if (this.isAllowedToMove === true){
   const speed = 300
+  //let scene = Grow.scene.scenes[store.state.player.sceneActive];
+
+
+
   this.prevVelocity = this.body.velocity.clone();
   
-
-  //console.log(player.x, player.y)
-
   // Current movement pattern
   // register that key is down --> .isDown === true;
 
@@ -101,15 +107,24 @@ move(time, delta) {
 
   // Stop any previous movement from the last frame
   this.body.setVelocity(0);
-
+  
   if (this.cursors.left.isDown) {
     this.body.setVelocityX(-speed);
+    this.sensorField.x = this.x - 10
+    this.sensorField.y = this.y
+
   } else if (this.cursors.right.isDown) {
-   this.body.setVelocityX(speed);
+    this.body.setVelocityX(speed);
+    this.sensorField.x = this.x + 10
+    this.sensorField.y = this.y
   } else if (this.cursors.up.isDown) {
     this.body.setVelocityY(-speed);
+    this.sensorField.x = this.x 
+    this.sensorField.y = this.y - 5
   } else if (this.cursors.down.isDown) {
     this.body.setVelocityY(speed);
+    this.sensorField.x = this.x 
+    this.sensorField.y = this.y + 25
   }
 
   // Update the animation last and give left/right animations precedence over up/down animations

@@ -26,6 +26,20 @@ export default {
 	},
 	actions: {
 		//Called in dialogue.vue --> userInput
+		userInput({state, commit, dispatch, rootState}){
+			let scene = Grow.scene.scenes[rootState.player.sceneActive];
+			let userInput = document.getElementById('dialogueUserInput').value;
+
+			commit(state.functionToBeCalled, userInput, {root:true})
+
+			scene.player.characterInteraction[0] = 'dialogue';
+
+		    commit('changeMessageNumber', state.currentMessage.number)
+
+		    dispatch('loadDialogue')
+		},
+
+		//Called in dialogue.vue --> userInput
 		userInputQuestion({dispatch, rootState}){
 			dispatch('endConversation')
 			alert("You have completed this quest successfully!")
@@ -82,13 +96,11 @@ export default {
 		loadDialogue({state,commit,dispatch,rootState}, dialogueName){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
-
-			if (dialogueName) {player.characterInteraction[1] = dialogueName} 
-
-			let nameOfCharacter = player.characterInteraction[1]; 
-
-
+			if (dialogueName) {player.characterInteraction[1] = dialogueName};
+			let nameOfCharacter = player.characterInteraction[1];
 			let messageNumber = state.currentMessage.number;
+			let dialogue = state.dialogues[nameOfCharacter][messageNumber];
+            
 
 			// If messageNumber > length then endConversation
 			if(messageNumber >= state.dialogues[nameOfCharacter].length){
@@ -139,22 +151,32 @@ export default {
 
 
 			// If messagetype is option --> loadOption
-			if(state.dialogues[nameOfCharacter][messageNumber][0] === 'option'){ 
+			if(dialogue[0] === 'option'){ 
 	
             	commit('setCurrentMessageType', 'option')
 
             	dispatch('loadOption', nameOfCharacter)
 
+
+            // If messagetype is userInput --> change to userInput
+            } else if (dialogue[0] === 'userInput'){ 
+	
+            	commit('setCurrentMessageType', 'userInput')
+
+            	// 2nd argument is the question itself
+            	// 3rd argument is variable, where the userinput should be saved
+                commit('callFunctionAfterThisMessage', dialogue[2])
+
+
             // otherwise load a normal message
-            else {
+        	} else {
 
             // If dialogue message has 3 arguments --> save it into a variable that is evaluated on the next tick
-              if(state.dialogues[nameOfCharacter][messageNumber].length === 3){
+              if(dialogue.length === 3){
       
-              	commit('callFunctionAfterThisMessage', state.dialogues[nameOfCharacter][messageNumber][2])
+              	commit('callFunctionAfterThisMessage', dialogue[2])
 
               }
-
 
 			commit('setCurrentMessageType', 'normal')
 			}
@@ -306,6 +328,7 @@ export default {
         	state.currentMessage.kindOfMessage = type
         },
 
+        // Is called in 
 		setMessage(state, obj){ 
          state.currentMessage.person = state.dialogues[obj[1]][state.currentMessage.number][0];
          state.currentMessage.message = state.dialogues[obj[1]][state.currentMessage.number][1];

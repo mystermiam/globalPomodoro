@@ -20,11 +20,11 @@
     </div>
 
     <div v-show='currentMessage.kindOfMessage === "userInput"'>
-      <span id='dialogue-question'>{{currentMessage.person}}</span><br>
+      <span id='dialogue-question'>{{currentMessage.message}}</span><br>
 
       <textarea id='dialogueUserInput' rows="4" cols="50"></textarea>
       <!-- Should eventually have a user input that shows up if you have typed enough --> 
-      <button id='dialogue-user-input-button' @click='userInputQuestion'>Submit answer</button>
+      <button id='dialogue-user-input-button' @click='userInput'>Submit answer</button>
     </div>
 
 
@@ -55,6 +55,7 @@ export default {
   computed : {
    ...mapState('dialogue',{
       currentMessage:'currentMessage',
+      functionToBeCalled: 'functionToBeCalled',
     }),
 
   ...mapState('loadInterface',{
@@ -67,6 +68,7 @@ export default {
   ...mapActions('dialogue',{
       addLinkToCharacter: 'addLinkToCharacter',
       userInputQuestion: 'userInputQuestion',
+      userInput: 'userInput',
     })
   },
 

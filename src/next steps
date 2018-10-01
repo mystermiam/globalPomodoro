@@ -15,9 +15,15 @@ Next priority:
 - Create welcome sequence
 	- Update dialogue outside of character (solved)
 	- Create movement function with dialogue after (solved)
-	
 
-- Call function after normal speech
+- Create living room, just use bedroom map for now 
+
+- collision function with sprite in front of you
+	
+- UserInput call function
+
+- Call function after normal speech 
+	- Eval cannot evaluate store, but scene which is a let 
 
 
 //
@@ -28,8 +34,9 @@ Next priority:
 
 - Push it onto server (connect to other players, add modified chat?)
 
-- have star follow you
 
+
+//
 - minimap?
 
 - Experience bar (basic interface)  (First attempt solved) 

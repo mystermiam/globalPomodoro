@@ -38,6 +38,8 @@ preload() {
     this.load.image("tilesBedroom", TryOutPNG );
     this.load.tilemapTiledJSON("mapBedroom", TryOutJson);
 
+    
+
 
     // Takes too damn long, load in bootscene and then play maybe
     // this.load.audio('backgroundMusic', backgroundMusic)
@@ -78,7 +80,7 @@ create() {
 
 
 
-  this.beginningScene();
+  //this.beginningScene();
 
 
 
@@ -118,11 +120,11 @@ this.player.setTexture("atlas", "misa-front")
 // Disable character movement
 this.player.isAllowedToMove = false;
 
-
 let BeginningDialogue = [
 ['Arya', 'Hey there, my Name is Arya. Welcome to my world.'],
 ['Arya', 'Before we begin. Can you tell me your name?'],
-
+['userInput', 'What is your name?', 'player/changeUserName'],
+['Arya', "It's a pleasure to meet you " + store.state.player.userName + "!"],
 ];
 
 // create dialogue function!
