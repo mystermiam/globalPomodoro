@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="63" height="50" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="63" height="50" tilewidth="16" tileheight="16" infinite="0" nextobjectid="5">
  <tileset firstgid="1" name="Inside_C" tilewidth="16" tileheight="16" tilecount="2304" columns="48">
   <image source="../tilesets/Inside_C.png" width="768" height="768"/>
  </tileset>
@@ -90,6 +90,11 @@
 3244,3244,3244,3244,3244,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3268,3244,3244,3244,3244,3244,3244,3244,3244,3244,3244,6503,6504,6505,6554,6555,6556,3244,3244,3244,3268,3268,3268,3268,3268,3269,3270,3271,3272,3272
 </data>
  </layer>
+ <objectgroup name="Objects">
+  <object id="4" name="Spawn Point" x="297.333" y="181.333">
+   <point/>
+  </object>
+ </objectgroup>
  <layer name="Collision Layer" width="63" height="50">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10142,10143,10144,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,449,0,0,0,0,0,0,0,0,
