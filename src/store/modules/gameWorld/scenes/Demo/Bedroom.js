@@ -5,8 +5,12 @@ import { Grow } from './../../index' // necessary? 3 times games phaser, scene, 
 import store from '../../../../index'
 
 // Import Tilemaps here
-import TryOutJson from './../../assets/tilemaps/TryOut.json'
-import TryOutPNG from './../../assets/tilesets/interior.png'
+import tiles0 from './../../assets/tilesets/Inside_A4.png'
+import tiles1 from './../../assets/tilesets/Inside_B.png'
+import tiles2 from './../../assets/tilesets/SF_Inside_B.png'
+import tiles3 from './../../assets/tilesets/mack_char01.png'
+
+import bedroom from './../../assets/tilemaps/bedroom.json'
 
 // Import Music here
 import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
@@ -35,8 +39,13 @@ preload() {
 
     // Load MAP
     // Make sure this has the right type (name after mapName)
-    this.load.image("tilesBedroom", TryOutPNG );
-    this.load.tilemapTiledJSON("mapBedroom", TryOutJson);
+      this.load.image("tilesBedroom0", tiles0 );
+      this.load.image("tilesBedroom1", tiles1 );
+      this.load.image("tilesBedroom2", tiles2 );
+      this.load.image("tilesBedroom3", tiles3 );
+    
+    
+    this.load.tilemapTiledJSON("mapBedroom", bedroom);
 
     
 
@@ -58,12 +67,15 @@ create() {
   this.map = this.make.tilemap({ key: "mapBedroom" });
 
   // Find name inside of tilemap
-  const tilesetBedroom = this.map.addTilesetImage("interior", "tilesBedroom");
+  const tilesetBedroom0 = this.map.addTilesetImage("Inside_A4", "tilesBedroom0");
+  const tilesetBedroom1 = this.map.addTilesetImage("Inside_B", "tilesBedroom1");
+  const tilesetBedroom2 = this.map.addTilesetImage("SF_Inside_B", "tilesBedroom2");
+  const tilesetBedroom3 = this.map.addTilesetImage("mack_char01", "tilesBedroom3");
   
   // Parameters: layer name (or index) from Tiled, tileset, x, y
-  const belowLayer = this.map.createStaticLayer("Below Player", tilesetBedroom, 0, 0);
-  const worldLayer = this.map.createStaticLayer("Collision Layer", tilesetBedroom, 0, 0);
-  const aboveLayer = this.map.createStaticLayer("Above Player", tilesetBedroom, 0, 0);
+  const belowLayer = this.map.createStaticLayer("Below Player", [tilesetBedroom0,tilesetBedroom1,tilesetBedroom2,tilesetBedroom3], 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", [tilesetBedroom0,tilesetBedroom1,tilesetBedroom2,tilesetBedroom3], 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", [tilesetBedroom0,tilesetBedroom1,tilesetBedroom2,tilesetBedroom3], 0, 0);
 
   worldLayer.setCollisionByProperty({ collides: true });
 
