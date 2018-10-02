@@ -26,17 +26,23 @@ export default {
 	},
 	actions: {
 		//Called in dialogue.vue --> userInput
+
+		// Unfinished: State.functionToBeCalled updates after pressing space (functionToBeCalled)
 		userInput({state, commit, dispatch, rootState}){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let userInput = document.getElementById('dialogueUserInput').value;
 
 			commit(state.functionToBeCalled, userInput, {root:true})
 
+			setTimeout(function(){
+
 			scene.player.characterInteraction[0] = 'dialogue';
 
 		    commit('changeMessageNumber', state.currentMessage.number)
 
 		    dispatch('loadDialogue')
+
+			}, 100);
 		},
 
 		//Called in dialogue.vue --> userInput

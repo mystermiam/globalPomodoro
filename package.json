@@ -27,7 +27,7 @@
     "module": "^1.2.5",
     "moment": "^2.22.2",
     "mongoose": "^5.1.4",
-    "phaser": "^3.8.0",
+    "phaser": "^3.14.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "utf-8-validate": "^4.0.2",

@@ -49,8 +49,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   // a bit of whitespace, so I'm using setSize & setOffset to control the size of the player's body.
 	 	this.setSize(30, 40);
     this.setOffset(0, 24);
-        
-        
+
+    if(scene.anims.anims.entries["misa-left-walk"] === undefined){   
 		scene.anims.create({
 		    key: "misa-left-walk",
 		    frames: scene.anims.generateFrameNames("atlas", { prefix: "misa-left-walk.", start: 0, end: 3, zeroPad: 3 }),
@@ -75,6 +75,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		    frameRate: 10,
 		    repeat: -1
 		  });
+
+      }
 
 	 	  config.scene.add.existing(this);
 

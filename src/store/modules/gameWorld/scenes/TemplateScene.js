@@ -38,7 +38,7 @@ preload() {
 
 create() {
   // Loading TileMap
-  this.map = this.make.tilemap({ key: "map" });
+  this.map = this.make.tilemap({ key: "templateMap" });
 
   // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
   // Phaser's cache (i.e. the name character used in preload)
