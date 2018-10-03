@@ -65,16 +65,19 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
         if(this.createdCharacter === false || this.createdCharacter === undefined){
         
 
-
+      // Currently the dialogue is called from here
+      // should just start here (call once)
+      // If dialogue is untrue then call
       scene.physics.add.overlap(scene.player.sensorField, this, function(){
       
-          if(scene.player.cursors.space.isDown){
+          // Calls only if dialogue is not already loaded (if character is able to move)
+          if(scene.player.cursors.space.isDown && scene.player.isAllowedToMove){
               scene.player.actionCounter++
         
               if(scene.player.actionCounter === 1){
                 // Could be useful for mapping player actions later on
                   scene.player.characterInteraction = [this.interaction, this.name]; 
-                  console.log('character.js called')
+                  console.log('Character Interaction ', scene.player.characterInteraction)
                   
                   if(this.interaction === 'dialogue'){ store.dispatch('dialogue/loadDialogue'); };
                   //Set timeout sets this to window!
@@ -97,7 +100,8 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
 
           function(){
     
-              if(scene.player.cursors.space.isDown){
+              // Calls only if dialogue is not already loaded (if character is able to move)
+              if(scene.player.cursors.space.isDown && scene.player.isAllowedToMove){
                   scene.player.actionCounter++
             
                   if(scene.player.actionCounter === 1){

@@ -7,8 +7,8 @@ export default class BootScene extends Scene {
   }
 
   preload () {
-    this.load.setBaseURL('./assets/');
-    this.load.json('assets');
+    //this.load.setBaseURL('./assets/');
+    //this.load.json('assets');
   }
 
   create () {
@@ -23,7 +23,7 @@ export default class BootScene extends Scene {
     //this.scene.start('EmptyGrassField');
 
     // DEMO
-    this.scene.start('Bedroom')
+    this.scene.start('LivingRoom')
   
   }
 }

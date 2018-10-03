@@ -29,7 +29,7 @@ function launch() {
       default: 'arcade',
       arcade: {
         gravity: { y: 0 }, // Top down game, so no gravity
-        debug: false
+        debug: true
       }
     },
     scene: [BootScene, Bedroom, LivingRoom, Town]

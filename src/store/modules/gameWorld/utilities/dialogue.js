@@ -102,12 +102,15 @@ export default {
 		loadDialogue({state,commit,dispatch,rootState}, dialogueName){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
+
+
 			if (dialogueName) {player.characterInteraction[1] = dialogueName};
 			let nameOfCharacter = player.characterInteraction[1];
+
 			let messageNumber = state.currentMessage.number;
 			let dialogue = state.dialogues[nameOfCharacter][messageNumber];
             
-
+			
 			// If messageNumber > length then endConversation
 			if(messageNumber >= state.dialogues[nameOfCharacter].length){
 			// no option
@@ -130,6 +133,9 @@ export default {
 			  */
     			// Make player unable to move 
 	            player.isAllowedToMove = false;
+
+	            // Stop player's movement
+	            player.body.setVelocity(0);
 
 	            dispatch('player/disableKeyboardKeys', 'vue', {root:true})
 
@@ -154,7 +160,8 @@ export default {
 			
 			} 
 
-
+			// Dialogue is the first option, so it is either the name or option or userinput
+			//console.log('dialogue is currently: ', dialogue[0])
 
 			// If messagetype is option --> loadOption
 			if(dialogue[0] === 'option'){ 
@@ -162,6 +169,8 @@ export default {
             	commit('setCurrentMessageType', 'option')
 
             	dispatch('loadOption', nameOfCharacter)
+
+
 
 
             // If messagetype is userInput --> change to userInput
@@ -174,18 +183,21 @@ export default {
                 commit('callFunctionAfterThisMessage', dialogue[2])
 
 
+
+
             // otherwise load a normal message
         	} else {
-
             // If dialogue message has 3 arguments --> save it into a variable that is evaluated on the next tick
               if(dialogue.length === 3){
-      
-              	commit('callFunctionAfterThisMessage', dialogue[2])
-
+                   
+                   // So that it updates after the dialogue has been called
+                   setTimeout(function(){ commit('callFunctionAfterThisMessage', dialogue[2]) }, 300);
+	
               }
 
 			commit('setCurrentMessageType', 'normal')
 			}
+
 
             // General functions on each click
 	        commit('setMessage', [messageNumber, nameOfCharacter]) 
@@ -249,21 +261,20 @@ export default {
 
 
 
-		// Called in updateOptions in Character.js
+		// Called in updateOptions in phaserUtilities/phaserDialogue
 		takeOption({state, commit, dispatch, rootState}){
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let optionSelected = state.currentMessage.options[state.currentMessage.optionSelected][1];
-            let options = state.currentMessage.options;
-
-
+  
+            console.log('Option taken in dialogue.js', optionSelected)
             // go through optionSelected one by one and execute its functions
             for(let i=0;i<optionSelected.length;i++){
 
 				// if optionSelected is a number set message type back to normal and set currentMessage.number to that number
 				if(typeof optionSelected[i] === 'number'){
-	                
+	              
                     let number = optionSelected[i];
-
+                    
                     // change to dialogue, so that it updates in scene
                     scene.player.characterInteraction[0] = 'dialogue';
 
@@ -271,7 +282,7 @@ export default {
 
 	                // Changes message to number in option [Number needs to be in first place!!]
 					commit('changeMessageNumber', number)
-
+                     
 					dispatch('loadDialogue')
 					
 
@@ -294,6 +305,7 @@ export default {
 
 			} // End of for loop    		
 
+			commit('setCurrentMessageType', 'normal')
 		},
 
 		
@@ -304,6 +316,7 @@ export default {
 	mutations: {
 		emptyDialogueFunction(state){ state.functionToBeCalled = false },
 
+		//Called from ...
         callFunctionAfterThisMessage(state, functionToBeCalled){ 
         	state.functionToBeCalled = functionToBeCalled
         },

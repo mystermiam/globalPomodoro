@@ -39,8 +39,19 @@ if(state == 'preload'){
 if(state == 'create'){
 
 
-// load spawnpoint and player // if you arrive through doors find alternate spawnpoint
-const spawnPoint = scene.map.findObject("Objects", obj => obj.name === "Spawn Point");
+// load spawnpoint and player // if you arrive through doors find alternate spawnpoint // if you teleport and there is no door back, look if there is a number (if spawnpoint is not enough)
+let spawnPoint;
+
+// currently loads ad infinitum
+
+if(Grow.previousMap){
+  let name = Grow.previousMap + 'Spawn'
+  console.log(name)
+  spawnPoint = scene.map.findObject("SpawnPoints", obj => obj.name === name);
+} else {
+  spawnPoint = scene.map.findObject("SpawnPoints", obj => obj.name === "Spawn Point");
+}
+
   
   // LOAD PLAYER
   scene.player = new Player({
@@ -104,12 +115,19 @@ let doors = [];
 for(let i = 0; i < numberOfDoors + 0; i++){
   let doorObject = scene.map.objects[objectLayer].objects[i];
   doors[i] = doorObject.name;
+  
 
   // Create a door sprite 
   scene[doors[i]] = scene.physics.add.sprite(doorObject.x, doorObject.y);
 
+  scene[doors[i]].body.width = doorObject.width;
+  scene[doors[i]].body.height = doorObject.height;
+
   // Create a collider with door
   scene.physics.add.collider(scene.player, scene[doors[i]], function(){
+    // Setting game variable to previous door
+    Grow.previousMap = scene.sys.config.key
+
     scene.scene.stop(scene.sys.config.key); 
     scene.scene.start(doors[i]);
   }, null, scene);
@@ -120,3 +138,59 @@ for(let i = 0; i < numberOfDoors + 0; i++){
 }
 
 }
+
+
+
+
+
+
+
+
+/* MAP LOADER
+
+// Load MAP
+    // Make sure this has the right type (name after mapName)
+
+    // function is called with mapName
+    let mapName = 'bedroom'
+    let tilesets = []; 
+
+    for (let i = 0; i < map.tilesets.length; i++){
+      tilesets.push('./../../assets/tilesets/' + map.tilesets[i].name + '.png')
+    }
+    
+    for (let i = 0; i < map.tilesets.length; i++){
+      this.load.image(map.tilesets[i].name, tilesets[i])
+    }
+
+    console.log(map)
+     
+
+    this.load.tilemapTiledJSON(mapName, map);
+
+    
+
+
+    // Takes too damn long, load in bootscene and then play maybe
+    // this.load.audio('backgroundMusic', backgroundMusic)
+}
+
+create() {
+
+  let mapName = 'bedroom'
+  this.map = this.make.tilemap({ key: mapName });
+
+  const tilesetBedroom0 = this.map.addTilesetImage("Inside_A4", map.tilesets[i].name);
+  const tilesetBedroom1 = this.map.addTilesetImage("Inside_B", map.tilesets[i].name);
+  const tilesetBedroom2 = this.map.addTilesetImage("SF_Inside_B", map.tilesets[i].name);
+  const tilesetBedroom3 = this.map.addTilesetImage("mack_char01", map.tilesets[i].name);
+  
+  // Parameters: layer name (or index) from Tiled, tileset, x, y
+  const belowLayer = this.map.createStaticLayer("Below Player", [tilesetBedroom0,tilesetBedroom1,tilesetBedroom2,tilesetBedroom3], 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", [tilesetBedroom0,tilesetBedroom1,tilesetBedroom2,tilesetBedroom3], 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", [tilesetBedroom0,tilesetBedroom1,tilesetBedroom2,tilesetBedroom3], 0, 0);
+
+
+
+
+*/

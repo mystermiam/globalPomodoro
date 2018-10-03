@@ -15,6 +15,8 @@ import bedroom from './../../assets/tilemaps/bedroom.json'
 // Import Music here
 import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
 
+// Import images here
+import star from './../../assets/star.png'
 
 // Import Sprites.js here
 import Player from './../../phaserUtilities/player'
@@ -43,6 +45,8 @@ preload() {
       this.load.image("tilesBedroom1", tiles1 );
       this.load.image("tilesBedroom2", tiles2 );
       this.load.image("tilesBedroom3", tiles3 );
+
+      this.load.image("star", star);
     
     
     this.load.tilemapTiledJSON("mapBedroom", bedroom);

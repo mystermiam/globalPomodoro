@@ -51,6 +51,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setOffset(0, 24);
 
     if(scene.anims.anims.entries["misa-left-walk"] === undefined){   
+
+    // pretty good function to put things into that should only be created once at creation :p
+
 		scene.anims.create({
 		    key: "misa-left-walk",
 		    frames: scene.anims.generateFrameNames("atlas", { prefix: "misa-left-walk.", start: 0, end: 3, zeroPad: 3 }),
@@ -94,8 +97,6 @@ move(time, delta) {
 // Movement
   if (this.isAllowedToMove === true){
   const speed = 300
-  //let scene = Grow.scene.scenes[store.state.player.sceneActive];
-
 
 
   this.prevVelocity = this.body.velocity.clone();
@@ -112,13 +113,13 @@ move(time, delta) {
   
   if (this.cursors.left.isDown) {
     this.body.setVelocityX(-speed);
-    this.sensorField.x = this.x - 10
-    this.sensorField.y = this.y
+    this.sensorField.x = this.x - 13
+    this.sensorField.y = this.y + 15
 
   } else if (this.cursors.right.isDown) {
     this.body.setVelocityX(speed);
     this.sensorField.x = this.x + 10
-    this.sensorField.y = this.y
+    this.sensorField.y = this.y + 15
   } else if (this.cursors.up.isDown) {
     this.body.setVelocityY(-speed);
     this.sensorField.x = this.x 
@@ -126,7 +127,7 @@ move(time, delta) {
   } else if (this.cursors.down.isDown) {
     this.body.setVelocityY(speed);
     this.sensorField.x = this.x 
-    this.sensorField.y = this.y + 25
+    this.sensorField.y = this.y + 28    
   }
 
   // Update the animation last and give left/right animations precedence over up/down animations
