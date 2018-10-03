@@ -180,6 +180,9 @@ export default {
 	
             	commit('setCurrentMessageType', 'userInput')
 
+            	// Disable keys like spacebar etc.
+            	scene.player.characterInteraction[0] = 'userInput';
+
             	// 2nd argument is the question itself
             	// 3rd argument is variable, where the userinput should be saved
                 commit('callFunctionAfterThisMessage', dialogue[2])

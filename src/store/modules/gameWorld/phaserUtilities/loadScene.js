@@ -42,8 +42,6 @@ if(state == 'create'){
 // load spawnpoint and player // if you arrive through doors find alternate spawnpoint // if you teleport and there is no door back, look if there is a number (if spawnpoint is not enough)
 let spawnPoint;
 
-// currently loads ad infinitum
-
 if(Grow.previousMap){
   let name = Grow.previousMap + 'Spawn'
   console.log(name)
@@ -52,14 +50,25 @@ if(Grow.previousMap){
   spawnPoint = scene.map.findObject("SpawnPoints", obj => obj.name === "Spawn Point");
 }
 
-  
-  // LOAD PLAYER
+if(spawnPoint){
+   // LOAD PLAYER
   scene.player = new Player({
             scene: scene,
             key: 'atlas',
             x: spawnPoint.x,
             y: spawnPoint.y
         });
+} else {
+  scene.player = new Player({
+            scene: scene,
+            key: 'atlas',
+            x: 100,
+            y: 100
+        });
+}
+
+  
+ 
 
 /*
   scene.sensorField = new SensorField({
@@ -120,8 +129,11 @@ for(let i = 0; i < numberOfDoors + 0; i++){
   // Create a door sprite 
   scene[doors[i]] = scene.physics.add.sprite(doorObject.x, doorObject.y);
 
+  console.log(scene[doors[i]])
   scene[doors[i]].body.width = doorObject.width;
   scene[doors[i]].body.height = doorObject.height;
+  scene[doors[i]].displayOriginX = 0;
+  scene[doors[i]].displayOriginY = 0;
 
   // Create a collider with door
   scene.physics.add.collider(scene.player, scene[doors[i]], function(){

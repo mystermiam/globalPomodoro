@@ -1,6 +1,8 @@
+// BUGS: 
+
 import { Scene } from 'phaser'
 
-import { Grow } from './../../index' // necessary? 3 times games phaser, scene, Grow
+import { Grow } from './../../index' 
 
 import store from '../../../../index'
 
@@ -49,7 +51,7 @@ preload() {
       this.load.image("star", star);
     
     
-    this.load.tilemapTiledJSON("mapBedroom", bedroom);
+      this.load.tilemapTiledJSON("mapBedroom", bedroom);
 
     
 
@@ -95,8 +97,10 @@ create() {
   this.physics.add.collider(this.player, worldLayer);
 
 
-
-  this.beginningScene();
+  // Create a condition that it only executes once
+  if(store.state.player.scenesToBeShown.indexOf('BeginningDialogue') >= 0){
+    this.beginningScene();
+  }
 
 
 
@@ -136,7 +140,12 @@ this.player.setTexture("atlas", "misa-back")
 // Disable character movement
 this.player.isAllowedToMove = false;
 
+
+// Maybe the player moves up to the screen --> , "scene.movingCharacter(scene.player, 'misa', [['up',1920],['left',1010],['up',10]], 50)"
 let BeginningDialogue = [
+['option',
+  ['Begin Demo', [1, 'scene.player.setTexture("atlas", "misa-front")']],
+],
 ['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A community journey.'],
 ['Arya', 'Before we begin. Can you tell me your name?'],
 ['userInput', 'What is your name?', 'player/changeUserName'],
@@ -144,10 +153,10 @@ let BeginningDialogue = [
 ['Arya', "Use the arrow keys on your keyboard to move me around the place"],
 ['Arya', "If you want me to interact with other characters or objects, press the spacebar in the center of your keyboard!"],
 ['option',
-  ['Okay, I understand', ["dispatch('endConversation')"]],
-  ['Can you explain me the controls again?', [7]],
+  ['Okay, I understand', ["dispatch('endConversation')", "dispatch('player/removeSceneFromList', 'BeginningDialogue', {root:true})"]],
+  ['Can you explain me the controls again?', [8]],
 ],
-['Arya', "Sure, ask me as often as you want", 4],
+['Arya', "Sure, ask me as often as you want", 5],
 ];
 
 /*
@@ -159,8 +168,6 @@ store.dispatch('dialogue/addDialogue', ['BeginningDialogue', BeginningDialogue])
 scene.player.characterInteraction[0] = 'dialogue' 
 
 store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
-
-// Don't show this dialogue again --> remove from scenes that are triggered // Array in player.js
 
 }
 

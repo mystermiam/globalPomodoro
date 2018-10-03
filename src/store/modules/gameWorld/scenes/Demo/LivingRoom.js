@@ -1,3 +1,5 @@
+// BUGS: 
+
 import { Scene } from 'phaser'
 
 import { Grow } from './../../index' // necessary? 3 times games phaser, scene, Grow
@@ -205,11 +207,6 @@ collectItem(player, item){
   
 
   store.dispatch('dialogue/loadDialogue', 'FindingStar') 
-
-
-
-
-
 
 
 

@@ -12,19 +12,9 @@ Nuit Blanche:
 
 Next priority: 
 
-- Create welcome sequence
-	- Update dialogue outside of character (solved)
-	- Create movement function with dialogue after (solved)
+- Door function (trigger dialogue instead of teleport)
 
-- Create living room, just use bedroom map for now 
-
-- collision function with sprite in front of you
-	
-- UserInput call function
-
-- Call function after normal speech 
-	- Eval cannot evaluate store, but scene which is a let 
-
+- Change player frame, so that it is more aligned with the center of the body and one doesnt collide with things on a head level
 
 //
 

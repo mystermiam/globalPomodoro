@@ -6,19 +6,32 @@ import Phaser from 'phaser'
 export default {
 	namespaced: true,
 	state : {
-		userName: 'Gionisos',
+		userName: 'Grow - A community journey',
 		sceneActive: 0,
 		stats: {
 			level: 1,
 			experience: 0,
 			gold: 0,
 		},
-		experienceNeeded: [50,60,70,80,90,100]
+		experienceNeeded: [50,60,70,80,90,100],
+		scenesToBeShown: ['UsingSpace', 'TalkToMom'],
 	},
 	getters: {
 
 	},
 	actions: {
+		removeSceneFromList({state, commit}, nameOfScene) {
+			let index = 0;
+
+			for(let i = 0; i < state.scenesToBeShown.length; i++){
+			  if (state.scenesToBeShown === nameOfScene){
+			    index = i;
+			  }
+			}
+
+			commit('removeSceneFromList', index)
+		}, 
+
 		changeActiveScene({commit}, number){
 			commit('changeActiveScene', number)
 		},
@@ -58,5 +71,7 @@ export default {
 		changeUserName(state, userInput){ state.userName = userInput }, 
 
 		changeActiveScene(state, number){ state.sceneActive = number },
+
+		removeSceneFromList(state, index) { state.scenesToBeShown.splice(index, 1);},
 	}
 }

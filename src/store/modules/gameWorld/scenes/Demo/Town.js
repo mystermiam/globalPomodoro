@@ -5,18 +5,17 @@ import { Grow } from './../../index' // necessary? 3 times games phaser, scene, 
 import store from '../../../../index'
 
 // Import Tilemaps here
-/*
-import tiles1 from "./../../assets/tilesets/Inside_C.png"
-import tiles2 from "./../../assets/tilesets/Outside_A5.png"
-import tiles3 from "./../../assets/tilesets/PathAndObjects.png"
-import tiles4 from "./../../assets/tilesets/Outside_A1.png"
-import tiles5 from "./../../assets/tilesets/Outside_A2.png"
-import tiles6 from "./../../assets/tilesets/Outside_A3.png"
-import tiles7 from "./../../assets/tilesets/Outside_B.png"
-import tiles8 from "./../../assets/tilesets/Outside_C.png"
-import tiles9 from "./../../assets/tilesets/town.png"
-import tiles10 from "./../../assets/tilesets/wood_tileset.png"
-*/
+import tiles0 from "./../../assets/tilesets/Inside_C.png"
+import tiles1 from "./../../assets/tilesets/Outside_A5.png"
+import tiles2 from "./../../assets/tilesets/PathAndObjects.png"
+import tiles3 from "./../../assets/tilesets/Outside_A1.png"
+import tiles4 from "./../../assets/tilesets/Outside_A2.png"
+import tiles5 from "./../../assets/tilesets/Outside_A3.png"
+import tiles6 from "./../../assets/tilesets/Outside_B.png"
+import tiles7 from "./../../assets/tilesets/Outside_C.png"
+import tiles8 from "./../../assets/tilesets/town.png"
+import tiles9 from "./../../assets/tilesets/wood_tileset.png"
+
 import map from "./../../assets/tilemaps/V2.json"
 
 // Import Sprites.js here
@@ -38,7 +37,120 @@ export default class Town extends Scene {
   }
 
 preload() {
-  /*    
+    // Load basic functions that exist in every map
+    loadScene(this, 'preload');
+
+    // Load MAP
+    // Make sure this has the right type (name after mapName)
+      this.load.image("tilesTown0", tiles0 );
+      this.load.image("tilesTown1", tiles1 );
+      this.load.image("tilesTown2", tiles2 );
+      this.load.image("tilesTown3", tiles3 );
+      this.load.image("tilesTown4", tiles4 );
+      this.load.image("tilesTown5", tiles5 );
+      this.load.image("tilesTown6", tiles6 );
+      this.load.image("tilesTown7", tiles7 );
+      this.load.image("tilesTown8", tiles8 );
+      this.load.image("tilesTown9", tiles9 );
+
+      this.load.tilemapTiledJSON("DemoTown", map);
+
+
+    // Takes too damn long, load in bootscene and then play maybe
+    // this.load.audio('backgroundMusic', backgroundMusic)
+}
+
+create() {
+  // Add and play the music // make it toggleAble
+  /*
+        this.music = this.sound.add('backgroundMusic');
+        this.music.play({
+            loop: true
+        });
+  */
+
+
+  this.map = this.make.tilemap({ key: "DemoTown" });
+
+  // Find name inside of tilemap
+  // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
+  // Phaser's cache (i.e. the name character used in preload)
+  const tilesetTown0 = this.map.addTilesetImage("Inside_C", "tilesTown0");
+  const tilesetTown1 = this.map.addTilesetImage("Outside_A5", "tilesTown1");
+  const tilesetTown2 = this.map.addTilesetImage("PathAndObjects", "tilesTown2");
+  const tilesetTown3 = this.map.addTilesetImage("Outside_A1", "tilesTown3");
+  const tilesetTown4 = this.map.addTilesetImage("Outside_A2", "tilesTown4");
+  const tilesetTown5 = this.map.addTilesetImage("Outside_A3", "tilesTown5");
+  const tilesetTown6 = this.map.addTilesetImage("Outside_B", "tilesTown6");
+  const tilesetTown7 = this.map.addTilesetImage("Outside_C", "tilesTown7");
+  const tilesetTown8 = this.map.addTilesetImage("town", "tilesTown8");
+  const tilesetTown9 = this.map.addTilesetImage("wood_tileset", "tilesTown9");
+
+  let tilesets = [tilesetTown1, tilesetTown2, tilesetTown3, tilesetTown4, tilesetTown5, tilesetTown6, tilesetTown7, tilesetTown8, tilesetTown9];
+  const belowLayer = this.map.createStaticLayer("Below Player", tilesets, 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", tilesets, 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", tilesets, 0, 0);
+
+  worldLayer.setCollisionByProperty({ collides: true });
+
+  // By default, everything gets depth sorted on the screen in the order we created things. Here, we
+  // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
+  // Higher depths will sit on top of lower depth objects.
+  aboveLayer.setDepth(10);
+
+  // Load basic functions that exist in every scene
+  loadScene(this, 'create');
+
+  // Watch the player and worldLayer for collisions, for the duration of the scene:
+  this.physics.add.collider(this.player, worldLayer);
+
+} // End of Create
+
+
+
+update(time, delta) {
+  // Update movement - triggers phaserutilities/player.js
+  if(this.player.isAllowedToMove){
+  
+    this.player.move();
+
+  //Update dialogue functions - triggers phaserDialogue.js
+  } else if(this.player.characterInteraction[0] === 'dialogue'){
+    Town
+    updateDialogue()
+
+  } else if (this.player.characterInteraction[0] === 'option'){
+    
+    updateOptions()
+
+  } else if (this.player.characterInteraction[0] === 'userInput'){
+    
+    updateUserInput()
+
+  }
+} // End of update
+
+
+
+// Add functions here!
+
+
+
+
+
+
+
+} // End of Export
+
+
+
+
+
+
+
+/*
+
+ /*    
   for (let i = 0; i<map.tilesets.length; i++){
     let name = 'tileSet' + i
     import { name } from './../../assets/tilesets/' + map.tilesets[i].name + '.png'  
@@ -71,96 +183,3 @@ preload() {
       export modules
 
     */
-    // Load basic functions that exist in every map
-    loadScene(this, 'preload');
-
-    // Load MAP
-    // Make sure this has the right type
-     this.load.image('tiles1', tiles1)
-
-    for(let i = 1; i<11; i++){
-      console.log()
-      this.load.image("tiles" + i, map.tilesets[i].name );
-    }
-    
-    this.load.tilemapTiledJSON("townMap", map);
-} // End of Preload
-
-create() {
-  // Loading TileMap
-  this.map = this.make.tilemap({ key: "townMap" });
-
-  // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
-  // Phaser's cache (i.e. the name character used in preload)
-  const tileset1 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles1");
-  const tileset2 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles2");
-  const tileset3 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles3");
-  const tileset4 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles4");
-  const tileset5 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles5");
-  const tileset6 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles6");
-  const tileset7 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles7");
-  const tileset8 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles8");
-  const tileset9 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles9");
-  const tileset10 = this.map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles10");
-
-  // Parameters: layer name (or index) from Tiled, tileset, x, y --> for each tileset!!!
-
-  let belowLayer = [];
-  let worldLayer = [];
-  let aboveLayer = [];
-
-  for(let i = 1; i < 11; i++){
-    belowLayer[i] = this.map.createStaticLayer("Below Player", eval('tileset' + i), 0, 0);
-    worldLayer[i] = this.map.createStaticLayer("World", eval('tileset' + i), 0, 0);
-    aboveLayer[i] = this.map.createStaticLayer("Above Player", eval('tileset' + i), 0, 0);
-  }
-  
-
-  worldLayer.setCollisionByProperty({ collides: true });
-
-  // By default, everything gets depth sorted on the screen in the order we created things. Here, we
-  // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
-  // Higher depths will sit on top of lower depth objects.
-  aboveLayer.setDepth(10);
-
-  // Load basic functions that exist in every scene
-  loadScene(this, 'create');
-
-  // Watch the player and worldLayer for collisions, for the duration of the scene:
-  this.physics.add.collider(this.player, worldLayer);
-
-} // End of Create
-
-update(time, delta) {
-  // Update movement - triggers phaserutilities/player.js
-  if(this.player.isAllowedToMove){
-  
-    this.player.move();
-
-  //Update dialogue functions - triggers phaserDialogue.js
-  } else if(this.player.characterInteraction[0] === 'dialogue'){
-    
-    updateDialogue()
-
-  } else if (this.player.characterInteraction[0] === 'option'){
-    
-    updateOptions()
-
-  } else if (this.player.characterInteraction[0] === 'userInput'){
-    
-    updateUserInput()
-
-  }
-} // End of update
-
-
-
-// Add functions here!
-
-
-
-
-
-
-
-} // End of Export

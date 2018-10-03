@@ -50,6 +50,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	 	this.setSize(30, 40);
     this.setOffset(0, 24);
 
+    // UNFINISHED: Make the collision area around the sprite smaller
+    //this.frame.centerX = 0;
+
+    console.log(this)
+
     if(scene.anims.anims.entries["misa-left-walk"] === undefined){   
 
     // pretty good function to put things into that should only be created once at creation :p
