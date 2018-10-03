@@ -33,7 +33,9 @@ export default {
 			let userInput = document.getElementById('dialogueUserInput').value;
 
 			commit(state.functionToBeCalled, userInput, {root:true})
-
+			
+			commit('emptyDialogueFunction')
+			
 			setTimeout(function(){
 
 			scene.player.characterInteraction[0] = 'dialogue';

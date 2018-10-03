@@ -4,8 +4,7 @@ import store from '../../../index'
 
 export function updateDialogue(){
        let scene = Grow.scene.scenes[store.state.player.sceneActive];
-       console.log("updateDialogue")
-      
+       
         // Updating different kind of actions - in this case 'Dialogue' -- move to character
         if(scene.player.cursors.space.isDown && scene.player.actionCounter === 0){
           // Variable is set to 'string (function in string form) that can be evaluated'

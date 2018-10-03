@@ -8,7 +8,7 @@
     </div>
 
     <div v-show='currentMessage.kindOfMessage === "option"'>
-      <span id='dialogue-name'>Player</span><br>
+      <span id='dialogue-name'>{{userName}}</span><br>
 
       <ul>
         <li v-for='(option, index) in currentMessage.options' 
@@ -57,6 +57,10 @@ export default {
       currentMessage:'currentMessage',
       functionToBeCalled: 'functionToBeCalled',
     }),
+
+   ...mapState('player',{
+    userName: 'userName',
+   }),
 
   ...mapState('loadInterface',{
       showDialogueBox: 'showDialogueBox',   

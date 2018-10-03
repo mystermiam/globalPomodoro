@@ -132,18 +132,25 @@ beginningScene(){
 let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
 
 // Character looks down  
-this.player.setTexture("atlas", "misa-front")
+this.player.setTexture("atlas", "misa-back")
 // Disable character movement
 this.player.isAllowedToMove = false;
 
 let BeginningDialogue = [
-['Arya', "It's a pleasure to meet you!", 'scene.movingCharacter("player", "misa", [["left", 10000]], 100)'],
+['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A community journey.'],
+['Arya', 'Before we begin. Can you tell me your name?'],
+['userInput', 'What is your name?', 'player/changeUserName'],
+['Arya', "Great, let's begin!"],
+['Arya', "Use the arrow keys on your keyboard to move me around the place"],
+['Arya', "If you want me to interact with other characters or objects, press the spacebar in the center of your keyboard!"],
+['option',
+  ['Okay, I understand', ["dispatch('endConversation')"]],
+  ['Can you explain me the controls again?', [7]],
+],
+['Arya', "Sure, ask me as often as you want", 4],
 ];
 
 /*
-['Arya', 'Hey there, my Name is Arya. Welcome to my world.'],
-['Arya', 'Before we begin. Can you tell me your name?'],
-['userInput', 'What is your name?', 'player/changeUserName'],
 */
 // create dialogue function!
 
@@ -153,6 +160,7 @@ scene.player.characterInteraction[0] = 'dialogue'
 
 store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
 
+// Don't show this dialogue again --> remove from scenes that are triggered // Array in player.js
 
 }
 
