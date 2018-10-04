@@ -29,8 +29,8 @@ font-family: 'Roboto Slab', serif;
 
 
 .chatContainer{
-    max-height: 400px;
-    min-height: 400px;
+    max-height: 200px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;    
     /*padding: 1% 2%;*/

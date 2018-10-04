@@ -19,7 +19,7 @@ export default function movingCharacter(character, characterKey,  movement, spee
 
   let scene = Grow.scene.scenes[store.state.player.sceneActive];
 
-  if (i === 0 && scene.anims.anims.entries[characterKey + "-left-walk"] === undefined){
+  if (i === 0 && scene.anims.anims.entries[characterKey + "-left-walk"] === undefined && characterKey !== 'none'){
     // Load animations
     scene.anims.create({
         key: characterKey + "-left-walk",
@@ -50,7 +50,8 @@ export default function movingCharacter(character, characterKey,  movement, spee
 
   let speed = 0;
   if (speedValue !== undefined && speedValue > 0) { speed = speedValue } else { speed = 300 }
-
+  
+  if(characterKey !== 'none'){
    if(movement[i][0] === 'up'){
       scene[character].body.setVelocityY(-speed)
       scene[character].anims.play(characterKey + "-back-walk", true);
@@ -65,6 +66,22 @@ export default function movingCharacter(character, characterKey,  movement, spee
       scene[character].anims.play(characterKey + "-right-walk", true);
    }
 
+  } else {
+    if(movement[i][0] === 'up'){
+      scene[character].body.setVelocityY(-speed)
+     
+   } else if(movement[i][0] === 'down'){
+      scene[character].body.setVelocityY(speed)
+      
+   } else if(movement[i][0] === 'left'){
+      scene[character].body.setVelocityX(-speed)
+     
+   } else if(movement[i][0] === 'right'){
+      scene[character].body.setVelocityX(speed)
+      
+   }
+  }
+
      setTimeout(function(){
 
       let prevVelocity = scene[character].body.velocity.clone();
@@ -75,17 +92,20 @@ export default function movingCharacter(character, characterKey,  movement, spee
       
       if(i < movement.length){
         
-        scene.movingCharacter(character, characterKey, movement, speed, i)
+        movingCharacter(character, characterKey, movement, speed, i)
 
       } else {
         scene[character].anims.stop();
 
         // If we were moving, pick an idle frame to use // Based on misa at this pointerover
+        if(characterKey !== 'none'){
         if      (prevVelocity.x < 0) scene[character].setTexture("atlas", "misa-left");
         else if (prevVelocity.x > 0) scene[character].setTexture("atlas", "misa-right");
         else if (prevVelocity.y < 0) scene[character].setTexture("atlas", "misa-back");
         else if (prevVelocity.y > 0) scene[character].setTexture("atlas", "misa-front");
+        }
       }
+
 
      }, movement[i][1]);
 

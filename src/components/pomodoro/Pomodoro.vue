@@ -81,21 +81,20 @@
 #pomodoroContainer{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    margin: 3em;
     align-items: center;
-    height: 100%;
+    height: 70%;
 }
 
 #peopleInRoom{
     padding: 1% 2%;
     grid-column: 1/3;
-    height: 50vh;
+    height: 100%;
 
 }
 
 #chat{
     grid-column: 1/9;
-    height: 50vh;
+    height: 100%;
 }
 
 #timer{
@@ -111,7 +110,7 @@
     background: linear-gradient(to right, #f12711, #f5af19); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     box-sizing: border-box;
     text-align: center;
-    height: 50vh;
+    height: 100%;
     margin: 0;
     transition: 1s;
 }
@@ -121,7 +120,7 @@
     grid-column: 7/9;
     box-sizing: border-box;
     text-align: center;
-    height: 50vh;
+    height: 100%;
 }
 
 .toggleLists {

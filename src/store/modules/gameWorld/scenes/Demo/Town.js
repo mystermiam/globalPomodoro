@@ -2,11 +2,9 @@
 Bugs:
 FISHING
 - Red circle (Aurelie)
-- Fishing rod (Aurelie)
 - Create messages in Pomodoro timer (Jabol)
 - Play sound on ending fishing
-- I want to hide the game
-
+- I want to hide the game / iframe fit (hide progressbar)
 
 Quiz
 
@@ -379,6 +377,22 @@ this.Fishing = new Character({
 
 
 /************************** End: Fishing ********************************/
+this.Bottle = new Character({
+          scene: this,
+          key: 'quizMaster',
+          x: 440,
+          y: 10,
+          furtherVar: [
+            ['characterNumber', 4],
+            ['name', 'Bottle'],
+            ['interaction', 'floating_around'],
+            ['size', [60,60]],
+            ['offSet', [35,20]],
+          ]
+      });
+
+movingCharacter('Bottle','none', [['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250]], 50);
+
 
 
 } // End of Create
@@ -416,7 +430,12 @@ fishingScene(part){
   if (part == 1){
     store.commit('loadInterface/openPomodoroIframe')
 
-    this.
+    // Make player unable to move
+    scene.player.isAllowedToMove = false;
+
+    // probably not necessary
+    scene.player.setTexture("atlas", "misa-right");
+    
 
     
     
@@ -450,9 +469,23 @@ fishingScene(part){
 
     this.player.characterInteraction[0] = 'dialogue' 
 
+    // Before dialogue starts - move the bottle towards the fishing rope
+    this.Bottle = new Character({
+          scene: this,
+          key: 'quizMaster',
+          x: 400,
+          y: 10,
+          furtherVar: [
+            ['characterNumber', 4],
+            ['name', 'Bottle'],
+            ['interaction', 'floating_around'],
+            ['size', [60,60]],
+            ['offSet', [35,20]],
+          ]
+      });
+
     store.dispatch('dialogue/loadDialogue', 'CaughtSomethingDialogue')
 
-    // Bottle floats towards character
 
     // Add item 
     store.commit('createNPCs/findItem', 'bottle')

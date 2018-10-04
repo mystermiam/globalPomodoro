@@ -52,6 +52,7 @@ export default {
       makeGameScreenClickable:'makeGameScreenClickable',  
       enableVueKeys: 'enableVueKeys',
       showVueInterface: 'showVueInterface',
+      showPomodoroIframe: 'showPomodoroIframe',
     }),
 
   },
