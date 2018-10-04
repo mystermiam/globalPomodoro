@@ -4,7 +4,8 @@ import store from '../../../index'
 
 export function updateDialogue(){
        let scene = Grow.scene.scenes[store.state.player.sceneActive];
-       
+       let vueStore = store;
+       let endConversation = false;
         // Updating different kind of actions - in this case 'Dialogue' -- move to character
         if(scene.player.cursors.space.isDown && scene.player.actionCounter === 0){
           // Variable is set to 'string (function in string form) that can be evaluated'
@@ -12,9 +13,9 @@ export function updateDialogue(){
             
             let functionToBeCalled = store.state.dialogue.functionToBeCalled
             
-            
-            if(typeof functionToBeCalled  === 'number'){
-                    let nextDialogue = store.state.dialogue.dialogues[scene.player.characterInteraction[1]][functionToBeCalled][0];
+            for(let i = 0; i < functionToBeCalled.length; i++){
+              if(typeof functionToBeCalled[i]  === 'number'){
+                    let nextDialogue = store.state.dialogue.dialogues[scene.player.characterInteraction[1]][functionToBeCalled[i]][0];
                     
                     // Check what type of dialogue it is
                     if(nextDialogue == 'option'){
@@ -26,23 +27,33 @@ export function updateDialogue(){
                     }
 
                     
-                    store.commit('dialogue/changeMessageNumber', functionToBeCalled); 
-                    
+                    store.commit('dialogue/changeMessageNumber', functionToBeCalled[i]); 
 
-          store.commit('dialogue/emptyDialogueFunction')
+              } else {
+            
+            console.log(functionToBeCalled[i])
+            if(functionToBeCalled[i] === 'endConversation' || functionToBeCalled[i] === "vueStore.dispatch('dialogue/endConversation')"){
+              store.dispatch('dialogue/endConversation')
+              endConversation = true;
+            } else {
+              // TO USE VUE FUNCTIONS USE vueStore instead of store: E.g. vueStore.commit('dialogue/endConversation')
+              // USE Phaser functions with scene.something
+              eval (
+                functionToBeCalled[i]
+                )
+            }
 
-          } else {
-            console.log(functionToBeCalled)
-            eval (
-              functionToBeCalled
-              )
-
-          }
-
+          } 
+        } // End for loop
+            
+          // No need to call function 10 times
+          store.commit('dialogue/emptyDialogueFunction');
+          
+        }
+        if(!endConversation){
+          store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted)
         }
 
-          store.dispatch('dialogue/loadDialogue', scene.player.characterLastContacted)
-          
           scene.player.actionCounter++
           scene.player.cursors.space.isDown = false;
 

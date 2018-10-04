@@ -4,18 +4,26 @@
     
     <QuestContainer/>
 
+    
+    <TimerDisplay/>
+    
     <ProgressBar id='progressBarContainer' />
 
   </div>
 
+<!-- Full Screen Application go here -->
+  <Iframe/>
+
+
+ <!-- End of Full Screen Applications -->
+
   <div id="game-container" @click="gameContainerClicked" v-bind:class='{ makeVueScreenClickable: !makeGameScreenClickable }'/>
  
-  <!--<iframe width="420" height="315" src="http://localhost:8080/#/pomodoro" frameborder="0" 
-  allowfullscreen id='exampleContainer' v-show='escapePressed'></iframe>-->
  
   <Dialogue/>
   <CreateNPCs/>
-  <!--<Chat/>-->
+
+
 </div>
 </template>
 
@@ -26,10 +34,10 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 import Dialogue from './utilities/Dialogue'
 import CreateNPCs from './utilities/CreateNPCs'
 import QuestContainer from './utilities/QuestContainer'
+import Iframe from './utilities/Iframe'
+import TimerDisplay from './utilities/TimerDisplay'
 
 import ProgressBar from './../menu/sidebar/ProgressBar'
-
-import Chat from './../pomodoro/Chat'
 
 //Functions
 import launch from '../../store/modules/gameWorld/index'
@@ -37,7 +45,7 @@ import launch from '../../store/modules/gameWorld/index'
 export default {
   name: 'game',
 
-  components: { Dialogue, CreateNPCs, QuestContainer, ProgressBar, Chat },
+  components: { Dialogue, CreateNPCs, QuestContainer, ProgressBar, Iframe, TimerDisplay },
 
   computed: {
     ...mapState('loadInterface',{

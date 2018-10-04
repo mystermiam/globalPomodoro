@@ -55,6 +55,11 @@ export default {
 			'size': [25,25],
 			'offSet': [0,0],
             },
+            'rope':
+			{
+			'name': 'rope',
+			'image': '../assets/bomb.png',
+            },
             'bomb':
 			{
 			'name': 'bomb',

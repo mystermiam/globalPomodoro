@@ -99,7 +99,7 @@ create() {
 
   // Create a condition that it only executes once
   if(store.state.player.scenesToBeShown.indexOf('BeginningDialogue') >= 0){
-    this.beginningScene();
+    this.beginningScene(1);
   }
 
   if(store.state.player.scenesToBeShown.indexOf('PlaceStarScene') >= 0){
@@ -158,21 +158,35 @@ store.dispatch('dialogue/loadDialogue', 'PlaceStarScene')
 
 }
 
-beginningScene(){
-
+beginningScene(part){
 let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
 
+if (part === 1) {
 // Character looks down  
 this.player.setTexture("atlas", "misa-back")
 // Disable character movement
 this.player.isAllowedToMove = false;
 
+// It doesn't completely endConversation yet
+let BeginningDemo = [
+['option',
+  ['Begin Demo', [1, "dispatch('endConversation')", 'scene.player.setTexture("atlas", "misa-front")','setTimeout(function(){scene.beginningScene(2)}, 10000);']],
+  ['Load Scene', []],
+],
+];
 
+
+store.dispatch('dialogue/addDialogue', ['BeginningDemo', BeginningDemo])
+
+scene.player.characterInteraction[0] = 'dialogue' 
+
+store.dispatch('dialogue/loadDialogue', 'BeginningDemo') 
+
+} // End of part 1
+
+else if (part === 2) {
 // Maybe the player moves up to the screen --> , "scene.movingCharacter(scene.player, 'misa', [['up',1920],['left',1010],['up',10]], 50)"
 let BeginningDialogue = [
-['option',
-  ['Begin Demo', [1, 'scene.player.setTexture("atlas", "misa-front")']],
-],
 ['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A community journey.'],
 ['Arya', 'Before we begin. Can you tell me your name?'],
 ['userInput', 'What is your name?', 'player/changeUserName'],
@@ -186,8 +200,6 @@ let BeginningDialogue = [
 ['Arya', "Sure, ask me as often as you want", 5],
 ];
 
-/*
-*/
 // create dialogue function!
 
 store.dispatch('dialogue/addDialogue', ['BeginningDialogue', BeginningDialogue])
@@ -195,6 +207,14 @@ store.dispatch('dialogue/addDialogue', ['BeginningDialogue', BeginningDialogue])
 scene.player.characterInteraction[0] = 'dialogue' 
 
 store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
+
+} // End of part 2
+
+
+
+
+
+
 
 }
 

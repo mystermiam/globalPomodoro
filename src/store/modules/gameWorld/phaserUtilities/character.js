@@ -6,8 +6,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
     	// create this.template = new Template() with config in the scene that uses the character
         super(config.scene, config.x, config.y, config.key, config.furtherVar); 
- 		
-
+ 	
  	      this.scene = config.scene;
         let scene = this.scene
         // helps to identify in group: this.characters // not used yet

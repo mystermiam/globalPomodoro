@@ -16,6 +16,7 @@ Next priority:
 
 - Change player frame, so that it is more aligned with the center of the body and one doesnt collide with things on a head level
 
+- create more layers in the world (alternate collision layer as well)
 //
 
 - Fishing function

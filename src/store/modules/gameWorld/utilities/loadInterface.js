@@ -15,6 +15,8 @@ export default {
 		showChat: false,
 		enableVueKeys: true,
 		showVueInterface: true,
+		showPomodoroIframe: false,
+		showTimerDisplay: false,
 	},
 	getters: {
 
@@ -135,6 +137,13 @@ export default {
 		},
 	},
 	mutations: {
+		showTimerDisplay(state) { state.showTimerDisplay = true },
+		hideTimerDisplay(state) { state.showTimerDisplay = false },
+
+		openPomodoroIframe(state) { state.showPomodoroIframe = true },
+		closePomodoroIframe(state) { state.showPomodoroIframe = false },
+
+
 		enableVueKeys(state) { state.enableVueKeys = true },
 		disableVueKeys(state) { state.enableVueKeys = false },
 

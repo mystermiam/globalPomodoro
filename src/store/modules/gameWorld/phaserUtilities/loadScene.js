@@ -109,27 +109,50 @@ if(spawnPoint){
 
 // Find the number of doors in a room
 let numberOfDoors = 0;
+let objectLayerDoors = 0;
+
+// Find the number of objects in a room
 let objectLayer = 0;
+let numberOfObjects = 0;
 
 for(let i = 0; i <scene.map.objects.length; i++){
   if(scene.map.objects[i].name == 'Doors'){
-    objectLayer = i;
+    objectLayerDoors = i;
     numberOfDoors = scene.map.objects[i].objects.length;
+  } else if(scene.map.objects[i].name == 'Objects'){
+    objectLayer = i;
+    numberOfObjects = scene.map.objects[i].objects.length;
   }
 }
+
+// Find Objects
+let sceneObjects = [];
+
+for(let i = 0; i < numberOfObjects; i++){
+  let object = scene.map.objects[objectLayer].objects[i];
+  sceneObjects[i] = object.name;
+  scene[sceneObjects[i]] = scene.physics.add.sprite(object.x, object.y, '');
+
+  scene[sceneObjects[i]].body.width = object.width;
+  scene[sceneObjects[i]].body.height = object.height;
+  scene[sceneObjects[i]].displayOriginX = 0;
+  scene[sceneObjects[i]].displayOriginY = 0;
+
+}
+
+
 
 // Find the name of the doors and create objects that bring you to another room
 let doors = [];
 
-for(let i = 0; i < numberOfDoors + 0; i++){
-  let doorObject = scene.map.objects[objectLayer].objects[i];
+for(let i = 0; i < numberOfDoors; i++){
+  let doorObject = scene.map.objects[objectLayerDoors].objects[i];
   doors[i] = doorObject.name;
   
 
   // Create a door sprite 
   scene[doors[i]] = scene.physics.add.sprite(doorObject.x, doorObject.y);
 
-  console.log(scene[doors[i]])
   scene[doors[i]].body.width = doorObject.width;
   scene[doors[i]].body.height = doorObject.height;
   scene[doors[i]].displayOriginX = 0;
@@ -150,6 +173,8 @@ for(let i = 0; i < numberOfDoors + 0; i++){
 }
 
 }
+
+
 
 
 

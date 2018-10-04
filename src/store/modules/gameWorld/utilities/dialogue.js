@@ -18,7 +18,7 @@ export default {
         	'optionSelected': 0,
         },
         dialogues: {},
-        functionToBeCalled: '',
+        functionToBeCalled: [],
 
 	},
 	getters: {
@@ -321,7 +321,7 @@ export default {
 	mutations: {
 		emptyDialogueFunction(state){ state.functionToBeCalled = false },
 
-		//Called from ...
+		//Called from userInput in this file and from loadDialogue
         callFunctionAfterThisMessage(state, functionToBeCalled){ 
         	state.functionToBeCalled = functionToBeCalled
         },
