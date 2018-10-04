@@ -3,11 +3,28 @@ Bugs:
 FISHING
 - Red circle (Aurelie)
 - Create messages in Pomodoro timer (Jabol)
+- Find success sound on the web
 - Play sound on ending fishing
 - I want to hide the game / iframe fit (hide progressbar)
 
-Quiz
+Jabol 
+- Go to bootscene.js --> change start scene to 'Bedroom'
+- Try to work through some of the bugs, if you can. But otherwise I will try to do 
+  that tomorrow :))
 
+Thanks for your help! I really appreciate it :)
+
+
+Aurelie
+- Make E-mail list (if you want to be updated on the project)
+- Make layout for map of possible applications 
+  (we can frame the experience as a coexploration) (A3) <-- put it on the wall and people can explore it with you
+- 
+
+
+
+Quiz
+-
 
 
 
@@ -377,22 +394,6 @@ this.Fishing = new Character({
 
 
 /************************** End: Fishing ********************************/
-this.Bottle = new Character({
-          scene: this,
-          key: 'quizMaster',
-          x: 440,
-          y: 10,
-          furtherVar: [
-            ['characterNumber', 4],
-            ['name', 'Bottle'],
-            ['interaction', 'floating_around'],
-            ['size', [60,60]],
-            ['offSet', [35,20]],
-          ]
-      });
-
-movingCharacter('Bottle','none', [['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250]], 50);
-
 
 
 } // End of Create
@@ -473,7 +474,7 @@ fishingScene(part){
     this.Bottle = new Character({
           scene: this,
           key: 'quizMaster',
-          x: 400,
+          x: 440,
           y: 10,
           furtherVar: [
             ['characterNumber', 4],
@@ -484,6 +485,10 @@ fishingScene(part){
           ]
       });
 
+    movingCharacter('Bottle','none', [['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250]], 50);
+
+
+    // maybe have a timeout before this one
     store.dispatch('dialogue/loadDialogue', 'CaughtSomethingDialogue')
 
 
