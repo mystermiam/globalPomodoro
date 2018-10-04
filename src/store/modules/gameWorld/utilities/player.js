@@ -14,7 +14,7 @@ export default {
 			gold: 0,
 		},
 		experienceNeeded: [50,60,70,80,90,100],
-		scenesToBeShown: ['UsingSpace', 'TalkToMom'],
+		scenesToBeShown: ['BeginningDialogue'],
 	},
 	getters: {
 
@@ -72,6 +72,8 @@ export default {
 
 		changeActiveScene(state, number){ state.sceneActive = number },
 
-		removeSceneFromList(state, index) { state.scenesToBeShown.splice(index, 1);},
+		removeSceneFromList(state, index) { state.scenesToBeShown.splice(index, 1); },
+
+		addSceneToList(state, name) { state.scenesToBeShown.push(name) },
 	}
 }

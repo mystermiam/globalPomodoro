@@ -102,6 +102,11 @@ create() {
     this.beginningScene();
   }
 
+  if(store.state.player.scenesToBeShown.indexOf('PlaceStarScene') >= 0){
+    this.placeStarScene();
+  }
+
+
 
 
 } // End of Create
@@ -131,6 +136,28 @@ update(time, delta) {
 
 
 // Add functions here!
+placeStarScene(){
+
+  // Character looks down  
+this.player.setTexture("atlas", "misa-front")
+// Disable character movement
+this.player.isAllowedToMove = false;
+
+let PlaceStarScene = [
+['Arya', "Let's place the star somewhere in this room"],
+['Arya', "Press 'i' to open the menu. Click on the star and then place it somewhere. "],
+['Arya', "Please do not place it on furniture and such, as mom said the placement function is not error proof yet!"],
+];
+
+
+store.dispatch('dialogue/addDialogue', ['PlaceStarScene', PlaceStarScene])
+
+this.player.characterInteraction[0] = 'dialogue' 
+
+store.dispatch('dialogue/loadDialogue', 'PlaceStarScene') 
+
+}
+
 beginningScene(){
 
 let scene = Grow.scene.scenes[store.state.player.sceneActive]; 

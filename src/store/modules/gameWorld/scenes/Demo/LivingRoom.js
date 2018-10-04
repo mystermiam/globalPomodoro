@@ -196,7 +196,7 @@ collectItem(player, item){
   let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
 
   let FindingStar = [
-    ['Arya', 'Hey there, my Name is Arya. Welcome to my world.'],
+    ['Arya', "Okay, let's place it in the bedroom."],
   ]
 
 
@@ -207,6 +207,8 @@ collectItem(player, item){
   
 
   store.dispatch('dialogue/loadDialogue', 'FindingStar') 
+  
+  store.commit('player/addSceneToList', 'PlaceStarScene')
 
 
 
@@ -220,8 +222,6 @@ collectItem(player, item){
   
   //alert('You found an item, use "i" to open your itembox and use it')
   // Remove item 
-
-  // Unfinished: For whatever reason it changed the variable by 0.5
   this[item.key].disableBody(true, true);
 
 
