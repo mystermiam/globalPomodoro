@@ -412,8 +412,13 @@ update(time, delta) {
 // Add functions here!
 
 fishingScene(part){
+  let scene = Grow.scene.scenes[store.state.player.sceneActive];
   if (part == 1){
     store.commit('loadInterface/openPomodoroIframe')
+
+    this.
+
+    
     
     // change frame of picture from red circle to fishing route 
     this.Fishing.setTexture("atlas", "misa-left");
@@ -427,10 +432,10 @@ fishingScene(part){
     // Click on the X in the upper right corner to switch back to other view
     
     // After 30 seconds closePomodoroIframe and see your character fishing
-    setTimeout(function(){
+    setTimeout(() =>{
       store.commit('loadInterface/closePomodoroIframe')
-      fishingScene(2)
-    }, 10000);
+      this.fishingScene(2)
+    }, 40000);
 
   } else if (part == 2){
     let CaughtSomethingDialogue = [
