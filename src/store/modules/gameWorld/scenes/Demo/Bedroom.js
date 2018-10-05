@@ -170,9 +170,12 @@ this.player.isAllowedToMove = false;
 // It doesn't completely endConversation yet
 let BeginningDemo = [
 ['option',
-  ['Begin Demo', [1, "dispatch('endConversation')", 'scene.player.setTexture("atlas", "misa-front")','setTimeout(function(){scene.beginningScene(2)}, 10000);']],
-  ['Load Scene', []],
+  ['Begin Demo', [100, 'scene.player.setTexture("atlas", "misa-front")','setTimeout(function()=>{scene.beginningScene(2)}, 10000);']],
+  ['Load Scene', [1]]
 ],
+['option',
+  ['Town', [100, "scene.scene.stop('Bedroom')","scene.scene.start('Town')"]], 
+]
 ];
 
 

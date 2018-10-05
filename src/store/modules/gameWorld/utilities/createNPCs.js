@@ -87,12 +87,12 @@ export default {
             'bottle':
 			{
 			'name': 'bottle',
-			'image': '../assets/bomb.png',
+			'image': '../assets/sprites/halfbottle.png',
 			'dialogue': dialogueBottle,
 			'objectClicked': false,
 			'link': '',
 			'quantity': 0,
-			'size': [30,30],
+			'size': [22,22],
 			'offSet': [0,0],
             },
             'bomb':

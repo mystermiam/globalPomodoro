@@ -4,6 +4,7 @@ FISHING
 - Create messages in Pomodoro timer (Jabol)  <--
 - hide the game / iframe fit (hide progressbar)  <--
 - Create left side popup (Your fishing skill has increased by 1) <-- maybe
+- Add experience
 
 Aurelie
 - download sounds (success, cracking sound) / music to be played in the music rooms
@@ -23,6 +24,9 @@ Quiz
 - Attach dialogue function when clicking on this item (It doesn't look like it is doing 
   anything, but I will keep it because it is rare <-- or something like this)
 
+
+createNPCs.js
+- scene.bottle is not working
 
 Improve on conversations (do that together in between)
 
@@ -58,11 +62,17 @@ import map from "./../../assets/tilemaps/V2.json"
 // Import images
 
 // Provisional child running around
-import runningChild from './../../assets/dude.png'
+//import dude from './../../assets/dude.png'
 import quizMaster from './../../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
 
+import quizGuy from './../../assets/sprites/Arabicfullguy.png'
 import red_circle from './../../assets/sprites/REDCIRCLE.png'
-
+import fishingRod from './../../assets/sprites/fishingRod.png'
+import runningChild from './../../assets/sprites/punkcompleteguy.png'
+import halfbottle from './../../assets/sprites/halfbottle.png'
+import bottle from './../../assets/sprites/bottle.png'
+import girlinred from './../../assets/sprites/girlinred.png'
+import fisherman from './../../assets/sprites/fisherman.png'
 
 // Import Sprites.js here
 import Player from './../../phaserUtilities/player'
@@ -106,6 +116,16 @@ preload() {
       this.load.image('runningChild', runningChild)
       this.load.image('quizMaster', quizMaster)
       this.load.image('red_circle', red_circle)
+
+      this.load.image('quizGuy', quizGuy)
+      this.load.image('fishingRod', fishingRod)
+      this.load.image('red_circle', red_circle)
+      this.load.image('halfbottle', halfbottle)
+      this.load.image('bottle', bottle)
+      this.load.image('quizMaster', quizMaster)
+      this.load.image('red_circle', red_circle)
+      this.load.image('girlinred', girlinred)
+      this.load.image('fisherman', fisherman)
 
     // Takes too damn long, load in bootscene and then play maybe
     // this.load.audio('backgroundMusic', backgroundMusic)
@@ -387,7 +407,6 @@ let FishingDialogue = [
 ['Arya', "I don't feel like fishing right now", [100]],
 ];
 
-
 this.Fishing = new Character({
           scene: this,
           key: 'red_circle',
@@ -400,14 +419,13 @@ this.Fishing = new Character({
             ['dialogue', FishingDialogue],
             ['dialogueStartsAt', 0],
             ['size', [40,40]],
-            ['offSet', [-20,-30]],
+            ['offSet', [-20,30]],
           ]
       });
 
 //this.fishingScene(1)
 // Add item 
     
-
 /************************** End: Fishing ********************************/
 
 
@@ -448,19 +466,19 @@ fishingScene(part){
 
     // Make player unable to move
     scene.player.isAllowedToMove = false;
+    
+    this.player.setTexture("atlas", "misa-right")
 
-    // probably not necessary
-    scene.player.setTexture("atlas", "misa-right");
-    
-
-    
-    
     // change frame of picture from red circle to fishing route 
-    this.Fishing.setTexture("atlas", "misa-left");
-
+    this.Fishing.setTexture("fishingRod");
+    this.Fishing.setDisplaySize(66, 66);
+   
     // add timer below 
-    store.commit('loadInterface/showTimerDisplay')
-    store.dispatch('timer/setTimer', [1500,300,900,30,'work', 1])
+    setTimeout(() =>{
+      store.commit('loadInterface/showTimerDisplay')
+      store.dispatch('timer/setTimer', [1500,300,900,30,'work', 1])
+    }, 5000);
+    
 
     // Post something in chat to explain the pomodoro timer
     
@@ -479,19 +497,27 @@ fishingScene(part){
       // Before dialogue starts - move the bottle towards the fishing rope
     this.Bottle = new Character({
           scene: this,
-          key: 'quizMaster',
-          x: 440,
-          y: 10,
+          key: 'halfbottle',
+          x: 460,
+          y: 0,
           furtherVar: [
             ['characterNumber', 4],
             ['name', 'Bottle'],
             ['interaction', 'floating_around'],
-            ['size', [60,60]],
+            ['size', [22,22]],
             ['offSet', [35,20]],
           ]
       });
 
-    movingCharacter('Bottle','none', [['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250]], 50);
+    movingCharacter('Bottle','none', 
+      [['down',250],['left',250],
+       ['down',250],['left',250],
+       ['down',250],['left',250],
+       ['down',250],['left',250],
+       ['down',100],['left',100], 
+       ['down',300],['left',100], 
+       ['down',550]],
+       50);
 
     }, 16500)
     
@@ -500,7 +526,7 @@ fishingScene(part){
     let CaughtSomethingDialogue = [
 
       ['Arya', "I think we have caught something!"],
-      ['Arya', "What's this? Apparently I'm not that good at fishing!"],
+      ['Arya', "What's this? Apparently I'm not that good at fishing!", ["scene.Fishing.setTexture('red_circle');","scene.Fishing.setDisplaySize(40, 40);"]],
       ['Arya', "It's a bottle!"],
       ['Arya', "I added the bottle to the inventory. You can check it out yourself if you want to"],
     ];
@@ -515,16 +541,13 @@ fishingScene(part){
 
       this.bell.play();
 
-      store.dispatch('createNPCs/findItem', ['bottle','bomb'])
+      store.dispatch('createNPCs/findItem', ['bottle','bottle'])
 
       // maybe have a timeout before this one
       store.dispatch('dialogue/loadDialogue', 'CaughtSomethingDialogue')
 
       //Make bottle disappear 
       this.Bottle.disableBody(true,true)
-
-      //Turn fishing back into red spot
-      this.Fishing.setTexture("quizMaster");
 
       // Change dialogue starts at
       this.Fishing.dialogueStartsAt = 9;
