@@ -13,7 +13,36 @@ import Star from './../assets/star.png'
 // make it open on keypress
 
 
-// added in character.js 
+// added in character.js
+
+// needs to play cracking sound 
+// MYSTERIOUS note:  -> arya this is interesting, I should do the same thing for my mom
+// Add quest that tells you to write a note
+// Deliver quest to mom afterwards (not in demo, but just showing how it could work)
+
+let dialogueBottle = [
+['Arya', 'Hmm, this is weird. It seems like there is something inside the bottle'],
+['option',
+	['Open bottle', [2]],
+	['Smash bottle on the floor', [3, ""]],
+	['Leave', [100]],
+],
+['An unknown voice', "Arya tries to open bottle. Arya's attack is not very effective.", [1]],
+['An unknown voice', "Arya's Attack is very effective. The bottle cracks and bursts into a thousand pieces"],
+['Arya', "A note fell down."],
+['Mysterious Note', "... something nice ..."],
+['Arya', "Wow, that's surprisingly unuseful! But at the same time it's a great idea"],
+['Arya', "... I should try this out as well ..."],
+['option', 
+  ['Accept Quest', [9]],
+  ["Leave", [100]]
+],
+['Arya', "Okay, great. The quest was added to our questlog."],
+['Arya', "I will write a note for my mom and hang it into the kitchen, what are you gonna do? Check out the quest to get more information", ['endConversation',"vueStore.dispatch('loadInterface/openQuestContainer', 'writeNote', {root:true})", "scene.bottle.disableBody(true, true)"]],
+
+];
+
+
 let dialogue1 = [
 ['Your NPC', 'Hey there my friend!'],
 ['option',
@@ -55,16 +84,22 @@ export default {
 			'size': [25,25],
 			'offSet': [0,0],
             },
-            'rope':
+            'bottle':
 			{
-			'name': 'rope',
+			'name': 'bottle',
 			'image': '../assets/bomb.png',
+			'dialogue': dialogueBottle,
+			'objectClicked': false,
+			'link': '',
+			'quantity': 0,
+			'size': [30,30],
+			'offSet': [0,0],
             },
             'bomb':
 			{
 			'name': 'bomb',
 			'image': '../assets/bomb.png',	
-			'dialogue': dialogue2,
+			'dialogue': dialogueBottle,
 			'objectClicked': false,
 			'link': '',
 			'quantity': 0,

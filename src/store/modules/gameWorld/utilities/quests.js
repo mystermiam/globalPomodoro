@@ -14,6 +14,15 @@ export default {
 	state : {
 		questShown: '',
 		quests: {
+			writeNote: {
+				title: 'A message of love',
+				description: 'This is the description of the quest, give examples here',
+				stepsToDo: ['Take a post it from the table', 'Write a small message of appreciation ', 'Take the note with you and put it in a place where the person frequently passes by'],
+				reward: {
+					experience: 15,
+				},
+				active: false,
+			},
 			test: {
 				title: 'test quest to test the quest',
 				description: 'This is the description of the quest',

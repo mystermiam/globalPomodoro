@@ -15,6 +15,7 @@ import NuitBlancheTown from './scenes/NuitBlancheTown'
 import Bedroom from './scenes/Demo/Bedroom'
 import LivingRoom from './scenes/Demo/LivingRoom'
 import Town from './scenes/Demo/Town'
+//import AsianGarden from './scenes/Demo/AsianGarden'
 
 var Grow = [];
 
@@ -29,7 +30,7 @@ function launch() {
       default: 'arcade',
       arcade: {
         gravity: { y: 0 }, // Top down game, so no gravity
-        debug: false
+        debug: true
       }
     },
     scene: [BootScene, Bedroom, LivingRoom, Town]

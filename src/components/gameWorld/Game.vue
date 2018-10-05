@@ -9,6 +9,9 @@
     
     <ProgressBar id='progressBarContainer' />
 
+
+    <CreateNPCs/>
+
   </div>
 
 <!-- Full Screen Application go here -->
@@ -21,7 +24,6 @@
  
  
   <Dialogue/>
-  <CreateNPCs/>
 
 
 </div>

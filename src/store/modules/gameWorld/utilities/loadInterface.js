@@ -66,7 +66,7 @@ export default {
 			document.getElementById('dialogueContainer').style.top = (rootState.loadInterface.positionOfGameContainer[1] + Grow.config.height - elementHeight) + 'px' ;
 			document.getElementById('dialogueContainer').style.left = rootState.loadInterface.positionOfGameContainer[0] + 'px';
 		},
-
+		
 		alignObjectContainer({rootState}){
 			let elementHeight = document.getElementById('objectContainer').offsetHeight;
 			let elementWidth = document.getElementById('objectContainer').offsetWidth;
@@ -75,6 +75,7 @@ export default {
 			document.getElementById('objectContainer').style.top = (rootState.loadInterface.positionOfGameContainer[1] + Grow.config.height - elementHeight) + 'px';
 			document.getElementById('objectContainer').style.left = (rootState.loadInterface.positionOfGameContainer[0] + Grow.config.width - elementWidth)  + 'px';
 		},
+
 
 		getPosition({state, commit, dispatch}){
 			//Get position
@@ -100,12 +101,14 @@ export default {
             dispatch('alignInterfaceContainer');  
 
             // 1 Itembox
+            /*
             let objectContainerHeight = document.getElementById('objectContainer').offsetHeight;
             let objectContainerWidth = document.getElementById('objectContainer').offsetWidth;
 			// I don't know where the 16px come from, but shalalala, the calculation must go wrong somewhere
 			document.getElementById('objectContainer').style.top = (state.positionOfGameContainer[1] + Grow.config.height - objectContainerHeight + 34) + 'px' ;
 			document.getElementById('objectContainer').style.left = (state.positionOfGameContainer[0] + Grow.config.width - objectContainerWidth - 1) + 'px';
             setTimeout(function(){ dispatch('alignObjectContainer'); }, 0);
+            */
 		},
 
 		// Is called from Game.vue (mounted) 

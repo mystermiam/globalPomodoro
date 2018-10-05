@@ -140,10 +140,11 @@ export default {
 	            player.body.setVelocity(0);
 
 	            dispatch('player/disableKeyboardKeys', 'vue', {root:true})
+	            
 
 	            //Stop movement animation (improve it with putting it into resting position)
 	            player.anims.stop();
-
+	            // Prev velocity
 
 	            // DialogueStartsAt is currently linked 
 	            let dialogueStartsAt = 0

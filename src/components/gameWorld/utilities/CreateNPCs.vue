@@ -55,8 +55,8 @@ export default {
   border-radius: 2%;
   background-color: lightgray;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 450px;
+  left: 650px;
   padding: 20px;
   opacity: 0.95;
 }

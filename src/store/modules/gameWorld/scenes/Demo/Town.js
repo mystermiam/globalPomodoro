@@ -1,31 +1,36 @@
 /*
 Bugs:
 FISHING
-- Red circle (Aurelie)
-- Create messages in Pomodoro timer (Jabol)
-- Find success sound on the web
-- Play sound on ending fishing
-- I want to hide the game / iframe fit (hide progressbar)
-
-Jabol 
-- Go to bootscene.js --> change start scene to 'Bedroom'
-- Try to work through some of the bugs, if you can. But otherwise I will try to do 
-  that tomorrow :))
-
-Thanks for your help! I really appreciate it :)
-
+- Create messages in Pomodoro timer (Jabol)  <--
+- hide the game / iframe fit (hide progressbar)  <--
+- Create left side popup (Your fishing skill has increased by 1) <-- maybe
 
 Aurelie
-- Make E-mail list (if you want to be updated on the project)
-- Make layout for map of possible applications 
-  (we can frame the experience as a coexploration) (A3) <-- put it on the wall and people can explore it with you
-- 
+- download sounds (success, cracking sound) / music to be played in the music rooms
+- find animation for success (rpg maker has these level up animations)
+- Change collision in maps. Maybe create a fourth layer 
+- Make a teleporter sprite that we can use to go to the concert hall
 
+- Make layout for paper to let people write down possible applications
+  (we can frame the experience as a coexploration) (A3) <-- put it on the wall and people can explore it with you
+- Make E-mail list (if you want to be updated on the project)
 
 
 Quiz
--
+- Find funny questions <--
+- Link up to the solutions <--
+- Attach item (really rare item) <--
+- Attach dialogue function when clicking on this item (It doesn't look like it is doing 
+  anything, but I will keep it because it is rare <-- or something like this)
 
+
+Improve on conversations (do that together in between)
+
+Create different kind of interactions 
+
+Potentially:
+Quest: - 
+Have a character standing around that you can add questions too
 
 
 */
@@ -56,12 +61,15 @@ import map from "./../../assets/tilemaps/V2.json"
 import runningChild from './../../assets/dude.png'
 import quizMaster from './../../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
 
+import red_circle from './../../assets/sprites/REDCIRCLE.png'
+
+
 // Import Sprites.js here
 import Player from './../../phaserUtilities/player'
 
 import Character from './../../phaserUtilities/character'
 
-
+import bell from './../../assets/music/sounds/bell.mp3'
 
 // Import external functions
 import movingCharacter from './../../phaserUtilities/sceneFunctions/movingCharacter'
@@ -97,9 +105,13 @@ preload() {
 
       this.load.image('runningChild', runningChild)
       this.load.image('quizMaster', quizMaster)
+      this.load.image('red_circle', red_circle)
 
     // Takes too damn long, load in bootscene and then play maybe
     // this.load.audio('backgroundMusic', backgroundMusic)
+    this.load.audio('bell', bell)
+    
+
 }
 
 create() {
@@ -361,37 +373,40 @@ let FishingDialogue = [
 
 ['Arya', "This is the spot!"],
 ['Arya', "Fishing is just one example of how we can use external functionalities in this world to improve their impact."],
-['Arya', "This way we can help to you to stay motivated. We are like a reward system... Objectification is a real issue in this world! :D"],
+['Arya', "The application that we are going to show you here is a 'global' pomodoro timer."],
+['Arya', "Pomodoro is a working technique that helps you to stay focused."],
+['Arya', "The visualization inside of the game serves as a reward system that is custom built around the functionality."],
 ['Arya', "For how long do you want to fish?"],
 ['option', 
-  ['1 minutes', [6]], 
-  ["25 minutes", [5]],
-  ["40 minutes", [5]],
+  ['60 seconds', [8]], 
+  ["25 minutes", [7]],
+  ["40 minutes", [7]],
 ],
 ['Arya', "Do you want to sit here the whole day? This is just a demo", [3]],
-['Arya', "Okay, let's go", ['scene.fishingScene(1)']],
-
+['Arya', "Okay, let's go. When you start fishing it will bring up the pomodoro Interface for a few seconds ", ['endConversation','scene.fishingScene(1)']],
+['Arya', "I don't feel like fishing right now", [100]],
 ];
 
 
 this.Fishing = new Character({
           scene: this,
-          key: 'quizMaster',
-          x: 350,
-          y: 70,
+          key: 'red_circle',
+          x: 374,
+          y: 80,
           furtherVar: [
             ['characterNumber', 2],
             ['name', 'Fishing'],
             ['interaction', 'dialogue'],
             ['dialogue', FishingDialogue],
             ['dialogueStartsAt', 0],
-            ['size', [60,60]],
-            ['offSet', [35,20]],
+            ['size', [40,40]],
+            ['offSet', [-20,-30]],
           ]
       });
 
 //this.fishingScene(1)
-
+// Add item 
+    
 
 /************************** End: Fishing ********************************/
 
@@ -445,7 +460,7 @@ fishingScene(part){
 
     // add timer below 
     store.commit('loadInterface/showTimerDisplay')
-    store.dispatch('timer/setTimer', [1500,300,900,60,'work', 1])
+    store.dispatch('timer/setTimer', [1500,300,900,30,'work', 1])
 
     // Post something in chat to explain the pomodoro timer
     
@@ -455,22 +470,13 @@ fishingScene(part){
     setTimeout(() =>{
       store.commit('loadInterface/closePomodoroIframe')
       this.fishingScene(2)
-    }, 40000);
+    }, 10000);
 
   } else if (part == 2){
-    let CaughtSomethingDialogue = [
 
-      ['Arya', "I think we have caught something!"],
-      ['Arya', "What's this? Apparently I'm not that good at fishing!"],
-      ['Arya', "It's a rope!", ],
 
-    ];
-
-    store.dispatch('dialogue/addDialogue', ['CaughtSomethingDialogue', CaughtSomethingDialogue])
-
-    this.player.characterInteraction[0] = 'dialogue' 
-
-    // Before dialogue starts - move the bottle towards the fishing rope
+    setTimeout(() =>{
+      // Before dialogue starts - move the bottle towards the fishing rope
     this.Bottle = new Character({
           scene: this,
           key: 'quizMaster',
@@ -487,13 +493,57 @@ fishingScene(part){
 
     movingCharacter('Bottle','none', [['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250],['down',250],['left',250]], 50);
 
+    }, 16500)
+    
 
-    // maybe have a timeout before this one
-    store.dispatch('dialogue/loadDialogue', 'CaughtSomethingDialogue')
+
+    let CaughtSomethingDialogue = [
+
+      ['Arya', "I think we have caught something!"],
+      ['Arya', "What's this? Apparently I'm not that good at fishing!"],
+      ['Arya', "It's a bottle!"],
+      ['Arya', "I added the bottle to the inventory. You can check it out yourself if you want to"],
+    ];
+    
+    // Make a 20 seconds timeout here --> start dialogue once timer ends
+    store.dispatch('dialogue/addDialogue', ['CaughtSomethingDialogue', CaughtSomethingDialogue])
+
+    this.bell = this.sound.add('bell');
+
+    setTimeout(()=>{
+      this.player.characterInteraction[0] = 'dialogue' 
+
+      this.bell.play();
+
+      store.dispatch('createNPCs/findItem', ['bottle','bomb'])
+
+      // maybe have a timeout before this one
+      store.dispatch('dialogue/loadDialogue', 'CaughtSomethingDialogue')
+
+      //Make bottle disappear 
+      this.Bottle.disableBody(true,true)
+
+      //Turn fishing back into red spot
+      this.Fishing.setTexture("quizMaster");
+
+      // Change dialogue starts at
+      this.Fishing.dialogueStartsAt = 9;
+
+      // Make timer disappear
+      store.commit('loadInterface/hideTimerDisplay')
+
+      // Finish quest
+      dispatch('quests/removeActiveQuest', 'test', {root:true})
+
+      dispatch('quests/questAccomplished', [3, 5], {root:true})
 
 
-    // Add item 
-    store.commit('createNPCs/findItem', 'bottle')
+
+    }, 20000)
+    
+
+
+    
   }
 }
 
