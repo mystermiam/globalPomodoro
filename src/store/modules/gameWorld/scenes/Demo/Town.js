@@ -3,9 +3,34 @@ Bugs:
 FISHING
 - Create messages in Pomodoro timer (Jabol)  <--
 - hide the game / iframe fit (hide progressbar)  <--
-- Create left side popup (Your fishing skill has increased by 1) <-- maybe
+- I think we caught something - Create popup above character , fading out (Your fishing skill has increased by 1) <-- maybe
 - Add experience
 - Add image in createNPCs (can't seem to find it)
+
+
+- Finding a way to align the Vue Interface with your screen
+
+- Need to find Hugo to get laptops
+
+
+
+- Maria's home. Create room with female character 
+- Let Arya ask you who you would write a note to - first user input, which person, then she asks you to write a message on a post it 
+
+
+
+- I want more interaction with the surroundings and the web
+- Quiz (middle of town)
+- Quote character (asian scene)
+- Value guy (bottom town)
+
+- Portal is on a white background currently
+
+
+ASIAN GARDEN
+- cosmetic errors with layers
+- collision errors
+- create scene load music
 
 
 Cosmetic errors: 
@@ -76,7 +101,7 @@ import map from "./../../assets/tilemaps/V2.json"
 // Import images
 
 // Provisional child running around
-//import dude from './../../assets/dude.png'
+import dude from './../../assets/dude.png'
 import quizMaster from './../../../../../../static/raw_sprites/spritesmith/npcs/npc_tyler.png'
 
 import quizGuy from './../../assets/sprites/Arabicfullguy.png'
@@ -87,6 +112,12 @@ import halfbottle from './../../assets/sprites/halfbottle.png'
 import bottle from './../../assets/sprites/bottle.png'
 import girlinred from './../../assets/sprites/girlinred.png'
 import fisherman from './../../assets/sprites/fisherman.png'
+import knightBlue from './../../assets/sprites/knightblue.png'
+import knight from './../../assets/sprites/knight.png'
+import portal1 from './../../assets/sprites/portal1.png'
+import portal2 from './../../assets/sprites/portal2.png'
+
+
 
 // Import Sprites.js here
 import Player from './../../phaserUtilities/player'
@@ -131,6 +162,8 @@ preload() {
       this.load.image('quizMaster', quizMaster)
       this.load.image('red_circle', red_circle)
 
+      this.load.spritesheet('dude', dude, {frameWidth: 32, frameHeight: 48});
+      this.load.spritesheet('quizGuy', quizGuy, {frameWidth: 32, frameHeight: 48});
       this.load.image('quizGuy', quizGuy)
       this.load.image('fishingRod', fishingRod)
       this.load.image('red_circle', red_circle)
@@ -140,6 +173,10 @@ preload() {
       this.load.image('red_circle', red_circle)
       this.load.image('girlinred', girlinred)
       this.load.image('fisherman', fisherman)
+      this.load.image('portal1', portal1)
+      this.load.image('portal2', portal2)
+      this.load.image('knight', knight)
+      this.load.image('knightBlue', knightBlue)
 
     // Takes too damn long, load in bootscene and then play maybe
     // this.load.audio('backgroundMusic', backgroundMusic)
@@ -200,6 +237,42 @@ create() {
 
 
 
+/************************** Portal ********************************/
+
+let PortalDialogue = [
+['Arya', "This is the access point to the 'concert hall'", ["scene.Portal.setTexture('portal2')"]],
+['Arya', "At the moment you can only access the Asian Garden, but in a few days they will open the dungeon I have heard."],
+['option', 
+  ['Go to Asian Garden', [100, "scene.scene.stop('Town')","scene.scene.start('AsianGarden')"]],
+  ["I prefer to stay here for the moment", [100]]  
+],
+];
+
+// Keeps on running
+
+
+this.Portal = new Character({
+          scene: this,
+          key: 'portal1',
+          x: 120,
+          y: 200,
+          furtherVar: [
+            ['characterNumber', 5],
+            ['name', 'Portal'],
+            ['interaction', 'dialogue'],
+            ['dialogue', PortalDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [80,80]],
+            ['offSet', [35,20]],
+          ]
+      });
+
+
+
+
+/************************** End: Portal ********************************/
+
+
 
 
 
@@ -226,47 +299,46 @@ let RunningChildDialogue = [
 
 this.RunningChild = new Character({
           scene: this,
-          key: 'runningChild',
-          x: 120,
-          y: 730,
+          key: 'dude',
+          x: 200,
+          y: 750,
           furtherVar: [
             ['characterNumber', 0],
             ['name', 'Tommy'],
             ['interaction', 'dialogue'],
             ['dialogue', RunningChildDialogue],
             ['dialogueStartsAt', 0],
-            ['size', [60,60]],
-            ['offSet', [35,20]],
+            ['size', [40,40]],
+            ['offSet', [0,0]],
           ]
       });
-
-this.anims.create({
-            key: 'runningChild_left',
-            frames: this.anims.generateFrameNumbers('runningChild', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-
-this.anims.create({
-            key: 'runningChild_right',
-            frames: this.anims.generateFrameNumbers('runningChild', { start: 5, end: 8 }),
-            frameRate: 10,
-            repeat: -1
-        });
 
 // Battle plan: 
 // create two objects with the child in between --> give the child a speed to run to the left
 // If it collides with one of the objects it changes speed - create colliders with the two objects and with player
 // If you talk to the child it stop and sets the frame to turn 
 // When you end the conversation it runs back to the left 
-console.log(this.RunningChild.anims)
+this.anims.create({
+            key: 'runningChild_left',
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+this.anims.create({
+    key: 'runningChild_right',
+    frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
 
 this.physics.add.collider(this.RunningChild, this.player);
-//this.physics.add.collider(this.RunningChild, this.runningChildCollisonPointLeft, this.childCollidesWithObject('right'));
-//this.physics.add.collider(this.RunningChild, this.runningChildCollisonPointRight, this.childCollidesWithObject('left'));
+this.physics.add.collider(this.RunningChild, this.runningChildCollisionLeft, this.childCollidesWithObject('right'));
+this.physics.add.collider(this.RunningChild, this.runningChildCollisionRight, this.childCollidesWithObject('left'));
 
-//this.RunningChild.anims.play("misa-left-walk", true);
-this.RunningChild.body.setVelocityX(300);
+this.RunningChild.anims.play("runningChild_right", true);
+this.RunningChild.body.setVelocityX(10);
 
 
 
@@ -313,9 +385,12 @@ this.RunningChild.body.setVelocityX(300);
 
 ];
 
+
+
+
 this.Quizzor = new Character({
           scene: this,
-          key: 'quizMaster',
+          key: 'knightBlue',
           x: 320,
           y: 200,
           furtherVar: [
@@ -324,10 +399,13 @@ this.Quizzor = new Character({
             ['interaction', 'dialogue'],
             ['dialogue', QuizDialogue],
             ['dialogueStartsAt', 0],
-            ['size', [60,60]],
-            ['offSet', [35,20]],
+            ['size', [50,50]],
+            ['offSet', [0,0]],
           ]
       });
+
+
+
 
 
 
@@ -446,7 +524,7 @@ this.Fishing = new Character({
 
 /************************** Calling Scenes ********************************/
 //if(store.state.player.scenesToBeShown.indexOf('TownGuide1Scene') >= 0){
-    this.townGuide(1);
+    //this.townGuide(1);
 //}
 
 /************************** End: Calling Scenes ********************************/
@@ -627,10 +705,10 @@ let scene = Grow.scene.scenes[store.state.player.sceneActive];
 
 if(direction == 'left') {
 scene.RunningChild.anims.play("runningChild_left", true);
-scene.RunningChild.body.setVelocityX(-300 );
+scene.RunningChild.body.setVelocityX(200);
 } else if(direction == 'right') {
 scene.RunningChild.anims.play("runningChild_right", true);
-scene.RunningChild.body.setVelocityX(-300 );
+scene.RunningChild.body.setVelocityX(-200);
 }
 
 }
@@ -698,5 +776,65 @@ scene.RunningChild.body.setVelocityX(-300 );
       }
 
       export modules
+
+
+
+
+
+
+
+  
+ let QuizDialogue = [
+['Quizzor', "Would you like to participate in the CRI quiz? if you answer all the questions correctly, you will earn a neat reward!"],
+['option', 
+  ['Sure, I have nothing to lose', [2]], 
+  ["I tried already one too many times", [100]],
+],
+['Quizzor', "Cool! First question: What is the principal value of the CRI?"],
+['option', 
+  ['#Yolo', [10]], 
+  ['#Open', [4]],
+  ['#Freedom', [10]],
+],
+['Quizzor', "Next up! Second question: What can you find on the lowest floor of the CRI?"],
+['option', 
+  ['Free Hotdogs', [10]], 
+  ['A Book Archive', [10]],
+  ['Gender Free Toilets', [6]]
+],
+['Quizzor', "Next up! Third and last question: Who has access to the CRI on Saturday afternoons?"],
+['option', 
+  ['Only Francois Taddei', [10]], 
+  ['No one', [10]],
+  ['Everyone, all the time!', [8]]
+],
+['Quizzor', "That's correct! Claim your reward!"],
+['option', 
+  ['Claim reward, check your inventory by pressing "i"', ["commit('endConversation')"]],
+],
+['Quizzor', "That's not correct. Try again!"],
+
+
+];
+
+this.Quizzor = new Character({
+          scene: this,
+          key: 'quizMaster',
+          x: 320,
+          y: 200,
+          furtherVar: [
+            ['characterNumber', 1],
+            ['name', 'Quizzor'],
+            ['interaction', 'dialogue'],
+            ['dialogue', QuizDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [60,60]],
+            ['offSet', [35,20]],
+          ]
+      });
+
+
+
+
 
     */

@@ -14,6 +14,15 @@ export default {
 	state : {
 		questShown: '',
 		quests: {
+			letterToMaria: {
+				title: 'A message of love (1)',
+				description: 'We found a letter inside a bottle at the lake. It seems to belong to Maria. We should bring it to her. She is living in the South East of the town.',
+				stepsToDo: ['Take the letter to Maria'],
+				reward: {
+					experience: 5,
+				},
+				active: false,
+			},
 			writeNote: {
 				title: 'A message of love',
 				description: 'This is the description of the quest, give examples here',

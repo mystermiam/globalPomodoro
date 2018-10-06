@@ -59,6 +59,17 @@
                  "width":0,
                  "x":270.666666666667,
                  "y":398.666666666667
+                }, 
+                {
+                 "height":27,
+                 "id":33,
+                 "name":"HouseMaria",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":29,
+                 "x":819,
+                 "y":637
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -84,15 +95,27 @@
                 }, 
                 {
                  "height":0,
-                 "id":28,
+                 "id":30,
                  "name":"Spawn Point",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":219,
-                 "y":180
+                 "x":247,
+                 "y":672
+                }, 
+                {
+                 "height":0,
+                 "id":32,
+                 "name":"HouseMariaSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":785,
+                 "y":671
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -133,7 +156,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":30,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.3",

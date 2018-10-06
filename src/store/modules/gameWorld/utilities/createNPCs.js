@@ -15,31 +15,33 @@ import Star from './../assets/star.png'
 
 // added in character.js
 
-// needs to play cracking sound 
+// needs to play cracking sound @ attack is very effective
 // MYSTERIOUS note:  -> arya this is interesting, I should do the same thing for my mom
 // Add quest that tells you to write a note
-// Deliver quest to mom afterwards (not in demo, but just showing how it could work)
+// Deliver note to someone in the town / Maria, husband recently died
 
 let dialogueBottle = [
 ['Arya', 'Hmm, this is weird. It seems like there is something inside the bottle'],
 ['option',
 	['Open bottle', [2]],
-	['Smash bottle on the floor', [3, ""]],
+	['Smash bottle on the floor', [3]],
 	['Leave', [100]],
 ],
 ['An unknown voice', "Arya tries to open bottle. Arya's attack is not very effective.", [1]],
-['An unknown voice', "Arya's Attack is very effective. The bottle cracks and bursts into a thousand pieces"],
+['An unknown voice', "Arya's Attack is devastating. The bottle cracks and bursts into a thousand pieces", ["scene.bottle.disableBody(true, true)"]],
 ['Arya', "A note fell down."],
-['Mysterious Note', "... something nice ..."],
-['Arya', "Wow, that's surprisingly unuseful! But at the same time it's a great idea"],
-['Arya', "... I should try this out as well ..."],
+['', "| Arya starts reading the note |"],
+['Mysterious Note', "Dear Maria, I wanted to thank you for all the time that you spent with me. You are more fun than anyone or anything I know"],
+['Mysterious Note', "I hope that you will never lose this beautiful smile! Warmly, Kennen"],
+['Arya', "It must be beautiful receiving such a letter..."],
+['Arya', "Wait... This message must be adressed to our Maria. Her husband Kennen died a few months ago."],
+['Arya', "We should bring her this letter. She hasn't been the same since then."],
 ['option', 
-  ['Accept Quest', [9]],
+  ['Accept Quest', [12, "commit('quests/acceptQuest', 'letterToMaria', {root:true})"]],
   ["Leave", [100]]
 ],
 ['Arya', "Okay, great. The quest was added to our questlog."],
-['Arya', "I will write a note for my mom and hang it into the kitchen, what are you gonna do? Check out the quest to get more information", ['endConversation',"vueStore.dispatch('loadInterface/openQuestContainer', 'writeNote', {root:true})", "scene.bottle.disableBody(true, true)"]],
-
+['Arya', "Maria's home is to the South East of here. Let's go!", ['endConversation',"vueStore.dispatch('loadInterface/openQuestContainer', 'writeNote', {root:true})"]],
 ];
 
 

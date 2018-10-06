@@ -131,13 +131,14 @@ let sceneObjects = [];
 for(let i = 0; i < numberOfObjects; i++){
   let object = scene.map.objects[objectLayer].objects[i];
   sceneObjects[i] = object.name;
+  console.log(object.name)
   scene[sceneObjects[i]] = scene.physics.add.sprite(object.x, object.y);
 
   scene[sceneObjects[i]].body.width = object.width;
   scene[sceneObjects[i]].body.height = object.height;
   scene[sceneObjects[i]].displayOriginX = 0;
   scene[sceneObjects[i]].displayOriginY = 0;
-
+  scene[sceneObjects[i]].setImmovable(true);
 }
 
 

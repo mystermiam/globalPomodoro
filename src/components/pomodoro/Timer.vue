@@ -67,7 +67,7 @@ export default {
     },
   mounted(){
     //Example for how to get things from the server --> this.fetchTimeLeft(cb);
-   //this.setTimer([1500,300,900,60,'work', 1]); // work, short pause length, long pause length, current time, state of the session, number of sessions (start with 1 + 'work')
+   this.setTimer([1500,300,900,55,'work', 1]); // work, short pause length, long pause length, current time, state of the session, number of sessions (start with 1 + 'work')
   },
   
 };

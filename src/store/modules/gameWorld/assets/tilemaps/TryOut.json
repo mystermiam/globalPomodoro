@@ -34,18 +34,28 @@
         {
          "draworder":"topdown",
          "name":"Objects",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"SpawnPoints",
          "objects":[
                 {
                  "height":0,
-                 "id":22,
+                 "id":23,
                  "name":"Spawn Point",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":273,
-                 "y":48
+                 "x":181,
+                 "y":138
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -60,7 +70,7 @@
                 {
                  "height":28,
                  "id":8,
-                 "name":"LivingRoom",
+                 "name":"Town",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -85,7 +95,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":23,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.3",
