@@ -148,8 +148,7 @@ this.player.setTexture("atlas", "misa-front")
 this.player.isAllowedToMove = false;
 
 let PlaceStarScene = [
-['Arya', "Let's place the star somewhere in this room"],
-['Arya', "Press 'i' to open the menu. Click on the star and then place it somewhere. "],
+['Arya', "Press 'i' to open the menu. Click on the star once and then click again to place it somewhere. "],
 ['Arya', "Please do not place it on furniture and such, as mom said the placement function is not error proof yet!"],
 ];
 
@@ -180,13 +179,16 @@ this.player.isAllowedToMove = false;
 
 // It doesn't completely endConversation yet
 let BeginningDemo = [
+['Grow - A self development journey', 'Welcome to the first exploration of Grow. Explore with us the applications of games in the world of learning and self development.'],
 ['option',
-  ['Begin Demo', ["dispatch('endConversation')", 'scene.player.setTexture("atlas", "misa-front")','setTimeout(() =>{scene.beginningScene(2)}, 1000);']],
-  ['Load Scene', [1]]
+  ['Begin Demo', ["dispatch('endConversation')", 'scene.player.setTexture("atlas", "misa-front")','setTimeout(() =>{scene.beginningScene(2)}, 100);']],
+  ['Load Scene', [2]]
 ],
-['Mysterious Voice', 'Which place would you like to go?'],
+['Grow - A self development journey', 'Choose a scene to load it'],
 ['option',
-  ['Town', [100, "scene.scene.stop('Bedroom')","scene.scene.start('Town')"]], 
+  ['Living Room', [100, "scene.scene.stop('Bedroom')","scene.scene.start('LivingRoom')"]], 
+  ['Town', [100, "scene.scene.stop('Bedroom')","scene.scene.start('Town')"]],
+  ['Go back', [0]], 
 ]
 ];
 
@@ -206,7 +208,7 @@ else if (part === 2) {
 
 // Maybe the player moves up to the screen --> , "scene.movingCharacter(scene.player, 'misa', [['up',1920],['left',1010],['up',10]], 50)"
 let BeginningDialogue = [
-['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A community journey.'],
+['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A self development journey.'],
 ['Arya', 'Before we begin. Can you tell me your name?'],
 ['userInput', 'What is your name?', 'player/changeUserName'],
 ['Arya', "Great, let's begin!"],
@@ -214,7 +216,7 @@ let BeginningDialogue = [
 ['Arya', "If you want me to interact with other characters or objects, press the spacebar in the center of your keyboard!"],
 ['option',
   ['Okay, I understand', ["dispatch('endConversation')", "setTimeout(()=>{scene.player.characterInteraction[0] = 'dialogue'; dispatch('loadDialogue', 'GoDownDialogue')}, 7000)"]],
-  ['Can you explain me the controls again?', [8]],
+  ['Can you explain me the controls again?', [7]],
 ],
 ['Arya', "Sure, ask me as often as you want", [5]],
 ];
@@ -228,7 +230,7 @@ scene.player.characterInteraction[0] = 'dialogue'
 store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
 
 let GoDownDialogue = [
-['Arya', 'I should go down and tell my mom'],
+['Arya', 'I should go down and tell my mom about you!'],
 ];
 
 

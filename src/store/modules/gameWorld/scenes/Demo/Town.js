@@ -26,6 +26,8 @@ FISHING
 
 
 
+
+
 - I want more interaction with the surroundings and the web
 - Quiz (middle of town)
 - Quote character (asian scene)
@@ -244,6 +246,7 @@ create() {
   // Watch the player and worldLayer for collisions, for the duration of the scene:
   this.physics.add.collider(this.player, worldLayer);
 
+  this.player.setCollideWorldBounds(true);
 // Everything previous to this should be automatized
 
 // ALL THE TOWN CHARACTERS
@@ -670,7 +673,7 @@ this.Fishing = new Character({
 
 /************************** Calling Scenes ********************************/
 //if(store.state.player.scenesToBeShown.indexOf('TownGuide1Scene') >= 0){
-    //this.townGuide(1);
+    this.townGuide(1);
 //}
 
 /************************** End: Calling Scenes ********************************/

@@ -26,8 +26,7 @@ import Character from './../../phaserUtilities/character'
 
 // Import images here
 import star from './../../assets/star.png'
-import vicky from './../../assets/sprites/npc_vicky.png'
-
+import vicky from './../../assets/sprites/gingergirl.png'
 // Import external functions
 import loadScene from './../../phaserUtilities/loadScene'
 import {updateDialogue, updateOptions, updateUserInput} from './../../phaserUtilities/phaserDialogue'
@@ -43,14 +42,14 @@ preload() {
     // Load basic functions that exist in every map
     loadScene(this, 'preload');
 
-      this.load.image("vicky", vicky );
-
+      this.load.spritesheet('vicky', vicky, {frameWidth: 32, frameHeight: 48});
     // Load MAP
     // Make sure this has the right type (name after mapName)
       this.load.image("tilesLivingRoom0", tiles0 );
       this.load.image("tilesLivingRoom1", tiles1 );
       this.load.image("tilesLivingRoom2", tiles2 );
     
+
       this.load.image("star", star);
     
     this.load.tilemapTiledJSON("LivingRoom", map);

@@ -31,7 +31,7 @@ function launch() {
       default: 'arcade',
       arcade: {
         gravity: { y: 0 }, // Top down game, so no gravity
-        debug: true
+        debug: false
       }
     },
     scene: [BootScene, Bedroom, LivingRoom, Town, AsianGarden, HouseMaria, HouseOfMusicScene]
