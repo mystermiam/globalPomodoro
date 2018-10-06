@@ -179,7 +179,7 @@ this.player.isAllowedToMove = false;
 
 // It doesn't completely endConversation yet
 let BeginningDemo = [
-['Grow - A self development journey', 'Welcome to the first exploration of Grow. Explore with us the applications of games in the world of learning and self development.'],
+['Grow - A self development journey', 'Welcome to Grow. Explore with us the applications of games in the world of learning and self development.'],
 ['option',
   ['Begin Demo', ["dispatch('endConversation')", 'scene.player.setTexture("atlas", "misa-front")','setTimeout(() =>{scene.beginningScene(2)}, 100);']],
   ['Load Scene', [2]]

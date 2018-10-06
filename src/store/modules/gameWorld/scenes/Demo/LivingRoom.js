@@ -127,7 +127,7 @@ this.Mom = new Character({
             ['interaction', 'dialogue'],
             ['dialogue', MomDialogue],  
             ['dialogueStartsAt', 0],
-            ['size', [60,60]],
+            ['size', [40,40]],
             ['offSet', [-10,10]],
           ]
       }); 

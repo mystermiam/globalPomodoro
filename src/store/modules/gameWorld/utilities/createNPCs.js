@@ -45,6 +45,16 @@ let dialogueBottle = [
 ];
 
 
+let starDialogue = [
+['Arya', 'This is an item that is here for you to store and share with me inspirations that are important to you'],
+['option',
+	['You can add a link here', [3, "commit('setCurrentMessageType', 'addLink')"]],
+	['go away', [100]],
+],
+['userInput','What is your name?'],
+['Memory Star', 'Thanks for your input. Come back whenever you want to access me!'],
+];
+
 let dialogue1 = [
 ['Your NPC', 'Hey there my friend!'],
 ['option',
@@ -79,7 +89,7 @@ export default {
 			{
 			'name': 'star',
 			'image': '../assets/star.png',
-			'dialogue': dialogue1,
+			'dialogue': starDialogue,
 			'objectClicked': false,
 			'link': '',
 			'quantity': 1,
