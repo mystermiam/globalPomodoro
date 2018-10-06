@@ -56,6 +56,18 @@
                  "width":0,
                  "x":181,
                  "y":138
+                }, 
+                {
+                 "height":0,
+                 "id":24,
+                 "name":"TownSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":64,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -95,7 +107,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":24,
+ "nextobjectid":25,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.3",

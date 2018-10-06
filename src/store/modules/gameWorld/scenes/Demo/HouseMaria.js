@@ -5,8 +5,11 @@ import { Grow } from './../../index' // necessary? 3 times games phaser, scene, 
 import store from '../../../../index'
 
 // Import Tilemaps here
-import tiles from './../../assets/tilemaps/TryOut.json'
-import map from './../../assets/tilesets/interior.png'
+import TryOutJson from './../../assets/tilemaps/TryOut.json'
+import TryOutPNG from './../../assets/tilesets/interior.png'
+
+
+import maria from './../../assets/sprites/girlcomplete.png'
 
 // Import Sprites.js here
 import Player from './../../phaserUtilities/player'
@@ -30,30 +33,25 @@ preload() {
     // Load basic functions that exist in every map
     loadScene(this, 'preload');
 
-    // Load MAP
     // Make sure this has the right type
-    this.load.image("tiles", tiles );
-    this.load.tilemapTiledJSON("HouseMaria", map);
+    this.load.spritesheet('maria', maria, {frameWidth: 48, frameHeight: 48});
+    this.load.image("tiles1", TryOutPNG );
+    this.load.tilemapTiledJSON("map1", TryOutJson);
 } // End of Preload
 
 create() {
-  // Loading TileMap
-  this.map = this.make.tilemap({ key: "HouseMaria" });
+  this.map = this.make.tilemap({ key: "map1" });
 
-  // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
-  // Phaser's cache (i.e. the name character used in preload)
-  const tileset = this.map.addTilesetImage("interior", "tiles");
-
+  // Find name inside of tilemap
+  const tileset1 = this.map.addTilesetImage("interior", "tiles1");
+  
   // Parameters: layer name (or index) from Tiled, tileset, x, y
-  const belowLayer = this.map.createStaticLayer("Below Player", tileset, 0, 0);
-  const worldLayer = this.map.createStaticLayer("World", tileset, 0, 0);
-  const aboveLayer = this.map.createStaticLayer("Above Player", tileset, 0, 0);
-
+  const belowLayer = this.map.createStaticLayer("Below Player", tileset1, 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", tileset1, 0, 0);
+  const aboveLayer = this.map.createStaticLayer("Above Player", tileset1, 0, 0);
+ 
   worldLayer.setCollisionByProperty({ collides: true });
 
-  // By default, everything gets depth sorted on the screen in the order we created things. Here, we
-  // want the "Above Player" layer to sit on top of the player, so we explicitly give it a depth.
-  // Higher depths will sit on top of lower depth objects.
   aboveLayer.setDepth(10);
 
   // Load basic functions that exist in every scene
@@ -61,6 +59,70 @@ create() {
 
   // Watch the player and worldLayer for collisions, for the duration of the scene:
   this.physics.add.collider(this.player, worldLayer);
+
+
+
+
+
+
+
+ let MariaDialogue = [
+['Discutor', "Hey there wanderer, would you like to work more efficiently?"],
+['option', 
+  ['Sure, I would like to learn more about learning', [4]],
+  ['I want to have a tool that can help me!', [2]],  
+  ["No, I'm currently not interested", ["dispatch('endConversation')"]]
+],
+['Discutor', 'Then check out this new tool'],
+['option', 
+  ['try out tool', ["dispatch('endConversation')", 'http://grow.cri-paris.org/#/pomodoro']], 
+  ['Leave him behind', ["dispatch('endConversation')"]]
+],
+['Discutor', 'Did you ever hear about the last lecture of Randy Pusch from MIT?'],
+['option', 
+  ['No I have never heard about it', [6]], 
+  ['Actually I know this one already', [7]]
+],
+['option', 
+  ['let me check it out', ["dispatch('endConversation')", 'https://www.youtube.com/watch?v=ji5_MqicxSo']], 
+  ['Actually I have better things to do', ["dispatch('endConversation')"]]
+],
+['Discutor', "That's too bad, that's all the content I know. Maybe come back later, when my content is updated"],
+
+];
+
+
+this.Maria = new Character({
+          scene: this,
+          key: 'maria',
+          x: 200,
+          y: 55,
+          furtherVar: [
+            ['characterNumber', 0],
+            ['name', 'Maria'],
+            ['interaction', 'dialogue'],
+            ['dialogue', MariaDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [48,48]],
+            ['offSet', [0,0]],
+          ]
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 } // End of Create
 

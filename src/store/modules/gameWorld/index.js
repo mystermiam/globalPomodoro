@@ -16,7 +16,7 @@ import Bedroom from './scenes/Demo/Bedroom'
 import LivingRoom from './scenes/Demo/LivingRoom'
 import Town from './scenes/Demo/Town'
 import AsianGarden from './scenes/Demo/AsianGarden'
-//import HouseMaria from './scenes/Demo/HouseMaria'
+import HouseMaria from './scenes/Demo/HouseMaria'
 
 var Grow = [];
 
@@ -34,7 +34,7 @@ function launch() {
         debug: true
       }
     },
-    scene: [BootScene, Bedroom, LivingRoom, Town, AsianGarden]
+    scene: [BootScene, Bedroom, LivingRoom, Town, AsianGarden, HouseMaria, HouseOfMusicScene]
     //scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;
 
     //scene: [BootScene, PlayScene]

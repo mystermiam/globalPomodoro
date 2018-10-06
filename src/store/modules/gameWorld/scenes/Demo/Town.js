@@ -1,5 +1,12 @@
 /*
 Bugs:
+
+- Block door
+- Quiz
+- Collision errors (Aurelie)
+
+
+
 FISHING
 - Create messages in Pomodoro timer (Jabol)  <--
 - hide the game / iframe fit (hide progressbar)  <--
@@ -23,6 +30,10 @@ FISHING
 - Quiz (middle of town)
 - Quote character (asian scene)
 - Value guy (bottom town)
+- touch nose - im a character made for the sole purpose of hacking you
+- Asking you to write something on the suggestion board
+- Fisherman. Since I started fishing my productivity has increased by 200%. This number is scientifically validated.
+
 
 - Portal is on a white background currently
 
@@ -95,6 +106,7 @@ import tiles6 from "./../../assets/tilesets/Outside_B.png"
 import tiles7 from "./../../assets/tilesets/Outside_C.png"
 import tiles8 from "./../../assets/tilesets/town.png"
 import tiles9 from "./../../assets/tilesets/wood_tileset.png"
+import tiles10 from "./../../assets/tilesets/outside6.png"
 
 import map from "./../../assets/tilemaps/V2.json"
 
@@ -155,6 +167,7 @@ preload() {
       this.load.image("tilesTown7", tiles7 );
       this.load.image("tilesTown8", tiles8 );
       this.load.image("tilesTown9", tiles9 );
+      this.load.image("tilesTown10", tiles10 );
 
       this.load.tilemapTiledJSON("DemoTown", map);
 
@@ -209,9 +222,10 @@ create() {
   const tilesetTown6 = this.map.addTilesetImage("Outside_B", "tilesTown6");
   const tilesetTown7 = this.map.addTilesetImage("Outside_C", "tilesTown7");
   const tilesetTown8 = this.map.addTilesetImage("town", "tilesTown8");
-  const tilesetTown9 = this.map.addTilesetImage("wood_tileset", "tilesTown9");
+  const tilesetTown9 = this.map.addTilesetImage("wood_tileset", "tilesTown9"); 
+  const tilesetTown10 = this.map.addTilesetImage("outside6", "tilesTown10");
 
-  let tilesets = [tilesetTown1, tilesetTown2, tilesetTown3, tilesetTown4, tilesetTown5, tilesetTown6, tilesetTown7, tilesetTown8, tilesetTown9];
+  let tilesets = [tilesetTown1, tilesetTown2, tilesetTown3, tilesetTown4, tilesetTown5, tilesetTown6, tilesetTown7, tilesetTown8, tilesetTown9, tilesetTown10];
   const belowLayer = this.map.createStaticLayer("Below Player", tilesets, 0, 0);
   const worldLayer = this.map.createStaticLayer("Collision Layer", tilesets, 0, 0);
   const notCollisionLayer = this.map.createStaticLayer("Not Collision Layer", tilesets, 0, 0);
@@ -238,7 +252,7 @@ create() {
 
 
 /************************** Portal ********************************/
-
+/*
 let PortalDialogue = [
 ['Arya', "This is the access point to the 'concert hall'", ["scene.Portal.setTexture('portal2')"]],
 ['Arya', "At the moment you can only access the Asian Garden, but in a few days they will open the dungeon I have heard."],
@@ -268,9 +282,135 @@ this.Portal = new Character({
       });
 
 
-
+*/
 
 /************************** End: Portal ********************************/
+
+
+
+
+
+
+/************************** Fisherman ********************************/
+
+
+
+
+/************************** End: Fisherman ********************************/
+
+
+
+/************************** Town Events ********************************/
+
+
+let blockedSouthDoor = [
+  ['Event','It seems like the door is locked!'],
+];
+ 
+  this.blockedSouthDoor = new Character({
+          scene: this,
+          x: 150,
+          y: 560,
+          furtherVar: [
+            ['characterNumber', 0],
+            ['name', 'blockedSouthDoor'],
+            ['interaction', 'dialogue'],
+            ['dialogue', blockedSouthDoor],
+            ['dialogueStartsAt', 0],
+            ['size', [30,40]],
+            ['offSet', [0,0]],
+          ]
+  }); 
+
+
+let SignPostDialogue = [
+  ['Arya','The sign says: Fishing Spot to the West'],
+  ['Arya','Daily Funfacts to the West'],
+];
+ 
+  this.SignPost = new Character({
+          scene: this,
+          x: 840,
+          y: 365,
+          furtherVar: [
+            ['characterNumber', 0],
+            ['name', 'SignPost'],
+            ['interaction', 'dialogue'],
+            ['dialogue', SignPostDialogue],
+            ['dialogueStartsAt', 0],
+            ['size', [30,30]],
+            ['offSet', [0,0]],
+          ]
+  }); 
+
+/************************** End: blocked door ********************************/
+
+
+
+/************************** Value Guy ********************************/
+
+  let valueList = [
+    ['Acceptance',''],
+    ['Accomplishment',''],
+    ['Dependability', ''],
+    ['Consistency', ''],
+    ['Achievement', ''],
+    ['Open-mindedness', ''],
+    ['Craftsmanship', ''],
+    ['Altruism', ''],
+    ['Honesty', ''],
+    ['Amusement', ''],
+    ['Assertiveness', ''],
+    ['Efficacy', ''],
+    ['Endurance', ''],
+  ];
+
+  let currentValues = this.generateValues(3, 13);
+
+  let dialogueValueGuy = [
+  ['Gregoire, the Value Guy','Hey there! My name is Gregoire, the Value Guy.'],
+  ['Gregoire, the Value Guy','Values are the prinipals underlying your behavior. It can lead you to interesting results reflecting on them.'],
+  ['Gregoire, the Value Guy','With me you can choose one value each week to explore and reflect upon'],
+  ['Gregoire, the Value Guy',"I'm currently reflecting on the value of 'Chivalry'."],
+  ['Gregoire, the Value Guy','Would you like to try out this exercise with me?'],
+  ['option', 
+    ['Sure, I would like to try it out. ', [6]],
+    ['Run away from the truth', ["dispatch('endConversation')"]],  
+  ],
+  ['Gregoire, the Value Guy','Great, I generated 3 random values for you for this week, choose the one that you would like to explore.'],
+  ['option', 
+    [valueList[currentValues[0]][0], [8]], 
+    [valueList[currentValues[1]][0], [8]], 
+    [valueList[currentValues[2]][0], [8]]
+  ],
+  ['Gregoire, the Value Guy','Good Choice! Keep me updated. You can come to me each day and tell me what you have learned!', ["endConversation","vueStore.dispatch('dialogue/changeDialogueStartsAt', [3, 'ValueGuy', 9])"]],
+  ['Gregoire, the Value Guy','Come back to me tomorrow and tell me what you have learnt!'],
+  ];
+
+  this.ValueGuy = new Character({
+          scene: this,
+          key: 'knight',
+          x: 290,
+          y: 605,
+          furtherVar: [
+            ['characterNumber', 0],
+            ['name', 'ValueGuy'],
+            ['interaction', 'dialogue'],
+            ['dialogue', dialogueValueGuy],
+            ['dialogueStartsAt', 0],
+            ['size', [46,46]],
+            ['offSet', [0,0]],
+          ]
+  }); 
+
+
+
+
+
+
+
+/************************** End: Value Guy ********************************/
+
 
 
 
@@ -386,20 +526,26 @@ this.RunningChild.body.setVelocityX(10);
 ];
 
 
+this.anims.create({
+    key: 'quizGuy_right',
+    frames: this.anims.generateFrameNumbers('quizGuy', { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
 
 
 this.Quizzor = new Character({
           scene: this,
           key: 'knightBlue',
-          x: 320,
-          y: 200,
+          x: 920,
+          y: 85,
           furtherVar: [
-            ['characterNumber', 1],
+            ['characterNumber', 6],
             ['name', 'Quizzor'],
             ['interaction', 'dialogue'],
             ['dialogue', QuizDialogue],
             ['dialogueStartsAt', 0],
-            ['size', [50,50]],
+            ['size', [46,46]],
             ['offSet', [0,0]],
           ]
       });
@@ -560,6 +706,9 @@ update(time, delta) {
 
 // Add functions here!
 
+
+
+
 townGuide(part){
   if(part == 1){
   
@@ -581,10 +730,11 @@ townGuide(part){
   
 
   } 
-
-
-
 }
+
+
+
+
 
 
 fishingScene(part){
@@ -716,9 +866,26 @@ scene.RunningChild.body.setVelocityX(-200);
 
 
 
+generateValues(numberOfValues, valueListLength){
+  let currentValues = [];
+  let repetition = 0;
+
+  do {
+  
+  let value = Math.floor(Math.random() * valueListLength)
+  
+  if (currentValues.indexOf(value) < 0){
+    currentValues.push(value);
+    repetition++
+  }
+
+  } while (repetition < numberOfValues)
+
+  return currentValues
+}
+
+
 } // End of Export
-
-
 
 
 
