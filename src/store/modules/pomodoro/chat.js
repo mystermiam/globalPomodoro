@@ -8,9 +8,15 @@ export default {
         roomId: -1,
         participants: [0,1],
         messages : [],
-        users : [],
+        users : []
     },
     actions : {
+        updateUsers(context,user){
+            
+
+            context.commit('updateUsers',user);
+        },
+
         fetchMessages({commit}){
             axios.get('/api/fetchMessages').then(function(response){
                 commit('setMessages',response.data.messages);
@@ -25,8 +31,9 @@ export default {
                 });
             });
         },
-
-
+        addUser(context,user){
+            context.commit('addUser',user);
+        },
         saveMessages(context,message){
             
            axios.post('/api/saveMessages',{newMessage:message
@@ -47,6 +54,14 @@ export default {
 
     },
     mutations : {
+        updateUsers(state,user){
+            let indexUser = state.users.findIndex(x=>user.id == x.id);
+
+            state.users[indexUser] = {id:user.id,username:user.username};
+        },
+        addUser(state,user){
+            state.users.push(user);
+        },
         fetchUsers(state, users){
             state.users = users;
         },
@@ -59,5 +74,6 @@ export default {
             
             state.messages = state.messages.concat(messages);
         }
+       
     }
 };
