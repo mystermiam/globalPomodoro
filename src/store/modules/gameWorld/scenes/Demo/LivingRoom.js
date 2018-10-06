@@ -97,13 +97,14 @@ create() {
   this.physics.add.collider(this.player, worldLayer);
   
 let MomDialogue = [
-['Mom', "Hey Arya! Before you go out, can you please put the memory that you dropped on the floor back into your room"],
-['option', 
-  ["Sure, just give me a second and I'll be back!", [3]],
-  ["What do you mean with 'memory', I don't understand?", [2]],  
+['Mom', "Hey Arya! Before you go out, can you please put the memory that was just dropped for you on the floor back into your room"],
+['option',
+  ["What do you mean with 'memory', I don't understand?", [2]],   
+  ["Sure, just give me a second and I'll be back!", [4]],
 ],
-['Mom', "Since a few years, when you like things on the web, the government drop things in your house. Stars, Teddybears, those people drop all kinds of stuff", [1]],
-['Mom', 'Make sure you place it somewhere, where you can access it! Remember that the space detection does not work properly yet', 
+['Mom', "World Wanderers sometimes drop memories into our world. They can help us to grow and learn new things."],
+['Mom', "We share them between us to build our world!", [1]],
+['Mom', 'Make sure you place it somewhere, where you can access it! Remember that the placing function does not work properly yet', 
   [100, 
   "scene.star.enableBody(true, scene.star.x, scene.star.y, true, true);", 
   "vueStore.dispatch('dialogue/changeDialogueStartsAt', [2, 'Mom', 4])", 
@@ -111,7 +112,7 @@ let MomDialogue = [
 ],
 
 
-['Mom', "Grab the stars and take it"],
+['Mom', "Grab the star and take it to your room"],
 ];
 
 
@@ -209,7 +210,7 @@ collectItem(player, item){
   let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
 
   let FindingStar = [
-    ['Arya', "Okay, let's place it in the bedroom."],
+    ['Arya', "Okay, let's place it in my bedroom."],
   ]
 
 
