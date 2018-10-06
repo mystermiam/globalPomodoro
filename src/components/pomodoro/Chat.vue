@@ -7,7 +7,7 @@
     <div>
       <div class="inputContainer">
         
-          <input class="input" type="text" name="username" placeholder="Who are you ?" v-model="author">
+          <input class="input" type="text" name="username"  @blur="updateUsers" placeholder="Who are you ?" v-model="author">
           <textarea class="textarea" id="textField" v-model="textMessage" @keydown="handleKey" placeholder="Say whatever..." rows=1></textarea>
         
      </div>
@@ -43,17 +43,24 @@ export default {
       console.log('receive')
       console.log(msg)
       this.$store.commit('chat/concatMessages',msg)
+    },
+    newUser : function(user){
+      console.log('received',user);
+      this.$store.commit('chat/addUser',{id:user,username:this.author});
+      this.userId = user;
     }
   },
   data(){
     return {
-        author : '',
-        textMessage : ''
+        author : 'gionisos',
+        textMessage : '',
+        userId : ''
     };
   },
   computed : {
     ...mapState('chat',{
-      messages:'messages'
+      messages:'messages',
+      users : 'users'
     }),
 
     ...mapState('loadInterface',{
@@ -62,7 +69,7 @@ export default {
   },
   created (){
     this.fetchMessages();
-    this.fetchUsers();
+    //this.fetchUsers();
   },
   methods : {
     ...mapActions('chat',{
@@ -70,8 +77,15 @@ export default {
       fetchMessages:'fetchMessages',
       fetchUsers: 'fetchUsers',
       saveMessages:'saveMessages',
+      updateUsers:'updateUsers'
+
 
     }),
+    updateUsers(e){
+      let indexUser = this.users.findIndex(x=>this.userId == x.id);
+
+            this.users[indexUser] = {id:this.userId,username:this.author};
+    },
     handleKey(e){
 
       let textField = this.$el.querySelector('#textField');

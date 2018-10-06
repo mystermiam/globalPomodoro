@@ -2,7 +2,7 @@
   <div id='peopleContainer'>
     Users currently online: 
     <ul id='listOfUsers'>
-      <li v-for='user in users'><span class='green-dot'></span>{{user.name}} - ({{user.sessionsCompleted}})</li>
+      <li v-for='user in users'><span class='green-dot'></span>{{user.username}} - ({{user.id}})</li>
     </ul>
   </div>
 </template>
@@ -15,7 +15,8 @@ export default {
    
   computed : {
      ...mapState('chat',{
-      users:'users',    
+      users:'users', 
+      author: 'author'  
     })
   },
 
@@ -30,13 +31,13 @@ export default {
 
 
 <style scoped>
-	#peopleContainer {
+  #peopleContainer {
   line-height: 1.5vh;
-	display: block;
-	font-size: 10vh;
+  display: block;
+  font-size: 10vh;
   margin-top: 2vh;
-	box-sizing: border-box;
-	}
+  box-sizing: border-box;
+  }
 
   #listOfUsers {
   margin-top: auto;

@@ -27,17 +27,19 @@ app.use(function(req, res, next) {
 });
 
 //serve site
-app.use(express.static(DIST_DIR));
+//app.use(express.static(DIST_DIR));
 
 //routes
 app.use(require('./routes'));
 /****************/
-
-mongoose.connect(process.env.DB_URI).then(function(response){
+console.log(process.env)
+mongoose.connect("mongodb://127.0.0.1:27017/test",{useNewUrlParser:true}).then(function(response){
     console.log('i am in !');
 }).catch(error=>{
     console.log(error);
 });
+
+mongoose.set('useCreateIndex', true);
 
 mongoose.connection.once('open',function(){
     console.log('connected');
@@ -50,6 +52,8 @@ mongoose.connection.once('open',function(){
 io.sockets.on('connection', function(socket){
     console.log('socket : new connection');
     console.log(socket.id); 
+    
+    socket.emit('newUser',socket.id);
     
     socket.on('sendMessage',function(data){
         var newMessage = new Message(data);

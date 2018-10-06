@@ -4,6 +4,8 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const path = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueTemplateCompiler = require('vue-template-compiler')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -64,6 +66,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
+    new VueLoaderPlugin({compiler:VueTemplateCompiler}),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
