@@ -103,9 +103,18 @@ let MomDialogue = [
   ["Sure, just give me a second and I'll be back!", [3]],
   ["What do you mean with 'memory', I don't understand?", [2]],  
 ],
-['Mom', "Since a few years, when you like things on the web, the government drop things in your house. Stars, Teddybears, those people drop all kinds of stuff", 1],
-['Mom', 'Make sure you place it somewhere, where you can access it! Remember that the space detection does not work properly yet', "scene['star'].disableBody(false, false);"]
+['Mom', "Since a few years, when you like things on the web, the government drop things in your house. Stars, Teddybears, those people drop all kinds of stuff", [1]],
+['Mom', 'Make sure you place it somewhere, where you can access it! Remember that the space detection does not work properly yet', 
+  [100, 
+  "scene.star.enableBody(true, scene.star.x, scene.star.y, true, true);", 
+  "vueStore.dispatch('dialogue/changeDialogueStartsAt', [2, 'Mom', 4])", 
+  "vueStore.commit('player/addSceneToList', 'PlaceStarScene')"],
+],
+
+
+['Mom', "Grab the stars and take it"],
 ];
+
 
 this.Mom = new Character({
           scene: this,
@@ -128,11 +137,36 @@ this.Mom = new Character({
 
   this.createItem('star', 90 , 340 , 'https://www.youtube.com/watch?v=Gzm_mcLyMVo', 'Classcraft - games in the classroom');
 
+
+  this.star.disableBody(true, true);
+
+
+
   this.physics.add.collider(this.player, this.itemsOneCanFind, this.collectItem, null, this); // how to find the item in itemsonecanfind?
 
+  
+  
+  // Search for objects --> townSpawn
 
+  // Maybe change the condition eventually
+if(Grow.townDoorBlock){
+  let doorBlock = this.map.findObject("Objects", obj => obj.name === "TownDoorBlock");
+  this.doorBlock = this.physics.add.sprite(doorBlock.x, doorBlock.y);
+  this.doorBlock.body.width = doorBlock.width;
+  this.doorBlock.body.height = doorBlock.height;
+  this.doorBlock.displayOriginX = 0;
+  this.doorBlock.displayOriginY = 0;
+  this.doorBlock.setImmovable(true);
+  this.physics.add.collider(this.player, this.doorBlock, this.townDoorBlock, null, this); 
+  
+  let townDoorBlockDialogue = [
+    ['Arya', "We should first talk to mom and see what she says!"],
+  ]
 
-  //this.beginningScene();
+  store.dispatch('dialogue/addDialogue', ['townDoorBlockDialogue', townDoorBlockDialogue])
+} 
+  // Create collide function
+  // remove if the star is placed
 
 
 
@@ -162,34 +196,14 @@ update(time, delta) {
 
 
 
-// Add functions here!
-beginningScene(){
+// Add functions here
+townDoorBlock(){
+ let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
 
-let scene = Grow.scene.scenes[store.state.player.sceneActive]; 
+  scene.player.characterInteraction[0] = 'dialogue' 
 
-// Character looks down  
-this.player.setTexture("atlas", "misa-front")
-// Disable character movement
-this.player.isAllowedToMove = false;
-
-let BeginningDialogue = [
-['Arya', 'Hey there, my Name is Arya. Welcome to my world.'],
-['Arya', 'Before we begin. Can you tell me your name?'],
-['userInput', 'What is your name?', 'player/changeUserName'],
-['Arya', "It's a pleasure to meet you " + store.state.player.userName + "!"],
-];
-
-// create dialogue function!
-
-store.dispatch('dialogue/addDialogue', ['BeginningDialogue', BeginningDialogue])
-
-scene.player.characterInteraction[0] = 'dialogue' 
-
-store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
-
-
-}
-
+  store.dispatch('dialogue/loadDialogue', 'townDoorBlockDialogue') 
+};
 
 
 collectItem(player, item){
@@ -210,6 +224,7 @@ collectItem(player, item){
   
   store.commit('player/addSceneToList', 'PlaceStarScene')
 
+  
 
 
   // Get item name
@@ -248,7 +263,7 @@ createItem(key, x, y, link, linkTitle){
   this[key].on('pointerover', () => { 
 
   // should be only added once
-  if (linkTitle) { this.hoverText = this.add.text(x - 100, y - 40, this[key].linkTitle,
+  this.hoverText = this.add.text(x + 110, y + 95, 'Pick up this star',
                                         {
                                           font: "10px monospace",
                                           fill: "#000000",
@@ -258,9 +273,6 @@ createItem(key, x, y, link, linkTitle){
                                         .setScrollFactor(0)
                                         .setDepth(30);
 
-
-  };
-  
 
   });
 

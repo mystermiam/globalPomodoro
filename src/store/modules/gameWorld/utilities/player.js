@@ -6,7 +6,7 @@ import Phaser from 'phaser'
 export default {
 	namespaced: true,
 	state : {
-		userName: 'Grow - A community journey',
+		userName: 'You',
 		sceneActive: 0,
 		stats: {
 			level: 1,
@@ -14,7 +14,7 @@ export default {
 			gold: 0,
 		},
 		experienceNeeded: [50,60,70,80,90,100],
-		scenesToBeShown: ['BeginningDialogue'],
+		scenesToBeShown: ['BeginningScene'],
 	},
 	getters: {
 

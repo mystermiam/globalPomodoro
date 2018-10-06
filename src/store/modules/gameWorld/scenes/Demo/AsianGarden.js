@@ -6,21 +6,21 @@ import store from './../../../../index'
 
 // Import Tilemaps here
 
-import tiles0 from "./../../assets/tilesets/SF_Outside_C"
-import tiles1 from "./../../assets/tilesets/asian"
-import tiles2 from "./../../assets/tilesets/955940trees2"
-import tiles3 from "./../../assets/tilesets/Outside_A2"
-import tiles4 from "./../../assets/tilesets/Outside_A1"
-import tiles5 from "./../../assets/tilesets/Outside_A5"
-import tiles6 from "./../../assets/tilesets/Outside_B"
-import tiles7 from "./../../assets/tilesets/mack_char01"
+import tiles0 from "./../../assets/tilesets/SF_Outside_C.png"
+import tiles1 from "./../../assets/tilesets/asian.png"
+import tiles2 from "./../../assets/tilesets/955940trees2.png"
+import tiles3 from "./../../assets/tilesets/Outside_A2.png"
+import tiles4 from "./../../assets/tilesets/Outside_A1.png"
+import tiles5 from "./../../assets/tilesets/Outside_A5.png"
+import tiles6 from "./../../assets/tilesets/Outside_B.png"
+import tiles7 from "./../../assets/tilesets/mack_char01.png"
 
 import map from "./../../assets/tilemaps/asian.json"
 
 // Import Sprites.js here
-import Player from './../phaserUtilities/player'
+import Player from './../../phaserUtilities/player'
 
-import Character from './../phaserUtilities/character'
+import Character from './../../phaserUtilities/character'
 
 
 // Import external functions
@@ -47,15 +47,13 @@ preload() {
     this.load.image("tiles5", tiles5 );
     this.load.image("tiles6", tiles6 );
     this.load.image("tiles7", tiles7 );
-    this.load.image("tiles8", tiles8 );
-    this.load.image("tiles9", tiles9 );
 
-    this.load.tilemapTiledJSON("map", map);
+    this.load.tilemapTiledJSON("AsianGarden", map);
 } // End of Preload
 
 create() {
   // Loading TileMap
-  this.map = this.make.tilemap({ key: "templateMap" });
+  this.map = this.make.tilemap({ key: "AsianGarden" });
 
   // Parameters are the name character gave the tileset in Tiled and then the key of the tileset image in
   // Phaser's cache (i.e. the name character used in preload)
@@ -72,7 +70,8 @@ create() {
   
   // Parameters: layer name (or index) from Tiled, tileset, x, y
   const belowLayer = this.map.createStaticLayer("Below Player", tilesets, 0, 0);
-  const worldLayer = this.map.createStaticLayer("World", tilesets, 0, 0);
+  const noCollisionLayer = this.map.createStaticLayer("No Collision Layer", tilesets, 0, 0);
+  const worldLayer = this.map.createStaticLayer("Collision Layer", tilesets, 0, 0);
   const aboveLayer = this.map.createStaticLayer("Above Player", tilesets, 0, 0);
 
   worldLayer.setCollisionByProperty({ collides: true });

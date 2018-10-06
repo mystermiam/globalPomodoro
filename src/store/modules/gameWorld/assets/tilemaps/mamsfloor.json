@@ -58,7 +58,18 @@
         {
          "draworder":"topdown",
          "name":"Objects",
-         "objects":[],
+         "objects":[
+                {
+                 "height":44,
+                 "id":18,
+                 "name":"TownDoorBlock",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":102,
+                 "x":119,
+                 "y":402
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -122,7 +133,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":18,
+ "nextobjectid":19,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.3",

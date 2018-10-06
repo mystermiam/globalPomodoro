@@ -15,6 +15,12 @@ export function updateDialogue(){
             
             for(let i = 0; i < functionToBeCalled.length; i++){
               if(typeof functionToBeCalled[i]  === 'number'){
+
+                    if (functionToBeCalled[i] > store.state.dialogue.dialogues[scene.player.characterInteraction[1]].length){
+                      store.dispatch('dialogue/endConversation')
+                      endConversation = true;
+                    } else {
+
                     let nextDialogue = store.state.dialogue.dialogues[scene.player.characterInteraction[1]][functionToBeCalled[i]][0];
                     
                     // Check what type of dialogue it is
@@ -28,7 +34,7 @@ export function updateDialogue(){
 
                     
                     store.commit('dialogue/changeMessageNumber', functionToBeCalled[i]); 
-
+                    }
               } else {
             
             console.log(functionToBeCalled[i])

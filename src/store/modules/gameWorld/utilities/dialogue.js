@@ -1,6 +1,5 @@
 // Battle plan: 
 
-// Call function, not just from option, but also from normal dialogue?
 // Empty state.dialogues on scene change and also in general ;)
 // If link is incorrect, player is locked
 
@@ -105,6 +104,8 @@ export default {
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			let player = scene.player;
 
+			// Does this line cause problems?!
+			scene.player.characterInteraction[0] = 'dialogue';
 
 			if (dialogueName) {player.characterInteraction[1] = dialogueName};
 			let nameOfCharacter = player.characterInteraction[1];
@@ -116,7 +117,9 @@ export default {
 			// If messageNumber > length then endConversation
 			if(messageNumber >= state.dialogues[nameOfCharacter].length){
 			// no option
-			return dispatch('endConversation')
+			dispatch('endConversation')
+
+			return
        	    } 
 
 			// Else If dialoguebox is not shown --> show dialoguebox
@@ -320,6 +323,8 @@ export default {
 
 	},
 	mutations: {
+		emptyDialogue(state){ state.dialogues = []; },
+
 		emptyDialogueFunction(state){ state.functionToBeCalled = false },
 
 		//Called from userInput in this file and from loadDialogue
@@ -353,8 +358,9 @@ export default {
         	state.currentMessage.kindOfMessage = type
         },
 
-        // Is called in 
+        // Is called in dialogue
 		setMessage(state, obj){ 
+		 // Obj 0: messageNumber, could be removed I guess / obj 1: characterName
          state.currentMessage.person = state.dialogues[obj[1]][state.currentMessage.number][0];
          state.currentMessage.message = state.dialogues[obj[1]][state.currentMessage.number][1];
 		},

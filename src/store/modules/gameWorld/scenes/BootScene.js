@@ -23,7 +23,7 @@ export default class BootScene extends Scene {
     //this.scene.start('EmptyGrassField');
 
     // DEMO
-    this.scene.start('<Bedroom>')
+    this.scene.start('AsianGarden')
   
   }
 }

@@ -131,7 +131,7 @@ let sceneObjects = [];
 for(let i = 0; i < numberOfObjects; i++){
   let object = scene.map.objects[objectLayer].objects[i];
   sceneObjects[i] = object.name;
-  scene[sceneObjects[i]] = scene.physics.add.sprite(object.x, object.y, '');
+  scene[sceneObjects[i]] = scene.physics.add.sprite(object.x, object.y);
 
   scene[sceneObjects[i]].body.width = object.width;
   scene[sceneObjects[i]].body.height = object.height;
@@ -163,6 +163,8 @@ for(let i = 0; i < numberOfDoors; i++){
     // Setting game variable to previous door
     Grow.previousMap = scene.sys.config.key
 
+    // Remove dialogues from object
+    store.commit('dialogue/emptyDialogue');
     scene.scene.stop(scene.sys.config.key); 
     scene.scene.start(doors[i]);
   }, null, scene);

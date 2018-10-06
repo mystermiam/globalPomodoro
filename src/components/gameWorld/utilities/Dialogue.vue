@@ -22,7 +22,7 @@
     <div v-show='currentMessage.kindOfMessage === "userInput"'>
       <span id='dialogue-question'>{{currentMessage.message}}</span><br>
 
-      <textarea id='dialogueUserInput' rows="4" cols="50"></textarea>
+      <textarea id='dialogueUserInput' rows="2" cols="20"></textarea>
       <!-- Should eventually have a user input that shows up if you have typed enough --> 
       <button id='dialogue-user-input-button' @click='userInput'>Submit answer</button>
     </div>
@@ -116,7 +116,7 @@ export default {
 
   #dialogue-user-input-button{
     position: relative;
-    top: -30px;
+    top: -13px;
   }
 
 /* The typing effect */

@@ -1,5 +1,7 @@
-// BUGS: 
+/* BUGS: 
+Dialogue - option, doesn't close directly
 
+*/
 import { Scene } from 'phaser'
 
 import { Grow } from './../../index' 
@@ -27,6 +29,8 @@ import Character from './../../phaserUtilities/character'
 
 
 // Import external functions
+import movingCharacter from './../../phaserUtilities/sceneFunctions/movingCharacter'
+
 import loadScene from './../../phaserUtilities/loadScene'
 import {updateDialogue, updateOptions, updateUserInput} from './../../phaserUtilities/phaserDialogue'
 
@@ -98,7 +102,7 @@ create() {
 
 
   // Create a condition that it only executes once
-  if(store.state.player.scenesToBeShown.indexOf('BeginningDialogue') >= 0){
+  if(store.state.player.scenesToBeShown.indexOf('BeginningScene') >= 0){
     this.beginningScene(1);
   }
 
@@ -156,6 +160,13 @@ this.player.characterInteraction[0] = 'dialogue'
 
 store.dispatch('dialogue/loadDialogue', 'PlaceStarScene') 
 
+// Open up way to town
+Grow.townDoorBlock = false
+
+// Add Scene 3 Guide
+store.commit('player/addSceneToList', 'TownGuide1Scene')
+
+
 }
 
 beginningScene(part){
@@ -170,24 +181,29 @@ this.player.isAllowedToMove = false;
 // It doesn't completely endConversation yet
 let BeginningDemo = [
 ['option',
-  ['Begin Demo', [100, 'scene.player.setTexture("atlas", "misa-front")','setTimeout(function()=>{scene.beginningScene(2)}, 10000);']],
+  ['Begin Demo', ["dispatch('endConversation')", 'scene.player.setTexture("atlas", "misa-front")','setTimeout(() =>{scene.beginningScene(2)}, 1000);']],
   ['Load Scene', [1]]
 ],
+['Mysterious Voice', 'Which place would you like to go?'],
 ['option',
   ['Town', [100, "scene.scene.stop('Bedroom')","scene.scene.start('Town')"]], 
 ]
 ];
 
+//movingCharacter('player', 'misa', ['down', 1000], 100);
 
-store.dispatch('dialogue/addDialogue', ['BeginningDemo', BeginningDemo])
+store.dispatch('dialogue/addDialogue', ['BeginningDemo', BeginningDemo]);
 
-scene.player.characterInteraction[0] = 'dialogue' 
+//store.commit('dialogue/changeDialogueStartsAt', [1, 'BeginningDemo', 1]);
 
-store.dispatch('dialogue/loadDialogue', 'BeginningDemo') 
+scene.player.characterInteraction[0] = 'dialogue'; 
+
+store.dispatch('dialogue/loadDialogue', 'BeginningDemo');
 
 } // End of part 1
 
 else if (part === 2) {
+
 // Maybe the player moves up to the screen --> , "scene.movingCharacter(scene.player, 'misa', [['up',1920],['left',1010],['up',10]], 50)"
 let BeginningDialogue = [
 ['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A community journey.'],
@@ -197,10 +213,10 @@ let BeginningDialogue = [
 ['Arya', "Use the arrow keys on your keyboard to move me around the place"],
 ['Arya', "If you want me to interact with other characters or objects, press the spacebar in the center of your keyboard!"],
 ['option',
-  ['Okay, I understand', ["dispatch('endConversation')", "dispatch('player/removeSceneFromList', 'BeginningDialogue', {root:true})"]],
+  ['Okay, I understand', ["dispatch('endConversation')", "setTimeout(()=>{scene.player.characterInteraction[0] = 'dialogue'; dispatch('loadDialogue', 'GoDownDialogue')}, 7000)"]],
   ['Can you explain me the controls again?', [8]],
 ],
-['Arya', "Sure, ask me as often as you want", 5],
+['Arya', "Sure, ask me as often as you want", [5]],
 ];
 
 // create dialogue function!
@@ -211,101 +227,23 @@ scene.player.characterInteraction[0] = 'dialogue'
 
 store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
 
+let GoDownDialogue = [
+['Arya', 'I should go down and tell my mom'],
+];
+
+
+store.dispatch('dialogue/addDialogue', ['GoDownDialogue', GoDownDialogue])
+
+
+store.dispatch('player/removeSceneFromList', 'BeginningScene')
+
+
 } // End of part 2
-
-
-
-
-
-
 
 }
 
 
 
-
-// Movement function --> moving characters  <-- should be moved into character (external function files)
-movingCharacter(character, characterKey,  movement, speedValue, i = 0){
-
-  // Make a translate to pixels function, translates time and speed into pixels
-
-
-  // I would like to be able to move characters by field?
-  // There is a certain time that a character needs to move to a second field
-  // Can I do this with pixels? / speed times time
-  let scene = Grow.scene.scenes[store.state.player.sceneActive];
-
-  if (i === 0 && scene.anims.anims.entries[characterKey + "-left-walk"] === undefined){
-    // Load animations
-    scene.anims.create({
-        key: characterKey + "-left-walk",
-        frames: scene.anims.generateFrameNames("atlas", { prefix: characterKey + "-left-walk.", start: 0, end: 3, zeroPad: 3 }),
-        frameRate: 10,
-        repeat: -1
-      });
-      scene.anims.create({
-        key: characterKey + "-right-walk",
-        frames: scene.anims.generateFrameNames("atlas", { prefix: characterKey + "-right-walk.", start: 0, end: 3, zeroPad: 3 }),
-        frameRate: 10,
-        repeat: -1
-      });
-      scene.anims.create({
-        key: characterKey + "-front-walk",
-        frames: scene.anims.generateFrameNames("atlas", { prefix: characterKey + "-front-walk.", start: 0, end: 3, zeroPad: 3 }),
-        frameRate: 10,
-        repeat: -1
-      });
-      scene.anims.create({
-        key: characterKey + "-back-walk",
-        frames: scene.anims.generateFrameNames("atlas", { prefix: characterKey + "-back-walk", start: 0, end: 3, zeroPad: 3 }),
-        frameRate: 10,
-        repeat: -1
-      });
-  }
- 
-
-  let speed = 0;
-  if (speedValue !== undefined && speedValue > 0) { speed = speedValue } else { speed = 300 }
-
-   if(movement[i][0] === 'up'){
-      scene[character].body.setVelocityY(-speed)
-      scene[character].anims.play(characterKey + "-back-walk", true);
-   } else if(movement[i][0] === 'down'){
-      scene[character].body.setVelocityY(speed)
-      scene[character].anims.play(characterKey + "-front-walk", true);
-   } else if(movement[i][0] === 'left'){
-      scene[character].body.setVelocityX(-speed)
-      scene[character].anims.play(characterKey + "-left-walk", true);
-   } else if(movement[i][0] === 'right'){
-      scene[character].body.setVelocityX(speed)
-      scene[character].anims.play(characterKey + "-right-walk", true);
-   }
-
-     setTimeout(function(){
-
-      let prevVelocity = scene[character].body.velocity.clone();
-
-      scene[character].body.setVelocity(0); 
-
-      i++;
-      
-      if(i < movement.length){
-        
-        scene.movingCharacter(character, characterKey, movement, speed, i)
-
-      } else {
-        scene[character].anims.stop();
-
-        // If we were moving, pick an idle frame to use // Based on misa at this pointerover
-        if      (prevVelocity.x < 0) scene[character].setTexture("atlas", "misa-left");
-        else if (prevVelocity.x > 0) scene[character].setTexture("atlas", "misa-right");
-        else if (prevVelocity.y < 0) scene[character].setTexture("atlas", "misa-back");
-        else if (prevVelocity.y > 0) scene[character].setTexture("atlas", "misa-front");
-      }
-
-     }, movement[i][1]);
-
-}  
 
 
 

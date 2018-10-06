@@ -5,16 +5,22 @@ FISHING
 - hide the game / iframe fit (hide progressbar)  <--
 - Create left side popup (Your fishing skill has increased by 1) <-- maybe
 - Add experience
+- Add image in createNPCs (can't seem to find it)
+
+
+Cosmetic errors: 
+Dialogue: - option mistake - loads in the top of the screen and then moves after 100ms down - put it clearly in vueinterface
 
 Aurelie
+- Change collision in maps. Maybe create a fourth layer 
+
 - download sounds (success, cracking sound) / music to be played in the music rooms
 - find animation for success (rpg maker has these level up animations)
-- Change collision in maps. Maybe create a fourth layer 
 - Make a teleporter sprite that we can use to go to the concert hall
 
 - Make layout for paper to let people write down possible applications
   (we can frame the experience as a coexploration) (A3) <-- put it on the wall and people can explore it with you
-- Make E-mail list (if you want to be updated on the project)
+
 
 
 Quiz
@@ -25,6 +31,11 @@ Quiz
   anything, but I will keep it because it is rare <-- or something like this)
 
 
+- Your brain can survive for five to 10 minutes without oxygen. https://science.howstuffworks.com/life/inside-the-mind/human-brain/brain-death1.htm
+- You might feel like you got a workout, but sex only burns about 3.6 calories a minute. http://blogs.discovermagazine.com/seriouslyscience/2013/11/04/sex-count-workout/
+- If you touch your nose with your fingers crossed you will feel two noses
+
+
 createNPCs.js
 - scene.bottle is not working
 
@@ -33,9 +44,12 @@ Improve on conversations (do that together in between)
 Create different kind of interactions 
 
 Potentially:
-Quest: - 
+Quest: Cool one
+
 Have a character standing around that you can add questions too
 
+Random quote guy (maybe in Asian place) - “Never underestimate the ability of a small group of dedicated people to
+change the world. Indeed, it is the only thing that ever has.”
 
 */
 
@@ -163,6 +177,7 @@ create() {
   let tilesets = [tilesetTown1, tilesetTown2, tilesetTown3, tilesetTown4, tilesetTown5, tilesetTown6, tilesetTown7, tilesetTown8, tilesetTown9];
   const belowLayer = this.map.createStaticLayer("Below Player", tilesets, 0, 0);
   const worldLayer = this.map.createStaticLayer("Collision Layer", tilesets, 0, 0);
+  const notCollisionLayer = this.map.createStaticLayer("Not Collision Layer", tilesets, 0, 0);
   const aboveLayer = this.map.createStaticLayer("Above Player", tilesets, 0, 0);
 
   worldLayer.setCollisionByProperty({ collides: true });
@@ -391,7 +406,7 @@ this.BookGuy = new Character({
 /************************** Fishing ********************************/
 let FishingDialogue = [
 
-['Arya', "This is the spot!"],
+['Arya', "This is the spot!", ['scene.player.setTexture("atlas", "misa-right")']],
 ['Arya', "Fishing is just one example of how we can use external functionalities in this world to improve their impact."],
 ['Arya', "The application that we are going to show you here is a 'global' pomodoro timer."],
 ['Arya', "Pomodoro is a working technique that helps you to stay focused."],
@@ -429,6 +444,14 @@ this.Fishing = new Character({
 /************************** End: Fishing ********************************/
 
 
+/************************** Calling Scenes ********************************/
+//if(store.state.player.scenesToBeShown.indexOf('TownGuide1Scene') >= 0){
+    this.townGuide(1);
+//}
+
+/************************** End: Calling Scenes ********************************/
+
+
 } // End of Create
 
 
@@ -459,25 +482,54 @@ update(time, delta) {
 
 // Add functions here!
 
+townGuide(part){
+  if(part == 1){
+  
+  let guideOne = [
+    ['Arya', "What do you want to see first?"],
+    ['option', 
+      ['Fishing (Visualizing external functionalities)', [2]], 
+      ['Quiz (Entertainment + Learning)', [4]],
+      ['I just want to explore freely', [100]],
+    ],
+    ['Arya', "Okay, just follow the way up north until the water"],
+    ['Arya', "There is a red spot to show you my favourite spot to fish", [100]],
+    ['Arya', "He is usually standing towards the south. He wears a nice hat"],
+  ]
+
+  store.dispatch('dialogue/addDialogue', ['guideOne', guideOne])
+
+  store.dispatch('dialogue/loadDialogue', 'guideOne')
+  
+
+  } 
+
+
+
+}
+
+
 fishingScene(part){
   let scene = Grow.scene.scenes[store.state.player.sceneActive];
   if (part == 1){
-    store.commit('loadInterface/openPomodoroIframe')
+    setTimeout(() =>{
+      store.commit('loadInterface/openPomodoroIframe')
+    }, 8000);
+    
 
     // Make player unable to move
     scene.player.isAllowedToMove = false;
     
-    this.player.setTexture("atlas", "misa-right")
+    
 
     // change frame of picture from red circle to fishing route 
     this.Fishing.setTexture("fishingRod");
     this.Fishing.setDisplaySize(66, 66);
    
     // add timer below 
-    setTimeout(() =>{
-      store.commit('loadInterface/showTimerDisplay')
-      store.dispatch('timer/setTimer', [1500,300,900,30,'work', 1])
-    }, 5000);
+    store.commit('loadInterface/showTimerDisplay')
+    store.dispatch('timer/setTimer', [1500,300,900,30,'work', 1])
+  
     
 
     // Post something in chat to explain the pomodoro timer
@@ -488,7 +540,7 @@ fishingScene(part){
     setTimeout(() =>{
       store.commit('loadInterface/closePomodoroIframe')
       this.fishingScene(2)
-    }, 10000);
+    }, 20000);
 
   } else if (part == 2){
 
@@ -556,9 +608,7 @@ fishingScene(part){
       store.commit('loadInterface/hideTimerDisplay')
 
       // Finish quest
-      dispatch('quests/removeActiveQuest', 'test', {root:true})
-
-      dispatch('quests/questAccomplished', [3, 5], {root:true})
+      store.dispatch('quests/questAccomplished', [3, 5], {root:true})
 
 
 
