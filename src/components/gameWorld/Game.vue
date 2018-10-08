@@ -7,7 +7,7 @@
     
     <TimerDisplay/>
     
-    <ProgressBar id='progressBarContainer' />
+    <!--<ProgressBar id='progressBarContainer' />-->
 
 
     <CreateNPCs/>
