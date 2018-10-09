@@ -28,7 +28,7 @@ let dialogueBottle = [
 	['Leave', [100]],
 ],
 ['An unknown voice', "Arya tries to open bottle. Arya's attack is not very effective.", [1]],
-['An unknown voice', "Arya's Attack is devastating. The bottle cracks and bursts into a thousand pieces", ["scene.bottle.disableBody(true, true)"]],
+['An unknown voice', "Arya's Attack is devastating. The bottle cracks and bursts into a thousand pieces"],
 ['Arya', "A note fell down."],
 ['', "| Arya starts reading the note |"],
 ['Mysterious Note', "Dear Maria, I wanted to thank you for all the time that you spent with me. You are more fun than anyone or anything I know"],
@@ -46,13 +46,13 @@ let dialogueBottle = [
 
 
 let starDialogue = [
-['Arya', 'This is an item that is here for you to store and share with me inspirations that are important to you'],
+['Arya', 'Items are places for you to store and share with me inspirations that are important to you'],
+['Arya', 'This one is already linked up! In the near future you are going to be able to share yours with me'],
 ['option',
-	['You can add a link here', [3, "commit('setCurrentMessageType', 'addLink')"]],
-	['go away', [100]],
+	['Discover the link', [3, "https://www.ted.com/talks/jane_mcgonigal_gaming_can_make_a_better_world"]],
 ],
-['userInput','What is your name?'],
-['Memory Star', 'Thanks for your input. Come back whenever you want to access me!'],
+['Memory Star', 'Visit me anytime'],
+['Arya', "Let's get down. I want to show you the city!"],
 ];
 
 let dialogue1 = [

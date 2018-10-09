@@ -97,22 +97,31 @@ create() {
   this.physics.add.collider(this.player, worldLayer);
   
 let MomDialogue = [
-['Mom', "Hey Arya! Before you go out, can you please put the memory that was just dropped for you on the floor back into your room"],
+['Roommate', "Hello Arya, it’s good to see you! I can't wait to tell you about the latest link my Wanderer sent to me."],
 ['option',
-  ["What do you mean with 'memory', I don't understand?", [2]],   
-  ["Sure, just give me a second and I'll be back!", [4]],
+  ["Your Wanderer, you said?", [2]],   
+  ["Oh, show it to me!", [4]],
 ],
-['Mom', "World Wanderers sometimes drop memories into our world. They can help us to grow and learn new things."],
-['Mom', "We share them between us to build our world!", [1]],
-['Mom', 'Make sure you place it somewhere, where you can access it! Remember that the placing function does not work properly yet', 
-  [100, 
-  "scene.star.enableBody(true, scene.star.x, scene.star.y, true, true);", 
-  "vueStore.dispatch('dialogue/changeDialogueStartsAt', [2, 'Mom', 4])", 
-  "vueStore.commit('player/addSceneToList', 'PlaceStarScene')"],
-],
+['Roommate', "Yes you know, it’s my fellow human connected to me through Grow! You have yours too."],
+['Roommate', "They share with us inspirational knowledge so we can grow together and we can connect to other people through our self development journeys!"],
+['Roommate', "Look, mine sent me a star. I am going to give it to you, it is going to appear just next to me and you will just have to select it with your space bar to put it in your inventory.", ["scene.star.enableBody(true, scene.star.x, scene.star.y, true, true);", ]],
+['Roommate', "You can go back the bedroom and put it next to your bed if you want."],
+['Roommate', "For that you will have to press “i” to open your inventory, then click on the star with your touch pad and click again where you want the star to appear!", 
+[100, 
+  "vueStore.dispatch('dialogue/changeDialogueStartsAt', [2, 'Mom', 12])", 
+  "vueStore.commit('player/addSceneToList', 'PlaceStarScene')"
+]],
 
+['Roommate', "Sure! Look, my wanderer sent me a star. I am going to give it to you"],
+['Roommate', "It is going to appear just next to me and you will just have to select it with your space bar to put it in your inventory.", ["scene.star.enableBody(true, scene.star.x, scene.star.y, true, true);", ]],
+['Roommate', "You can go back the bedroom and put it next to your bed if you want. For that you will have to press “i” to open your inventory"],
+['Roommate', "Then click on the star with your touch pad and click again where you want the star to appear!", 
+[100, 
+  "vueStore.dispatch('dialogue/changeDialogueStartsAt', [2, 'Mom', 12])", 
+  "vueStore.commit('player/addSceneToList', 'PlaceStarScene')"
+]],
 
-['Mom', "Grab the star and take it to your room"],
+['Roommate', "Grab the star and take it to your room"],
 ];
 
 
@@ -135,7 +144,7 @@ this.Mom = new Character({
   // Items one can find 
   this.itemsOneCanFind = this.physics.add.group()
 
-  this.createItem('star', 90 , 340 , 'https://www.youtube.com/watch?v=Gzm_mcLyMVo', 'Classcraft - games in the classroom');
+  this.createItem('star', 200 , 90 , 'https://www.youtube.com/watch?v=Gzm_mcLyMVo', 'Classcraft - games in the classroom');
 
 
   this.star.disableBody(true, true);

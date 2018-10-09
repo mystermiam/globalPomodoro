@@ -25,8 +25,8 @@ export default {
 			},
 			writeNote: {
 				title: 'A message of love',
-				description: 'This is the description of the quest, give examples here',
-				stepsToDo: ['Take a post it from the table', 'Write a small message of appreciation ', 'Take the note with you and put it in a place where the person frequently passes by'],
+				description: "Sometimes it is about the little signs of appreciation we give. Think about one person and take some time to write them a note",
+				stepsToDo: ['Take a post it from the table', 'Write a small message of appreciation ', "Take the note with you and put it at the person's place"],
 				reward: {
 					experience: 15,
 				},
