@@ -17,7 +17,7 @@ import tiles3 from './../../assets/tilesets/mack_char01.png'
 import bedroom from './../../assets/tilemaps/bedroom.json'
 
 // Import Music here
-import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
+//import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
 
 // Import images here
 import star from './../../assets/star.png'

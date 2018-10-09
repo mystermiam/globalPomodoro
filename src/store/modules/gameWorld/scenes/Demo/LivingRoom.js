@@ -14,7 +14,7 @@ import tiles1 from './../../assets/tilesets/Inside_A4.png'
 import tiles2 from './../../assets/tilesets/SF_Inside_B.png'
 
 // Import Music here
-import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
+//import backgroundMusic from './../../assets/music/background/Town_Music.mp3'
 
 
 
