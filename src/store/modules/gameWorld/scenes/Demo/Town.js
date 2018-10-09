@@ -138,7 +138,7 @@ import Player from './../../phaserUtilities/player'
 
 import Character from './../../phaserUtilities/character'
 
-//import bell from './../../assets/music/sounds/bell.mp3'
+import bell from './../../assets/music/sounds/bell.mp3'
 
 // Import external functions
 import movingCharacter from './../../phaserUtilities/sceneFunctions/movingCharacter'
@@ -195,7 +195,7 @@ preload() {
 
     // Takes too damn long, load in bootscene and then play maybe
     // this.load.audio('backgroundMusic', backgroundMusic)
-    //this.load.audio('bell', bell)
+    this.load.audio('bell', bell)
     
 
 }
@@ -818,6 +818,7 @@ fishingScene(part){
 
 
     let CaughtSomethingDialogue = [
+
       ['Arya', "I think we have caught something!"],
       ['Arya', "What's this? Oh, wow that's a first!", ["scene.Fishing.setTexture('red_circle');","scene.Fishing.setDisplaySize(40, 40);"]],
       ['Arya', "It's a bottle!"],
@@ -827,12 +828,12 @@ fishingScene(part){
     // Make a 20 seconds timeout here --> start dialogue once timer ends
     store.dispatch('dialogue/addDialogue', ['CaughtSomethingDialogue', CaughtSomethingDialogue])
 
-    //this.bell = this.sound.add('bell');
+    this.bell = this.sound.add('bell');
 
     setTimeout(()=>{
       this.player.characterInteraction[0] = 'dialogue' 
 
-      //this.bell.play();
+      this.bell.play();
 
       store.dispatch('createNPCs/findItem', ['bottle','bottle'])
 

@@ -8,25 +8,23 @@
 --- Take maybe 2 pomodoro sessions to work on one of the hard problems (movement, etc.) - and then continue to work on performance problems
 
 
-
-
+Nuit Blanche: 
 
 Next priority: 
 
-- remove all unecessary dependencies, make the project smaller (store somewhere else)
-	- Graphics from Habitica
-	- Graphics from playscene
-	- Graphics from other example
-	- code examples 
-	- 
-
-- Create fresh map
-	- perfect the fishing function
-	- Move chat to game layer (becomes almost invisible, becomes visible on click)
-
-
+- Door function (trigger dialogue instead of teleport)
 
 - Change player frame, so that it is more aligned with the center of the body and one doesnt collide with things on a head level
+
+- create more layers in the world (alternate collision layer as well)
+//
+
+
+- Fishing function
+
+- Get fitting characters
+
+- Quest Character
 
 
 
