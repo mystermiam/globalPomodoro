@@ -246,7 +246,7 @@ create() {
   // Watch the player and worldLayer for collisions, for the duration of the scene:
   this.physics.add.collider(this.player, worldLayer);
 
-  //this.player.setCollideWorldBounds(true);
+  this.player.setCollideWorldBounds(true);
 // Everything previous to this should be automatized
 
 // ALL THE TOWN CHARACTERS
@@ -327,8 +327,8 @@ let blockedSouthDoor = [
 
 
 let SignPostDialogue = [
-  ['Arya','The sign says: Fishing Spot to the North West'],
-  ['Arya','Daily Funfacts to the North East'],
+  ['Arya','The sign says: Fishing Spot to the West'],
+  ['Arya','Daily Funfacts to the West'],
 ];
  
   this.SignPost = new Character({
@@ -496,46 +496,36 @@ this.RunningChild.body.setVelocityX(10);
 // Turn the screen dark and you sit in a chair opposite him?
 
  let QuizDialogue = [
-['Quizzor', "Are you ready to answer some trick questions?"],
-['Quizzor', "Sorry, but I never introduce myself"],
+['Quizzor', "Would you like to participate in the CRI quiz? if you answer all the questions correctly, you will earn a neat reward!"],
 ['option', 
-  ['Sure, I have nothing to lose', [3]], 
-  ["Maybe, another time", [100]],
+  ['Sure, I have nothing to lose', [2]], 
+  ["I tried already one too many times", [100]],
 ],
-['Quizzor', "Learning can be hard sometimes... have you ever felt like that too?"],
-['Quizzor', "Oh! And... Have you ever heard of the 'forgetting curve'? Let's see if you can guess how often you have to interact with an information before really learning it!"],
+['Quizzor', "Cool! First question: What is the principal value of the CRI?"],
 ['option', 
-  ['Multiple times a day, especially before going to bed', [6]], 
-  ['The day after you first heard of it, then two days later, then six days later', [7]],
-  ['Never, I never forget a thing!', [8]],
+  ['#Yolo', [10]], 
+  ['#Open', [4]],
+  ['#Freedom', [10]],
 ],
-
-['Quizzor', "Don't put it that hard on yourself! You actually need just a few repetition, but at the right moment on your learning curve, to be very effective", [9]],
-['Quizzor', "Congrats! You have found the right pace!", [9]],
-['Quizzor', "Good for you! But if you ever feel like your memory is getting lazy one day, try the second option: we better learn how to learn according to our natural rythms!", [9]],
-
-
-
-['Quizzor', "Our bodies are full of mysteries, and wonders... and weird stuff as well."],
-['Quizzor', "Do you know what happens when you cross fingers on the tip of your nose and rub it around with eye closed?"],
+['Quizzor', "Next up! Second question: What can you find on the lowest floor of the CRI?"],
 ['option', 
-  ['Nothing but you made me look funny', [12]], 
-  ['Oh... I think... I feel it!!', [15]],
-  ['Is it safe?', [18]]
+  ['Free Hotdogs', [10]], 
+  ['A Book Archive', [10]],
+  ['Gender Free Toilets', [6]]
 ],
-['Quizzor', " I'm sorry about that, but you should try again (and I'll do it with you if it can help). This technique creates the illusion that you have two noses! "],
-['Quizzor', " What happens is that your brain cannot interprete right the information it recieves: your fingers says they feel two distinct touch points where your nose is supposed to be, and your eyes are not here to contradict them! "],
-['Quizzor', " There are a lot of illusions that can be created in the body, look up another exemple, the Pinocchio Illusion ", [20]],
+['Quizzor', "Next up! Third and last question: Who has access to the CRI on Saturday afternoons?"],
+['option', 
+  ['Only Francois Taddei', [10]], 
+  ['No one', [10]],
+  ['Everyone, all the time!', [8]]
+],
+['Quizzor', "That's correct! Claim your reward!"],
+['option', 
+  ['Claim reward, check your inventory by pressing "i"', ["commit('endConversation')"]],
+],
+['Quizzor', "That's not correct. Try again!"],
 
-['Quizzor', " What just happened is that your brain cannot interprete right the information it recieves: your fingers says they feel two distinct touch points where your nose is supposed to be, and your eyes are not here to contradict them!"],
-['Quizzor', " There are a lot of illusions that can be created in the body, look up another exemple, the Pinocchio Illusion", [20]],
 
-
-['Quizzor', " No worries, the effect will deseaper as soon as you open your eyes! This technique just creates the illusion that you have two noses! "],
-['Quizzor', " What happens is that your brain cannot interprete right the information it recieves: your fingers says they feel two distinct touch points where your nose is supposed to be, and your eyes are not here to contradict them!"],
-['Quizzor', "There are a lot of illusions that can be created in the body, look up another exemple, the Pinocchio Illusion ", [20]],
-
-['Quizzor', "Thanks for participating, I will have new questions for you tomorrow!"],
 ];
 
 
@@ -577,7 +567,7 @@ this.Quizzor = new Character({
 
 /************************** Buy a Book - Go on a journey ********************************/
 let BookGuyDialogue = [
-['Boken', "Hey dear Wanderer, there my name is Boken and my role in this town to take you on magic journeys"],
+['Boken', "Hey, there my name is Boken and my role in this town to take you on magic journeys"],
 ['option', 
   ['Whatever it is, I want it!', [8]], 
   ["Magic Journeys?", [2]],
@@ -587,7 +577,7 @@ let BookGuyDialogue = [
 ['Arya', "What kind of experiences?"],
 ['Boken', "We have experiences around books and podcasts so far, but it is also possible to enrich other experiences with it"],
 ['Arya', "How does it work?"],
-['Boken', "You choose an experience and if you are prepared for the journey (e.g. you have the book), you travel through the world of Elyrion to discover more about it"],
+['Boken', "You choose an experience and if you are prepared for the journey (e.g. you have the book), you travel through the world of Elyrion t"],
 ['option', 
   ['How does it work?', [8]], 
   ['When do we start?', [8]],
@@ -733,9 +723,8 @@ townGuide(part){
       ['I just want to explore freely', [100]],
     ],
     ['Arya', "Okay, just follow the way up north until the water"],
-    ['Arya', "There is a red circle to show you my favourite spot to fish", [100]],
-    ['Arya', "He usually wanders a bit out of the city."],
-    ['Arya', "I think we might find him in the North West near the water"],
+    ['Arya', "There is a red spot to show you my favourite spot to fish", [100]],
+    ['Arya', "He is usually standing towards the south. He wears a nice hat"],
   ]
 
   store.dispatch('dialogue/addDialogue', ['guideOne', guideOne])
@@ -756,7 +745,7 @@ fishingScene(part){
   if (part == 1){
     setTimeout(() =>{
       store.commit('loadInterface/openPomodoroIframe')
-    }, 5000);
+    }, 8000);
     
 
     // Make player unable to move
@@ -782,7 +771,7 @@ fishingScene(part){
     setTimeout(() =>{
       store.commit('loadInterface/closePomodoroIframe')
       this.fishingScene(2)
-    }, 15000);
+    }, 20000);
 
   } else if (part == 2){
 
@@ -813,14 +802,14 @@ fishingScene(part){
        ['down',550]],
        50);
 
-    }, 12500)
+    }, 16500)
     
 
 
     let CaughtSomethingDialogue = [
 
       ['Arya', "I think we have caught something!"],
-      ['Arya', "What's this? Oh, wow that's a first!", ["scene.Fishing.setTexture('red_circle');","scene.Fishing.setDisplaySize(40, 40);"]],
+      ['Arya', "What's this? Apparently I'm not that good at fishing!", ["scene.Fishing.setTexture('red_circle');","scene.Fishing.setDisplaySize(40, 40);"]],
       ['Arya', "It's a bottle!"],
       ['Arya', "I added the bottle to the inventory. You can check it out yourself if you want to"],
     ];
@@ -852,8 +841,10 @@ fishingScene(part){
       // Finish quest
       store.dispatch('quests/questAccomplished', [3, 5], {root:true})
 
+
+
     }, 20000)
-  
+    
 
 
     

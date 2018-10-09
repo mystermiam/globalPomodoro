@@ -208,7 +208,7 @@ else if (part === 2) {
 
 // Maybe the player moves up to the screen --> , "scene.movingCharacter(scene.player, 'misa', [['up',1920],['left',1010],['up',10]], 50)"
 let BeginningDialogue = [
-['Arya', 'Hey there dear Wanderer, my Name is Arya. Welcome to Grow - A self development journey.'],
+['Arya', 'Hey there Stranger, my Name is Arya. Welcome to Grow - A self development journey.'],
 ['Arya', 'Before we begin. Can you tell me your name?'],
 ['userInput', 'What is your name?', 'player/changeUserName'],
 ['Arya', "Great, let's begin!"],
@@ -230,7 +230,7 @@ scene.player.characterInteraction[0] = 'dialogue'
 store.dispatch('dialogue/loadDialogue', 'BeginningDialogue') 
 
 let GoDownDialogue = [
-['Arya', 'It’s late I should go down and greet my roommate'],
+['Arya', 'I should go down and tell my mom about you!'],
 ];
 
 
