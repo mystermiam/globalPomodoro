@@ -1,6 +1,7 @@
 <template>
   <div id='dialogueContainer' v-show='showDialogueBox'>
 
+
     <div v-show='currentMessage.kindOfMessage === "normal"'>
      <span id='dialogue-name'>{{currentMessage.person}}</span><br>
 

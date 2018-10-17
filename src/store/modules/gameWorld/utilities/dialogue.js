@@ -1,6 +1,5 @@
 // Battle plan: 
 
-// Empty state.dialogues on scene change and also in general ;)
 // If link is incorrect, player is locked
 
 import { Grow } from './../index'
@@ -250,6 +249,10 @@ export default {
 			for (let i=1; i<state.dialogues[characterName][state.currentMessage.number].length; i++){
 				commit('setOption', [characterName, i])
 			}
+
+			// ToDo: If there is more than three options, reload the list with the now active three numbers!
+
+
 			let scene = Grow.scene.scenes[rootState.player.sceneActive];
 			scene.player.characterInteraction[0] = 'option'	
 		},	

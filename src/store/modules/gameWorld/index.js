@@ -18,6 +18,10 @@ import Town from './scenes/Demo/Town'
 import AsianGarden from './scenes/Demo/AsianGarden'
 import HouseMaria from './scenes/Demo/HouseMaria'
 
+
+// The beginning of the real deal
+import DialogueTestGround from './scenes/A_new_beginning/DialogueTestGround'
+
 var Grow = [];
 
 function launch() {
@@ -34,7 +38,7 @@ function launch() {
         debug: false
       }
     },
-    scene: [BootScene, Bedroom, LivingRoom, Town, AsianGarden, HouseMaria, HouseOfMusicScene]
+    scene: [BootScene, Bedroom, LivingRoom, Town, AsianGarden, HouseMaria, DialogueTestGround]
     //scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;
 
     //scene: [BootScene, PlayScene]

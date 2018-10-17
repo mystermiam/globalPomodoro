@@ -7,24 +7,13 @@ export default class BootScene extends Scene {
   }
 
   preload () {
+    //Comes from ES6 / Phaser / Webpack example
     //this.load.setBaseURL('./assets/');
     //this.load.json('assets');
   }
 
   create () {
-    // Test
-    //this.scene.start('PlayScene')
-
-    // Platformer test 
-    //this.scene.start('platformerScene')
- 
-    // World test
-    // this.changeToScene('EmptyGrassField');
-    //this.scene.start('EmptyGrassField');
-
-    // DEMO
-    this.scene.start('Bedroom')
-  
+    this.scene.start('DialogueTestGround')
   }
 }
 
