@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
 
 import router from '../router/index'
@@ -44,7 +43,6 @@ import axios from 'axios'
 Vue.use(Vuex)
 Vue.use(VueRouter)
 
-Vue.use(Vuetify)
 
 const store = new Vuex.Store({
     namespaced : true,

@@ -31,7 +31,7 @@ export default {
       if(state.petSelected !== 0 && state.showPet){
         let currentPet = state.pet[state.petSelected];
 
-        $('#avatarContainer').append(
+        /*$('#avatarContainer').append(
           `<img 
             src="${currentPet.source}" 
             alt="${currentPet.name}" 
@@ -43,7 +43,7 @@ export default {
             left:${( 100 + rootState.avatar.avatarCoordinates[0])}px; 
             z-index:10;
           '>`
-         );
+         );*/
 
       }
     },

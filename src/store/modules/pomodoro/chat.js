@@ -1,5 +1,4 @@
-const axios = require('axios'),
-        $ = require('jquery');
+const axios = require('axios');
 
 export default {
     namespaced : true,
@@ -15,6 +14,7 @@ export default {
             
 
             context.commit('updateUsers',user);
+            console.log('comm')
         },
 
         fetchMessages({commit}){

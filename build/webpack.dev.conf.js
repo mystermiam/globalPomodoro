@@ -1,4 +1,5 @@
 'use strict'
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
@@ -47,12 +48,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
-    new webpack.ProvidePlugin({
+    /*new webpack.ProvidePlugin({
     $: 'jquery',
     jquery: 'jquery',
     'window.jQuery': 'jquery',
     jQuery: 'jquery'
-    }),
+    }),*/
+    new BundleAnalyzerPlugin(),
 
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')

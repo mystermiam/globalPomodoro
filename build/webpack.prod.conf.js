@@ -26,17 +26,17 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    //filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    //chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
 
-    new webpack.ProvidePlugin({
+    /*new webpack.ProvidePlugin({
     $: 'jquery',
     jquery: 'jquery',
     'window.jQuery': 'jquery',
     jQuery: 'jquery'
-    }),
+    }),*/
 
 
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -114,12 +114,12 @@ const webpackConfig = merge(baseWebpackConfig, {
     // This instance extracts shared chunks from code splitted chunks and bundles them
     // in a separate chunk, similar to the vendor chunk
     // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
-    new webpack.optimize.CommonsChunkPlugin({
+   /* new webpack.optimize.CommonsChunkPlugin({
       name: 'app',
       async: 'vendor-async',
       children: true,
       minChunks: 3
-    }),
+    }),*/
 
     // copy custom static assets
     new CopyWebpackPlugin([

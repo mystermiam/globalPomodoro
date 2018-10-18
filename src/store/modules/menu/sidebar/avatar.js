@@ -48,7 +48,7 @@ for (let i=0; i< 4; i++){
  	let bodyPart = state.body[bodyPartCategory[i]][bodyPartCurrent[i]];
 
 
- $('#avatarContainer').append(
+/* $('#avatarContainer').append(
  	`<img 
  		src="${bodyPart.source}" 
  		alt="${bodyPart.name}" 
@@ -61,7 +61,7 @@ for (let i=0; i< 4; i++){
  		left:${(state.avatarCoordinates[0])}px; 
  		z-index:${bodyPart.layer}
  	;'>`
- );
+ );*/
 
  };
 }
@@ -83,7 +83,7 @@ for(let i=0; i<5; i++){
 	if(equipped[i] !== 0){
 
 		let item = state.items[itemCategory[i]][equipped[i]];
-		$("#avatarContainer").append(
+		/*$("#avatarContainer").append(
 			`<img 
 				src='${item.source}' 
 				alt='${item.name}' 
@@ -95,7 +95,7 @@ for(let i=0; i<5; i++){
 				left:${ state.avatarCoordinates[0]}px;
 				z-index:${item.layer};
 			'>`
-		);
+		);*/
 
 		
   	}

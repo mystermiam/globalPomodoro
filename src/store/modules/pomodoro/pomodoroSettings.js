@@ -15,7 +15,7 @@ export default {
 	actions: {
 
 		  addEventListener({commit}){
-	          window.addEventListener('keyup', function(e) {
+	          /*window.addEventListener('keyup', function(e) {
 	          	$(document).keyup(function(e){	 
 				    // On escape press, show or hide setting page
 
@@ -26,7 +26,7 @@ export default {
 				});
 	          
 
-	          });
+	          });*/
           },
 
           // Change settings depending on which element is calling!
