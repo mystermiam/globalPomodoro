@@ -38,7 +38,7 @@ function launch() {
         debug: false
       }
     },
-    scene: [BootScene, Bedroom, LivingRoom, Town, AsianGarden, HouseMaria, DialogueTestGround]
+    scene: [DialogueTestGround]
     //scene: [BootScene, HouseOfMusicScene, TownScene, EmptyGrassField, NuitBlancheTown] // this defines, which number the scene has: Grow.scene.scenes[2].player;
 
     //scene: [BootScene, PlayScene]

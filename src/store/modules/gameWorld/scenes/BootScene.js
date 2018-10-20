@@ -13,7 +13,7 @@ export default class BootScene extends Scene {
   }
 
   create () {
-    this.scene.start('Town')
+    this.scene.start('DialogueTestGround')
   }
 }
 
