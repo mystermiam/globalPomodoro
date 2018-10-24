@@ -101,7 +101,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 move(time, delta) {
 // Movement
   if (this.isAllowedToMove === true){
-  const speed = 300
+  const speed = 150;
 
 
   this.prevVelocity = this.body.velocity.clone();
@@ -161,11 +161,12 @@ move(time, delta) {
 
   // I don't know yet how to stop the animation after keypress, this should happen automatically
   // but this is currently not the case, I think because of how we installed the thing, maybe it will work if we run it like a vue app? 
-   this.cursors.left.isDown = false;
+  
+  /*this.cursors.left.isDown = false;
    this.cursors.right.isDown = false;
    this.cursors.up.isDown = false;
    this.cursors.down.isDown = false;
-
+*/
   } //End of player is allowed to move function
 
 
