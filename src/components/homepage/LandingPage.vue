@@ -54,35 +54,6 @@
     </div>
 	</div>
 </div>
-<!------------------------------------------- second section ----------------------------------------------------------------------->
-
-  <!-- change with v-if condition / state showLogin == true , animation fade in 800ms in css / the router links don't yet exist / -->
- 	<!-- <div id='second-sec'>
-
-		<nav class="topMenu">
-            <ul class="Menu">
-                <li class="home"><router-link :to="{ name: 'Main' }"> Game </router-link></li>
-				<li class="blog"><router-link :to="{ name: 'story' }"> Story </router-link></li>
-				<li class="about_us"><router-link :to="{ name: 'Session' }"> Pomodoro </router-link></li>
-				<li class="request_demo" @click="showsocialmodal = true"> Social Media</li>
-				<li id="login_signup">
-					<div class="login-signup">
-    					<span class="login" @click="showLogin = true"> Login </span>
-    					<span> / </span>
-    					<span class="signup" @click="showsignup = true"> SignUp </span>
-    				</div>	
-				</li>
-			</ul>
-		</nav>
-    <h1 v-if='showLogin'>Hello</h1>
-
-		<a href="#third-sec"><img src="../../../static/images/scroll.gif" class="scrollDown"></a>
-	</div>  -->
-
-<!-- ------------------------------------------- third section ---------------------------------------------------------------------- -->
-
-   
-
 </template>
 
 
@@ -136,6 +107,11 @@ export default {
 
 
 <style scoped>
+#first-sec{
+  display: flex;
+  flex-direction: column;
+}
+
 .modal{
   z-index: 99;
 }
@@ -163,6 +139,8 @@ export default {
       width: 60vw;
     }
 }
+
+
 
 
 
@@ -205,22 +183,19 @@ export default {
   flex-direction: column;
   font-family : "Courier New", Courier, monospace;
   text-align: center;
-  position: absolute;
-  top:75%;
-  width:100%;
   border-top:solid 0.1em black;
   background: #fff;
-  height: 25%;
+  max-height: 20%;
 }
 
 .sorry{
-  font-size: 3vw;
-  margin: 0.1vw auto;
+  font-size: 3em;
+  margin: 0.1em auto;
 }
 
 .thanks{
-  font-size:1.5vw;
-  margin:0.1vw auto 1vw auto;
+  font-size:1.5em;
+  margin:0.1em auto 0.1em auto;
 }
 
 body {
